@@ -1,0 +1,875 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+header {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.header-left {
+    flex: 1;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    flex-shrink: 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+.date {
+    font-size: 1.3rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.date-picker-container {
+    margin-top: 10px;
+}
+
+.date-picker {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px 15px;
+    font-size: 1.2rem;
+    border: 2px solid #667eea;
+    border-radius: 10px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+}
+
+.date-picker:focus {
+    outline: none;
+    border-color: #764ba2;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.summary-item {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.summary-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.summary-label {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+.medications-list {
+    margin-bottom: 20px;
+}
+
+/* Time container for grouping medications */
+.time-container {
+    margin-bottom: 25px;
+}
+
+.time-container-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 15px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+}
+
+/* Two-column grid for medications */
+.meds-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+/* Single column on smaller screens */
+@media (max-width: 768px) {
+    .meds-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.med-card {
+    background: white;
+    padding: 12px 12px 12px 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s ease;
+}
+
+.med-card.taken {
+    opacity: 0.6;
+    background: #e8f5e9;
+}
+
+.med-card.inactive {
+    opacity: 0.5;
+    background: #f5f5f5;
+}
+
+.med-checkbox {
+    min-width: 60px;
+    height: 60px;
+    border: 3px solid #667eea;
+    border-radius: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.med-checkbox:active {
+    transform: scale(0.95);
+}
+
+.med-card.taken .med-checkbox {
+    background: #4caf50;
+    border-color: #4caf50;
+}
+
+.med-info {
+    flex: 1;
+}
+
+.med-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 8px;
+}
+
+.med-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.med-time-badge {
+    background: #667eea;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.med-dosage {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.med-notes {
+    font-size: 1rem;
+    color: #999;
+    font-style: italic;
+}
+
+.med-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.icon-button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: transparent;
+    min-width: 50px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-button:active {
+    transform: scale(0.9);
+}
+
+.icon-button.edit-button:active {
+    background: #fff3cd;
+}
+
+.icon-button.delete-button:active {
+    background: #ffebee;
+}
+
+.action-button {
+    padding: 15px 20px;
+    background: white;
+    border: 3px dashed #667eea;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #667eea;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.2);
+}
+
+.action-button:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 5px rgba(102, 126, 234, 0.2);
+}
+
+.action-button.secondary {
+    border: 3px solid #4caf50;
+    border-style: solid;
+    color: #4caf50;
+    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.2);
+}
+
+.action-button.secondary:active {
+    box-shadow: 0 2px 5px rgba(76, 175, 80, 0.2);
+}
+
+.add-button {
+    width: 100%;
+    padding: 25px;
+    background: white;
+    border: 3px dashed #667eea;
+    border-radius: 15px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add-button:active {
+    transform: scale(0.98);
+    background: #f0f0f0;
+}
+
+.secondary-button {
+    background: white;
+    border: 3px solid #4caf50;
+    color: #4caf50;
+    margin-top: 10px;
+}
+
+.secondary-button:active {
+    background: #e8f5e9;
+}
+
+.section-header {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #667eea;
+    margin: 20px 0 15px 0;
+    padding: 10px 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.as-needed-log {
+    background: #fff3e0;
+    border-left: 6px solid #ff9800;
+}
+
+.as-needed-badge {
+    background: #ff9800;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.med-time-taken {
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Pill Organizer Button */
+.pill-organizer-button {
+    width: 100%;
+    background: white;
+    border: 3px solid #667eea;
+    border-radius: 20px;
+    padding: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.2);
+}
+
+.pill-organizer-button:hover {
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    transform: translateY(-2px);
+}
+
+.pill-organizer-button:active {
+    transform: scale(0.98);
+}
+
+.organizer-label {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 15px;
+}
+
+.pill-organizer {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.pill-slot {
+    fill: #f0f0f0;
+    stroke: #667eea;
+    stroke-width: 2;
+    transition: all 0.3s ease;
+}
+
+.pill-organizer-button:hover .pill-slot {
+    fill: #e8eeff;
+}
+
+.day-label, .time-label {
+    fill: #667eea;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    text-anchor: middle;
+}
+
+.time-label {
+    font-size: 12px;
+    text-anchor: start;
+}
+
+.pill-visual {
+    fill: #667eea;
+    opacity: 0.6;
+}
+
+/* Responsive sizing for pill organizer */
+@media (max-width: 768px) {
+    .organizer-label {
+        font-size: 1.2rem;
+    }
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-content h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.form-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.cancel-button,
+.save-button {
+    padding: 18px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cancel-button {
+    background: #ddd;
+    color: #666;
+}
+
+.save-button {
+    background: #667eea;
+    color: white;
+}
+
+.cancel-button:active,
+.save-button:active {
+    transform: scale(0.95);
+}
+
+.empty-state {
+    background: white;
+    padding: 50px 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.empty-state-text {
+    font-size: 1.3rem;
+    color: #999;
+}
+
+/* Tabs */
+.tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    padding: 18px;
+    background: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.tab-button.active {
+    background: #667eea;
+    color: white;
+    box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+}
+
+.tab-button:active {
+    transform: scale(0.98);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Appointments Filter */
+.appointments-filter {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.filter-button {
+    padding: 15px;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-button.active {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.filter-button:active {
+    transform: scale(0.98);
+}
+
+/* Appointments List */
+.appointments-list {
+    margin-bottom: 20px;
+}
+
+.appt-card {
+    background: white;
+    padding: 25px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-left: 6px solid #667eea;
+}
+
+.appt-card.past {
+    opacity: 0.7;
+    border-left-color: #999;
+}
+
+.appt-card.completed {
+    background: #e8f5e9;
+    border-left-color: #4caf50;
+}
+
+.appt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 12px;
+}
+
+.appt-type-badge {
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+}
+
+.appt-type-badge.doctor {
+    background: #2196f3;
+}
+
+.appt-type-badge.infusion {
+    background: #9c27b0;
+}
+
+.appt-type-badge.lab {
+    background: #ff9800;
+}
+
+.appt-type-badge.procedure {
+    background: #f44336;
+}
+
+.appt-type-badge.other {
+    background: #607d8b;
+}
+
+.appt-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.appt-datetime {
+    font-size: 1.3rem;
+    color: #667eea;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.appt-location {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.appt-address {
+    font-size: 1.1rem;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.appt-notes {
+    font-size: 1.1rem;
+    color: #666;
+    font-style: italic;
+    background: #f5f5f5;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.appt-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.complete-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #4caf50;
+    color: white;
+}
+
+.complete-button:active {
+    transform: scale(0.95);
+}
+
+.appt-card.completed .complete-button {
+    background: #ddd;
+    color: #999;
+}
+
+/* Form textarea */
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+/* Times selector */
+.times-selector {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.time-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: #f5f5f5;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.time-checkbox input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.time-checkbox:has(input:checked) {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.time-checkbox:active {
+    transform: scale(0.98);
+}
+
+/* Days selector */
+.days-selector {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.day-checkbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px;
+    background: #f5f5f5;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.day-checkbox input[type="checkbox"] {
+    margin-bottom: 5px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.day-checkbox:has(input:checked) {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.day-checkbox:active {
+    transform: scale(0.95);
+}
+
+/* Schedule badge */
+.med-schedule {
+    font-size: 0.95rem;
+    color: #999;
+    margin-top: 5px;
+}
+
+.med-schedule.inactive {
+    color: #f44336;
+    font-weight: 600;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .action-button {
+        flex: 1;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+/* iPad specific optimizations */
+@media (min-width: 768px) {
+    h1 {
+        font-size: 3rem;
+    }
+
+    .summary-number {
+        font-size: 3.5rem;
+    }
+
+    .med-name {
+        font-size: 1.7rem;
+    }
+
+    .appt-title {
+        font-size: 1.7rem;
+    }
+
+    .action-button {
+        font-size: 1.2rem;
+        padding: 16px 24px;
+    }
+}
