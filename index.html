@@ -6,8 +6,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Meds">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💊</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💊</text></svg>">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="apple-touch-icon" href="favicon.png">
     <title>Meds</title>
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -15,22 +15,22 @@
     <div class="container">
         <header>
             <div class="header-left">
-                <h1>💊 Meds</h1>
+                <h1>Meds</h1>
                 <div class="date-picker-container">
                     <input type="date" id="datePicker" class="date-picker">
                 </div>
             </div>
             <div class="header-actions">
-                <button class="action-button" id="addMedButton">Schedule Meds</button>
+                <button class="action-button" id="addMedButton">Med Schedule</button>
                 <button class="action-button secondary" id="logAsNeededButton">+ As-Needed</button>
             </div>
         </header>
 
         <!-- Navigation Tabs -->
-        <div class="tabs">
+        <!-- <div class="tabs">
             <button class="tab-button active" data-tab="medications">Medications</button>
             <button class="tab-button" data-tab="appointments">Appointments</button>
-        </div>
+        </div> -->
 
         <!-- Medications Section -->
         <div class="tab-content active" id="medicationsTab">
@@ -52,6 +52,20 @@
             </div>
 
             <button class="add-button" id="addApptButton">+ Add Appointment</button>
+        </div>
+    </div>
+
+    <!-- Modal for medication list -->
+    <div class="modal" id="medListModal">
+        <div class="modal-content">
+            <h2>Medication Schedule</h2>
+            <div id="medListContainer" class="med-list-container">
+                <!-- Medication list will be inserted here -->
+            </div>
+            <div class="form-buttons">
+                <button type="button" class="cancel-button" id="medListCancelButton">Close</button>
+                <button type="button" class="save-button" id="addNewMedButton">+ Add Medication</button>
+            </div>
         </div>
     </div>
 
@@ -127,6 +141,11 @@
                             <input type="checkbox" name="medDays" value="6"> Sat
                         </label>
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="medStartDate">Start Date</label>
+                    <input type="date" id="medStartDate" required>
                 </div>
 
                 <div class="form-group">

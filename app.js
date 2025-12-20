@@ -120,10 +120,24 @@ class HealthTracker {
         const today = this.selectedDate;
         const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
 
+        // Check if medication has started
+        if (med.schedule && med.schedule.startDate) {
+            const startDate = new Date(med.schedule.startDate);
+            startDate.setHours(0, 0, 0, 0);
+            const todayDate = new Date(today);
+            todayDate.setHours(0, 0, 0, 0);
+            if (todayDate < startDate) {
+                return false;
+            }
+        }
+
         // Check if medication has ended
         if (med.schedule && med.schedule.endDate) {
             const endDate = new Date(med.schedule.endDate);
-            if (today > endDate) {
+            endDate.setHours(23, 59, 59, 999);
+            const todayDate = new Date(today);
+            todayDate.setHours(0, 0, 0, 0);
+            if (todayDate > endDate) {
                 return false;
             }
         }
@@ -273,7 +287,6 @@ class HealthTracker {
         const displayId = med.displayId || med.id; // Use displayId if available
         const taken = this.isTaken(displayId);
         const isActiveToday = this.isMedicationActiveToday(med);
-        const scheduleDesc = this.getScheduleDescription(med.schedule);
 
         return `
             <div class="med-card ${taken ? 'taken' : ''} ${!isActiveToday ? 'inactive' : ''}" data-id="${displayId}">
@@ -283,9 +296,6 @@ class HealthTracker {
                 <div class="med-info">
                     <div class="med-name">${med.name}</div>
                     <div class="med-dosage">${med.dosage}</div>
-                    <div class="med-schedule ${!isActiveToday ? 'inactive' : ''}">
-                        ${isActiveToday ? scheduleDesc : 'Not scheduled for today • ' + scheduleDesc}
-                    </div>
                     ${med.notes ? `<div class="med-notes">${med.notes}</div>` : ''}
                 </div>
             </div>
@@ -339,11 +349,27 @@ class HealthTracker {
             });
         });
 
-        // Medication modal
+        // Medication list modal
         document.getElementById('addMedButton').addEventListener('click', () => {
+            this.openMedListModal();
+        });
+
+        document.getElementById('medListCancelButton').addEventListener('click', () => {
+            this.closeMedListModal();
+        });
+
+        document.getElementById('addNewMedButton').addEventListener('click', () => {
+            this.closeMedListModal();
             this.openMedModal();
         });
 
+        document.getElementById('medListModal').addEventListener('click', (e) => {
+            if (e.target.id === 'medListModal') {
+                this.closeMedListModal();
+            }
+        });
+
+        // Medication form modal
         document.getElementById('medCancelButton').addEventListener('click', () => {
             this.closeMedModal();
         });
@@ -487,6 +513,7 @@ class HealthTracker {
             // Populate schedule fields
             if (medication.schedule) {
                 document.getElementById('medFrequency').value = medication.schedule.frequency || 'daily';
+                document.getElementById('medStartDate').value = medication.schedule.startDate || new Date().toISOString().split('T')[0];
                 document.getElementById('medDuration').value = medication.schedule.durationType || 'ongoing';
 
                 if (medication.schedule.frequency === 'custom-days' && medication.schedule.days) {
@@ -517,6 +544,8 @@ class HealthTracker {
             document.getElementById('customDaysGroup').style.display = 'none';
             document.getElementById('durationNumberGroup').style.display = 'none';
             document.getElementById('endDateGroup').style.display = 'none';
+            // Set default start date to today
+            document.getElementById('medStartDate').value = new Date().toISOString().split('T')[0];
             this.editingId = null;
         }
 
@@ -529,12 +558,120 @@ class HealthTracker {
         this.editingId = null;
     }
 
+    // Open medication list modal
+    openMedListModal() {
+        this.renderMedList();
+        document.getElementById('medListModal').classList.add('active');
+    }
+
+    // Close medication list modal
+    closeMedListModal() {
+        document.getElementById('medListModal').classList.remove('active');
+    }
+
+    // Render medication list in the modal
+    renderMedList() {
+        const container = document.getElementById('medListContainer');
+
+        // Get all medications that are current or future (not ended)
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const activeMeds = this.medications.filter(med => {
+            // Include if no end date (ongoing) or end date is today or in the future
+            if (!med.schedule || !med.schedule.endDate) {
+                return true;
+            }
+            const endDate = new Date(med.schedule.endDate);
+            endDate.setHours(0, 0, 0, 0);
+            return endDate >= today;
+        });
+
+        if (activeMeds.length === 0) {
+            container.innerHTML = '<div class="empty-med-list">No medications scheduled.<br>Click "+ Add Medication" to get started.</div>';
+            return;
+        }
+
+        // Sort by name
+        activeMeds.sort((a, b) => a.name.localeCompare(b.name));
+
+        container.innerHTML = activeMeds.map(med => this.renderMedListItem(med)).join('');
+    }
+
+    // Render individual medication list item
+    renderMedListItem(med) {
+        const schedule = this.getScheduleDescription(med.schedule);
+        const times = med.times || [med.time] || [];
+
+        return `
+            <div class="med-list-item" onclick="tracker.editMedicationFromList('${med.id}')">
+                <div class="med-list-item-header">
+                    <div class="med-list-item-name">${med.name}</div>
+                </div>
+                <div class="med-list-item-dosage">${med.dosage}</div>
+                <div class="med-list-item-schedule">${schedule}</div>
+                <div class="med-list-item-times">
+                    ${times.map(time => `<span class="med-list-time-badge">${time}</span>`).join('')}
+                </div>
+            </div>
+        `;
+    }
+
+    // Get schedule description text
+    getScheduleDescription(schedule) {
+        if (!schedule) return 'Daily';
+
+        let desc = '';
+
+        // Frequency
+        if (schedule.frequency === 'daily') {
+            desc = 'Daily';
+        } else if (schedule.frequency === 'every-other-day') {
+            desc = 'Every other day';
+        } else if (schedule.frequency === 'mwf') {
+            desc = 'Monday, Wednesday, Friday';
+        } else if (schedule.frequency === 'custom-days' && schedule.days) {
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            desc = schedule.days.map(d => dayNames[d]).join(', ');
+        }
+
+        // Start date
+        if (schedule.startDate) {
+            const startDate = new Date(schedule.startDate);
+            desc += ` • Starts ${startDate.toLocaleDateString()}`;
+        }
+
+        // Duration
+        if (schedule.durationType === 'weeks') {
+            desc += ` • ${schedule.durationNumber} weeks`;
+        } else if (schedule.durationType === 'months') {
+            desc += ` • ${schedule.durationNumber} months`;
+        } else if (schedule.durationType === 'end-date' && schedule.endDate) {
+            const endDate = new Date(schedule.endDate);
+            desc += ` • Until ${endDate.toLocaleDateString()}`;
+        } else if (schedule.durationType === 'ongoing') {
+            desc += ' • Ongoing';
+        }
+
+        return desc;
+    }
+
+    // Edit medication from list
+    editMedicationFromList(medId) {
+        const medication = this.medications.find(m => m.id === medId);
+        if (medication) {
+            this.closeMedListModal();
+            this.openMedModal(medication);
+        }
+    }
+
     // Save medication (add or update)
     saveMedication() {
         const name = document.getElementById('medName').value.trim();
         const dosage = document.getElementById('medDosage').value.trim();
         const notes = document.getElementById('medNotes').value.trim();
         const frequency = document.getElementById('medFrequency').value;
+        const startDate = document.getElementById('medStartDate').value;
         const durationType = document.getElementById('medDuration').value;
 
         // Get selected times
@@ -551,11 +688,16 @@ class HealthTracker {
             return;
         }
 
+        if (!startDate) {
+            alert('Please select a start date');
+            return;
+        }
+
         // Build schedule object
         const schedule = {
             frequency: frequency,
             durationType: durationType,
-            startDate: new Date().toISOString().split('T')[0] // Today's date
+            startDate: startDate
         };
 
         // Handle custom days
@@ -578,8 +720,8 @@ class HealthTracker {
             }
             schedule.durationNumber = durationNumber;
 
-            // Calculate end date
-            const endDate = new Date();
+            // Calculate end date from start date
+            const endDate = new Date(startDate);
             if (durationType === 'weeks') {
                 endDate.setDate(endDate.getDate() + (durationNumber * 7));
             } else {

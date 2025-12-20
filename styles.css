@@ -6,7 +6,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #f5f5f5;
     min-height: 100vh;
     padding: 20px;
     -webkit-tap-highlight-color: transparent;
@@ -21,7 +21,7 @@ header {
     background: white;
     padding: 30px;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
@@ -62,7 +62,7 @@ h1 {
     max-width: 300px;
     padding: 12px 15px;
     font-size: 1.2rem;
-    border: 2px solid #667eea;
+    border: 2px solid #ddd;
     border-radius: 10px;
     background: white;
     color: #333;
@@ -73,8 +73,8 @@ h1 {
 
 .date-picker:focus {
     outline: none;
-    border-color: #764ba2;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    border-color: #6b7c93;
+    box-shadow: 0 0 0 3px rgba(107, 124, 147, 0.1);
 }
 
 .summary {
@@ -95,7 +95,7 @@ h1 {
 .summary-number {
     font-size: 3rem;
     font-weight: bold;
-    color: #667eea;
+    color: #6b7c93;
 }
 
 .summary-label {
@@ -116,13 +116,12 @@ h1 {
 .time-container-header {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #667eea;
     margin-bottom: 15px;
     padding: 12px 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #6b7c93;
     color: white;
     border-radius: 12px;
-    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Two-column grid for medications */
@@ -163,7 +162,7 @@ h1 {
 .med-checkbox {
     min-width: 60px;
     height: 60px;
-    border: 3px solid #667eea;
+    border: 3px solid #6b7c93;
     border-radius: 12px;
     cursor: pointer;
     display: flex;
@@ -201,7 +200,7 @@ h1 {
 }
 
 .med-time-badge {
-    background: #667eea;
+    background: #6b7c93;
     color: white;
     padding: 5px 15px;
     border-radius: 20px;
@@ -257,42 +256,41 @@ h1 {
 .action-button {
     padding: 15px 20px;
     background: white;
-    border: 3px dashed #667eea;
+    border: 2px solid #6b7c93;
     border-radius: 12px;
     font-size: 1.1rem;
     font-weight: 600;
-    color: #667eea;
+    color: #6b7c93;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
-    box-shadow: 0 3px 10px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .action-button:active {
     transform: scale(0.98);
-    box-shadow: 0 2px 5px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .action-button.secondary {
-    border: 3px solid #4caf50;
-    border-style: solid;
-    color: #4caf50;
-    box-shadow: 0 3px 10px rgba(76, 175, 80, 0.2);
+    border: 2px solid #5cb85c;
+    color: #5cb85c;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .action-button.secondary:active {
-    box-shadow: 0 2px 5px rgba(76, 175, 80, 0.2);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .add-button {
     width: 100%;
     padding: 25px;
     background: white;
-    border: 3px dashed #667eea;
+    border: 2px dashed #6b7c93;
     border-radius: 15px;
     font-size: 1.5rem;
     font-weight: bold;
-    color: #667eea;
+    color: #6b7c93;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -316,12 +314,12 @@ h1 {
 .section-header {
     font-size: 1.4rem;
     font-weight: bold;
-    color: #667eea;
+    color: #6b7c93;
     margin: 20px 0 15px 0;
     padding: 10px 15px;
     background: white;
     border-radius: 10px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
 .as-needed-log {
@@ -445,6 +443,78 @@ h1 {
     overflow-y: auto;
 }
 
+.med-list-container {
+    margin-bottom: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.med-list-item {
+    background: white;
+    padding: 20px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    border: 2px solid #ddd;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.med-list-item:hover {
+    border-color: #6b7c93;
+    background: #f8f9fa;
+}
+
+.med-list-item:active {
+    transform: scale(0.98);
+}
+
+.med-list-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 8px;
+}
+
+.med-list-item-name {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.med-list-item-dosage {
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.med-list-item-schedule {
+    font-size: 1rem;
+    color: #999;
+}
+
+.med-list-item-times {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.med-list-time-badge {
+    background: #6b7c93;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.empty-med-list {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+    font-size: 1.2rem;
+}
+
 .modal-content h2 {
     font-size: 2rem;
     color: #333;
@@ -476,7 +546,7 @@ h1 {
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #667eea;
+    border-color: #6b7c93;
 }
 
 .form-buttons {
@@ -503,7 +573,7 @@ h1 {
 }
 
 .save-button {
-    background: #667eea;
+    background: #6b7c93;
     color: white;
 }
 
@@ -547,9 +617,9 @@ h1 {
 }
 
 .tab-button.active {
-    background: #667eea;
+    background: #6b7c93;
     color: white;
-    box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+    box-shadow: 0 3px 8px rgba(107, 124, 147, 0.3);
 }
 
 .tab-button:active {
@@ -585,9 +655,9 @@ h1 {
 }
 
 .filter-button.active {
-    background: #667eea;
+    background: #6b7c93;
     color: white;
-    border-color: #667eea;
+    border-color: #6b7c93;
 }
 
 .filter-button:active {
@@ -604,8 +674,8 @@ h1 {
     padding: 25px;
     margin-bottom: 15px;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-left: 6px solid #667eea;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-left: 6px solid #6b7c93;
 }
 
 .appt-card.past {
@@ -662,7 +732,7 @@ h1 {
 
 .appt-datetime {
     font-size: 1.3rem;
-    color: #667eea;
+    color: #6b7c93;
     font-weight: 600;
     margin-bottom: 8px;
     display: flex;
@@ -768,9 +838,9 @@ h1 {
 }
 
 .time-checkbox:has(input:checked) {
-    background: #667eea;
+    background: #6b7c93;
     color: white;
-    border-color: #667eea;
+    border-color: #6b7c93;
 }
 
 .time-checkbox:active {
@@ -808,9 +878,9 @@ h1 {
 }
 
 .day-checkbox:has(input:checked) {
-    background: #667eea;
+    background: #6b7c93;
     color: white;
-    border-color: #667eea;
+    border-color: #6b7c93;
 }
 
 .day-checkbox:active {
