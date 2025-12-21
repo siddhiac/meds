@@ -1714,18 +1714,33 @@ class HealthTracker {
         // Time sections - each time period spans all 7 days
         const times = ['Morning', 'Afternoon', 'Evening', 'Bedtime'];
         times.forEach(time => {
-            html += `<div class="weekly-time-row">`;
-            html += `<div class="weekly-time-header-full">${time}</div>`;
-            html += `<div class="weekly-time-columns">`;
+            // Check if this time period has any medications for the entire week
+            let hasAnyMeds = false;
+            const dayMedsHtml = [];
 
             weekDays.forEach(date => {
-                html += '<div class="weekly-day-column">';
-                html += this.renderDayMedicationsForTime(date, time);
-                html += '</div>';
+                const dayHtml = this.renderDayMedicationsForTime(date, time);
+                dayMedsHtml.push(dayHtml);
+                if (dayHtml.trim() !== '') {
+                    hasAnyMeds = true;
+                }
             });
 
-            html += `</div>`;
-            html += `</div>`;
+            // Only render this time row if it has medications
+            if (hasAnyMeds) {
+                html += `<div class="weekly-time-row">`;
+                html += `<div class="weekly-time-header-full">${time}</div>`;
+                html += `<div class="weekly-time-columns">`;
+
+                dayMedsHtml.forEach(dayHtml => {
+                    html += '<div class="weekly-day-column">';
+                    html += dayHtml;
+                    html += '</div>';
+                });
+
+                html += `</div>`;
+                html += `</div>`;
+            }
         });
 
         html += '</div>';
