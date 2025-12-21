@@ -6,8 +6,10 @@ class HealthTracker {
         this.dailyLog = this.loadDailyLog(this.getDateString(this.selectedDate));
         this.asNeededLogs = this.loadAsNeededLogs(this.getDateString(this.selectedDate));
         this.appointments = this.loadAppointments();
+        this.logs = this.loadLogs();
         this.editingId = null;
         this.editingAsNeededId = null;
+        this.editingLogId = null;
         this.currentTab = 'medications';
         this.appointmentFilter = 'upcoming';
         this.init();
@@ -17,6 +19,7 @@ class HealthTracker {
         this.initDatePicker();
         this.renderMedications();
         this.renderAppointments();
+        this.renderLogs();
         this.attachEventListeners();
         this.checkNewDay();
     }
@@ -31,6 +34,7 @@ class HealthTracker {
             this.dailyLog = this.loadDailyLog(this.getDateString(this.selectedDate));
             this.asNeededLogs = this.loadAsNeededLogs(this.getDateString(this.selectedDate));
             this.renderMedications();
+            this.renderLogs();
         });
     }
 
@@ -463,6 +467,52 @@ class HealthTracker {
                 endDateGroup.style.display = 'none';
             }
         });
+
+        // Log entry modal
+        document.getElementById('addLogButton').addEventListener('click', () => {
+            this.openLogModal();
+        });
+
+        document.getElementById('logCancelButton').addEventListener('click', () => {
+            this.closeLogModal();
+        });
+
+        document.getElementById('logForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveLog();
+        });
+
+        document.getElementById('logModal').addEventListener('click', (e) => {
+            if (e.target.id === 'logModal') {
+                this.closeLogModal();
+            }
+        });
+
+        // Log metric checkboxes
+        const logMetricCheckboxes = [
+            { checkbox: 'enableTemperature', input: 'logTemperature' },
+            { checkbox: 'enableBloodPressure', inputs: ['logBPSystolic', 'logBPDiastolic'] },
+            { checkbox: 'enableHeartRate', input: 'logHeartRate' },
+            { checkbox: 'enableGlucose', input: 'logGlucose' },
+            { checkbox: 'enableWeight', input: 'logWeight' },
+            { checkbox: 'enableSteps', input: 'logSteps' },
+            { checkbox: 'enableNotes', input: 'logNotes' }
+        ];
+
+        logMetricCheckboxes.forEach(item => {
+            const checkbox = document.getElementById(item.checkbox);
+            checkbox.addEventListener('change', (e) => {
+                if (item.inputs) {
+                    // Multiple inputs (like blood pressure)
+                    item.inputs.forEach(inputId => {
+                        document.getElementById(inputId).disabled = !e.target.checked;
+                    });
+                } else {
+                    // Single input
+                    document.getElementById(item.input).disabled = !e.target.checked;
+                }
+            });
+        });
     }
 
     // Switch tabs
@@ -479,6 +529,50 @@ class HealthTracker {
             content.classList.remove('active');
         });
         document.getElementById(tab + 'Tab').classList.add('active');
+
+        // Update header based on tab
+        this.updateHeader(tab);
+    }
+
+    // Update header content based on active tab
+    updateHeader(tab) {
+        const headerTitle = document.getElementById('headerTitle');
+        const datePickerContainer = document.getElementById('datePickerContainer');
+        const headerActions = document.getElementById('headerActions');
+
+        switch(tab) {
+            case 'medications':
+                headerTitle.textContent = 'Meds';
+                datePickerContainer.style.display = 'block';
+                headerActions.innerHTML = `
+                    <button class="action-button" id="addMedButton">Med Schedule</button>
+                    <button class="action-button secondary" id="logAsNeededButton">+ As-Needed</button>
+                `;
+                // Re-attach event listeners for medication buttons
+                document.getElementById('addMedButton').addEventListener('click', () => this.openMedListModal());
+                document.getElementById('logAsNeededButton').addEventListener('click', () => this.openAsNeededModal());
+                break;
+
+            case 'appointments':
+                headerTitle.textContent = 'Appointments';
+                datePickerContainer.style.display = 'none';
+                headerActions.innerHTML = `
+                    <button class="action-button" id="addApptHeaderButton">+ Add Appointment</button>
+                `;
+                // Re-attach event listener for appointment button
+                document.getElementById('addApptHeaderButton').addEventListener('click', () => this.openApptModal());
+                break;
+
+            case 'log':
+                headerTitle.textContent = 'Metrics';
+                datePickerContainer.style.display = 'block';
+                headerActions.innerHTML = `
+                    <button class="action-button" id="addMetricsHeaderButton">+ Add Metrics</button>
+                `;
+                // Re-attach event listener for metrics button
+                document.getElementById('addMetricsHeaderButton').addEventListener('click', () => this.openLogModal());
+                break;
+        }
     }
 
     // Switch appointment filter
@@ -1104,6 +1198,266 @@ class HealthTracker {
             appointment.completed = !appointment.completed;
             this.saveAppointments();
             this.renderAppointments();
+        }
+    }
+
+    // Log entry methods
+    loadLogs() {
+        const stored = localStorage.getItem('logs');
+        return stored ? JSON.parse(stored) : [];
+    }
+
+    saveLogs() {
+        localStorage.setItem('logs', JSON.stringify(this.logs));
+    }
+
+    renderLogs() {
+        const container = document.getElementById('logEntries');
+
+        // Filter logs by selected date
+        const selectedDateStr = this.getDateString(this.selectedDate);
+        const filteredLogs = this.logs.filter(log => {
+            const logDate = log.datetime.split('T')[0]; // Get YYYY-MM-DD part
+            return logDate === selectedDateStr;
+        });
+
+        if (filteredLogs.length === 0) {
+            const allLogsEmpty = this.logs.length === 0;
+            container.innerHTML = `
+                <div class="empty-log">
+                    <p>${allLogsEmpty ? 'No health metrics yet.' : 'No metrics for this date.'}</p>
+                    <p>Click "+ Add Metrics" to start tracking.</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Sort logs by date/time (newest first)
+        const sortedLogs = [...filteredLogs].sort((a, b) => {
+            return new Date(b.datetime) - new Date(a.datetime);
+        });
+
+        container.innerHTML = sortedLogs.map(log => this.renderLogCard(log)).join('');
+    }
+
+    renderLogCard(log) {
+        const date = new Date(log.datetime);
+        const dateStr = date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric'
+        });
+        const timeStr = date.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit'
+        });
+
+        const metrics = [];
+        if (log.temperature) metrics.push({ label: 'Temperature', value: log.temperature, unit: '°F' });
+        if (log.bpSystolic && log.bpDiastolic) metrics.push({ label: 'Blood Pressure', value: `${log.bpSystolic}/${log.bpDiastolic}`, unit: 'mmHg' });
+        if (log.heartRate) metrics.push({ label: 'Heart Rate', value: log.heartRate, unit: 'bpm' });
+        if (log.glucose) metrics.push({ label: 'Blood Glucose', value: log.glucose, unit: 'mg/dL' });
+        if (log.weight) metrics.push({ label: 'Weight', value: log.weight, unit: 'lbs' });
+        if (log.steps) metrics.push({ label: 'Steps', value: log.steps.toLocaleString(), unit: '' });
+
+        return `
+            <div class="log-card">
+                <div class="log-card-header">
+                    <div class="log-datetime">${dateStr} at ${timeStr}</div>
+                    <div class="log-actions">
+                        <button class="log-edit-button" onclick="tracker.editLog('${log.id}')">Edit</button>
+                        <button class="log-delete-button" onclick="tracker.deleteLog('${log.id}')">Delete</button>
+                    </div>
+                </div>
+                ${metrics.length > 0 ? `
+                    <div class="log-metrics">
+                        ${metrics.map(m => `
+                            <div class="log-metric">
+                                <div class="log-metric-label">${m.label}</div>
+                                <div class="log-metric-value">
+                                    ${m.value}<span class="log-metric-unit">${m.unit}</span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+                ${log.notes ? `
+                    <div class="log-notes-section">
+                        <div class="log-notes-label">Notes</div>
+                        <div class="log-notes-content">${log.notes}</div>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    }
+
+    openLogModal(log = null) {
+        const modal = document.getElementById('logModal');
+        const form = document.getElementById('logForm');
+
+        if (log) {
+            document.getElementById('logModalTitle').textContent = 'Edit Metrics';
+            document.getElementById('logDateTime').value = log.datetime;
+
+            // Set values and enable checkboxes for filled metrics
+            this.setLogMetric('enableTemperature', 'logTemperature', log.temperature);
+            this.setLogMetric('enableBloodPressure', ['logBPSystolic', 'logBPDiastolic'], [log.bpSystolic, log.bpDiastolic]);
+            this.setLogMetric('enableHeartRate', 'logHeartRate', log.heartRate);
+            this.setLogMetric('enableGlucose', 'logGlucose', log.glucose);
+            this.setLogMetric('enableWeight', 'logWeight', log.weight);
+            this.setLogMetric('enableSteps', 'logSteps', log.steps);
+            this.setLogMetric('enableNotes', 'logNotes', log.notes);
+
+            this.editingLogId = log.id;
+        } else {
+            document.getElementById('logModalTitle').textContent = 'Add Metrics';
+            form.reset();
+
+            // Uncheck all checkboxes and disable all inputs
+            ['enableTemperature', 'enableBloodPressure', 'enableHeartRate', 'enableGlucose', 'enableWeight', 'enableSteps', 'enableNotes'].forEach(id => {
+                document.getElementById(id).checked = false;
+            });
+            ['logTemperature', 'logBPSystolic', 'logBPDiastolic', 'logHeartRate', 'logGlucose', 'logWeight', 'logSteps', 'logNotes'].forEach(id => {
+                document.getElementById(id).disabled = true;
+            });
+
+            // Set default datetime to now
+            const now = new Date();
+            const offset = now.getTimezoneOffset();
+            const localNow = new Date(now.getTime() - (offset * 60 * 1000));
+            document.getElementById('logDateTime').value = localNow.toISOString().slice(0, 16);
+            this.editingLogId = null;
+        }
+
+        modal.classList.add('active');
+    }
+
+    setLogMetric(checkboxId, inputId, value) {
+        const checkbox = document.getElementById(checkboxId);
+        const hasValue = Array.isArray(inputId)
+            ? value && value.some(v => v != null && v !== '')
+            : value != null && value !== '';
+
+        checkbox.checked = hasValue;
+
+        if (Array.isArray(inputId)) {
+            inputId.forEach((id, index) => {
+                const input = document.getElementById(id);
+                input.disabled = !hasValue;
+                input.value = hasValue && value[index] ? value[index] : '';
+            });
+        } else {
+            const input = document.getElementById(inputId);
+            input.disabled = !hasValue;
+            input.value = hasValue ? value : '';
+        }
+    }
+
+    closeLogModal() {
+        document.getElementById('logModal').classList.remove('active');
+        document.getElementById('logForm').reset();
+        this.editingLogId = null;
+    }
+
+    saveLog() {
+        const datetime = document.getElementById('logDateTime').value;
+
+        // Only read values if checkbox is checked
+        const temperature = document.getElementById('enableTemperature').checked
+            ? parseFloat(document.getElementById('logTemperature').value) || null
+            : null;
+        const bpSystolic = document.getElementById('enableBloodPressure').checked
+            ? parseInt(document.getElementById('logBPSystolic').value) || null
+            : null;
+        const bpDiastolic = document.getElementById('enableBloodPressure').checked
+            ? parseInt(document.getElementById('logBPDiastolic').value) || null
+            : null;
+        const heartRate = document.getElementById('enableHeartRate').checked
+            ? parseInt(document.getElementById('logHeartRate').value) || null
+            : null;
+        const glucose = document.getElementById('enableGlucose').checked
+            ? parseInt(document.getElementById('logGlucose').value) || null
+            : null;
+        const weight = document.getElementById('enableWeight').checked
+            ? parseFloat(document.getElementById('logWeight').value) || null
+            : null;
+        const steps = document.getElementById('enableSteps').checked
+            ? parseInt(document.getElementById('logSteps').value) || null
+            : null;
+        const notes = document.getElementById('enableNotes').checked
+            ? document.getElementById('logNotes').value.trim()
+            : '';
+
+        if (!datetime) {
+            alert('Please select a date and time');
+            return;
+        }
+
+        // Check if at least one metric is checked
+        const hasAnyMetric = document.getElementById('enableTemperature').checked ||
+            document.getElementById('enableBloodPressure').checked ||
+            document.getElementById('enableHeartRate').checked ||
+            document.getElementById('enableGlucose').checked ||
+            document.getElementById('enableWeight').checked ||
+            document.getElementById('enableSteps').checked ||
+            document.getElementById('enableNotes').checked;
+
+        if (!hasAnyMetric) {
+            alert('Please check at least one metric to record');
+            return;
+        }
+
+        if (this.editingLogId) {
+            // Update existing log
+            const index = this.logs.findIndex(l => l.id === this.editingLogId);
+            if (index > -1) {
+                this.logs[index] = {
+                    ...this.logs[index],
+                    datetime,
+                    temperature,
+                    bpSystolic,
+                    bpDiastolic,
+                    heartRate,
+                    glucose,
+                    weight,
+                    steps,
+                    notes
+                };
+            }
+        } else {
+            // Add new log
+            const log = {
+                id: Date.now().toString(),
+                datetime,
+                temperature,
+                bpSystolic,
+                bpDiastolic,
+                heartRate,
+                glucose,
+                weight,
+                steps,
+                notes
+            };
+            this.logs.push(log);
+        }
+
+        this.saveLogs();
+        this.renderLogs();
+        this.closeLogModal();
+    }
+
+    editLog(id) {
+        const log = this.logs.find(l => l.id === id);
+        if (log) {
+            this.openLogModal(log);
+        }
+    }
+
+    deleteLog(id) {
+        if (confirm('Are you sure you want to delete this log entry?')) {
+            this.logs = this.logs.filter(l => l.id !== id);
+            this.saveLogs();
+            this.renderLogs();
         }
     }
 }

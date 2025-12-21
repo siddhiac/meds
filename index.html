@@ -13,24 +13,25 @@
 </head>
 <body>
     <div class="container">
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="medications">Meds</button>
+            <button class="tab-button" data-tab="appointments">Appointments</button>
+            <button class="tab-button" data-tab="log">Metrics</button>
+        </div>
+
         <header>
             <div class="header-left">
-                <h1>Meds</h1>
-                <div class="date-picker-container">
+                <h1 id="headerTitle">Meds</h1>
+                <div class="date-picker-container" id="datePickerContainer">
                     <input type="date" id="datePicker" class="date-picker">
                 </div>
             </div>
-            <div class="header-actions">
+            <div class="header-actions" id="headerActions">
                 <button class="action-button" id="addMedButton">Med Schedule</button>
                 <button class="action-button secondary" id="logAsNeededButton">+ As-Needed</button>
             </div>
         </header>
-
-        <!-- Navigation Tabs -->
-        <!-- <div class="tabs">
-            <button class="tab-button active" data-tab="medications">Medications</button>
-            <button class="tab-button" data-tab="appointments">Appointments</button>
-        </div> -->
 
         <!-- Medications Section -->
         <div class="tab-content active" id="medicationsTab">
@@ -52,6 +53,15 @@
             </div>
 
             <button class="add-button" id="addApptButton">+ Add Appointment</button>
+        </div>
+
+        <!-- Log Section -->
+        <div class="tab-content" id="logTab">
+            <div class="log-entries" id="logEntries">
+                <!-- Log entries will be inserted here -->
+            </div>
+
+            <button class="add-button" id="addLogButton">+ Add Metrics</button>
         </div>
     </div>
 
@@ -265,6 +275,84 @@
 
                 <div class="form-buttons">
                     <button type="button" class="cancel-button" id="apptCancelButton">Cancel</button>
+                    <button type="submit" class="save-button">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for adding/editing log entries -->
+    <div class="modal" id="logModal">
+        <div class="modal-content">
+            <h2 id="logModalTitle">Add Metrics</h2>
+            <form id="logForm">
+                <div class="form-group">
+                    <label for="logDate">Date & Time</label>
+                    <input type="datetime-local" id="logDateTime" required>
+                </div>
+
+                <div class="log-metric-group">
+                    <label class="log-metric-checkbox">
+                        <input type="checkbox" id="enableTemperature">
+                        <span>Temperature (°F)</span>
+                    </label>
+                    <input type="number" id="logTemperature" step="0.1" placeholder="e.g., 98.6" disabled>
+                </div>
+
+                <div class="log-metric-group">
+                    <label class="log-metric-checkbox">
+                        <input type="checkbox" id="enableBloodPressure">
+                        <span>Blood Pressure</span>
+                    </label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="number" id="logBPSystolic" placeholder="Systolic" style="flex: 1;" disabled>
+                        <span>/</span>
+                        <input type="number" id="logBPDiastolic" placeholder="Diastolic" style="flex: 1;" disabled>
+                    </div>
+                </div>
+
+                <div class="log-metric-group">
+                    <label class="log-metric-checkbox">
+                        <input type="checkbox" id="enableHeartRate">
+                        <span>Heart Rate (bpm)</span>
+                    </label>
+                    <input type="number" id="logHeartRate" placeholder="e.g., 72" disabled>
+                </div>
+
+                <div class="log-metric-group">
+                    <label class="log-metric-checkbox">
+                        <input type="checkbox" id="enableGlucose">
+                        <span>Blood Glucose (mg/dL)</span>
+                    </label>
+                    <input type="number" id="logGlucose" placeholder="e.g., 100" disabled>
+                </div>
+
+                <div class="log-metric-group">
+                    <label class="log-metric-checkbox">
+                        <input type="checkbox" id="enableWeight">
+                        <span>Weight (lbs)</span>
+                    </label>
+                    <input type="number" id="logWeight" step="0.1" placeholder="e.g., 150.5" disabled>
+                </div>
+
+                <div class="log-metric-group">
+                    <label class="log-metric-checkbox">
+                        <input type="checkbox" id="enableSteps">
+                        <span>Steps</span>
+                    </label>
+                    <input type="number" id="logSteps" placeholder="e.g., 5000" disabled>
+                </div>
+
+                <div class="log-metric-group">
+                    <label class="log-metric-checkbox">
+                        <input type="checkbox" id="enableNotes">
+                        <span>Notes</span>
+                    </label>
+                    <textarea id="logNotes" rows="3" placeholder="Any observations or notes..." disabled></textarea>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="button" class="cancel-button" id="logCancelButton">Cancel</button>
                     <button type="submit" class="save-button">Save</button>
                 </div>
             </form>
