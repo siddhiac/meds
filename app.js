@@ -3,6 +3,22 @@ class HealthTracker {
     constructor() {
         this.medications = this.loadMedications();
         this.selectedDate = new Date();
+
+        // Set metricsDateFrom to 2 days ago
+        const twoDaysAgo = new Date();
+        twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+        this.metricsDateFrom = twoDaysAgo;
+
+        this.metricsDateTo = new Date();
+        this.metricsFilter = {
+            temperature: true,
+            bloodPressure: true,
+            heartRate: true,
+            glucose: true,
+            weight: true,
+            steps: true,
+            notes: true
+        };
         this.dailyLog = this.loadDailyLog(this.getDateString(this.selectedDate));
         this.asNeededLogs = this.loadAsNeededLogs(this.getDateString(this.selectedDate));
         this.appointments = this.loadAppointments();
@@ -543,7 +559,22 @@ class HealthTracker {
         switch(tab) {
             case 'medications':
                 headerTitle.textContent = 'Meds';
+                // Restore single date picker for Meds tab
+                datePickerContainer.innerHTML = `
+                    <input type="date" id="datePicker" class="date-picker">
+                `;
                 datePickerContainer.style.display = 'block';
+
+                // Set initial value and re-attach event listener
+                document.getElementById('datePicker').value = this.getDateString(this.selectedDate);
+                document.getElementById('datePicker').addEventListener('change', (e) => {
+                    this.selectedDate = new Date(e.target.value + 'T00:00:00');
+                    this.dailyLog = this.loadDailyLog(this.getDateString(this.selectedDate));
+                    this.asNeededLogs = this.loadAsNeededLogs(this.getDateString(this.selectedDate));
+                    this.renderMedications();
+                    this.renderLogs();
+                });
+
                 headerActions.innerHTML = `
                     <button class="action-button" id="addMedButton">Med Schedule</button>
                     <button class="action-button secondary" id="logAsNeededButton">+ As-Needed</button>
@@ -565,7 +596,131 @@ class HealthTracker {
 
             case 'log':
                 headerTitle.textContent = 'Metrics';
+                datePickerContainer.innerHTML = `
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input type="date" id="metricsDateFrom" class="date-picker" style="flex: 1; min-width: 150px;">
+                        <span style="color: #666;">to</span>
+                        <input type="date" id="metricsDateTo" class="date-picker" style="flex: 1; min-width: 150px;">
+                        <div style="position: relative;">
+                            <button id="metricsFilterButton" style="padding: 12px 20px; background: white; border: 2px solid #6b7c93; border-radius: 10px; font-size: 1.1rem; font-weight: 600; color: #6b7c93; cursor: pointer; white-space: nowrap;">
+                                Filter Metrics ▼
+                            </button>
+                            <div id="metricsFilterDropdown" style="display: none; position: absolute; top: 100%; right: 0; margin-top: 5px; background: white; border: 2px solid #ddd; border-radius: 10px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; min-width: 200px;">
+                                <div style="margin-bottom: 10px; font-weight: bold; color: #333;">Show Metrics:</div>
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px; font-weight: 600;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
+                                    <input type="checkbox" id="filterAll" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span style="font-size: 1.1rem;">All</span>
+                                </label>
+                                <div style="height: 1px; background: #ddd; margin: 8px 0;"></div>
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
+                                    <input type="checkbox" id="filterTemperature" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span style="font-size: 1.1rem;">Temperature</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
+                                    <input type="checkbox" id="filterBloodPressure" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span style="font-size: 1.1rem;">Blood Pressure</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
+                                    <input type="checkbox" id="filterHeartRate" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span style="font-size: 1.1rem;">Heart Rate</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
+                                    <input type="checkbox" id="filterGlucose" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span style="font-size: 1.1rem;">Blood Glucose</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
+                                    <input type="checkbox" id="filterWeight" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span style="font-size: 1.1rem;">Weight</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
+                                    <input type="checkbox" id="filterSteps" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span style="font-size: 1.1rem;">Steps</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
+                                    <input type="checkbox" id="filterNotes" checked style="width: 18px; height: 18px; cursor: pointer;">
+                                    <span style="font-size: 1.1rem;">Notes</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                `;
                 datePickerContainer.style.display = 'block';
+
+                // Set initial values
+                document.getElementById('metricsDateFrom').value = this.getDateString(this.metricsDateFrom);
+                document.getElementById('metricsDateTo').value = this.getDateString(this.metricsDateTo);
+
+                // Attach event listeners for date range
+                document.getElementById('metricsDateFrom').addEventListener('change', (e) => {
+                    this.metricsDateFrom = new Date(e.target.value + 'T00:00:00');
+                    this.renderLogs();
+                });
+                document.getElementById('metricsDateTo').addEventListener('change', (e) => {
+                    this.metricsDateTo = new Date(e.target.value + 'T00:00:00');
+                    this.renderLogs();
+                });
+
+                // Toggle dropdown
+                const filterButton = document.getElementById('metricsFilterButton');
+                const filterDropdown = document.getElementById('metricsFilterDropdown');
+                filterButton.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    filterDropdown.style.display = filterDropdown.style.display === 'none' ? 'block' : 'none';
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!filterDropdown.contains(e.target) && e.target !== filterButton) {
+                        filterDropdown.style.display = 'none';
+                    }
+                });
+
+                // Attach filter checkbox listeners
+                const filterCheckboxes = [
+                    { id: 'filterTemperature', key: 'temperature' },
+                    { id: 'filterBloodPressure', key: 'bloodPressure' },
+                    { id: 'filterHeartRate', key: 'heartRate' },
+                    { id: 'filterGlucose', key: 'glucose' },
+                    { id: 'filterWeight', key: 'weight' },
+                    { id: 'filterSteps', key: 'steps' },
+                    { id: 'filterNotes', key: 'notes' }
+                ];
+
+                // Helper function to update "All" checkbox state
+                const updateAllCheckbox = () => {
+                    const allCheckbox = document.getElementById('filterAll');
+                    const allChecked = filterCheckboxes.every(filter =>
+                        document.getElementById(filter.id).checked
+                    );
+                    allCheckbox.checked = allChecked;
+                };
+
+                // "All" checkbox listener
+                const allCheckbox = document.getElementById('filterAll');
+                allCheckbox.addEventListener('change', (e) => {
+                    const isChecked = e.target.checked;
+                    filterCheckboxes.forEach(filter => {
+                        const checkbox = document.getElementById(filter.id);
+                        checkbox.checked = isChecked;
+                        this.metricsFilter[filter.key] = isChecked;
+                    });
+                    this.renderLogs();
+                });
+
+                // Individual checkbox listeners
+                filterCheckboxes.forEach(filter => {
+                    const checkbox = document.getElementById(filter.id);
+                    checkbox.checked = this.metricsFilter[filter.key];
+                    checkbox.addEventListener('change', (e) => {
+                        this.metricsFilter[filter.key] = e.target.checked;
+                        updateAllCheckbox();
+                        this.renderLogs();
+                    });
+                });
+
+                // Initialize "All" checkbox state
+                updateAllCheckbox();
+
                 headerActions.innerHTML = `
                     <button class="action-button" id="addMetricsHeaderButton">+ Add Metrics</button>
                 `;
@@ -1214,12 +1369,24 @@ class HealthTracker {
     renderLogs() {
         const container = document.getElementById('logEntries');
 
-        // Filter logs by selected date
-        const selectedDateStr = this.getDateString(this.selectedDate);
-        const filteredLogs = this.logs.filter(log => {
-            const logDate = log.datetime.split('T')[0]; // Get YYYY-MM-DD part
-            return logDate === selectedDateStr;
-        });
+        // Filter logs by date range (for Metrics tab) or single date (for Meds tab)
+        let filteredLogs;
+        if (this.currentTab === 'log') {
+            // Use date range for Metrics tab
+            const fromDateStr = this.getDateString(this.metricsDateFrom);
+            const toDateStr = this.getDateString(this.metricsDateTo);
+            filteredLogs = this.logs.filter(log => {
+                const logDate = log.datetime.split('T')[0]; // Get YYYY-MM-DD part
+                return logDate >= fromDateStr && logDate <= toDateStr;
+            });
+        } else {
+            // Use single date for other tabs
+            const selectedDateStr = this.getDateString(this.selectedDate);
+            filteredLogs = this.logs.filter(log => {
+                const logDate = log.datetime.split('T')[0]; // Get YYYY-MM-DD part
+                return logDate === selectedDateStr;
+            });
+        }
 
         if (filteredLogs.length === 0) {
             const allLogsEmpty = this.logs.length === 0;
@@ -1237,7 +1404,31 @@ class HealthTracker {
             return new Date(b.datetime) - new Date(a.datetime);
         });
 
-        container.innerHTML = sortedLogs.map(log => this.renderLogCard(log)).join('');
+        // Filter out logs that have no visible metrics based on the current filter
+        const visibleLogs = sortedLogs.filter(log => {
+            // Check if any metric is both present in the log AND enabled in the filter
+            const hasVisibleMetric =
+                (log.temperature && this.metricsFilter.temperature) ||
+                (log.bpSystolic && log.bpDiastolic && this.metricsFilter.bloodPressure) ||
+                (log.heartRate && this.metricsFilter.heartRate) ||
+                (log.glucose && this.metricsFilter.glucose) ||
+                (log.weight && this.metricsFilter.weight) ||
+                (log.steps && this.metricsFilter.steps) ||
+                (log.notes && this.metricsFilter.notes);
+            return hasVisibleMetric;
+        });
+
+        if (visibleLogs.length === 0) {
+            container.innerHTML = `
+                <div class="empty-log">
+                    <p>No metrics match the current filter.</p>
+                    <p>Try adjusting your filter settings or date range.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = visibleLogs.map(log => this.renderLogCard(log)).join('');
     }
 
     renderLogCard(log) {
@@ -1253,12 +1444,25 @@ class HealthTracker {
         });
 
         const metrics = [];
-        if (log.temperature) metrics.push({ label: 'Temperature', value: log.temperature, unit: '°F' });
-        if (log.bpSystolic && log.bpDiastolic) metrics.push({ label: 'Blood Pressure', value: `${log.bpSystolic}/${log.bpDiastolic}`, unit: 'mmHg' });
-        if (log.heartRate) metrics.push({ label: 'Heart Rate', value: log.heartRate, unit: 'bpm' });
-        if (log.glucose) metrics.push({ label: 'Blood Glucose', value: log.glucose, unit: 'mg/dL' });
-        if (log.weight) metrics.push({ label: 'Weight', value: log.weight, unit: 'lbs' });
-        if (log.steps) metrics.push({ label: 'Steps', value: log.steps.toLocaleString(), unit: '' });
+        // Only add metrics that are enabled in the filter
+        if (log.temperature && this.metricsFilter.temperature) {
+            metrics.push({ label: 'Temperature', value: log.temperature, unit: '°F' });
+        }
+        if (log.bpSystolic && log.bpDiastolic && this.metricsFilter.bloodPressure) {
+            metrics.push({ label: 'Blood Pressure', value: `${log.bpSystolic}/${log.bpDiastolic}`, unit: 'mmHg' });
+        }
+        if (log.heartRate && this.metricsFilter.heartRate) {
+            metrics.push({ label: 'Heart Rate', value: log.heartRate, unit: 'bpm' });
+        }
+        if (log.glucose && this.metricsFilter.glucose) {
+            metrics.push({ label: 'Blood Glucose', value: log.glucose, unit: 'mg/dL' });
+        }
+        if (log.weight && this.metricsFilter.weight) {
+            metrics.push({ label: 'Weight', value: log.weight, unit: 'lbs' });
+        }
+        if (log.steps && this.metricsFilter.steps) {
+            metrics.push({ label: 'Steps', value: log.steps.toLocaleString(), unit: '' });
+        }
 
         return `
             <div class="log-card">
@@ -1281,7 +1485,7 @@ class HealthTracker {
                         `).join('')}
                     </div>
                 ` : ''}
-                ${log.notes ? `
+                ${log.notes && this.metricsFilter.notes ? `
                     <div class="log-notes-section">
                         <div class="log-notes-label">Notes</div>
                         <div class="log-notes-content">${log.notes}</div>
