@@ -32,26 +32,12 @@ class HealthTracker {
     }
 
     init() {
-        this.initDatePicker();
+        this.updateHeader(this.currentTab); // Initialize header with current tab
         this.renderMedications();
         this.renderAppointments();
         this.renderLogs();
         this.attachEventListeners();
         this.checkNewDay();
-    }
-
-    // Initialize date picker
-    initDatePicker() {
-        const datePicker = document.getElementById('datePicker');
-        datePicker.value = this.getDateString(this.selectedDate);
-
-        datePicker.addEventListener('change', (e) => {
-            this.selectedDate = new Date(e.target.value + 'T00:00:00');
-            this.dailyLog = this.loadDailyLog(this.getDateString(this.selectedDate));
-            this.asNeededLogs = this.loadAsNeededLogs(this.getDateString(this.selectedDate));
-            this.renderMedications();
-            this.renderLogs();
-        });
     }
 
     // Get date as YYYY-MM-DD string
@@ -559,9 +545,12 @@ class HealthTracker {
         switch(tab) {
             case 'medications':
                 headerTitle.textContent = 'Meds';
-                // Restore single date picker for Meds tab
+                // Date picker with week picker button
                 datePickerContainer.innerHTML = `
-                    <input type="date" id="datePicker" class="date-picker">
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="date" id="datePicker" class="date-picker">
+                        <button class="action-button" id="weekPickerButton" style="padding: 12px 20px; white-space: nowrap;">Week View</button>
+                    </div>
                 `;
                 datePickerContainer.style.display = 'block';
 
@@ -574,6 +563,9 @@ class HealthTracker {
                     this.renderMedications();
                     this.renderLogs();
                 });
+
+                // Week picker button listener
+                document.getElementById('weekPickerButton').addEventListener('click', () => this.openWeeklyViewModal());
 
                 headerActions.innerHTML = `
                     <button class="action-button" id="addMedButton">Med Schedule</button>
@@ -1663,6 +1655,177 @@ class HealthTracker {
             this.saveLogs();
             this.renderLogs();
         }
+    }
+
+    // Weekly view methods
+    openWeeklyViewModal() {
+        this.currentWeekStart = this.getWeekStart(this.selectedDate);
+        this.renderWeeklyView();
+        document.getElementById('weeklyViewModal').classList.add('active');
+
+        // Attach event listeners
+        document.getElementById('prevWeekButton').addEventListener('click', () => this.changeWeek(-1));
+        document.getElementById('nextWeekButton').addEventListener('click', () => this.changeWeek(1));
+        document.getElementById('weeklyViewCloseButton').addEventListener('click', () => this.closeWeeklyViewModal());
+        document.getElementById('weeklyViewPrintButton').addEventListener('click', () => window.print());
+    }
+
+    closeWeeklyViewModal() {
+        document.getElementById('weeklyViewModal').classList.remove('active');
+    }
+
+    getWeekStart(date) {
+        const d = new Date(date);
+        const day = d.getDay();
+        const diff = d.getDate() - day; // Adjust to Sunday
+        return new Date(d.setDate(diff));
+    }
+
+    changeWeek(direction) {
+        const newStart = new Date(this.currentWeekStart);
+        newStart.setDate(newStart.getDate() + (direction * 7));
+        this.currentWeekStart = newStart;
+        this.renderWeeklyView();
+    }
+
+    renderWeeklyView() {
+        const container = document.getElementById('weeklyViewContainer');
+        const weekDays = [];
+
+        // Generate 7 days starting from Sunday
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(this.currentWeekStart);
+            date.setDate(date.getDate() + i);
+            weekDays.push(date);
+        }
+
+        // Build weekly schedule HTML
+        let html = '<div class="weekly-schedule">';
+
+        // Header row with days
+        html += '<div class="weekly-header-row">';
+        weekDays.forEach(date => {
+            const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+            const monthDay = date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' });
+            html += `<div class="weekly-day-header">${dayName} ${monthDay}</div>`;
+        });
+        html += '</div>';
+
+        // Time sections - each time period spans all 7 days
+        const times = ['Morning', 'Afternoon', 'Evening', 'Bedtime'];
+        times.forEach(time => {
+            html += `<div class="weekly-time-row">`;
+            html += `<div class="weekly-time-header-full">${time}</div>`;
+            html += `<div class="weekly-time-columns">`;
+
+            weekDays.forEach(date => {
+                html += '<div class="weekly-day-column">';
+                html += this.renderDayMedicationsForTime(date, time);
+                html += '</div>';
+            });
+
+            html += `</div>`;
+            html += `</div>`;
+        });
+
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    renderDayMedicationsForTime(date, time) {
+        let html = '';
+
+        // Get all medications expanded for this specific date
+        const expanded = this.expandMedications();
+
+        // Filter medications that are scheduled for this date
+        const activeMeds = expanded.filter(med => {
+            const checkDate = new Date(date);
+            checkDate.setHours(0, 0, 0, 0);
+            const dayOfWeek = checkDate.getDay();
+
+            // Check if medication has started
+            if (med.schedule && med.schedule.startDate) {
+                const startDate = new Date(med.schedule.startDate);
+                startDate.setHours(0, 0, 0, 0);
+                if (checkDate < startDate) return false;
+            }
+
+            // Check if medication has ended
+            if (med.schedule && med.schedule.endDate) {
+                const endDate = new Date(med.schedule.endDate);
+                endDate.setHours(23, 59, 59, 999);
+                if (checkDate > endDate) return false;
+            }
+
+            // Check frequency
+            if (!med.schedule || med.schedule.frequency === 'daily') {
+                return true;
+            }
+
+            if (med.schedule.frequency === 'every-other-day') {
+                const startDate = med.schedule.startDate ? new Date(med.schedule.startDate) : new Date(med.createdAt);
+                const daysDiff = Math.floor((checkDate - startDate) / (1000 * 60 * 60 * 24));
+                return daysDiff % 2 === 0;
+            }
+
+            if (med.schedule.frequency === 'mwf') {
+                return [1, 3, 5].includes(dayOfWeek); // Monday, Wednesday, Friday
+            }
+
+            if (med.schedule.frequency === 'custom-days' && med.schedule.days) {
+                return med.schedule.days.includes(dayOfWeek);
+            }
+
+            return true;
+        });
+
+        // Filter for this specific time
+        const medsForTime = activeMeds.filter(med => med.time === time);
+
+        if (medsForTime.length > 0) {
+            medsForTime.forEach(med => {
+                html += `
+                    <div class="weekly-med-item">
+                        <input type="checkbox" class="weekly-checkbox">
+                        <span class="weekly-med-label">${med.name}</span>
+                    </div>
+                `;
+            });
+        }
+
+        return html;
+    }
+
+    isMedScheduledForDate(med, date) {
+        const dateStr = this.getDateString(date);
+        const medDate = new Date(date);
+        const startDate = new Date(med.startDate);
+
+        // Check if date is before start
+        if (medDate < startDate) return false;
+
+        // Check if date is after end
+        if (med.endDate) {
+            const endDate = new Date(med.endDate);
+            if (medDate > endDate) return false;
+        }
+
+        // Check frequency
+        if (med.frequency === 'daily') {
+            return true;
+        } else if (med.frequency === 'every-other-day') {
+            const daysDiff = Math.floor((medDate - startDate) / (1000 * 60 * 60 * 24));
+            return daysDiff % 2 === 0;
+        } else if (med.frequency === 'mwf') {
+            const day = medDate.getDay();
+            return day === 1 || day === 3 || day === 5; // Mon, Wed, Fri
+        } else if (med.frequency === 'custom-days') {
+            const day = medDate.getDay();
+            return med.customDays && med.customDays.includes(day.toString());
+        }
+
+        return false;
     }
 }
 

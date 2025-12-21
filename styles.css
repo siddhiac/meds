@@ -1085,6 +1085,156 @@ h1 {
     border-color: #6b7c93;
 }
 
+/* Weekly view modal */
+.weekly-view-content {
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+}
+
+.weekly-view-header {
+    margin-bottom: 1px;
+}
+
+.weekly-nav {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.weekly-nav-button {
+    padding: 10px 20px;
+    color: #6b7c93;
+    background: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.weekly-nav-button:active {
+    transform: scale(0.95);
+}
+
+.weekly-schedule {
+    overflow-x: auto;
+    margin-bottom: 1px;
+}
+
+.weekly-header-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.weekly-day-header {
+    color: #6b7c93;
+    background: white;
+    font-weight: bold;
+    padding: 1px;
+    text-align: left;
+    border-radius: 8px;
+    font-size: 1.2rem;
+}
+
+.weekly-time-row {
+    margin-bottom: 5px;
+}
+
+.weekly-time-header-full {
+    color: #6b7c93;
+    background: white;
+    font-weight: bold;
+    padding: 0px;
+    margin-bottom: 3px;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.weekly-time-columns {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.weekly-day-column {
+    border: 0px solid #ddd;
+    border-radius: 8px;
+    padding: 1px;
+    background: #fff;
+    min-height: 20px;
+}
+
+.weekly-med-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 5px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.weekly-med-item:last-child {
+    border-bottom: none;
+}
+
+.weekly-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.weekly-med-label {
+    font-size: 0.85rem;
+    line-height: 1.3;
+}
+
+/* Print styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    #weeklyViewModal,
+    #weeklyViewModal * {
+        visibility: visible;
+    }
+
+    #weeklyViewModal {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        background: white;
+    }
+
+    .modal-content {
+        box-shadow: none;
+        max-width: 100%;
+        max-height: 100%;
+        padding: 20px;
+    }
+
+    .weekly-view-header {
+        height: 0;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    .weekly-nav {
+        display: none;
+    }
+
+    @page {
+        size: landscape;
+        margin: 0.5in;
+    }
+}
+
 /* Responsive adjustments for smaller screens */
 @media (max-width: 600px) {
     header {
