@@ -1,6 +1,6 @@
 # Meds
 
-A simple, iPad-optimized health tracking app to help manage medications with flexible schedules, plus track hospital procedures and doctor visits.
+A simple medication tracker with flexible schedules, plus optionally track hospital procedures, doctor visits and health metrics (blood pressure, weight, temperature, etc.)
 
 ## Features
 
@@ -27,31 +27,19 @@ A simple, iPad-optimized health tracking app to help manage medications with fle
 - 📝 **Detailed Notes** - Add important details like "bring insurance card" or "fasting required"
 
 ### General
-- 💾 **Automatic Saving** - All data saved locally on the iPad
+- 💾 **Automatic Saving** - All data saved locally on your device
 - 🎨 **Clear, Large Interface** - Easy to read and use
-- 🔄 **Easy Switching** - Simple tabs to switch between medications and appointments
+- 🔄 **Easy Switching** - Simple tabs to switch between medications, appointments, and metrics
 
-## How to Use on iPad
-
-### Setup (One Time)
-
-1. Open Safari on the iPad
-2. Navigate to where this file is hosted (see "Hosting Options" below)
-3. Tap the Share button (square with arrow pointing up)
-4. Scroll down and tap "Add to Home Screen"
-5. Name it "My Medications" or whatever you prefer
-6. Tap "Add"
-
-Now the app will appear on the home screen like a regular app!
+## How to Use
 
 ### Daily Use
 
 #### For Medications
-1. **Switch to Medications Tab** - Tap the "Medications" tab at the top
+1. **Switch to Medications Tab** - Tap the "Meds" tab at the top
 2. **View Your Medications** - All medications are listed, organized by time of day
 3. **Check Off When Taken** - Tap the large checkbox next to each medication after taking it
-4. **See Progress** - The summary shows how many you've taken and how many remain today
-5. **Add/Edit/Delete** - Use the buttons to manage your medication list
+4. **Add/Edit/Delete** - Use the buttons to manage your medication list
 
 #### For Appointments
 1. **Switch to Appointments Tab** - Tap the "Appointments" tab at the top
@@ -59,6 +47,9 @@ Now the app will appear on the home screen like a regular app!
 3. **See Details** - Each appointment shows the type, date, time, location, and any notes
 4. **Mark Complete** - Tap "Mark Complete" when you've attended an appointment
 5. **Add/Edit/Delete** - Use the buttons to manage your appointments
+
+#### For Metrics
+1. **Switch to Metrics Tab** - Tap the "Metrics" tab at the top
 
 ### Adding a Medication
 
@@ -99,8 +90,8 @@ Now the app will appear on the home screen like a regular app!
 Since this is a simple web app, you have several options:
 
 ### Option 1: Quick Test (Easiest)
-1. Open [index.html](index.html) directly in Safari on your Mac
-2. Use AirDrop to send the entire MOMLOG folder to the iPad
+1. Open [index.html](index.html) directly in Safari or Chrome
+2. Use AirDrop to send the entire folder to your iPad
 3. Open the index.html file from the Files app on iPad
 
 ### Option 2: Host on GitHub Pages (Free, Recommended)
