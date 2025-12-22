@@ -37,6 +37,7 @@ class HealthTracker {
         this.renderAppointments();
         this.renderLogs();
         this.attachEventListeners();
+        this.applyTrackingPreferences(); // Apply saved tracking preferences
         this.checkNewDay();
     }
 
@@ -515,6 +516,68 @@ class HealthTracker {
                 }
             });
         });
+
+        // Settings tab - data management buttons
+        document.getElementById('exportDataButtonSettings').addEventListener('click', () => {
+            this.exportData();
+        });
+
+        document.getElementById('importDataButtonSettings').addEventListener('click', () => {
+            document.getElementById('importFileInputSettings').click();
+        });
+
+        document.getElementById('importFileInputSettings').addEventListener('change', (e) => {
+            this.importData(e.target.files[0]);
+        });
+
+        document.getElementById('clearDataButtonSettings').addEventListener('click', () => {
+            this.clearAllData();
+        });
+
+        // Settings tab - also track checkboxes
+        document.getElementById('trackAppointments').addEventListener('change', (e) => {
+            this.updateTrackingPreferences('appointments', e.target.checked);
+        });
+
+        document.getElementById('trackMetrics').addEventListener('change', (e) => {
+            this.updateTrackingPreferences('metrics', e.target.checked);
+            this.toggleMetricsSubOptions(e.target.checked);
+        });
+
+        // Settings tab - metric sub-options
+        const metricCheckboxes = ['metricWeight', 'metricTemperature', 'metricBloodPressure', 'metricHeartRate', 'metricBloodSugar', 'metricSteps'];
+        metricCheckboxes.forEach(id => {
+            document.getElementById(id).addEventListener('change', (e) => {
+                this.updateMetricPreference(id.replace('metric', '').toLowerCase(), e.target.checked);
+            });
+        });
+
+        // Legacy data management modal (keeping for compatibility)
+        document.getElementById('dataModalCloseButton').addEventListener('click', () => {
+            this.closeDataModal();
+        });
+
+        document.getElementById('dataModal').addEventListener('click', (e) => {
+            if (e.target.id === 'dataModal') {
+                this.closeDataModal();
+            }
+        });
+
+        document.getElementById('exportDataButton').addEventListener('click', () => {
+            this.exportData();
+        });
+
+        document.getElementById('importDataButton').addEventListener('click', () => {
+            document.getElementById('importFileInput').click();
+        });
+
+        document.getElementById('importFileInput').addEventListener('change', (e) => {
+            this.importData(e.target.files[0]);
+        });
+
+        document.getElementById('clearDataButton').addEventListener('click', () => {
+            this.clearAllData();
+        });
     }
 
     // Switch tabs
@@ -598,40 +661,7 @@ class HealthTracker {
                                 Filter Metrics ▼
                             </button>
                             <div id="metricsFilterDropdown" style="display: none; position: absolute; top: 100%; right: 0; margin-top: 5px; background: white; border: 2px solid #ddd; border-radius: 10px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; min-width: 200px;">
-                                <div style="margin-bottom: 10px; font-weight: bold; color: #333;">Show Metrics:</div>
-                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px; font-weight: 600;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
-                                    <input type="checkbox" id="filterAll" checked style="width: 18px; height: 18px; cursor: pointer;">
-                                    <span style="font-size: 1.1rem;">All</span>
-                                </label>
-                                <div style="height: 1px; background: #ddd; margin: 8px 0;"></div>
-                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
-                                    <input type="checkbox" id="filterTemperature" checked style="width: 18px; height: 18px; cursor: pointer;">
-                                    <span style="font-size: 1.1rem;">Temperature</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
-                                    <input type="checkbox" id="filterBloodPressure" checked style="width: 18px; height: 18px; cursor: pointer;">
-                                    <span style="font-size: 1.1rem;">Blood Pressure</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
-                                    <input type="checkbox" id="filterHeartRate" checked style="width: 18px; height: 18px; cursor: pointer;">
-                                    <span style="font-size: 1.1rem;">Heart Rate</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
-                                    <input type="checkbox" id="filterGlucose" checked style="width: 18px; height: 18px; cursor: pointer;">
-                                    <span style="font-size: 1.1rem;">Blood Glucose</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
-                                    <input type="checkbox" id="filterWeight" checked style="width: 18px; height: 18px; cursor: pointer;">
-                                    <span style="font-size: 1.1rem;">Weight</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
-                                    <input type="checkbox" id="filterSteps" checked style="width: 18px; height: 18px; cursor: pointer;">
-                                    <span style="font-size: 1.1rem;">Steps</span>
-                                </label>
-                                <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
-                                    <input type="checkbox" id="filterNotes" checked style="width: 18px; height: 18px; cursor: pointer;">
-                                    <span style="font-size: 1.1rem;">Notes</span>
-                                </label>
+                                ${this.generateMetricsFilterOptions()}
                             </div>
                         </div>
                     </div>
@@ -681,9 +711,10 @@ class HealthTracker {
                 // Helper function to update "All" checkbox state
                 const updateAllCheckbox = () => {
                     const allCheckbox = document.getElementById('filterAll');
-                    const allChecked = filterCheckboxes.every(filter =>
-                        document.getElementById(filter.id).checked
-                    );
+                    const allChecked = filterCheckboxes.every(filter => {
+                        const checkbox = document.getElementById(filter.id);
+                        return !checkbox || checkbox.checked;
+                    });
                     allCheckbox.checked = allChecked;
                 };
 
@@ -693,8 +724,10 @@ class HealthTracker {
                     const isChecked = e.target.checked;
                     filterCheckboxes.forEach(filter => {
                         const checkbox = document.getElementById(filter.id);
-                        checkbox.checked = isChecked;
-                        this.metricsFilter[filter.key] = isChecked;
+                        if (checkbox) {
+                            checkbox.checked = isChecked;
+                            this.metricsFilter[filter.key] = isChecked;
+                        }
                     });
                     this.renderLogs();
                 });
@@ -702,12 +735,14 @@ class HealthTracker {
                 // Individual checkbox listeners
                 filterCheckboxes.forEach(filter => {
                     const checkbox = document.getElementById(filter.id);
-                    checkbox.checked = this.metricsFilter[filter.key];
-                    checkbox.addEventListener('change', (e) => {
-                        this.metricsFilter[filter.key] = e.target.checked;
-                        updateAllCheckbox();
-                        this.renderLogs();
-                    });
+                    if (checkbox) {
+                        checkbox.checked = this.metricsFilter[filter.key];
+                        checkbox.addEventListener('change', (e) => {
+                            this.metricsFilter[filter.key] = e.target.checked;
+                            updateAllCheckbox();
+                            this.renderLogs();
+                        });
+                    }
                 });
 
                 // Initialize "All" checkbox state
@@ -718,6 +753,40 @@ class HealthTracker {
                 `;
                 // Re-attach event listener for metrics button
                 document.getElementById('addMetricsHeaderButton').addEventListener('click', () => this.openLogModal());
+
+                // Render logs after setting up the filter UI
+                this.renderLogs();
+                break;
+
+            case 'settings':
+                headerTitle.textContent = 'Settings';
+                datePickerContainer.style.display = 'none';
+
+                // Sync checkbox states with localStorage
+                const prefs = JSON.parse(localStorage.getItem('trackingPreferences') || '{"appointments": true, "metrics": true}');
+                document.getElementById('trackAppointments').checked = prefs.appointments;
+                document.getElementById('trackMetrics').checked = prefs.metrics;
+
+                // Sync metric sub-option checkboxes
+                const metricPrefs = JSON.parse(localStorage.getItem('metricPreferences') || '{"weight": true, "temperature": true, "bloodpressure": true, "heartrate": true, "bloodsugar": true, "steps": true}');
+                document.getElementById('metricWeight').checked = metricPrefs.weight;
+                document.getElementById('metricTemperature').checked = metricPrefs.temperature;
+                document.getElementById('metricBloodPressure').checked = metricPrefs.bloodpressure;
+                document.getElementById('metricHeartRate').checked = metricPrefs.heartrate;
+                document.getElementById('metricBloodSugar').checked = metricPrefs.bloodsugar;
+                document.getElementById('metricSteps').checked = metricPrefs.steps;
+
+                // Show/hide metric sub-options based on trackMetrics state
+                this.toggleMetricsSubOptions(prefs.metrics);
+
+                // Show back button if both tabs are unchecked
+                const bothUnchecked = !prefs.appointments && !prefs.metrics;
+                if (bothUnchecked) {
+                    headerActions.innerHTML = '<button class="action-button" id="backToMedsButton">← Back</button>';
+                    document.getElementById('backToMedsButton').addEventListener('click', () => this.switchTab('medications'));
+                } else {
+                    headerActions.innerHTML = '';
+                }
                 break;
         }
     }
@@ -1491,17 +1560,33 @@ class HealthTracker {
         const modal = document.getElementById('logModal');
         const form = document.getElementById('logForm');
 
+        // Show/hide metric groups based on preferences
+        this.applyMetricVisibility();
+
         if (log) {
             document.getElementById('logModalTitle').textContent = 'Edit Metrics';
             document.getElementById('logDateTime').value = log.datetime;
 
-            // Set values and enable checkboxes for filled metrics
-            this.setLogMetric('enableTemperature', 'logTemperature', log.temperature);
-            this.setLogMetric('enableBloodPressure', ['logBPSystolic', 'logBPDiastolic'], [log.bpSystolic, log.bpDiastolic]);
-            this.setLogMetric('enableHeartRate', 'logHeartRate', log.heartRate);
-            this.setLogMetric('enableGlucose', 'logGlucose', log.glucose);
-            this.setLogMetric('enableWeight', 'logWeight', log.weight);
-            this.setLogMetric('enableSteps', 'logSteps', log.steps);
+            // Set values and enable checkboxes for filled metrics (only if metric is enabled)
+            if (this.isMetricEnabled('temperature')) {
+                this.setLogMetric('enableTemperature', 'logTemperature', log.temperature);
+            }
+            if (this.isMetricEnabled('bloodpressure')) {
+                this.setLogMetric('enableBloodPressure', ['logBPSystolic', 'logBPDiastolic'], [log.bpSystolic, log.bpDiastolic]);
+            }
+            if (this.isMetricEnabled('heartrate')) {
+                this.setLogMetric('enableHeartRate', 'logHeartRate', log.heartRate);
+            }
+            if (this.isMetricEnabled('bloodsugar')) {
+                this.setLogMetric('enableGlucose', 'logGlucose', log.glucose);
+            }
+            if (this.isMetricEnabled('weight')) {
+                this.setLogMetric('enableWeight', 'logWeight', log.weight);
+            }
+            if (this.isMetricEnabled('steps')) {
+                this.setLogMetric('enableSteps', 'logSteps', log.steps);
+            }
+            // Notes are always available
             this.setLogMetric('enableNotes', 'logNotes', log.notes);
 
             this.editingLogId = log.id;
@@ -1511,10 +1596,12 @@ class HealthTracker {
 
             // Uncheck all checkboxes and disable all inputs
             ['enableTemperature', 'enableBloodPressure', 'enableHeartRate', 'enableGlucose', 'enableWeight', 'enableSteps', 'enableNotes'].forEach(id => {
-                document.getElementById(id).checked = false;
+                const checkbox = document.getElementById(id);
+                if (checkbox) checkbox.checked = false;
             });
             ['logTemperature', 'logBPSystolic', 'logBPDiastolic', 'logHeartRate', 'logGlucose', 'logWeight', 'logSteps', 'logNotes'].forEach(id => {
-                document.getElementById(id).disabled = true;
+                const input = document.getElementById(id);
+                if (input) input.disabled = true;
             });
 
             // Set default datetime to now
@@ -1672,6 +1759,321 @@ class HealthTracker {
 
     closeWeeklyViewModal() {
         document.getElementById('weeklyViewModal').classList.remove('active');
+    }
+
+    // Data management modal
+    openDataModal() {
+        document.getElementById('dataModal').classList.add('active');
+    }
+
+    closeDataModal() {
+        document.getElementById('dataModal').classList.remove('active');
+    }
+
+    // Export all data to JSON file
+    exportData() {
+        const data = {
+            medications: this.medications,
+            dailyLogs: JSON.parse(localStorage.getItem('dailyLogs') || '{}'),
+            asNeededLogs: JSON.parse(localStorage.getItem('asNeededLogs') || '[]'),
+            appointments: this.appointments,
+            logs: this.logs,
+            exportDate: new Date().toISOString(),
+            version: '1.0'
+        };
+
+        const dataStr = JSON.stringify(data, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement('a');
+        a.href = url;
+        const timestamp = new Date().toISOString().split('T')[0];
+        a.download = `meds-backup-${timestamp}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        alert('Data exported successfully!');
+    }
+
+    // Import data from JSON file
+    importData(file) {
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+
+                // Validate data structure
+                if (!data.medications || !data.dailyLogs) {
+                    throw new Error('Invalid backup file format');
+                }
+
+                // Confirm with user before overwriting
+                const confirmed = confirm(
+                    'This will replace all current data with the imported data. Are you sure you want to continue?'
+                );
+
+                if (!confirmed) {
+                    // Reset the file input
+                    document.getElementById('importFileInput').value = '';
+                    return;
+                }
+
+                // Import all data
+                localStorage.setItem('medications', JSON.stringify(data.medications));
+                localStorage.setItem('dailyLogs', JSON.stringify(data.dailyLogs));
+                localStorage.setItem('asNeededLogs', JSON.stringify(data.asNeededLogs || []));
+                localStorage.setItem('appointments', JSON.stringify(data.appointments || []));
+                localStorage.setItem('logs', JSON.stringify(data.logs || []));
+
+                // Reload the page to refresh all data
+                alert('Data imported successfully! The page will now reload.');
+                location.reload();
+            } catch (error) {
+                alert('Error importing data: ' + error.message);
+            }
+
+            // Reset the file input
+            document.getElementById('importFileInput').value = '';
+        };
+
+        reader.readAsText(file);
+    }
+
+    // Clear all data with confirmation
+    clearAllData() {
+        const confirmed = confirm(
+            'Are you ABSOLUTELY sure you want to delete ALL data? This cannot be undone!\n\nThis will delete:\n• All medications\n• All medication logs\n• All appointments\n• All health metrics\n\nType "DELETE" in the next prompt to confirm.'
+        );
+
+        if (!confirmed) return;
+
+        const secondConfirm = prompt('Type DELETE to confirm:');
+        if (secondConfirm !== 'DELETE') {
+            alert('Deletion cancelled.');
+            return;
+        }
+
+        // Clear all localStorage
+        localStorage.removeItem('medications');
+        localStorage.removeItem('dailyLogs');
+        localStorage.removeItem('asNeededLogs');
+        localStorage.removeItem('appointments');
+        localStorage.removeItem('logs');
+        localStorage.removeItem('trackingPreferences');
+
+        alert('All data has been deleted. The page will now reload.');
+        location.reload();
+    }
+
+    // Update tracking preferences
+    updateTrackingPreferences(type, enabled) {
+        const prefs = JSON.parse(localStorage.getItem('trackingPreferences') || '{"appointments": true, "metrics": true}');
+        prefs[type] = enabled;
+        localStorage.setItem('trackingPreferences', JSON.stringify(prefs));
+
+        // Update UI visibility
+        this.applyTrackingPreferences();
+    }
+
+    // Apply tracking preferences to UI
+    applyTrackingPreferences() {
+        const prefs = JSON.parse(localStorage.getItem('trackingPreferences') || '{"appointments": true, "metrics": true}');
+
+        const appointmentsTab = document.querySelector('[data-tab="appointments"]');
+        const metricsTab = document.querySelector('[data-tab="log"]');
+        const tabsContainer = document.querySelector('.tabs');
+        const headerTitle = document.getElementById('headerTitle');
+
+        // Show/hide tabs based on preferences
+        if (appointmentsTab) {
+            appointmentsTab.style.display = prefs.appointments ? '' : 'none';
+        }
+        if (metricsTab) {
+            metricsTab.style.display = prefs.metrics ? '' : 'none';
+        }
+
+        // Count visible tabs (excluding settings)
+        const bothUnchecked = !prefs.appointments && !prefs.metrics;
+
+        if (bothUnchecked) {
+            // Hide the entire tabs container
+            if (tabsContainer) {
+                tabsContainer.style.display = 'none';
+            }
+
+            // If currently on a hidden tab or settings tab, switch to medications
+            if (this.currentTab === 'appointments' || this.currentTab === 'log' || this.currentTab === 'settings') {
+                this.switchTab('medications');
+            }
+
+            // Add settings button to header
+            if (headerTitle) {
+                // Check if settings button is not already in header
+                if (!document.getElementById('headerSettingsButton')) {
+                    // Check if h1 is already wrapped
+                    if (!headerTitle.parentElement.classList.contains('header-title-wrapper')) {
+                        // Create a wrapper for the title and button
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'header-title-wrapper';
+                        wrapper.style.display = 'flex';
+                        wrapper.style.alignItems = 'center';
+                        wrapper.style.gap = '15px';
+
+                        // Wrap the h1
+                        headerTitle.parentNode.insertBefore(wrapper, headerTitle);
+                        wrapper.appendChild(headerTitle);
+                    }
+
+                    const settingsButton = document.createElement('button');
+                    settingsButton.id = 'headerSettingsButton';
+                    settingsButton.textContent = '⚙️';
+                    settingsButton.style.fontSize = '2.5rem';
+                    settingsButton.style.background = 'none';
+                    settingsButton.style.border = 'none';
+                    settingsButton.style.cursor = 'pointer';
+                    settingsButton.style.padding = '0';
+                    settingsButton.style.transition = 'transform 0.2s ease';
+                    settingsButton.style.flexShrink = '0';
+                    settingsButton.addEventListener('click', () => this.switchTab('settings'));
+                    settingsButton.addEventListener('mousedown', (e) => {
+                        e.target.style.transform = 'scale(0.9)';
+                    });
+                    settingsButton.addEventListener('mouseup', (e) => {
+                        e.target.style.transform = 'scale(1)';
+                    });
+                    settingsButton.addEventListener('mouseleave', (e) => {
+                        e.target.style.transform = 'scale(1)';
+                    });
+
+                    // Insert before the title in the wrapper
+                    headerTitle.parentElement.insertBefore(settingsButton, headerTitle);
+                }
+            }
+        } else {
+            // Show the tabs container
+            if (tabsContainer) {
+                tabsContainer.style.display = 'grid';
+            }
+
+            // Remove settings button from header if it exists
+            const headerSettingsButton = document.getElementById('headerSettingsButton');
+            if (headerSettingsButton) {
+                headerSettingsButton.remove();
+            }
+
+            // Unwrap the h1 if it's wrapped
+            if (headerTitle) {
+                const wrapper = headerTitle.parentElement;
+                if (wrapper && wrapper.classList.contains('header-title-wrapper')) {
+                    const headerLeft = wrapper.parentElement;
+                    headerLeft.insertBefore(headerTitle, wrapper);
+                    wrapper.remove();
+                }
+            }
+
+            // Update grid template based on which tabs are visible
+            const visibleCount = 2 + (prefs.appointments ? 1 : 0) + (prefs.metrics ? 1 : 0); // 2 = settings + meds
+
+            if (visibleCount === 3) {
+                // One tab is hidden, so: auto (settings) + two equal-width tabs
+                tabsContainer.style.gridTemplateColumns = 'auto 1fr 1fr';
+            } else {
+                // Both tabs visible: auto (settings) + three equal-width tabs
+                tabsContainer.style.gridTemplateColumns = 'auto 1fr 1fr 1fr';
+            }
+        }
+    }
+
+    // Toggle visibility of metric sub-options
+    toggleMetricsSubOptions(show) {
+        const subOptions = document.getElementById('metricsSubOptions');
+        if (subOptions) {
+            subOptions.style.display = show ? 'grid' : 'none';
+        }
+    }
+
+    // Update individual metric preference
+    updateMetricPreference(metric, enabled) {
+        const prefs = JSON.parse(localStorage.getItem('metricPreferences') || '{"weight": true, "temperature": true, "bloodpressure": true, "heartrate": true, "bloodsugar": true, "steps": true}');
+        prefs[metric] = enabled;
+        localStorage.setItem('metricPreferences', JSON.stringify(prefs));
+    }
+
+    // Check if a metric is enabled
+    isMetricEnabled(metric) {
+        const prefs = JSON.parse(localStorage.getItem('metricPreferences') || '{"weight": true, "temperature": true, "bloodpressure": true, "heartrate": true, "bloodsugar": true, "steps": true}');
+        return prefs[metric];
+    }
+
+    // Apply metric visibility to form
+    applyMetricVisibility() {
+        // Map of metric keys to their container element parent
+        const metricMap = {
+            'temperature': 'enableTemperature',
+            'bloodpressure': 'enableBloodPressure',
+            'heartrate': 'enableHeartRate',
+            'bloodsugar': 'enableGlucose',
+            'weight': 'enableWeight',
+            'steps': 'enableSteps'
+        };
+
+        Object.entries(metricMap).forEach(([metric, checkboxId]) => {
+            const checkbox = document.getElementById(checkboxId);
+            if (checkbox) {
+                const metricGroup = checkbox.closest('.log-metric-group');
+                if (metricGroup) {
+                    metricGroup.style.display = this.isMetricEnabled(metric) ? 'flex' : 'none';
+                }
+            }
+        });
+    }
+
+    // Generate metrics filter dropdown options based on enabled metrics
+    generateMetricsFilterOptions() {
+        const metricOptions = [
+            { key: 'temperature', filterId: 'filterTemperature', label: 'Temperature' },
+            { key: 'bloodpressure', filterId: 'filterBloodPressure', label: 'Blood Pressure' },
+            { key: 'heartrate', filterId: 'filterHeartRate', label: 'Heart Rate' },
+            { key: 'bloodsugar', filterId: 'filterGlucose', label: 'Blood Glucose' },
+            { key: 'weight', filterId: 'filterWeight', label: 'Weight' },
+            { key: 'steps', filterId: 'filterSteps', label: 'Steps' }
+        ];
+
+        let html = '<div style="margin-bottom: 10px; font-weight: bold; color: #333;">Show Metrics:</div>';
+        html += `
+            <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px; font-weight: 600;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
+                <input type="checkbox" id="filterAll" checked style="width: 18px; height: 18px; cursor: pointer;">
+                <span style="font-size: 1.1rem;">All</span>
+            </label>
+            <div style="height: 1px; background: #ddd; margin: 8px 0;"></div>
+        `;
+
+        // Add only enabled metrics
+        metricOptions.forEach(metric => {
+            if (this.isMetricEnabled(metric.key)) {
+                html += `
+                    <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
+                        <input type="checkbox" id="${metric.filterId}" checked style="width: 18px; height: 18px; cursor: pointer;">
+                        <span style="font-size: 1.1rem;">${metric.label}</span>
+                    </label>
+                `;
+            }
+        });
+
+        // Always show Notes filter
+        html += `
+            <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
+                <input type="checkbox" id="filterNotes" checked style="width: 18px; height: 18px; cursor: pointer;">
+                <span style="font-size: 1.1rem;">Notes</span>
+            </label>
+        `;
+
+        return html;
     }
 
     getWeekStart(date) {

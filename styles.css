@@ -598,7 +598,7 @@ h1 {
 /* Tabs */
 .tabs {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: auto 1fr 1fr 1fr;
     gap: 10px;
     margin-bottom: 20px;
 }
@@ -624,6 +624,16 @@ h1 {
 
 .tab-button:active {
     transform: scale(0.98);
+}
+
+.tab-button.settings-button {
+    font-size: 1.8rem;
+    padding: 18px 22px;
+    min-width: auto;
+}
+
+.tab-button.settings-button:active {
+    transform: scale(0.95);
 }
 
 .tab-content {
@@ -1085,6 +1095,241 @@ h1 {
     border-color: #6b7c93;
 }
 
+/* Settings Section */
+.settings-section {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+.settings-section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.settings-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.settings-option {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    gap: 10px 15px;
+    align-items: start;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.settings-option:hover {
+    border-color: #6b7c93;
+    background: #f8f9fa;
+}
+
+.settings-option input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-top: 2px;
+    grid-row: 1 / 3;
+}
+
+.settings-option-label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.settings-option-desc {
+    font-size: 1rem;
+    color: #666;
+    grid-column: 2;
+    grid-row: 2;
+}
+
+/* Settings Sub-options */
+.settings-sub-options {
+    margin-top: 15px;
+    padding-left: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.settings-sub-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.settings-sub-option:hover {
+    background: #e9ecef;
+    border-color: #6b7c93;
+}
+
+.settings-sub-option input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.settings-sub-option label {
+    font-size: 1.1rem;
+    color: #333;
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Settings Data Management Buttons */
+.settings-data-button {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+    width: 100%;
+}
+
+.settings-data-button:active {
+    transform: scale(0.98);
+}
+
+.settings-data-button.export-button {
+    border-color: #6b7c93;
+}
+
+.settings-data-button.export-button:active {
+    background: #f0f4f8;
+}
+
+.settings-data-button.import-button {
+    border-color: #5cb85c;
+}
+
+.settings-data-button.import-button:active {
+    background: #f0f8f0;
+}
+
+.settings-data-button.clear-button {
+    border-color: #dc3545;
+}
+
+.settings-data-button.clear-button:active {
+    background: #fff0f0;
+}
+
+.settings-data-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+
+.settings-data-content {
+    flex: 1;
+}
+
+.settings-data-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.settings-data-desc {
+    font-size: 1rem;
+    color: #666;
+}
+
+/* Data management modal (legacy - keeping for compatibility) */
+.data-management-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.data-button {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.data-button:active {
+    transform: scale(0.98);
+}
+
+.data-button.export-button {
+    border-color: #6b7c93;
+}
+
+.data-button.export-button:active {
+    background: #f0f4f8;
+}
+
+.data-button.import-button {
+    border-color: #5cb85c;
+}
+
+.data-button.import-button:active {
+    background: #f0f8f0;
+}
+
+.data-button.clear-button {
+    border-color: #dc3545;
+}
+
+.data-button.clear-button:active {
+    background: #fff0f0;
+}
+
+.data-button-icon {
+    font-size: 2.5rem;
+    flex-shrink: 0;
+}
+
+.data-button-content {
+    flex: 1;
+}
+
+.data-button-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.data-button-desc {
+    font-size: 1rem;
+    color: #666;
+}
+
 /* Weekly view modal */
 .weekly-view-content {
     max-width: 90vw;
@@ -1135,9 +1380,10 @@ h1 {
     background: white;
     font-weight: bold;
     padding: 1px;
-    text-align: left;
+    text-align: center;    
+    text-transform: uppercase;
     border-radius: 8px;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 .weekly-time-row {
@@ -1145,13 +1391,15 @@ h1 {
 }
 
 .weekly-time-header-full {
-    color: #6b7c93;
-    background: white;
+    background: #b4bfce;
+    color: white;
     font-weight: bold;
     padding: 0px;
+    text-align: center;
+    text-transform: uppercase;
     margin-bottom: 3px;
     border-radius: 8px;
-    font-size: 1rem;
+    font-size: .7rem;
 }
 
 .weekly-time-columns {
@@ -1210,23 +1458,49 @@ h1 {
         top: 0;
         width: 100%;
         background: white;
+        display: block !important;
+        align-items: flex-start !important;
+        page-break-after: avoid;
     }
 
     .modal-content {
         box-shadow: none;
         max-width: 100%;
         max-height: 100%;
-        padding: 20px;
+        padding: 0;
+        margin: 0;
+        transform: none !important;
+        page-break-after: avoid;
+    }
+
+    .weekly-view-content {
+        page-break-after: avoid;
     }
 
     .weekly-view-header {
         height: 0;
         margin: 0;
+        padding: 0;
         overflow: hidden;
     }
 
     .weekly-nav {
         display: none;
+    }
+
+    .weekly-schedule {
+        page-break-after: avoid;
+        margin-bottom: 0 !important;
+    }
+
+    #weeklyViewContainer {
+        page-break-after: avoid;
+    }
+
+    .weekly-header-row,
+    .weekly-time-row {
+        page-break-inside: avoid;
+        page-break-after: avoid;
     }
 
     @page {

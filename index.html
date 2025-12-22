@@ -15,6 +15,7 @@
     <div class="container">
         <!-- Navigation Tabs -->
         <div class="tabs">
+            <button class="tab-button settings-button" data-tab="settings">⚙️</button>
             <button class="tab-button active" data-tab="medications">Meds</button>
             <button class="tab-button" data-tab="appointments">Appointments</button>
             <button class="tab-button" data-tab="log">Metrics</button>
@@ -62,6 +63,84 @@
             </div>
 
             <button class="add-button" id="addLogButton">+ Add Metrics</button>
+        </div>
+
+        <!-- Settings Section -->
+        <div class="tab-content" id="settingsTab">
+            <div class="settings-section">
+                <h3 class="settings-section-title">Also Track</h3>
+                <div class="settings-options">
+                    <label class="settings-option">
+                        <input type="checkbox" id="trackAppointments" checked>
+                        <span class="settings-option-label">Appointments</span>
+                        <span class="settings-option-desc">Track doctor visits, procedures, and medical appointments</span>
+                    </label>
+                    <label class="settings-option">
+                        <input type="checkbox" id="trackMetrics" checked>
+                        <span class="settings-option-label">Health Metrics</span>
+                        <span class="settings-option-desc">Log vital signs, weight, steps, and other health data</span>
+                    </label>
+                </div>
+
+                <!-- Sub-options for Health Metrics -->
+                <div class="settings-sub-options" id="metricsSubOptions">
+                    <div class="settings-sub-option">
+                        <input type="checkbox" id="metricWeight" checked>
+                        <label for="metricWeight">Weight</label>
+                    </div>
+                    <div class="settings-sub-option">
+                        <input type="checkbox" id="metricTemperature" checked>
+                        <label for="metricTemperature">Temperature</label>
+                    </div>
+                    <div class="settings-sub-option">
+                        <input type="checkbox" id="metricBloodPressure" checked>
+                        <label for="metricBloodPressure">Blood Pressure</label>
+                    </div>
+                    <div class="settings-sub-option">
+                        <input type="checkbox" id="metricHeartRate" checked>
+                        <label for="metricHeartRate">Heart Rate</label>
+                    </div>
+                    <div class="settings-sub-option">
+                        <input type="checkbox" id="metricBloodSugar" checked>
+                        <label for="metricBloodSugar">Blood Sugar</label>
+                    </div>
+                    <div class="settings-sub-option">
+                        <input type="checkbox" id="metricSteps" checked>
+                        <label for="metricSteps">Steps</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 class="settings-section-title">Data Management</h3>
+                <div class="settings-options">
+                    <button class="settings-data-button export-button" id="exportDataButtonSettings">
+                        <span class="settings-data-icon">⬇️</span>
+                        <div class="settings-data-content">
+                            <div class="settings-data-title">Export Data</div>
+                            <div class="settings-data-desc">Download all your data as a backup file</div>
+                        </div>
+                    </button>
+
+                    <button class="settings-data-button import-button" id="importDataButtonSettings">
+                        <span class="settings-data-icon">⬆️</span>
+                        <div class="settings-data-content">
+                            <div class="settings-data-title">Import Data</div>
+                            <div class="settings-data-desc">Restore data from a backup file</div>
+                        </div>
+                    </button>
+
+                    <button class="settings-data-button clear-button" id="clearDataButtonSettings">
+                        <span class="settings-data-icon">🗑️</span>
+                        <div class="settings-data-content">
+                            <div class="settings-data-title">Clear All Data</div>
+                            <div class="settings-data-desc">Delete all medications, logs, and appointments</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <input type="file" id="importFileInputSettings" accept=".json" style="display: none;">
         </div>
     </div>
 
@@ -251,8 +330,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="apptTime">Time</label>
-                    <input type="time" id="apptTime" required>
+                    <label for="apptTime">Time (optional)</label>
+                    <input type="time" id="apptTime">
                 </div>
 
                 <div class="form-group">
@@ -371,6 +450,44 @@
                 </div>
             </div>
             <div id="weeklyViewContainer"></div>
+        </div>
+    </div>
+
+    <!-- Modal for data management -->
+    <div class="modal" id="dataModal">
+        <div class="modal-content">
+            <h2>Data Management</h2>
+            <div class="data-management-options">
+                <button class="data-button export-button" id="exportDataButton">
+                    <span class="data-button-icon">⬇️</span>
+                    <div class="data-button-content">
+                        <div class="data-button-title">Export Data</div>
+                        <div class="data-button-desc">Download all your data as a backup file</div>
+                    </div>
+                </button>
+
+                <button class="data-button import-button" id="importDataButton">
+                    <span class="data-button-icon">⬆️</span>
+                    <div class="data-button-content">
+                        <div class="data-button-title">Import Data</div>
+                        <div class="data-button-desc">Restore data from a backup file</div>
+                    </div>
+                </button>
+
+                <button class="data-button clear-button" id="clearDataButton">
+                    <span class="data-button-icon">🗑️</span>
+                    <div class="data-button-content">
+                        <div class="data-button-title">Clear All Data</div>
+                        <div class="data-button-desc">Delete all medications, logs, and appointments</div>
+                    </div>
+                </button>
+            </div>
+
+            <input type="file" id="importFileInput" accept=".json" style="display: none;">
+
+            <div class="form-buttons">
+                <button type="button" class="cancel-button" id="dataModalCloseButton">Close</button>
+            </div>
         </div>
     </div>
 
