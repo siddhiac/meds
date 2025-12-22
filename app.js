@@ -759,7 +759,17 @@ class HealthTracker {
                 break;
 
             case 'settings':
-                headerTitle.textContent = 'Settings';
+                // Replace header title with app info
+                headerTitle.innerHTML = `
+                    <div class="header-app-info">
+                        <img src="favicon.png" alt="App Icon" class="header-app-icon">
+                        <div class="header-app-details">
+                            <div class="header-app-name">Meds Tracker</div>
+                            <div class="header-app-version">Version 1.0.0 — December 22, 2025</div>
+                            <div class="header-app-author">by Sid Cooperrider</div>
+                        </div>
+                    </div>
+                `;
                 datePickerContainer.style.display = 'none';
 
                 // Sync checkbox states with localStorage

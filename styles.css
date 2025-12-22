@@ -47,6 +47,43 @@ h1 {
     text-align: left;
 }
 
+/* Header App Info for Settings */
+.header-app-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-app-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.header-app-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-app-name {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.header-app-version {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+.header-app-author {
+    font-size: 1rem;
+    color: #999;
+    margin-top: 3px;
+}
+
 .date {
     font-size: 1.3rem;
     color: #666;
@@ -1109,6 +1146,49 @@ h1 {
     font-weight: bold;
     color: #333;
     margin-bottom: 20px;
+}
+
+/* App Info Section */
+.app-info-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.app-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.app-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.app-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.app-name {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.app-version {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+.app-author {
+    font-size: 1rem;
+    color: #999;
+    margin-top: 3px;
 }
 
 .settings-options {
