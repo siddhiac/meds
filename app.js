@@ -1781,31 +1781,60 @@ class HealthTracker {
     }
 
     // Export all data to JSON file
-    exportData() {
+    async exportData() {
         const data = {
             medications: this.medications,
             dailyLogs: JSON.parse(localStorage.getItem('dailyLogs') || '{}'),
             asNeededLogs: JSON.parse(localStorage.getItem('asNeededLogs') || '[]'),
             appointments: this.appointments,
             logs: this.logs,
+            metricPreferences: JSON.parse(localStorage.getItem('metricPreferences') || '{}'),
+            trackAppointments: localStorage.getItem('trackAppointments') === 'true',
+            trackMetrics: localStorage.getItem('trackMetrics') === 'true',
             exportDate: new Date().toISOString(),
             version: '1.0'
         };
 
         const dataStr = JSON.stringify(data, null, 2);
+        const timestamp = new Date().toISOString().split('T')[0];
+        const filename = `meds-backup-${timestamp}.json`;
+
+        // Try to use Web Share API (works well on iOS)
+        if (navigator.share && navigator.canShare) {
+            try {
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const file = new File([blob], filename, { type: 'application/json' });
+
+                if (navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        files: [file],
+                        title: 'Meds Tracker Backup',
+                        text: 'Your medication tracker backup file'
+                    });
+                    return;
+                }
+            } catch (err) {
+                if (err.name === 'AbortError') {
+                    // User cancelled the share, don't show an error
+                    return;
+                }
+                console.log('Share failed, falling back to download:', err);
+            }
+        }
+
+        // Fallback: traditional download method
         const blob = new Blob([dataStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
 
         const a = document.createElement('a');
         a.href = url;
-        const timestamp = new Date().toISOString().split('T')[0];
-        a.download = `meds-backup-${timestamp}.json`;
+        a.download = filename;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        alert('Data exported successfully!');
+        alert('Data exported successfully! On iOS, you may need to long-press the downloaded file and choose "Save to Files" to keep it.');
     }
 
     // Import data from JSON file
@@ -1839,6 +1868,17 @@ class HealthTracker {
                 localStorage.setItem('asNeededLogs', JSON.stringify(data.asNeededLogs || []));
                 localStorage.setItem('appointments', JSON.stringify(data.appointments || []));
                 localStorage.setItem('logs', JSON.stringify(data.logs || []));
+
+                // Import settings
+                if (data.metricPreferences) {
+                    localStorage.setItem('metricPreferences', JSON.stringify(data.metricPreferences));
+                }
+                if (data.trackAppointments !== undefined) {
+                    localStorage.setItem('trackAppointments', data.trackAppointments.toString());
+                }
+                if (data.trackMetrics !== undefined) {
+                    localStorage.setItem('trackMetrics', data.trackMetrics.toString());
+                }
 
                 // Reload the page to refresh all data
                 alert('Data imported successfully! The page will now reload.');
