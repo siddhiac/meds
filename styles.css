@@ -1238,6 +1238,26 @@ h1 {
     grid-row: 2;
 }
 
+/* Language Select */
+.language-select {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2rem;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+}
+
+.language-select:focus {
+    outline: none;
+    border-color: #6b7c93;
+    box-shadow: 0 0 0 3px rgba(107, 124, 147, 0.1);
+}
+
 /* Settings Sub-options */
 .settings-sub-options {
     margin-top: 15px;
