@@ -1630,6 +1630,135 @@ h1 {
     }
 }
 
+/* iOS Install Modal */
+.ios-install-content {
+    max-width: 600px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.ios-install-intro {
+    background: #e3f2fd;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    border-left: 4px solid #2196f3;
+}
+
+.ios-install-intro p {
+    font-size: 1.15rem;
+    color: #1565c0;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.ios-install-steps,
+.ios-install-data-transfer,
+.ios-install-benefits {
+    margin-bottom: 25px;
+}
+
+.ios-install-steps h3,
+.ios-install-data-transfer h3,
+.ios-install-benefits h3 {
+    font-size: 1.4rem;
+    color: #6b7c93;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.ios-install-steps ol,
+.ios-install-data-transfer ol {
+    list-style: none;
+    counter-reset: step-counter;
+    padding-left: 0;
+}
+
+.ios-install-steps ol li,
+.ios-install-data-transfer ol li {
+    counter-increment: step-counter;
+    margin-bottom: 20px;
+    padding-left: 45px;
+    position: relative;
+}
+
+.ios-install-steps ol li::before,
+.ios-install-data-transfer ol li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #6b7c93;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.ios-install-steps ol li strong,
+.ios-install-data-transfer ol li strong {
+    display: block;
+    font-size: 1.15rem;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.ios-instruction-detail {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+    margin-top: 6px;
+}
+
+.share-icon {
+    display: inline-block;
+    font-size: 1.3rem;
+    color: #2196f3;
+    font-weight: bold;
+    padding: 2px 6px;
+    background: #e3f2fd;
+    border-radius: 4px;
+}
+
+.ios-install-data-transfer p {
+    font-size: 1.05rem;
+    color: #555;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.ios-install-benefits ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.ios-install-benefits ul li {
+    padding: 10px 15px 10px 40px;
+    margin-bottom: 8px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    position: relative;
+    font-size: 1.05rem;
+    color: #444;
+}
+
+.ios-install-benefits ul li::before {
+    content: "✓";
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #4caf50;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
 /* iPad specific optimizations */
 @media (min-width: 768px) {
     h1 {

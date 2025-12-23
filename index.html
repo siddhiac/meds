@@ -143,6 +143,19 @@
                 </div>
             </div>
 
+            <div class="settings-section" id="iosInstallSection" style="display: none;">
+                <h3 class="settings-section-title">App Installation</h3>
+                <div class="settings-options">
+                    <button class="settings-data-button" id="showiOSInstallButton" style="border-color: #2196f3;">
+                        <span class="settings-data-icon">📱</span>
+                        <div class="settings-data-content">
+                            <div class="settings-data-title">Install as Home Screen App</div>
+                            <div class="settings-data-desc">Learn how to add this app to your home screen</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
             <input type="file" id="importFileInputSettings" accept=".json" style="display: none;">
         </div>
     </div>
@@ -490,6 +503,61 @@
 
             <div class="form-buttons">
                 <button type="button" class="cancel-button" id="dataModalCloseButton">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for iOS Installation Instructions -->
+    <div class="modal" id="iosInstallModal">
+        <div class="modal-content ios-install-content">
+            <h2>Install Meds Tracker as an App</h2>
+
+            <div class="ios-install-intro">
+                <p>You're currently using Meds Tracker in Safari. For a better experience, install it as a standalone app on your home screen!</p>
+            </div>
+
+            <div class="ios-install-steps">
+                <h3>How to Install:</h3>
+                <ol>
+                    <li>
+                        <strong>Tap the Share button</strong>
+                        <div class="ios-instruction-detail">Look for the <span class="share-icon">⎋</span> icon at the bottom of Safari (iPhone) or top (iPad)</div>
+                    </li>
+                    <li>
+                        <strong>Scroll and tap "Add to Home Screen"</strong>
+                        <div class="ios-instruction-detail">You may need to scroll down in the share menu to find this option</div>
+                    </li>
+                    <li>
+                        <strong>Tap "Add"</strong>
+                        <div class="ios-instruction-detail">The app will appear on your home screen with its icon</div>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="ios-install-data-transfer">
+                <h3>Transfer Your Data:</h3>
+                <p>If you already have medications and data in Safari:</p>
+                <ol>
+                    <li>Before installing, go to <strong>Settings → Export Data</strong></li>
+                    <li>Save the backup file to Files app or iCloud Drive</li>
+                    <li>After installing the app, open it and go to <strong>Settings → Import Data</strong></li>
+                    <li>Select your backup file to restore everything</li>
+                </ol>
+            </div>
+
+            <div class="ios-install-benefits">
+                <h3>Benefits:</h3>
+                <ul>
+                    <li>Faster access from your home screen</li>
+                    <li>Full-screen experience without browser bars</li>
+                    <li>Works like a native app</li>
+                    <li>Separate from Safari browsing</li>
+                </ul>
+            </div>
+
+            <div class="form-buttons">
+                <button type="button" class="cancel-button" onclick="tracker.closeiOSInstallModal(true)">Don't Show Again</button>
+                <button type="button" class="save-button" onclick="tracker.closeiOSInstallModal(false)">Got It</button>
             </div>
         </div>
     </div>

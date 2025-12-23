@@ -39,6 +39,7 @@ class HealthTracker {
         this.attachEventListeners();
         this.applyTrackingPreferences(); // Apply saved tracking preferences
         this.checkNewDay();
+        this.checkiOSInstallPrompt(); // Check if we should show iOS install instructions
     }
 
     // Get date as YYYY-MM-DD string
@@ -2293,6 +2294,60 @@ class HealthTracker {
         }
 
         return false;
+    }
+
+    // Check if running on iOS Safari (not standalone) and show install prompt
+    checkiOSInstallPrompt() {
+        // Check if we're on iOS
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+        // If on iOS, show the install button in Settings
+        if (isIOS) {
+            const installSection = document.getElementById('iosInstallSection');
+            if (installSection) {
+                installSection.style.display = 'block';
+            }
+
+            // Add event listener for manual trigger
+            const installButton = document.getElementById('showiOSInstallButton');
+            if (installButton) {
+                installButton.addEventListener('click', () => {
+                    this.showiOSInstallModal();
+                });
+            }
+        }
+
+        // Check if we're NOT running as standalone (i.e., we're in Safari)
+        const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+
+        // Check if user has dismissed this prompt before
+        const hasSeenPrompt = localStorage.getItem('hasSeeniOSInstallPrompt') === 'true';
+
+        // Show prompt if on iOS, not standalone, and hasn't seen it before
+        if (isIOS && !isStandalone && !hasSeenPrompt) {
+            // Wait a bit before showing to avoid overwhelming on first load
+            setTimeout(() => {
+                this.showiOSInstallModal();
+            }, 2000);
+        }
+    }
+
+    showiOSInstallModal() {
+        const modal = document.getElementById('iosInstallModal');
+        if (modal) {
+            modal.classList.add('active');
+        }
+    }
+
+    closeiOSInstallModal(rememberChoice = false) {
+        const modal = document.getElementById('iosInstallModal');
+        if (modal) {
+            modal.classList.remove('active');
+        }
+
+        if (rememberChoice) {
+            localStorage.setItem('hasSeeniOSInstallPrompt', 'true');
+        }
     }
 }
 
