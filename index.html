@@ -211,6 +211,8 @@
                     </div>
                 </div>
 
+
+
                 <div class="form-group">
                     <label for="medFrequency">How Often?</label>
                     <select id="medFrequency" required>
@@ -253,6 +255,13 @@
                     <input type="date" id="medStartDate" required>
                 </div>
 
+                <div class="form-group" id="startTimeGroup" style="display: none;">
+                    <label for="medStartTime">Start Time</label>
+                    <select id="medStartTime">
+                        <!-- Options will be populated dynamically based on selected times -->
+                    </select>
+                </div>
+
                 <div class="form-group">
                     <label for="medDuration">Duration</label>
                     <select id="medDuration" required>
@@ -260,12 +269,18 @@
                         <option value="weeks">For a number of weeks</option>
                         <option value="months">For a number of months</option>
                         <option value="end-date">Until a specific date</option>
+                        <option value="bottle-doses">Until all taken</option>
                     </select>
                 </div>
 
                 <div class="form-group" id="durationNumberGroup" style="display: none;">
                     <label for="medDurationNumber">Number of <span id="durationUnit">weeks</span></label>
                     <input type="number" id="medDurationNumber" min="1" placeholder="e.g., 4">
+                </div>
+
+                <div class="form-group" id="bottleDosesGroup" style="display: none;">
+                    <label for="medBottleDoses">Number of doses in bottle</label>
+                    <input type="number" id="medBottleDoses" min="1" placeholder="e.g., 10">
                 </div>
 
                 <div class="form-group" id="endDateGroup" style="display: none;">
@@ -278,10 +293,11 @@
                     <input type="text" id="medNotes" placeholder="With food, etc.">
                 </div>
 
-                <div class="form-buttons">
+                <div class="form-buttons" id="medFormButtons">
                     <button type="button" class="cancel-button" id="medCancelButton">Cancel</button>
                     <button type="submit" class="save-button">Save</button>
                 </div>
+                <button type="button" class="stop-med-button" id="stopMedButton" style="display: none;">Stop Medication</button>
             </form>
         </div>
     </div>

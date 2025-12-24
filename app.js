@@ -130,7 +130,9 @@ class HealthTracker {
 
         // Check if medication has started
         if (med.schedule && med.schedule.startDate) {
-            const startDate = new Date(med.schedule.startDate);
+            // Parse date string as local date (YYYY-MM-DD format)
+            const [year, month, day] = med.schedule.startDate.split('-').map(Number);
+            const startDate = new Date(year, month - 1, day);
             startDate.setHours(0, 0, 0, 0);
             const todayDate = new Date(today);
             todayDate.setHours(0, 0, 0, 0);
@@ -141,7 +143,8 @@ class HealthTracker {
 
         // Check if medication has ended
         if (med.schedule && med.schedule.endDate) {
-            const endDate = new Date(med.schedule.endDate);
+            const [year, month, day] = med.schedule.endDate.split('-').map(Number);
+            const endDate = new Date(year, month - 1, day);
             endDate.setHours(23, 59, 59, 999);
             const todayDate = new Date(today);
             todayDate.setHours(0, 0, 0, 0);
@@ -157,8 +160,18 @@ class HealthTracker {
 
         if (med.schedule.frequency === 'every-other-day') {
             // Use startDate to determine pattern
-            const startDate = med.schedule.startDate ? new Date(med.schedule.startDate) : new Date(med.createdAt);
-            const daysDiff = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+            let startDate;
+            if (med.schedule.startDate) {
+                const [year, month, day] = med.schedule.startDate.split('-').map(Number);
+                startDate = new Date(year, month - 1, day);
+                startDate.setHours(0, 0, 0, 0);
+            } else {
+                startDate = new Date(med.createdAt);
+                startDate.setHours(0, 0, 0, 0);
+            }
+            const todayDate = new Date(today);
+            todayDate.setHours(0, 0, 0, 0);
+            const daysDiff = Math.floor((todayDate - startDate) / (1000 * 60 * 60 * 24));
             return daysDiff % 2 === 0;
         }
 
@@ -174,19 +187,153 @@ class HealthTracker {
     }
 
     // Expand medications with multiple times into individual entries
-    expandMedications() {
+    expandMedications(forDate = null) {
         const expanded = [];
+        const timeOrder = { 'Morning': 0, 'Afternoon': 1, 'Evening': 2, 'Bedtime': 3 };
+
+        // Use provided date or fall back to selectedDate
+        const targetDate = forDate || this.selectedDate;
+
         this.medications.forEach(med => {
             const times = med.times || [med.time]; // Support old format
-            times.forEach(time => {
-                expanded.push({
-                    ...med,
-                    time: time,
-                    displayId: `${med.id}-${time}` // Unique ID for this time slot
+
+            // Calculate days from start and end
+            let isStartDay = false;
+            let isEndDay = false;
+            let daysDiffFromStart = 0;
+
+            if (med.schedule && med.schedule.startDate) {
+                const [year, month, day] = med.schedule.startDate.split('-').map(Number);
+                const startDate = new Date(year, month - 1, day);
+                startDate.setHours(0, 0, 0, 0);
+
+                const todayDate = new Date(targetDate);
+                todayDate.setHours(0, 0, 0, 0);
+
+                daysDiffFromStart = Math.floor((todayDate - startDate) / (1000 * 60 * 60 * 24));
+                isStartDay = daysDiffFromStart === 0;
+            }
+
+            if (med.schedule && med.schedule.endDate) {
+                const [year, month, day] = med.schedule.endDate.split('-').map(Number);
+                const endDate = new Date(year, month - 1, day);
+                endDate.setHours(0, 0, 0, 0);
+
+                const todayDate = new Date(targetDate);
+                todayDate.setHours(0, 0, 0, 0);
+
+                const daysDiffFromEnd = Math.floor((todayDate - endDate) / (1000 * 60 * 60 * 24));
+                isEndDay = daysDiffFromEnd === 0;
+            }
+
+            // For medications with a start time or last day doses, filter times appropriately
+            const hasStartTimeFiltering = med.schedule && med.schedule.startTime && times.length > 1 && isStartDay;
+            const hasEndDayFiltering = med.schedule && med.schedule.lastDayDoses && times.length > 1 && isEndDay;
+
+            if (hasStartTimeFiltering || hasEndDayFiltering) {
+                const startTimeIndex = hasStartTimeFiltering ? timeOrder[med.schedule.startTime] : -1;
+                const lastDayDoses = hasEndDayFiltering ? med.schedule.lastDayDoses : times.length;
+
+                times.forEach(time => {
+                    const timeIndex = timeOrder[time];
+
+                    // On the start date, only show times from start time onward
+                    if (isStartDay && hasStartTimeFiltering && timeIndex < startTimeIndex) {
+                        return; // Skip this time
+                    }
+
+                    // On the end date, only show the first N times based on lastDayDoses
+                    if (isEndDay && hasEndDayFiltering && timeIndex >= lastDayDoses) {
+                        return; // Skip this time
+                    }
+
+                    expanded.push({
+                        ...med,
+                        time: time,
+                        displayId: `${med.id}-${time}` // Unique ID for this time slot
+                    });
                 });
-            });
+            } else {
+                // Normal expansion for all other medications
+                times.forEach(time => {
+                    expanded.push({
+                        ...med,
+                        time: time,
+                        displayId: `${med.id}-${time}` // Unique ID for this time slot
+                    });
+                });
+            }
         });
         return expanded;
+    }
+
+    // Calculate end date based on bottle doses
+    calculateEndDateFromDoses(startDateStr, totalDoses, times, frequency, schedule) {
+        const timeOrder = { 'Morning': 0, 'Afternoon': 1, 'Evening': 2, 'Bedtime': 3 };
+        const [year, month, day] = startDateStr.split('-').map(Number);
+        let currentDate = new Date(year, month - 1, day);
+        currentDate.setHours(0, 0, 0, 0);
+
+        let dosesRemaining = totalDoses;
+        let dayCount = 0;
+        const maxDays = 1000; // Safety limit to prevent infinite loops
+
+        // If there's a start time, we need to account for partial first day
+        if (schedule.startTime && times.length > 1) {
+            const startTimeIndex = timeOrder[schedule.startTime];
+            // Count how many doses are taken on the first day (from startTime onward)
+            const firstDayDoses = times.filter(time => timeOrder[time] >= startTimeIndex).length;
+            dosesRemaining -= firstDayDoses;
+            dayCount = 1;
+        }
+
+        // Determine doses per scheduled day based on frequency
+        const dosesPerDay = times.length;
+        let lastDayDoses = dosesPerDay; // Track how many doses on the last day
+
+        while (dosesRemaining > 0 && dayCount < maxDays) {
+            // Move to next day
+            currentDate.setDate(currentDate.getDate() + 1);
+            dayCount++;
+
+            // Check if medication is scheduled for this day
+            let isScheduledDay = false;
+
+            if (frequency === 'daily') {
+                isScheduledDay = true;
+            } else if (frequency === 'every-other-day') {
+                // For every-other-day, count days from start
+                const daysSinceStart = Math.floor((currentDate - new Date(year, month - 1, day)) / (1000 * 60 * 60 * 24));
+                isScheduledDay = daysSinceStart % 2 === 0;
+            } else if (frequency === 'mwf') {
+                const dayOfWeek = currentDate.getDay();
+                isScheduledDay = dayOfWeek === 1 || dayOfWeek === 3 || dayOfWeek === 5;
+            } else if (frequency === 'custom-days' && schedule.days) {
+                const dayOfWeek = currentDate.getDay();
+                isScheduledDay = schedule.days.includes(dayOfWeek);
+            }
+
+            if (isScheduledDay) {
+                // Check if we can take all doses this day or just partial
+                if (dosesRemaining <= dosesPerDay) {
+                    // This is the last day - we'll take however many doses remain
+                    lastDayDoses = dosesRemaining;
+                    dosesRemaining = 0;
+                    break;
+                } else {
+                    dosesRemaining -= dosesPerDay;
+                }
+            }
+        }
+
+        // Return the date in YYYY-MM-DD format
+        const endYear = currentDate.getFullYear();
+        const endMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const endDay = String(currentDate.getDate()).padStart(2, '0');
+        return {
+            endDate: `${endYear}-${endMonth}-${endDay}`,
+            lastDayDoses: lastDayDoses
+        };
     }
 
     // Render all medications
@@ -200,8 +347,10 @@ class HealthTracker {
         const activeMeds = expanded.filter(med => {
             // Check if medication has ended
             if (med.schedule && med.schedule.endDate) {
-                const endDate = new Date(med.schedule.endDate);
-                const today = new Date();
+                const [year, month, day] = med.schedule.endDate.split('-').map(Number);
+                const endDate = new Date(year, month - 1, day);
+                endDate.setHours(0, 0, 0, 0);
+                const today = new Date(this.selectedDate);
                 today.setHours(0, 0, 0, 0);
                 return endDate >= today;
             }
@@ -280,7 +429,8 @@ class HealthTracker {
         }
 
         if (schedule.endDate) {
-            const endDate = new Date(schedule.endDate);
+            const [year, month, day] = schedule.endDate.split('-').map(Number);
+            const endDate = new Date(year, month - 1, day);
             const formatted = endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             desc += ` • Until ${formatted}`;
         } else if (schedule.duration) {
@@ -382,6 +532,10 @@ class HealthTracker {
             this.closeMedModal();
         });
 
+        document.getElementById('stopMedButton').addEventListener('click', () => {
+            this.stopMedication();
+        });
+
         document.getElementById('medForm').addEventListener('submit', (e) => {
             e.preventDefault();
             this.saveMedication();
@@ -457,19 +611,34 @@ class HealthTracker {
         document.getElementById('medDuration').addEventListener('change', (e) => {
             const durationNumberGroup = document.getElementById('durationNumberGroup');
             const endDateGroup = document.getElementById('endDateGroup');
+            const bottleDosesGroup = document.getElementById('bottleDosesGroup');
             const durationUnit = document.getElementById('durationUnit');
 
             if (e.target.value === 'weeks' || e.target.value === 'months') {
                 durationNumberGroup.style.display = 'block';
                 endDateGroup.style.display = 'none';
+                bottleDosesGroup.style.display = 'none';
                 durationUnit.textContent = e.target.value;
             } else if (e.target.value === 'end-date') {
                 durationNumberGroup.style.display = 'none';
                 endDateGroup.style.display = 'block';
+                bottleDosesGroup.style.display = 'none';
+            } else if (e.target.value === 'bottle-doses') {
+                durationNumberGroup.style.display = 'none';
+                endDateGroup.style.display = 'none';
+                bottleDosesGroup.style.display = 'block';
             } else {
                 durationNumberGroup.style.display = 'none';
                 endDateGroup.style.display = 'none';
+                bottleDosesGroup.style.display = 'none';
             }
+        });
+
+        // Update start time dropdown when time checkboxes change
+        document.querySelectorAll('input[name="medTimes"]').forEach(checkbox => {
+            checkbox.addEventListener('change', () => {
+                this.updateStartTimeOptions();
+            });
         });
 
         // Log entry modal
@@ -831,6 +1000,14 @@ class HealthTracker {
                 cb.checked = times.includes(cb.value);
             });
 
+            // Update start time options based on selected times
+            this.updateStartTimeOptions();
+
+            // Set start time if it exists
+            if (medication.schedule && medication.schedule.startTime) {
+                document.getElementById('medStartTime').value = medication.schedule.startTime;
+            }
+
             // Populate schedule fields
             if (medication.schedule) {
                 document.getElementById('medFrequency').value = medication.schedule.frequency || 'daily';
@@ -852,10 +1029,15 @@ class HealthTracker {
                 } else if (medication.schedule.durationType === 'end-date' && medication.schedule.endDate) {
                     document.getElementById('endDateGroup').style.display = 'block';
                     document.getElementById('medEndDate').value = medication.schedule.endDate;
+                } else if (medication.schedule.durationType === 'bottle-doses' && medication.schedule.bottleDoses) {
+                    document.getElementById('bottleDosesGroup').style.display = 'block';
+                    document.getElementById('medBottleDoses').value = medication.schedule.bottleDoses;
                 }
             }
 
             this.editingId = medication.id;
+            // Show stop button when editing
+            document.getElementById('stopMedButton').style.display = 'block';
         } else {
             document.getElementById('medModalTitle').textContent = 'Add Medication';
             form.reset();
@@ -865,9 +1047,12 @@ class HealthTracker {
             document.getElementById('customDaysGroup').style.display = 'none';
             document.getElementById('durationNumberGroup').style.display = 'none';
             document.getElementById('endDateGroup').style.display = 'none';
+            document.getElementById('bottleDosesGroup').style.display = 'none';
             // Set default start date to today
             document.getElementById('medStartDate').value = new Date().toISOString().split('T')[0];
             this.editingId = null;
+            // Hide stop button when adding new medication
+            document.getElementById('stopMedButton').style.display = 'none';
         }
 
         modal.classList.add('active');
@@ -877,6 +1062,65 @@ class HealthTracker {
         document.getElementById('medModal').classList.remove('active');
         document.getElementById('medForm').reset();
         this.editingId = null;
+    }
+
+    stopMedication() {
+        if (!this.editingId) return;
+
+        if (confirm('Stop this medication? This will set the end date to yesterday, removing all future doses.')) {
+            const index = this.medications.findIndex(m => m.id === this.editingId);
+            if (index > -1) {
+                const med = this.medications[index];
+
+                // Set end date to yesterday to stop all future instances
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                const endDateStr = yesterday.toISOString().split('T')[0];
+
+                // Initialize schedule if it doesn't exist
+                if (!med.schedule) {
+                    med.schedule = {
+                        frequency: 'daily',
+                        startDate: new Date().toISOString().split('T')[0]
+                    };
+                }
+
+                // Set end date and duration type
+                med.schedule.endDate = endDateStr;
+                med.schedule.durationType = 'end-date';
+
+                // Remove bottle doses fields if they exist
+                delete med.schedule.bottleDoses;
+                delete med.schedule.lastDayDoses;
+
+                this.saveMedications();
+                this.closeMedModal();
+                this.renderMedications();
+                this.renderMedList();
+            }
+        }
+    }
+
+    // Update the start time dropdown options based on selected times
+    updateStartTimeOptions() {
+        const selectedTimes = Array.from(document.querySelectorAll('input[name="medTimes"]:checked'))
+            .map(cb => cb.value);
+
+        const startTimeGroup = document.getElementById('startTimeGroup');
+        const startTimeSelect = document.getElementById('medStartTime');
+
+        // Show start time selector only if more than one time is selected
+        if (selectedTimes.length > 1) {
+            startTimeGroup.style.display = 'block';
+
+            // Populate options
+            startTimeSelect.innerHTML = selectedTimes
+                .map(time => `<option value="${time}">${time}</option>`)
+                .join('');
+        } else {
+            startTimeGroup.style.display = 'none';
+            startTimeSelect.innerHTML = '';
+        }
     }
 
     // Open medication list modal
@@ -903,7 +1147,8 @@ class HealthTracker {
             if (!med.schedule || !med.schedule.endDate) {
                 return true;
             }
-            const endDate = new Date(med.schedule.endDate);
+            const [year, month, day] = med.schedule.endDate.split('-').map(Number);
+            const endDate = new Date(year, month - 1, day);
             endDate.setHours(0, 0, 0, 0);
             return endDate >= today;
         });
@@ -958,7 +1203,8 @@ class HealthTracker {
 
         // Start date
         if (schedule.startDate) {
-            const startDate = new Date(schedule.startDate);
+            const [year, month, day] = schedule.startDate.split('-').map(Number);
+            const startDate = new Date(year, month - 1, day);
             desc += ` • Starts ${startDate.toLocaleDateString()}`;
         }
 
@@ -968,8 +1214,16 @@ class HealthTracker {
         } else if (schedule.durationType === 'months') {
             desc += ` • ${schedule.durationNumber} months`;
         } else if (schedule.durationType === 'end-date' && schedule.endDate) {
-            const endDate = new Date(schedule.endDate);
+            const [eYear, eMonth, eDay] = schedule.endDate.split('-').map(Number);
+            const endDate = new Date(eYear, eMonth - 1, eDay);
             desc += ` • Until ${endDate.toLocaleDateString()}`;
+        } else if (schedule.durationType === 'bottle-doses' && schedule.bottleDoses) {
+            desc += ` • ${schedule.bottleDoses} doses`;
+            if (schedule.endDate) {
+                const [eYear, eMonth, eDay] = schedule.endDate.split('-').map(Number);
+                const endDate = new Date(eYear, eMonth - 1, eDay);
+                desc += ` (until ${endDate.toLocaleDateString()})`;
+            }
         } else if (schedule.durationType === 'ongoing') {
             desc += ' • Ongoing';
         }
@@ -1021,6 +1275,14 @@ class HealthTracker {
             startDate: startDate
         };
 
+        // Add start time if multiple times are selected
+        if (selectedTimes.length > 1) {
+            const startTime = document.getElementById('medStartTime').value;
+            if (startTime) {
+                schedule.startTime = startTime;
+            }
+        }
+
         // Handle custom days
         if (frequency === 'custom-days') {
             const selectedDays = Array.from(document.querySelectorAll('input[name="medDays"]:checked'))
@@ -1056,6 +1318,18 @@ class HealthTracker {
                 return;
             }
             schedule.endDate = endDate;
+        } else if (durationType === 'bottle-doses') {
+            const bottleDoses = parseInt(document.getElementById('medBottleDoses').value);
+            if (!bottleDoses || bottleDoses < 1) {
+                alert('Please enter the number of doses in the bottle');
+                return;
+            }
+            schedule.bottleDoses = bottleDoses;
+
+            // Calculate end date based on doses and frequency
+            const result = this.calculateEndDateFromDoses(startDate, bottleDoses, selectedTimes, frequency, schedule);
+            schedule.endDate = result.endDate;
+            schedule.lastDayDoses = result.lastDayDoses;
         }
 
         if (this.editingId) {
@@ -2204,7 +2478,7 @@ class HealthTracker {
         let html = '';
 
         // Get all medications expanded for this specific date
-        const expanded = this.expandMedications();
+        const expanded = this.expandMedications(date);
 
         // Filter medications that are scheduled for this date
         const activeMeds = expanded.filter(med => {
@@ -2214,14 +2488,16 @@ class HealthTracker {
 
             // Check if medication has started
             if (med.schedule && med.schedule.startDate) {
-                const startDate = new Date(med.schedule.startDate);
+                const [year, month, day] = med.schedule.startDate.split('-').map(Number);
+                const startDate = new Date(year, month - 1, day);
                 startDate.setHours(0, 0, 0, 0);
                 if (checkDate < startDate) return false;
             }
 
             // Check if medication has ended
             if (med.schedule && med.schedule.endDate) {
-                const endDate = new Date(med.schedule.endDate);
+                const [year, month, day] = med.schedule.endDate.split('-').map(Number);
+                const endDate = new Date(year, month - 1, day);
                 endDate.setHours(23, 59, 59, 999);
                 if (checkDate > endDate) return false;
             }
@@ -2232,7 +2508,15 @@ class HealthTracker {
             }
 
             if (med.schedule.frequency === 'every-other-day') {
-                const startDate = med.schedule.startDate ? new Date(med.schedule.startDate) : new Date(med.createdAt);
+                let startDate;
+                if (med.schedule.startDate) {
+                    const [year, month, day] = med.schedule.startDate.split('-').map(Number);
+                    startDate = new Date(year, month - 1, day);
+                    startDate.setHours(0, 0, 0, 0);
+                } else {
+                    startDate = new Date(med.createdAt);
+                    startDate.setHours(0, 0, 0, 0);
+                }
                 const daysDiff = Math.floor((checkDate - startDate) / (1000 * 60 * 60 * 24));
                 return daysDiff % 2 === 0;
             }
@@ -2268,14 +2552,21 @@ class HealthTracker {
     isMedScheduledForDate(med, date) {
         const dateStr = this.getDateString(date);
         const medDate = new Date(date);
-        const startDate = new Date(med.startDate);
+        medDate.setHours(0, 0, 0, 0);
+
+        // Parse start date as local date
+        const [year, month, day] = med.startDate.split('-').map(Number);
+        const startDate = new Date(year, month - 1, day);
+        startDate.setHours(0, 0, 0, 0);
 
         // Check if date is before start
         if (medDate < startDate) return false;
 
         // Check if date is after end
         if (med.endDate) {
-            const endDate = new Date(med.endDate);
+            const [eYear, eMonth, eDay] = med.endDate.split('-').map(Number);
+            const endDate = new Date(eYear, eMonth - 1, eDay);
+            endDate.setHours(23, 59, 59, 999);
             if (medDate > endDate) return false;
         }
 
