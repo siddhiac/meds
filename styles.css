@@ -1167,6 +1167,104 @@ h1 {
     margin-bottom: 20px;
 }
 
+.settings-section-desc {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Time Settings */
+.time-settings {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.time-setting-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.time-setting-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.time-setting-input {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.time-setting-input:focus {
+    outline: none;
+    border-color: #6b7c93;
+}
+
+.time-setting-input::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+/* Alarm Settings */
+.alarm-sounds-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.alarm-sound-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.alarm-sound-select {
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: white;
+    width: 100%;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.alarm-sound-select:focus {
+    outline: none;
+    border-color: #6b7c93;
+}
+
+.test-alarm-button {
+    padding: 10px 16px;
+    background: white;
+    border: 2px solid #6b7c93;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6b7c93;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.test-alarm-button:hover {
+    background: #6b7c93;
+    color: white;
+}
+
+.test-alarm-button:active {
+    transform: scale(0.98);
+}
+
 /* App Info Section */
 .app-info-section {
     display: flex;
@@ -1629,10 +1727,27 @@ h1 {
 }
 
 /* Responsive adjustments for smaller screens */
+/* Mobile styles for phones */
 @media (max-width: 600px) {
+    /* Reduce overall spacing */
+    body {
+        padding: 8px;
+    }
+
+    header {
+        padding: 15px;
+        margin-bottom: 15px;
+        gap: 12px;
+    }
+
+    /* Stack header items vertically */
     header {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .header-left {
+        width: 100%;
     }
 
     .header-actions {
@@ -1640,12 +1755,143 @@ h1 {
         justify-content: stretch;
     }
 
+    /* Make buttons fill width on mobile */
     .action-button {
         flex: 1;
+        font-size: 1rem;
+        padding: 12px 16px;
     }
 
+    /* Smaller text for mobile */
     h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+
+    /* Tabs */
+    .tabs {
+        padding: 6px;
+        gap: 4px;
+    }
+
+    .tab-button {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    /* Tab content */
+    .tab-content {
+        padding: 12px;
+    }
+
+    /* Modal adjustments */
+    .modal {
+        padding: 8px;
+    }
+
+    .modal-content {
+        padding: 20px;
+        max-height: 92vh;
+        overflow-y: auto;
+    }
+
+    .modal-content h2 {
+        font-size: 1.4rem;
+    }
+
+    /* Form elements */
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group label {
+        font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    /* Buttons in forms */
+    .form-buttons button {
+        font-size: 1rem;
+        padding: 12px;
+    }
+
+    /* Date picker */
+    .date-picker {
+        font-size: 1rem;
+    }
+
+    /* Time settings - stack in single column on mobile */
+    .time-settings {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .time-setting-input {
+        padding: 10px;
+        font-size: 1rem;
+    }
+
+    /* Alarm sounds - stack in single column on mobile */
+    .alarm-sounds-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    /* Make checkboxes easier to tap */
+    .time-checkbox,
+    .day-checkbox {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+
+    /* Card spacing */
+    .med-card,
+    .appt-card,
+    .metric-card {
+        margin-bottom: 12px;
+        padding: 12px;
+    }
+
+    /* Metrics header adjustments */
+    .metrics-header-top {
+        gap: 10px;
+        margin-bottom: 12px;
+    }
+
+    .metrics-header-top h1 {
+        font-size: 1.8rem;
+    }
+
+    /* Metrics date controls - stack vertically */
+    .metrics-date-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .metrics-date-range {
+        width: 100%;
+        min-width: auto;
+    }
+
+    .metrics-filter-wrapper {
+        width: 100%;
+    }
+
+    .metrics-filter-button {
+        width: 100%;
     }
 }
 

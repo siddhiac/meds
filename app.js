@@ -28,6 +28,9 @@ class HealthTracker {
         this.editingLogId = null;
         this.currentTab = 'medications';
         this.appointmentFilter = 'upcoming';
+        this.alarmAudio = null;
+        this.alarmCheckInterval = null;
+        this.lastAlarmTime = null;
         this.init();
     }
 
@@ -37,9 +40,11 @@ class HealthTracker {
         this.renderAppointments();
         this.renderLogs();
         this.attachEventListeners();
+        this.initializeAlarmSystem();
         this.applyTrackingPreferences(); // Apply saved tracking preferences
         this.checkNewDay();
         this.checkiOSInstallPrompt(); // Check if we should show iOS install instructions
+        this.startVersionCheck(); // Check for app updates periodically
     }
 
     // Get date as YYYY-MM-DD string
@@ -704,6 +709,41 @@ class HealthTracker {
             this.clearAllData();
         });
 
+        // Settings tab - time of day inputs
+        ['Morning', 'Afternoon', 'Evening', 'Bedtime'].forEach(timeOfDay => {
+            const input = document.getElementById(`time${timeOfDay}`);
+            input.addEventListener('change', (e) => {
+                this.saveTimeOfDaySetting(timeOfDay, e.target.value);
+            });
+        });
+
+        // Settings tab - alarm settings
+        document.getElementById('enableAlarms').addEventListener('change', (e) => {
+            this.saveAlarmSetting('enabled', e.target.checked);
+            this.toggleAlarmSettings(e.target.checked);
+            if (e.target.checked) {
+                this.initializeAlarmSystem();
+            } else {
+                this.stopAlarmSystem();
+            }
+        });
+
+        // Alarm sound selectors for each time of day
+        ['Morning', 'Afternoon', 'Evening', 'Bedtime'].forEach(timeOfDay => {
+            const select = document.getElementById(`alarmSound${timeOfDay}`);
+            select.addEventListener('change', (e) => {
+                this.saveAlarmSound(timeOfDay.toLowerCase(), e.target.value);
+            });
+        });
+
+        // Test alarm buttons
+        document.querySelectorAll('.test-alarm-button').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const timeOfDay = e.target.getAttribute('data-time');
+                this.testAlarmSound(timeOfDay);
+            });
+        });
+
         // Settings tab - also track checkboxes
         document.getElementById('trackAppointments').addEventListener('change', (e) => {
             this.updateTrackingPreferences('appointments', e.target.checked);
@@ -935,12 +975,15 @@ class HealthTracker {
                         <img src="favicon.png" alt="App Icon" class="header-app-icon">
                         <div class="header-app-details">
                             <div class="header-app-name">Meds Tracker</div>
-                            <div class="header-app-version">Version 1.0.1 — December 24, 2025</div>
+                            <div class="header-app-version">Version 1.0.3 — January 1, 2026</div>
                             <div class="header-app-author">by Sid Cooperrider</div>
                         </div>
                     </div>
                 `;
                 datePickerContainer.style.display = 'none';
+
+                // Load time of day settings
+                this.loadTimeOfDaySettings();
 
                 // Sync checkbox states with localStorage
                 const prefs = JSON.parse(localStorage.getItem('trackingPreferences') || '{"appointments": true, "metrics": true}');
@@ -2067,7 +2110,7 @@ class HealthTracker {
             trackAppointments: localStorage.getItem('trackAppointments') === 'true',
             trackMetrics: localStorage.getItem('trackMetrics') === 'true',
             exportDate: new Date().toISOString(),
-            version: '1.0'
+            version: '1.0.2'
         };
 
         const dataStr = JSON.stringify(data, null, 2);
@@ -2196,6 +2239,28 @@ class HealthTracker {
     }
 
     // Update tracking preferences
+    // Save time of day setting
+    saveTimeOfDaySetting(timeOfDay, timeValue) {
+        const timeSettings = JSON.parse(localStorage.getItem('timeOfDaySettings') || '{}');
+        if (timeValue) {
+            timeSettings[timeOfDay.toLowerCase()] = timeValue;
+        } else {
+            delete timeSettings[timeOfDay.toLowerCase()];
+        }
+        localStorage.setItem('timeOfDaySettings', JSON.stringify(timeSettings));
+    }
+
+    // Load time of day settings
+    loadTimeOfDaySettings() {
+        const timeSettings = JSON.parse(localStorage.getItem('timeOfDaySettings') || '{}');
+        ['Morning', 'Afternoon', 'Evening', 'Bedtime'].forEach(timeOfDay => {
+            const input = document.getElementById(`time${timeOfDay}`);
+            if (input) {
+                input.value = timeSettings[timeOfDay.toLowerCase()] || '';
+            }
+        });
+    }
+
     updateTrackingPreferences(type, enabled) {
         const prefs = JSON.parse(localStorage.getItem('trackingPreferences') || '{"appointments": true, "metrics": true}');
         prefs[type] = enabled;
@@ -2639,6 +2704,293 @@ class HealthTracker {
         if (rememberChoice) {
             localStorage.setItem('hasSeeniOSInstallPrompt', 'true');
         }
+    }
+
+    // Alarm System Methods
+    saveAlarmSetting(key, value) {
+        const alarmSettings = JSON.parse(localStorage.getItem('alarmSettings') || '{"enabled": false}');
+        alarmSettings[key] = value;
+        localStorage.setItem('alarmSettings', JSON.stringify(alarmSettings));
+    }
+
+    saveAlarmSound(timeOfDay, soundFile) {
+        const alarmSounds = JSON.parse(localStorage.getItem('alarmSounds') || '{}');
+        alarmSounds[timeOfDay] = soundFile;
+        localStorage.setItem('alarmSounds', JSON.stringify(alarmSounds));
+    }
+
+    loadAlarmSettings() {
+        const settings = JSON.parse(localStorage.getItem('alarmSettings') || '{"enabled": false}');
+        const sounds = JSON.parse(localStorage.getItem('alarmSounds') || '{"morning": "none", "afternoon": "none", "evening": "none", "bedtime": "none"}');
+
+        const enableCheckbox = document.getElementById('enableAlarms');
+        if (enableCheckbox) {
+            enableCheckbox.checked = settings.enabled;
+            this.toggleAlarmSettings(settings.enabled);
+        }
+
+        // Load sound for each time of day
+        ['morning', 'afternoon', 'evening', 'bedtime'].forEach(timeOfDay => {
+            const soundSelect = document.getElementById(`alarmSound${timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1)}`);
+            if (soundSelect) {
+                soundSelect.value = sounds[timeOfDay] || 'none';
+            }
+        });
+
+        return settings;
+    }
+
+    toggleAlarmSettings(show) {
+        const settingsDiv = document.getElementById('alarmSoundSettings');
+        if (settingsDiv) {
+            settingsDiv.style.display = show ? 'block' : 'none';
+        }
+    }
+
+    testAlarmSound(timeOfDay) {
+        const sounds = JSON.parse(localStorage.getItem('alarmSounds') || '{"morning": "none", "afternoon": "none", "evening": "none", "bedtime": "none"}');
+        const soundFile = sounds[timeOfDay] || 'none';
+        if (soundFile !== 'none') {
+            this.playAlarm(soundFile);
+        }
+    }
+
+    playAlarm(soundFile) {
+        // Stop any currently playing alarm
+        if (this.alarmAudio) {
+            this.alarmAudio.pause();
+            this.alarmAudio.currentTime = 0;
+        }
+
+        // Create and play new alarm
+        this.alarmAudio = new Audio(`sounds/${soundFile}`);
+        this.alarmAudio.play().catch(err => {
+            console.log('Could not play alarm:', err);
+            // Fallback: try to show notification if sound fails
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('Medication Reminder', {
+                    body: 'Time to take your medication!',
+                    icon: 'favicon.png'
+                });
+            }
+        });
+    }
+
+    initializeAlarmSystem() {
+        const settings = JSON.parse(localStorage.getItem('alarmSettings') || '{"enabled": false, "sound": "alarm_01.mp3"}');
+
+        if (!settings.enabled) {
+            return;
+        }
+
+        // Request notification permission
+        if ('Notification' in window && Notification.permission === 'default') {
+            Notification.requestPermission();
+        }
+
+        // Clear any existing interval
+        if (this.alarmCheckInterval) {
+            clearInterval(this.alarmCheckInterval);
+        }
+
+        // Check for alarms every 30 seconds
+        this.alarmCheckInterval = setInterval(() => {
+            this.checkForAlarms();
+        }, 30000);
+
+        // Also check immediately
+        this.checkForAlarms();
+    }
+
+    stopAlarmSystem() {
+        if (this.alarmCheckInterval) {
+            clearInterval(this.alarmCheckInterval);
+            this.alarmCheckInterval = null;
+        }
+
+        if (this.alarmAudio) {
+            this.alarmAudio.pause();
+            this.alarmAudio = null;
+        }
+    }
+
+    checkForAlarms() {
+        const settings = JSON.parse(localStorage.getItem('alarmSettings') || '{"enabled": false}');
+        const timeSettings = JSON.parse(localStorage.getItem('timeOfDaySettings') || '{}');
+        const alarmSounds = JSON.parse(localStorage.getItem('alarmSounds') || '{"morning": "none", "afternoon": "none", "evening": "none", "bedtime": "none"}');
+
+        if (!settings.enabled) {
+            return;
+        }
+
+        const now = new Date();
+        const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+        // Don't trigger same alarm twice within 5 minutes
+        if (this.lastAlarmTime && (now - this.lastAlarmTime) < 5 * 60 * 1000) {
+            return;
+        }
+
+        // Check each time of day
+        const timesOfDay = ['morning', 'afternoon', 'evening', 'bedtime'];
+        for (const timeOfDay of timesOfDay) {
+            const setTime = timeSettings[timeOfDay];
+            if (setTime && setTime === currentTime) {
+                // Check if there are medications scheduled for this time
+                const hasMeds = this.hasMedicationsAtTime(timeOfDay);
+                if (hasMeds) {
+                    // Use the sound specific to this time of day
+                    const soundFile = alarmSounds[timeOfDay] || 'none';
+
+                    // Only play alarm if not set to 'none'
+                    if (soundFile !== 'none') {
+                        this.playAlarm(soundFile);
+                    }
+
+                    this.lastAlarmTime = now;
+
+                    // Show notification
+                    if ('Notification' in window && Notification.permission === 'granted') {
+                        new Notification('Medication Reminder', {
+                            body: `Time for ${timeOfDay} medications!`,
+                            icon: 'favicon.png',
+                            requireInteraction: true
+                        });
+                    }
+                    break;
+                }
+            }
+        }
+    }
+
+    hasMedicationsAtTime(timeOfDay) {
+        const today = this.getDateString(new Date());
+        const dailyLog = this.loadDailyLog(today);
+        const expanded = this.expandMedications();
+
+        // Capitalize first letter to match time format
+        const timeLabel = timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1);
+
+        // Check if there are any medications for this time today
+        const medsAtTime = expanded.filter(med => {
+            if (med.time !== timeLabel) return false;
+            return this.isMedicationActiveToday(med);
+        });
+
+        return medsAtTime.length > 0;
+    }
+
+    // Version Check Methods
+    startVersionCheck() {
+        // Get current version from meta tag
+        const metaVersion = document.querySelector('meta[name="app-version"]');
+        if (metaVersion) {
+            this.currentVersion = metaVersion.getAttribute('content');
+        }
+
+        // Check for updates every 5 minutes
+        setInterval(() => {
+            this.checkForUpdate();
+        }, 5 * 60 * 1000);
+
+        // Also check when page becomes visible (user returns to app)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                this.checkForUpdate();
+            }
+        });
+    }
+
+    async checkForUpdate() {
+        try {
+            // Fetch index.html with cache-busting parameter
+            const response = await fetch(`/index.html?t=${Date.now()}`, {
+                cache: 'no-cache'
+            });
+
+            if (!response.ok) return;
+
+            const html = await response.text();
+
+            // Parse the HTML to get the version meta tag
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const versionMeta = doc.querySelector('meta[name="app-version"]');
+
+            if (versionMeta) {
+                const serverVersion = versionMeta.getAttribute('content');
+
+                // If versions don't match, prompt user to reload
+                if (serverVersion !== this.currentVersion) {
+                    this.promptUpdate(serverVersion);
+                }
+            }
+        } catch (err) {
+            // Silently fail - don't disrupt user experience
+            console.log('Version check failed:', err);
+        }
+    }
+
+    promptUpdate(newVersion) {
+        // Check if we've already shown this update prompt
+        const lastPromptVersion = localStorage.getItem('lastUpdatePromptVersion');
+        if (lastPromptVersion === newVersion) {
+            return; // Don't spam the user
+        }
+
+        // Show update notification
+        const updateBanner = document.createElement('div');
+        updateBanner.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #6b7c93;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            z-index: 10000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        `;
+        updateBanner.innerHTML = `
+            <div style="margin-bottom: 10px;">
+                <strong>Update Available</strong><br>
+                A new version (${newVersion}) is available.
+            </div>
+            <button id="updateNowBtn" style="
+                background: white;
+                color: #6b7c93;
+                border: none;
+                padding: 8px 20px;
+                border-radius: 5px;
+                font-weight: 600;
+                cursor: pointer;
+                margin-right: 10px;
+            ">Update Now</button>
+            <button id="updateLaterBtn" style="
+                background: transparent;
+                color: white;
+                border: 2px solid white;
+                padding: 8px 20px;
+                border-radius: 5px;
+                font-weight: 600;
+                cursor: pointer;
+            ">Later</button>
+        `;
+
+        document.body.appendChild(updateBanner);
+
+        // Update now button
+        document.getElementById('updateNowBtn').addEventListener('click', () => {
+            localStorage.setItem('lastUpdatePromptVersion', newVersion);
+            window.location.reload(true);
+        });
+
+        // Later button
+        document.getElementById('updateLaterBtn').addEventListener('click', () => {
+            localStorage.setItem('lastUpdatePromptVersion', newVersion);
+            updateBanner.remove();
+        });
     }
 }
 
