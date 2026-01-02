@@ -1174,23 +1174,44 @@ h1 {
     line-height: 1.5;
 }
 
-/* Time Settings */
-.time-settings {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+/* Time & Alarm Settings Combined */
+.time-alarm-settings {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.time-setting-item {
+.time-alarm-group {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    border: 2px solid #e0e0e0;
+}
+
+.time-alarm-heading {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #6b7c93;
+    margin: 0 0 15px 0;
+}
+
+.time-alarm-controls {
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    gap: 15px;
+    align-items: end;
+}
+
+.time-alarm-item {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
 .time-setting-label {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    color: #333;
+    color: #555;
 }
 
 .time-setting-input {
@@ -1213,19 +1234,6 @@ h1 {
     cursor: pointer;
 }
 
-/* Alarm Settings */
-.alarm-sounds-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-}
-
-.alarm-sound-item {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
 .alarm-sound-select {
     padding: 12px;
     border: 2px solid #ddd;
@@ -1244,7 +1252,7 @@ h1 {
 }
 
 .test-alarm-button {
-    padding: 10px 16px;
+    padding: 12px 20px;
     background: white;
     border: 2px solid #6b7c93;
     border-radius: 10px;
@@ -1253,7 +1261,7 @@ h1 {
     color: #6b7c93;
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 100%;
+    white-space: nowrap;
 }
 
 .test-alarm-button:hover {
@@ -1833,21 +1841,22 @@ h1 {
         font-size: 1rem;
     }
 
-    /* Time settings - stack in single column on mobile */
-    .time-settings {
+    /* Time & Alarm Settings - stack vertically on mobile */
+    .time-alarm-group {
+        padding: 15px;
+    }
+
+    .time-alarm-heading {
+        font-size: 1.1rem;
+    }
+
+    .time-alarm-controls {
         grid-template-columns: 1fr;
         gap: 12px;
     }
 
-    .time-setting-input {
-        padding: 10px;
-        font-size: 1rem;
-    }
-
-    /* Alarm sounds - stack in single column on mobile */
-    .alarm-sounds-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
+    .test-alarm-button {
+        width: 100%;
     }
 
     /* Make checkboxes easier to tap */
@@ -2022,6 +2031,77 @@ h1 {
     color: #4caf50;
     font-size: 1.5rem;
     font-weight: bold;
+}
+
+/* Alarm Reminder Modal */
+.alarm-reminder-content {
+    max-width: 500px;
+    text-align: center;
+    animation: alarmPulse 1s ease-in-out infinite;
+}
+
+@keyframes alarmPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.alarm-reminder-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px 20px;
+    border-radius: 12px 12px 0 0;
+    margin: -30px -30px 0 -30px;
+}
+
+.alarm-reminder-header h2 {
+    margin: 0;
+    font-size: 2rem;
+    color: white;
+}
+
+.alarm-reminder-body {
+    padding: 30px 20px;
+}
+
+.alarm-time-label {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+}
+
+.alarm-message {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 0;
+}
+
+.alarm-reminder-footer {
+    padding: 0 20px 20px;
+}
+
+.alarm-acknowledge-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 18px 40px;
+    border-radius: 12px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.alarm-acknowledge-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.alarm-acknowledge-button:active {
+    transform: translateY(0);
 }
 
 /* iPad specific optimizations */

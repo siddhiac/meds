@@ -72,31 +72,8 @@
         <!-- Settings Section -->
         <div class="tab-content" id="settingsTab">
             <div class="settings-section">
-                <h3 class="settings-section-title">Time of Day Settings</h3>
-                <p class="settings-section-desc">Set specific times for each time of day (optional)</p>
-                <div class="time-settings">
-                    <div class="time-setting-item">
-                        <label for="timeMorning" class="time-setting-label">Morning</label>
-                        <input type="time" id="timeMorning" class="time-setting-input">
-                    </div>
-                    <div class="time-setting-item">
-                        <label for="timeAfternoon" class="time-setting-label">Afternoon</label>
-                        <input type="time" id="timeAfternoon" class="time-setting-input">
-                    </div>
-                    <div class="time-setting-item">
-                        <label for="timeEvening" class="time-setting-label">Evening</label>
-                        <input type="time" id="timeEvening" class="time-setting-input">
-                    </div>
-                    <div class="time-setting-item">
-                        <label for="timeBedtime" class="time-setting-label">Bedtime</label>
-                        <input type="time" id="timeBedtime" class="time-setting-input">
-                    </div>
-                </div>
-            </div>
-
-            <div class="settings-section">
-                <h3 class="settings-section-title">Alarm Settings</h3>
-                <p class="settings-section-desc">Play alarm sounds at medication times (works only when app is open)</p>
+                <h3 class="settings-section-title">Time of Day & Alarm Settings</h3>
+                <p class="settings-section-desc">Set times and optional alarm sounds for each time of day (alarms work only when app is open)</p>
 
                 <div class="settings-option" style="margin-bottom: 20px;">
                     <input type="checkbox" id="enableAlarms">
@@ -106,77 +83,115 @@
                     </label>
                 </div>
 
-                <div id="alarmSoundSettings" style="display: none;">
-                    <div class="alarm-sounds-grid">
-                        <div class="alarm-sound-item">
-                            <label for="alarmSoundMorning" class="time-setting-label">Morning</label>
-                            <select id="alarmSoundMorning" class="alarm-sound-select">
-                                <option value="none">No Alarm</option>
-                                <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                <option value="alarm_02.mp3">Alarm 2 - Chime</option>
-                                <option value="alarm_03.mp3">Alarm 3 - Digital</option>
-                                <option value="alarm_04.mp3">Alarm 4 - Classic</option>
-                                <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
-                                <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
-                                <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                <option value="alarm_09.mp3">Alarm 9 - Melody</option>
-                                <option value="alarm_10.mp3">Alarm 10 - Alert</option>
-                            </select>
+                <div class="time-alarm-settings">
+                    <!-- Morning -->
+                    <div class="time-alarm-group">
+                        <h4 class="time-alarm-heading">Morning</h4>
+                        <div class="time-alarm-controls">
+                            <div class="time-alarm-item">
+                                <label for="timeMorning" class="time-setting-label">Time</label>
+                                <input type="time" id="timeMorning" class="time-setting-input">
+                            </div>
+                            <div class="time-alarm-item" id="alarmMorningSettings">
+                                <label for="alarmSoundMorning" class="time-setting-label">Alarm Sound</label>
+                                <select id="alarmSoundMorning" class="alarm-sound-select">
+                                    <option value="none">No Alarm</option>
+                                    <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
+                                    <option value="alarm_02.mp3">Alarm 2 - Chime</option>
+                                    <option value="alarm_03.mp3">Alarm 3 - Digital</option>
+                                    <option value="alarm_04.mp3">Alarm 4 - Classic</option>
+                                    <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
+                                    <option value="alarm_06.mp3">Alarm 6 - Notification</option>
+                                    <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
+                                    <option value="alarm_08.mp3">Alarm 8 - Beep</option>
+                                    <option value="alarm_09.mp3">Alarm 9 - Melody</option>
+                                    <option value="alarm_10.mp3">Alarm 10 - Alert</option>
+                                </select>
+                            </div>
                             <button type="button" class="test-alarm-button" data-time="morning">Test</button>
                         </div>
+                    </div>
 
-                        <div class="alarm-sound-item">
-                            <label for="alarmSoundAfternoon" class="time-setting-label">Afternoon</label>
-                            <select id="alarmSoundAfternoon" class="alarm-sound-select">
-                                <option value="none">No Alarm</option>
-                                <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                <option value="alarm_02.mp3">Alarm 2 - Chime</option>
-                                <option value="alarm_03.mp3">Alarm 3 - Digital</option>
-                                <option value="alarm_04.mp3">Alarm 4 - Classic</option>
-                                <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
-                                <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
-                                <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                <option value="alarm_09.mp3">Alarm 9 - Melody</option>
-                                <option value="alarm_10.mp3">Alarm 10 - Alert</option>
-                            </select>
+                    <!-- Afternoon -->
+                    <div class="time-alarm-group">
+                        <h4 class="time-alarm-heading">Afternoon</h4>
+                        <div class="time-alarm-controls">
+                            <div class="time-alarm-item">
+                                <label for="timeAfternoon" class="time-setting-label">Time</label>
+                                <input type="time" id="timeAfternoon" class="time-setting-input">
+                            </div>
+                            <div class="time-alarm-item" id="alarmAfternoonSettings">
+                                <label for="alarmSoundAfternoon" class="time-setting-label">Alarm Sound</label>
+                                <select id="alarmSoundAfternoon" class="alarm-sound-select">
+                                    <option value="none">No Alarm</option>
+                                    <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
+                                    <option value="alarm_02.mp3">Alarm 2 - Chime</option>
+                                    <option value="alarm_03.mp3">Alarm 3 - Digital</option>
+                                    <option value="alarm_04.mp3">Alarm 4 - Classic</option>
+                                    <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
+                                    <option value="alarm_06.mp3">Alarm 6 - Notification</option>
+                                    <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
+                                    <option value="alarm_08.mp3">Alarm 8 - Beep</option>
+                                    <option value="alarm_09.mp3">Alarm 9 - Melody</option>
+                                    <option value="alarm_10.mp3">Alarm 10 - Alert</option>
+                                </select>
+                            </div>
                             <button type="button" class="test-alarm-button" data-time="afternoon">Test</button>
                         </div>
+                    </div>
 
-                        <div class="alarm-sound-item">
-                            <label for="alarmSoundEvening" class="time-setting-label">Evening</label>
-                            <select id="alarmSoundEvening" class="alarm-sound-select">
-                                <option value="none">No Alarm</option>
-                                <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                <option value="alarm_02.mp3">Alarm 2 - Chime</option>
-                                <option value="alarm_03.mp3">Alarm 3 - Digital</option>
-                                <option value="alarm_04.mp3">Alarm 4 - Classic</option>
-                                <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
-                                <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
-                                <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                <option value="alarm_09.mp3">Alarm 9 - Melody</option>
-                                <option value="alarm_10.mp3">Alarm 10 - Alert</option>
-                            </select>
+                    <!-- Evening -->
+                    <div class="time-alarm-group">
+                        <h4 class="time-alarm-heading">Evening</h4>
+                        <div class="time-alarm-controls">
+                            <div class="time-alarm-item">
+                                <label for="timeEvening" class="time-setting-label">Time</label>
+                                <input type="time" id="timeEvening" class="time-setting-input">
+                            </div>
+                            <div class="time-alarm-item" id="alarmEveningSettings">
+                                <label for="alarmSoundEvening" class="time-setting-label">Alarm Sound</label>
+                                <select id="alarmSoundEvening" class="alarm-sound-select">
+                                    <option value="none">No Alarm</option>
+                                    <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
+                                    <option value="alarm_02.mp3">Alarm 2 - Chime</option>
+                                    <option value="alarm_03.mp3">Alarm 3 - Digital</option>
+                                    <option value="alarm_04.mp3">Alarm 4 - Classic</option>
+                                    <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
+                                    <option value="alarm_06.mp3">Alarm 6 - Notification</option>
+                                    <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
+                                    <option value="alarm_08.mp3">Alarm 8 - Beep</option>
+                                    <option value="alarm_09.mp3">Alarm 9 - Melody</option>
+                                    <option value="alarm_10.mp3">Alarm 10 - Alert</option>
+                                </select>
+                            </div>
                             <button type="button" class="test-alarm-button" data-time="evening">Test</button>
                         </div>
+                    </div>
 
-                        <div class="alarm-sound-item">
-                            <label for="alarmSoundBedtime" class="time-setting-label">Bedtime</label>
-                            <select id="alarmSoundBedtime" class="alarm-sound-select">
-                                <option value="none">No Alarm</option>
-                                <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                <option value="alarm_02.mp3">Alarm 2 - Chime</option>
-                                <option value="alarm_03.mp3">Alarm 3 - Digital</option>
-                                <option value="alarm_04.mp3">Alarm 4 - Classic</option>
-                                <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
-                                <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
-                                <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                <option value="alarm_09.mp3">Alarm 9 - Melody</option>
-                                <option value="alarm_10.mp3">Alarm 10 - Alert</option>
-                            </select>
+                    <!-- Bedtime -->
+                    <div class="time-alarm-group">
+                        <h4 class="time-alarm-heading">Bedtime</h4>
+                        <div class="time-alarm-controls">
+                            <div class="time-alarm-item">
+                                <label for="timeBedtime" class="time-setting-label">Time</label>
+                                <input type="time" id="timeBedtime" class="time-setting-input">
+                            </div>
+                            <div class="time-alarm-item" id="alarmBedtimeSettings">
+                                <label for="alarmSoundBedtime" class="time-setting-label">Alarm Sound</label>
+                                <select id="alarmSoundBedtime" class="alarm-sound-select">
+                                    <option value="none">No Alarm</option>
+                                    <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
+                                    <option value="alarm_02.mp3">Alarm 2 - Chime</option>
+                                    <option value="alarm_03.mp3">Alarm 3 - Digital</option>
+                                    <option value="alarm_04.mp3">Alarm 4 - Classic</option>
+                                    <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
+                                    <option value="alarm_06.mp3">Alarm 6 - Notification</option>
+                                    <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
+                                    <option value="alarm_08.mp3">Alarm 8 - Beep</option>
+                                    <option value="alarm_09.mp3">Alarm 9 - Melody</option>
+                                    <option value="alarm_10.mp3">Alarm 10 - Alert</option>
+                                </select>
+                            </div>
                             <button type="button" class="test-alarm-button" data-time="bedtime">Test</button>
                         </div>
                     </div>
@@ -687,6 +702,22 @@
             <div class="form-buttons">
                 <button type="button" class="cancel-button" onclick="tracker.closeiOSInstallModal(true)">Don't Show Again</button>
                 <button type="button" class="save-button" onclick="tracker.closeiOSInstallModal(false)">Got It</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Medication Alarm Modal -->
+    <div class="modal" id="alarmReminderModal">
+        <div class="modal-content alarm-reminder-content">
+            <div class="alarm-reminder-header">
+                <h2>💊 Time to Take Your Medication</h2>
+            </div>
+            <div class="alarm-reminder-body">
+                <p class="alarm-time-label"></p>
+                <p class="alarm-message">Please acknowledge that you've seen this reminder.</p>
+            </div>
+            <div class="alarm-reminder-footer">
+                <button type="button" class="alarm-acknowledge-button" onclick="tracker.acknowledgeAlarm()">I've Got It</button>
             </div>
         </div>
     </div>

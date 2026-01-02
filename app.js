@@ -714,6 +714,16 @@ class HealthTracker {
             const input = document.getElementById(`time${timeOfDay}`);
             input.addEventListener('change', (e) => {
                 this.saveTimeOfDaySetting(timeOfDay, e.target.value);
+
+                // If time is cleared, reset alarm to 'none'
+                if (!e.target.value) {
+                    const alarmSelect = document.getElementById(`alarmSound${timeOfDay}`);
+                    if (alarmSelect) {
+                        alarmSelect.value = 'none';
+                        this.saveAlarmSound(timeOfDay.toLowerCase(), 'none');
+                        this.updateTestButtonState(timeOfDay.toLowerCase());
+                    }
+                }
             });
         });
 
@@ -733,6 +743,8 @@ class HealthTracker {
             const select = document.getElementById(`alarmSound${timeOfDay}`);
             select.addEventListener('change', (e) => {
                 this.saveAlarmSound(timeOfDay.toLowerCase(), e.target.value);
+                // Update test button state based on alarm selection
+                this.updateTestButtonState(timeOfDay.toLowerCase());
             });
         });
 
@@ -2735,35 +2747,72 @@ class HealthTracker {
             if (soundSelect) {
                 soundSelect.value = sounds[timeOfDay] || 'none';
             }
+            // Update test button state for each time of day
+            this.updateTestButtonState(timeOfDay);
         });
 
         return settings;
     }
 
-    toggleAlarmSettings(show) {
-        const settingsDiv = document.getElementById('alarmSoundSettings');
-        if (settingsDiv) {
-            settingsDiv.style.display = show ? 'block' : 'none';
+    updateTestButtonState(timeOfDay) {
+        // Find the test button for this time of day
+        const testButton = document.querySelector(`.test-alarm-button[data-time="${timeOfDay}"]`);
+        if (!testButton) return;
+
+        // Get the alarm sound select
+        const capitalizedTime = timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1);
+        const alarmSelect = document.getElementById(`alarmSound${capitalizedTime}`);
+
+        if (alarmSelect && alarmSelect.value === 'none') {
+            // Disable the test button if no alarm is selected
+            testButton.disabled = true;
+            testButton.style.opacity = '0.5';
+            testButton.style.cursor = 'not-allowed';
+        } else {
+            // Enable the test button
+            testButton.disabled = false;
+            testButton.style.opacity = '1';
+            testButton.style.cursor = 'pointer';
         }
+    }
+
+    toggleAlarmSettings(show) {
+        // Show/hide alarm dropdown for each time of day
+        ['Morning', 'Afternoon', 'Evening', 'Bedtime'].forEach(timeOfDay => {
+            const alarmDiv = document.getElementById(`alarm${timeOfDay}Settings`);
+            if (alarmDiv) {
+                alarmDiv.style.display = show ? 'flex' : 'none';
+            }
+        });
+
+        // Show/hide test buttons
+        document.querySelectorAll('.test-alarm-button').forEach(button => {
+            button.style.display = show ? 'block' : 'none';
+        });
     }
 
     testAlarmSound(timeOfDay) {
         const sounds = JSON.parse(localStorage.getItem('alarmSounds') || '{"morning": "none", "afternoon": "none", "evening": "none", "bedtime": "none"}');
         const soundFile = sounds[timeOfDay] || 'none';
         if (soundFile !== 'none') {
-            this.playAlarm(soundFile);
+            // For testing, don't show the modal, just play the sound once without looping
+            const testAudio = new Audio(`sounds/${soundFile}`);
+            testAudio.play().catch(err => {
+                console.log('Could not play test sound:', err);
+            });
         }
     }
 
-    playAlarm(soundFile) {
+    playAlarm(soundFile, timeOfDay) {
         // Stop any currently playing alarm
         if (this.alarmAudio) {
             this.alarmAudio.pause();
             this.alarmAudio.currentTime = 0;
         }
 
-        // Create and play new alarm
+        // Create and play new alarm with looping
         this.alarmAudio = new Audio(`sounds/${soundFile}`);
+        this.alarmAudio.loop = true; // Loop the alarm until stopped
         this.alarmAudio.play().catch(err => {
             console.log('Could not play alarm:', err);
             // Fallback: try to show notification if sound fails
@@ -2774,6 +2823,37 @@ class HealthTracker {
                 });
             }
         });
+
+        // Show the medication reminder modal
+        this.showAlarmModal(timeOfDay);
+    }
+
+    stopAlarm() {
+        if (this.alarmAudio) {
+            this.alarmAudio.pause();
+            this.alarmAudio.currentTime = 0;
+            this.alarmAudio = null;
+        }
+    }
+
+    showAlarmModal(timeOfDay) {
+        const modal = document.getElementById('alarmReminderModal');
+        const timeLabel = modal.querySelector('.alarm-time-label');
+
+        // Capitalize first letter for display
+        const displayTime = timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1);
+        timeLabel.textContent = `${displayTime} Medications`;
+
+        modal.classList.add('active');
+    }
+
+    acknowledgeAlarm() {
+        // Stop the alarm sound
+        this.stopAlarm();
+
+        // Close the modal
+        const modal = document.getElementById('alarmReminderModal');
+        modal.classList.remove('active');
     }
 
     initializeAlarmSystem() {
@@ -2844,7 +2924,10 @@ class HealthTracker {
 
                     // Only play alarm if not set to 'none'
                     if (soundFile !== 'none') {
-                        this.playAlarm(soundFile);
+                        this.playAlarm(soundFile, timeOfDay);
+                    } else {
+                        // If no sound, still show the modal
+                        this.showAlarmModal(timeOfDay);
                     }
 
                     this.lastAlarmTime = now;
