@@ -886,6 +886,9 @@ class HealthTracker {
                                 ${this.generateMetricsFilterOptions()}
                             </div>
                         </div>
+                        <button id="metricsPrintButton" style="padding: 12px 20px; background: #6b7c93; border: 2px solid #6b7c93; border-radius: 10px; font-size: 1.1rem; font-weight: 600; color: white; cursor: pointer; white-space: nowrap;">
+                            Print
+                        </button>
                     </div>
                 `;
                 datePickerContainer.style.display = 'block';
@@ -970,6 +973,14 @@ class HealthTracker {
                 // Initialize "All" checkbox state
                 updateAllCheckbox();
 
+                // Print button listener
+                const printButton = document.getElementById('metricsPrintButton');
+                if (printButton) {
+                    printButton.addEventListener('click', () => {
+                        this.openPrintModal();
+                    });
+                }
+
                 headerActions.innerHTML = `
                     <button class="action-button" id="addMetricsHeaderButton">+ Add Metrics</button>
                 `;
@@ -987,7 +998,7 @@ class HealthTracker {
                         <img src="favicon.png" alt="App Icon" class="header-app-icon">
                         <div class="header-app-details">
                             <div class="header-app-name">Meds Tracker</div>
-                            <div class="header-app-version">Version 1.0.3 — January 1, 2026</div>
+                            <div class="header-app-version">Version 1.0.8 — January 6, 2026</div>
                             <div class="header-app-author">by Sid Cooperrider</div>
                         </div>
                     </div>
@@ -2122,7 +2133,7 @@ class HealthTracker {
             trackAppointments: localStorage.getItem('trackAppointments') === 'true',
             trackMetrics: localStorage.getItem('trackMetrics') === 'true',
             exportDate: new Date().toISOString(),
-            version: '1.0.2'
+            version: '1.0.8'
         };
 
         const dataStr = JSON.stringify(data, null, 2);
@@ -2478,6 +2489,101 @@ class HealthTracker {
         return html;
     }
 
+    openPrintModal() {
+        const modal = document.getElementById('metricsPrintModal');
+        const printContent = document.getElementById('printPreviewContent');
+
+        // Get filtered logs in date range
+        const fromDateStr = this.getDateString(this.metricsDateFrom);
+        const toDateStr = this.getDateString(this.metricsDateTo);
+        const filteredLogs = this.logs.filter(log => {
+            const logDate = log.datetime.split('T')[0]; // Get YYYY-MM-DD part
+            return logDate >= fromDateStr && logDate <= toDateStr;
+        });
+
+        // Sort by datetime (oldest first for printing)
+        filteredLogs.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+
+        // Generate print content
+        let html = '<div class="print-header">';
+        html += '<h3>Health Metrics Report</h3>';
+        html += `<div class="print-date-range">`;
+        html += `${this.metricsDateFrom.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} to ${this.metricsDateTo.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+        html += `</div>`;
+        html += '</div>';
+
+        if (filteredLogs.length === 0) {
+            html += '<p style="text-align: center; color: #666; padding: 40px;">No metrics data found for this date range.</p>';
+        } else {
+            filteredLogs.forEach(log => {
+                const logDate = new Date(log.datetime);
+                const dateStr = logDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+                const timeStr = logDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+                // Build metrics line
+                const metrics = [];
+
+                if (this.metricsFilter.temperature && log.temperature) {
+                    metrics.push(`Temp: ${log.temperature}°F`);
+                }
+
+                if (this.metricsFilter.bloodPressure && (log.systolic || log.diastolic)) {
+                    metrics.push(`BP: ${log.systolic || '-'}/${log.diastolic || '-'}`);
+                }
+
+                if (this.metricsFilter.heartRate && log.heartRate) {
+                    metrics.push(`HR: ${log.heartRate} bpm`);
+                }
+
+                if (this.metricsFilter.glucose && log.glucose) {
+                    metrics.push(`Glucose: ${log.glucose} mg/dL`);
+                }
+
+                if (this.metricsFilter.weight && log.weight) {
+                    metrics.push(`Weight: ${log.weight} lbs`);
+                }
+
+                if (this.metricsFilter.steps && log.steps) {
+                    metrics.push(`Steps: ${log.steps.toLocaleString()}`);
+                }
+
+                // Show entry if there are metrics OR if there are notes (even with no metrics)
+                if (metrics.length > 0 || log.notes) {
+                    html += '<div class="print-entry-compact">';
+                    html += `<span class="print-entry-date-compact">${dateStr} ${timeStr}:</span> `;
+
+                    if (metrics.length > 0) {
+                        html += `<span class="print-metrics-line">${metrics.join(' • ')}</span>`;
+                    }
+
+                    if (log.notes) {
+                        if (metrics.length === 0) {
+                            // If only notes, put them on the same line
+                            html += `<span class="print-metrics-line">Notes: ${log.notes}</span>`;
+                        } else {
+                            // If there are metrics, put notes on a separate line
+                            html += `<div class="print-notes-compact">Notes: ${log.notes}</div>`;
+                        }
+                    }
+
+                    html += '</div>';
+                }
+            });
+        }
+
+        printContent.innerHTML = html;
+        modal.classList.add('active');
+    }
+
+    closePrintModal() {
+        const modal = document.getElementById('metricsPrintModal');
+        modal.classList.remove('active');
+    }
+
+    printMetrics() {
+        window.print();
+    }
+
     getWeekStart(date) {
         const d = new Date(date);
         const day = d.getDay();
@@ -2486,9 +2592,10 @@ class HealthTracker {
     }
 
     changeWeek(direction) {
-        const newStart = new Date(this.currentWeekStart);
-        newStart.setDate(newStart.getDate() + (direction * 7));
-        this.currentWeekStart = newStart;
+        // Use time-based calculation to avoid month boundary issues
+        const currentTime = this.currentWeekStart.getTime();
+        const oneWeekInMs = 7 * 24 * 60 * 60 * 1000;
+        this.currentWeekStart = new Date(currentTime + (direction * oneWeekInMs));
         this.renderWeeklyView();
     }
 
@@ -3021,8 +3128,15 @@ class HealthTracker {
             return; // Don't spam the user
         }
 
+        // Remove any existing update banner
+        const existingBanner = document.getElementById('updateBanner');
+        if (existingBanner) {
+            existingBanner.remove();
+        }
+
         // Show update notification
         const updateBanner = document.createElement('div');
+        updateBanner.id = 'updateBanner';
         updateBanner.style.cssText = `
             position: fixed;
             top: 0;
@@ -3035,45 +3149,52 @@ class HealthTracker {
             z-index: 10000;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         `;
-        updateBanner.innerHTML = `
-            <div style="margin-bottom: 10px;">
-                <strong>Update Available</strong><br>
-                A new version (${newVersion}) is available.
-            </div>
-            <button id="updateNowBtn" style="
-                background: white;
-                color: #6b7c93;
-                border: none;
-                padding: 8px 20px;
-                border-radius: 5px;
-                font-weight: 600;
-                cursor: pointer;
-                margin-right: 10px;
-            ">Update Now</button>
-            <button id="updateLaterBtn" style="
-                background: transparent;
-                color: white;
-                border: 2px solid white;
-                padding: 8px 20px;
-                border-radius: 5px;
-                font-weight: 600;
-                cursor: pointer;
-            ">Later</button>
+
+        const messageDiv = document.createElement('div');
+        messageDiv.style.marginBottom = '10px';
+        messageDiv.innerHTML = `
+            <strong>Update Available</strong><br>
+            A new version (${newVersion}) is available.
         `;
 
-        document.body.appendChild(updateBanner);
-
-        // Update now button
-        document.getElementById('updateNowBtn').addEventListener('click', () => {
+        const updateNowBtn = document.createElement('button');
+        updateNowBtn.textContent = 'Update Now';
+        updateNowBtn.style.cssText = `
+            background: white;
+            color: #6b7c93;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 10px;
+        `;
+        updateNowBtn.addEventListener('click', () => {
             localStorage.setItem('lastUpdatePromptVersion', newVersion);
             window.location.reload(true);
         });
 
-        // Later button
-        document.getElementById('updateLaterBtn').addEventListener('click', () => {
+        const updateLaterBtn = document.createElement('button');
+        updateLaterBtn.textContent = 'Later';
+        updateLaterBtn.style.cssText = `
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+        `;
+        updateLaterBtn.addEventListener('click', () => {
             localStorage.setItem('lastUpdatePromptVersion', newVersion);
             updateBanner.remove();
         });
+
+        updateBanner.appendChild(messageDiv);
+        updateBanner.appendChild(updateNowBtn);
+        updateBanner.appendChild(updateLaterBtn);
+
+        document.body.appendChild(updateBanner);
     }
 }
 

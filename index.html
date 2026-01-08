@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Meds">
-    <meta name="app-version" content="1.0.3">
+    <meta name="app-version" content="1.0.8">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
@@ -97,14 +97,14 @@
                                 <select id="alarmSoundMorning" class="alarm-sound-select">
                                     <option value="none">No Alarm</option>
                                     <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                    <option value="alarm_02.mp3">Alarm 2 - Chime</option>
+                                    <option value="alarm_02.mp3">Alarm 2 - Ring</option>
                                     <option value="alarm_03.mp3">Alarm 3 - Digital</option>
                                     <option value="alarm_04.mp3">Alarm 4 - Classic</option>
                                     <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
                                     <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                    <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
+                                    <option value="alarm_07.mp3">Alarm 7 - Piercing Beep</option>
                                     <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                    <option value="alarm_09.mp3">Alarm 9 - Melody</option>
+                                    <option value="alarm_09.mp3">Alarm 9 - Get Up</option>
                                     <option value="alarm_10.mp3">Alarm 10 - Alert</option>
                                 </select>
                             </div>
@@ -125,14 +125,14 @@
                                 <select id="alarmSoundAfternoon" class="alarm-sound-select">
                                     <option value="none">No Alarm</option>
                                     <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                    <option value="alarm_02.mp3">Alarm 2 - Chime</option>
+                                    <option value="alarm_02.mp3">Alarm 2 - Ring</option>
                                     <option value="alarm_03.mp3">Alarm 3 - Digital</option>
                                     <option value="alarm_04.mp3">Alarm 4 - Classic</option>
                                     <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
                                     <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                    <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
+                                    <option value="alarm_07.mp3">Alarm 7 - Piercing Beep</option>
                                     <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                    <option value="alarm_09.mp3">Alarm 9 - Melody</option>
+                                    <option value="alarm_09.mp3">Alarm 9 - Get Up</option>
                                     <option value="alarm_10.mp3">Alarm 10 - Alert</option>
                                 </select>
                             </div>
@@ -153,14 +153,14 @@
                                 <select id="alarmSoundEvening" class="alarm-sound-select">
                                     <option value="none">No Alarm</option>
                                     <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                    <option value="alarm_02.mp3">Alarm 2 - Chime</option>
+                                    <option value="alarm_02.mp3">Alarm 2 - Ring</option>
                                     <option value="alarm_03.mp3">Alarm 3 - Digital</option>
                                     <option value="alarm_04.mp3">Alarm 4 - Classic</option>
                                     <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
                                     <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                    <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
+                                    <option value="alarm_07.mp3">Alarm 7 - Piercing Beep</option>
                                     <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                    <option value="alarm_09.mp3">Alarm 9 - Melody</option>
+                                    <option value="alarm_09.mp3">Alarm 9 - Get Up</option>
                                     <option value="alarm_10.mp3">Alarm 10 - Alert</option>
                                 </select>
                             </div>
@@ -181,14 +181,14 @@
                                 <select id="alarmSoundBedtime" class="alarm-sound-select">
                                     <option value="none">No Alarm</option>
                                     <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                    <option value="alarm_02.mp3">Alarm 2 - Chime</option>
+                                    <option value="alarm_02.mp3">Alarm 2 - Ring</option>
                                     <option value="alarm_03.mp3">Alarm 3 - Digital</option>
                                     <option value="alarm_04.mp3">Alarm 4 - Classic</option>
                                     <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
                                     <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                    <option value="alarm_07.mp3">Alarm 7 - Phone Ring</option>
+                                    <option value="alarm_07.mp3">Alarm 7 - Piercing Beep</option>
                                     <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                    <option value="alarm_09.mp3">Alarm 9 - Melody</option>
+                                    <option value="alarm_09.mp3">Alarm 9 - Get Up</option>
                                     <option value="alarm_10.mp3">Alarm 10 - Alert</option>
                                 </select>
                             </div>
@@ -702,6 +702,20 @@
             <div class="form-buttons">
                 <button type="button" class="cancel-button" onclick="tracker.closeiOSInstallModal(true)">Don't Show Again</button>
                 <button type="button" class="save-button" onclick="tracker.closeiOSInstallModal(false)">Got It</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Metrics Print Preview Modal -->
+    <div class="modal" id="metricsPrintModal">
+        <div class="modal-content print-preview-content">
+            <h2>Metrics Print Preview</h2>
+            <div id="printPreviewContent" class="print-content">
+                <!-- Print content will be inserted here -->
+            </div>
+            <div class="form-buttons">
+                <button type="button" class="cancel-button" onclick="tracker.closePrintModal()">Close</button>
+                <button type="button" class="save-button" onclick="tracker.printMetrics()">Print</button>
             </div>
         </div>
     </div>

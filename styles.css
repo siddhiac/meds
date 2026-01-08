@@ -2104,6 +2104,184 @@ h1 {
     transform: translateY(0);
 }
 
+/* Print Preview Modal */
+.print-preview-content {
+    max-width: 800px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.print-content {
+    background: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.print-header {
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #6b7c93;
+    padding-bottom: 15px;
+}
+
+.print-header h3 {
+    margin: 0 0 10px 0;
+    color: #6b7c93;
+    font-size: 1.8rem;
+}
+
+.print-date-range {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 5px 0;
+}
+
+.print-entry {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-left: 4px solid #6b7c93;
+    background: #f8f9fa;
+}
+
+.print-entry-date {
+    font-weight: bold;
+    color: #6b7c93;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.print-metric-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 15px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.print-metric-row:last-child {
+    border-bottom: none;
+}
+
+.print-metric-label {
+    font-weight: 600;
+    color: #555;
+}
+
+.print-metric-value {
+    color: #333;
+}
+
+.print-notes {
+    margin-top: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    font-style: italic;
+    color: #666;
+}
+
+/* Compact Print Format */
+.print-entry-compact {
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-left: 3px solid #6b7c93;
+    background: #f8f9fa;
+    line-height: 1.6;
+}
+
+.print-entry-date-compact {
+    font-weight: bold;
+    color: #6b7c93;
+    font-size: 0.95rem;
+}
+
+.print-metrics-line {
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.print-notes-compact {
+    display: block;
+    margin-top: 4px;
+    padding: 4px 8px;
+    background: white;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: #666;
+}
+
+/* Print-specific styles */
+@media print {
+    /* Hide everything by default */
+    body * {
+        visibility: hidden !important;
+        display: none !important;
+    }
+
+    /* Show only the metrics print modal and its content */
+    #metricsPrintModal,
+    #metricsPrintModal *,
+    #printPreviewContent,
+    #printPreviewContent * {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    /* Position the content at the top of the page */
+    #printPreviewContent {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Hide the modal wrapper, title, and buttons during print */
+    #metricsPrintModal {
+        position: static !important;
+        background: none !important;
+    }
+
+    #metricsPrintModal .modal-content {
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: none !important;
+    }
+
+    #metricsPrintModal h2,
+    #metricsPrintModal .form-buttons {
+        display: none !important;
+    }
+
+    /* Avoid page breaks inside entries */
+    .print-entry,
+    .print-entry-compact {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    /* Keep header with first entry */
+    .print-header {
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+
+    /* Remove extra backgrounds and borders for print */
+    .print-content {
+        background: white !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+
 /* iPad specific optimizations */
 @media (min-width: 768px) {
     h1 {
