@@ -8,12 +8,18 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Meds">
-    <meta name="app-version" content="1.0.8">
+    <meta name="app-version" content="1.2.0">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <title>Meds</title>
     <link rel="stylesheet" href="styles.css">
+
+    <!-- PeerJS for P2P sync -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+
+    <!-- QR Code generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -71,6 +77,123 @@
 
         <!-- Settings Section -->
         <div class="tab-content" id="settingsTab">
+            <div class="settings-section" id="profileManagementSection">
+                <h3 class="settings-section-title">Current Profile</h3>
+                <div class="current-profile-display">
+                    <div class="current-profile-info">
+                        <div class="current-profile-name" id="currentProfileName">Loading...</div>
+                        <div class="current-profile-desc">All data is stored separately per profile</div>
+                    </div>
+                    <button class="settings-data-button" id="switchProfileButton" style="margin: 0; border-color: #6b7c93;">
+                        <span class="settings-data-icon">👤</span>
+                        <div class="settings-data-content">
+                            <div class="settings-data-title">Switch Profile</div>
+                            <div class="settings-data-desc">Change to a different profile</div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Show when connected as peer -->
+            <div class="settings-section" id="syncedProfileSection" style="display: none;">
+                <h3 class="settings-section-title">Synced Profile</h3>
+                <div class="sync-connected-info">
+                    <div class="sync-status-header">
+                        <div class="sync-status-indicator online"></div>
+                        <div class="sync-status-text">Connected</div>
+                    </div>
+                    <div class="synced-profile-details">
+                        <div class="synced-profile-name" id="syncedProfileName">Shared Profile</div>
+                        <div class="synced-profile-desc">
+                            This device is viewing a shared profile. All changes sync in real-time with the host device.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 class="settings-section-title">Profile Sync</h3>
+                <p class="settings-section-desc">Share this profile with other devices on your local network for real-time syncing</p>
+
+                <!-- Not syncing state -->
+                <div id="syncNotActive" class="sync-container">
+                    <div class="sync-info">
+                        <div class="sync-status-indicator offline"></div>
+                        <div class="sync-status-text">Not syncing</div>
+                    </div>
+
+                    <div class="sync-actions">
+                        <button class="sync-button primary" id="startHostButton">
+                            <span class="sync-button-icon">📡</span>
+                            <div class="sync-button-content">
+                                <div class="sync-button-title">Share This Profile</div>
+                                <div class="sync-button-desc">Let others connect to this device</div>
+                            </div>
+                        </button>
+
+                        <button class="sync-button secondary" id="joinPeerButton">
+                            <span class="sync-button-icon">🔗</span>
+                            <div class="sync-button-content">
+                                <div class="sync-button-title">Join Shared Profile</div>
+                                <div class="sync-button-desc">Connect to another device</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hosting state -->
+                <div id="syncHostActive" class="sync-container" style="display: none;">
+                    <div class="sync-info">
+                        <div class="sync-status-indicator online"></div>
+                        <div class="sync-status-text">Sharing profile</div>
+                    </div>
+
+                    <div class="sync-qr-container">
+                        <p class="sync-qr-instructions">Scan this code with another device to sync:</p>
+                        <div id="syncQRCode" class="sync-qr-canvas"></div>
+                        <p class="sync-code-text">Code: <strong id="syncRoomCode">Loading...</strong></p>
+                    </div>
+
+                    <div class="sync-connected-devices">
+                        <h4 class="sync-devices-title">Connected Devices:</h4>
+                        <div id="connectedDevicesList" class="sync-devices-list">
+                            <div class="sync-no-devices">No devices connected yet</div>
+                        </div>
+                    </div>
+
+                    <button class="sync-button danger" id="stopHostButton">
+                        Stop Sharing
+                    </button>
+                </div>
+
+                <!-- Peer connected state -->
+                <div id="syncPeerActive" class="sync-container" style="display: none;">
+                    <div class="sync-info">
+                        <div class="sync-status-indicator online"></div>
+                        <div class="sync-status-text">Connected to shared profile</div>
+                    </div>
+
+                    <div class="sync-peer-info">
+                        <div class="sync-peer-detail">
+                            <span class="sync-peer-label">Profile:</span>
+                            <span class="sync-peer-value" id="connectedProfileName">Mom's Profile</span>
+                        </div>
+                        <div class="sync-peer-detail">
+                            <span class="sync-peer-label">Last sync:</span>
+                            <span class="sync-peer-value" id="lastSyncTime">Just now</span>
+                        </div>
+                        <div class="sync-peer-detail">
+                            <span class="sync-peer-label">Status:</span>
+                            <span class="sync-peer-value sync-online">● Online</span>
+                        </div>
+                    </div>
+
+                    <button class="sync-button danger" id="disconnectPeerButton">
+                        Disconnect
+                    </button>
+                </div>
+            </div>
+
             <div class="settings-section">
                 <h3 class="settings-section-title">Time of Day & Alarm Settings</h3>
                 <p class="settings-section-desc">Set times and optional alarm sounds for each time of day (alarms work only when app is open)</p>
@@ -288,6 +411,68 @@
         </div>
     </div>
 
+    <!-- Modal for profile selection -->
+    <div class="modal" id="profileModal" style="z-index: 10000;">
+        <div class="modal-content profile-modal-content">
+            <h2>Select Profile</h2>
+            <p class="profile-modal-desc">Choose a profile to manage medications, appointments, and health data separately for different people.</p>
+
+            <div id="profileListContainer" class="profile-list-container">
+                <!-- Profile list will be inserted here -->
+            </div>
+
+            <div class="profile-actions">
+                <button type="button" class="add-profile-button" id="addProfileButton">+ Create New Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for creating/editing profile -->
+    <div class="modal" id="profileFormModal" style="z-index: 10001;">
+        <div class="modal-content">
+            <h2 id="profileFormTitle">Create New Profile</h2>
+            <form id="profileForm">
+                <div class="form-group">
+                    <label for="profileName">Profile Name</label>
+                    <input type="text" id="profileName" required placeholder="e.g., Mom, Dad, Child">
+                </div>
+
+                <div class="form-group" id="migrateDataGroup" style="display: none;">
+                    <label class="settings-option" style="margin: 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                        <input type="checkbox" id="migrateExistingData">
+                        <span class="settings-option-label" style="font-size: 1rem;">Use existing data for this profile</span>
+                        <span class="settings-option-desc">Your current medications, appointments, and logs will be transferred to this profile</span>
+                    </label>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="button" class="cancel-button" id="profileFormCancelButton">Cancel</button>
+                    <button type="submit" class="save-button">Create Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for joining sync -->
+    <div class="modal" id="joinSyncModal" style="z-index: 10001;">
+        <div class="modal-content">
+            <h2>Join Shared Profile</h2>
+            <p style="color: #666; margin-bottom: 20px;">Enter the sync code from the device sharing the profile</p>
+
+            <form id="joinSyncForm">
+                <div class="form-group">
+                    <label for="syncCode">Sync Code</label>
+                    <input type="text" id="syncCode" required placeholder="Enter code or paste here" style="font-family: monospace; font-size: 1.2rem; text-align: center;">
+                </div>
+
+                <div class="form-buttons">
+                    <button type="button" class="cancel-button" id="joinSyncCancelButton">Cancel</button>
+                    <button type="submit" class="save-button">Connect</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Modal for medication list -->
     <div class="modal" id="medListModal">
         <div class="modal-content">
@@ -337,6 +522,14 @@
                             <span>Bedtime</span>
                         </label>
                     </div>
+
+                    <div id="specificTimesContainer" class="specific-times-container">
+                        <!-- Specific times will be added here dynamically -->
+                    </div>
+
+                    <button type="button" class="add-specific-time-button" id="addSpecificTimeButton">
+                        + Add Specific Time
+                    </button>
                 </div>
 
 

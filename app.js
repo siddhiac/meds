@@ -1,6 +1,582 @@
+// P2P Sync Class for WebRTC
+class P2PSync {
+    constructor(tracker) {
+        this.tracker = tracker;
+        this.peer = null;
+        this.connections = new Map(); // Map of peerId -> connection
+        this.isHost = false;
+        this.roomId = null;
+        this.deviceName = this.getDeviceName();
+        this.hostProfileName = null; // Store host's profile name for peers
+    }
+
+    getDeviceName() {
+        // Try to get a friendly device name
+        const userAgent = navigator.userAgent;
+        if (userAgent.includes('iPad')) return 'iPad';
+        if (userAgent.includes('iPhone')) return 'iPhone';
+        if (userAgent.includes('Android')) return 'Android Device';
+        if (userAgent.includes('Mac')) return 'Mac';
+        if (userAgent.includes('Windows')) return 'Windows PC';
+        return 'Device';
+    }
+
+    generateRoomId() {
+        // Generate a short, memorable room code
+        const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Removed ambiguous characters
+        let code = '';
+        for (let i = 0; i < 6; i++) {
+            code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return code;
+    }
+
+    // Start as host (sharing profile)
+    startHost() {
+        this.isHost = true;
+        this.roomId = this.generateRoomId();
+
+        // Configure PeerJS to use custom server (you'll need to set this up)
+        // For now, using the default PeerJS cloud server
+        this.peer = new Peer(this.roomId, {
+            // Uncomment and configure when you have your own PeerJS server:
+            // host: 'your-peerjs-server.com',
+            // port: 9000,
+            // path: '/myapp'
+        });
+
+        this.peer.on('open', (id) => {
+            console.log('Host started with ID:', id);
+            this.showHostUI();
+            this.generateQRCode(id);
+        });
+
+        this.peer.on('connection', (conn) => {
+            console.log('New peer connecting:', conn.peer);
+            this.handleNewPeer(conn);
+        });
+
+        this.peer.on('error', (err) => {
+            console.error('Peer error:', err);
+            alert('Connection error: ' + err.message);
+        });
+    }
+
+    // Handle new peer connection
+    handleNewPeer(conn) {
+        this.connections.set(conn.peer, conn);
+
+        conn.on('open', () => {
+            console.log('Peer connected:', conn.peer);
+
+            // Send full profile data
+            this.sendFullSync(conn);
+
+            // Send device info
+            conn.send({
+                type: 'DEVICE_INFO',
+                deviceName: this.deviceName,
+                timestamp: Date.now()
+            });
+
+            // Update connected devices list
+            this.updateConnectedDevices();
+        });
+
+        conn.on('data', (data) => {
+            this.handleIncomingData(data, conn);
+        });
+
+        conn.on('close', () => {
+            console.log('Peer disconnected:', conn.peer);
+            this.connections.delete(conn.peer);
+            this.updateConnectedDevices();
+        });
+
+        conn.on('error', (err) => {
+            console.error('Connection error:', err);
+            this.connections.delete(conn.peer);
+            this.updateConnectedDevices();
+        });
+    }
+
+    // Join as peer (connecting to shared profile)
+    joinRoom(roomId) {
+        this.isHost = false;
+        this.roomId = roomId;
+
+        this.peer = new Peer({
+            // Same server config as host
+        });
+
+        this.peer.on('open', (id) => {
+            console.log('Peer created with ID:', id);
+            const conn = this.peer.connect(roomId);
+            this.handleConnection(conn);
+        });
+
+        this.peer.on('error', (err) => {
+            console.error('Peer error:', err);
+            alert('Failed to connect: ' + err.message);
+        });
+    }
+
+    handleConnection(conn) {
+        this.connections.set(conn.peer, conn);
+
+        conn.on('open', () => {
+            console.log('Connected to host');
+            this.showPeerUI();
+
+            // Send device info
+            conn.send({
+                type: 'DEVICE_INFO',
+                deviceName: this.deviceName,
+                timestamp: Date.now()
+            });
+
+            // Request full sync
+            conn.send({
+                type: 'REQUEST_FULL_SYNC',
+                timestamp: Date.now()
+            });
+        });
+
+        conn.on('data', (data) => {
+            this.handleIncomingData(data, conn);
+        });
+
+        conn.on('close', () => {
+            console.log('Disconnected from host');
+            this.disconnect();
+        });
+
+        conn.on('error', (err) => {
+            console.error('Connection error:', err);
+            this.disconnect();
+        });
+    }
+
+    // Send full profile data
+    sendFullSync(conn) {
+        const profileData = this.tracker.loadProfileData();
+
+        conn.send({
+            type: 'FULL_SYNC',
+            profileId: this.tracker.currentProfile.id,
+            profileName: this.tracker.currentProfile.name,
+            data: profileData,
+            timestamp: Date.now()
+        });
+    }
+
+    // Broadcast change to all connected peers
+    broadcastChange(changeType, data) {
+        if (!this.peer || this.connections.size === 0) {
+            console.log('Cannot broadcast - no peer or connections', {
+                hasPeer: !!this.peer,
+                connectionCount: this.connections.size
+            });
+            return;
+        }
+
+        const message = {
+            type: changeType,
+            data: data,
+            timestamp: Date.now()
+        };
+
+        console.log('Broadcasting:', changeType, 'to', this.connections.size, 'connections');
+
+        this.connections.forEach((conn) => {
+            if (conn.open) {
+                console.log('  Sending to connection:', conn.peer);
+                conn.send(message);
+            } else {
+                console.log('  Connection not open:', conn.peer);
+            }
+        });
+    }
+
+    // Handle incoming data
+    handleIncomingData(message, conn) {
+        console.log('Received:', message.type, message);
+
+        switch (message.type) {
+            case 'DEVICE_INFO':
+                // Store device info
+                conn.metadata = { deviceName: message.deviceName };
+                this.updateConnectedDevices();
+                break;
+
+            case 'REQUEST_FULL_SYNC':
+                // Send full profile data
+                if (this.isHost) {
+                    this.sendFullSync(conn);
+                }
+                break;
+
+            case 'FULL_SYNC':
+                // Receive full profile data
+                this.handleFullSync(message);
+                break;
+
+            case 'MED_ADDED':
+            case 'MED_UPDATED':
+            case 'MED_DELETED':
+                this.handleMedicationChange(message);
+                break;
+
+            case 'MED_TAKEN':
+            case 'MED_UNTAKEN':
+                this.handleMedicationTaken(message);
+                break;
+
+            case 'APPOINTMENT_ADDED':
+            case 'APPOINTMENT_UPDATED':
+            case 'APPOINTMENT_DELETED':
+                this.handleAppointmentChange(message);
+                break;
+
+            case 'LOG_ADDED':
+            case 'LOG_UPDATED':
+            case 'LOG_DELETED':
+                this.handleLogChange(message);
+                break;
+        }
+
+        // Update last sync time
+        this.updateLastSyncTime();
+    }
+
+    handleFullSync(message) {
+        // Save the full profile data
+        const key = `profileData_${message.profileId}`;
+        localStorage.setItem(key, JSON.stringify(message.data));
+
+        // Store the host's profile name
+        this.hostProfileName = message.profileName;
+
+        // Update profile name displays
+        document.getElementById('connectedProfileName').textContent = message.profileName;
+        document.getElementById('syncedProfileName').textContent = message.profileName;
+
+        // Reload the app data
+        this.tracker.medications = message.data.medications || [];
+        this.tracker.appointments = message.data.appointments || [];
+        this.tracker.logs = message.data.logs || [];
+
+        // Re-render everything
+        this.tracker.renderMedications();
+        this.tracker.renderAppointments();
+        this.tracker.renderLogs();
+
+        this.updateLastSyncTime();
+    }
+
+    handleMedicationChange(message) {
+        switch (message.type) {
+            case 'MED_ADDED':
+                // Check if medication already exists (prevent duplicates)
+                const existingMed = this.tracker.medications.find(m => m.id === message.data.id);
+                if (!existingMed) {
+                    this.tracker.medications.push(message.data);
+                }
+                break;
+            case 'MED_UPDATED':
+                const medIndex = this.tracker.medications.findIndex(m => m.id === message.data.id);
+                if (medIndex > -1) {
+                    this.tracker.medications[medIndex] = message.data;
+                }
+                break;
+            case 'MED_DELETED':
+                this.tracker.medications = this.tracker.medications.filter(m => m.id !== message.data.id);
+                break;
+        }
+
+        this.tracker.saveMedications();
+        this.tracker.renderMedications();
+
+        // If we're the host, broadcast to other peers
+        if (this.isHost) {
+            this.broadcastChange(message.type, message.data);
+        }
+    }
+
+    handleMedicationTaken(message) {
+        const dateStr = message.data.dateStr;
+        const medId = message.data.medId;
+
+        // Load the daily log for that date
+        const profileData = this.tracker.loadProfileData();
+        const dailyLog = profileData.dailyLogs[dateStr] || { date: dateStr, taken: [] };
+
+        if (message.type === 'MED_TAKEN') {
+            if (!dailyLog.taken.includes(medId)) {
+                dailyLog.taken.push(medId);
+            }
+        } else {
+            dailyLog.taken = dailyLog.taken.filter(id => id !== medId);
+        }
+
+        // Save back
+        profileData.dailyLogs[dateStr] = dailyLog;
+        const key = this.tracker.getProfileDataKey();
+        if (key) {
+            localStorage.setItem(key, JSON.stringify(profileData));
+        }
+
+        // If it's today's date, update current display
+        const today = this.tracker.getDateString(this.tracker.selectedDate);
+        if (dateStr === today) {
+            this.tracker.dailyLog = dailyLog;
+            this.tracker.renderMedications();
+        }
+
+        // If we're the host, broadcast to other peers
+        if (this.isHost) {
+            this.broadcastChange(message.type, message.data);
+        }
+    }
+
+    handleAppointmentChange(message) {
+        switch (message.type) {
+            case 'APPOINTMENT_ADDED':
+                // Check if appointment already exists (prevent duplicates)
+                const existingAppt = this.tracker.appointments.find(a => a.id === message.data.id);
+                if (!existingAppt) {
+                    this.tracker.appointments.push(message.data);
+                }
+                break;
+            case 'APPOINTMENT_UPDATED':
+                const apptIndex = this.tracker.appointments.findIndex(a => a.id === message.data.id);
+                if (apptIndex > -1) {
+                    this.tracker.appointments[apptIndex] = message.data;
+                }
+                break;
+            case 'APPOINTMENT_DELETED':
+                this.tracker.appointments = this.tracker.appointments.filter(a => a.id !== message.data.id);
+                break;
+        }
+
+        this.tracker.saveAppointments();
+        this.tracker.renderAppointments();
+
+        if (this.isHost) {
+            this.broadcastChange(message.type, message.data);
+        }
+    }
+
+    handleLogChange(message) {
+        console.log('handleLogChange:', message.type, 'isHost:', this.isHost);
+
+        switch (message.type) {
+            case 'LOG_ADDED':
+                console.log('  Adding log:', message.data.id);
+                // Check if log already exists (prevent duplicates when host re-broadcasts)
+                const existingLog = this.tracker.logs.find(l => l.id === message.data.id);
+                if (!existingLog) {
+                    this.tracker.logs.push(message.data);
+                } else {
+                    console.log('  Log already exists, skipping');
+                }
+                break;
+            case 'LOG_UPDATED':
+                console.log('  Updating log:', message.data.id);
+                const logIndex = this.tracker.logs.findIndex(l => l.id === message.data.id);
+                if (logIndex > -1) {
+                    this.tracker.logs[logIndex] = message.data;
+                }
+                break;
+            case 'LOG_DELETED':
+                console.log('  Deleting log:', message.data.id);
+                this.tracker.logs = this.tracker.logs.filter(l => l.id !== message.data.id);
+                break;
+        }
+
+        this.tracker.saveLogs();
+        this.tracker.renderLogs();
+
+        if (this.isHost) {
+            console.log('  Re-broadcasting to other peers');
+            this.broadcastChange(message.type, message.data);
+        }
+    }
+
+    // UI Methods
+    showHostUI() {
+        document.getElementById('syncNotActive').style.display = 'none';
+        document.getElementById('syncHostActive').style.display = 'block';
+        document.getElementById('syncPeerActive').style.display = 'none';
+
+        // Show profile management for hosts (they can still switch profiles)
+        document.getElementById('profileManagementSection').style.display = 'block';
+        document.getElementById('syncedProfileSection').style.display = 'none';
+    }
+
+    showPeerUI() {
+        document.getElementById('syncNotActive').style.display = 'none';
+        document.getElementById('syncHostActive').style.display = 'none';
+        document.getElementById('syncPeerActive').style.display = 'block';
+
+        // Hide profile management, show synced profile section
+        document.getElementById('profileManagementSection').style.display = 'none';
+        document.getElementById('syncedProfileSection').style.display = 'block';
+
+        // Update synced profile name (use host's profile name if available)
+        const profileName = this.hostProfileName || 'Shared Profile';
+        document.getElementById('syncedProfileName').textContent = profileName;
+    }
+
+    showNotSyncingUI() {
+        document.getElementById('syncNotActive').style.display = 'block';
+        document.getElementById('syncHostActive').style.display = 'none';
+        document.getElementById('syncPeerActive').style.display = 'none';
+
+        // Show profile management, hide synced profile section
+        document.getElementById('profileManagementSection').style.display = 'block';
+        document.getElementById('syncedProfileSection').style.display = 'none';
+    }
+
+    generateQRCode(roomId) {
+        const container = document.getElementById('syncQRCode');
+        document.getElementById('syncRoomCode').textContent = roomId;
+
+        // Clear previous QR code if any
+        container.innerHTML = '';
+
+        // Create URL with sync code parameter
+        // This makes the QR code open the app with the code pre-filled
+        const currentUrl = window.location.href.split('?')[0]; // Base URL without params
+        const syncUrl = `${currentUrl}?sync=${roomId}`;
+
+        // Generate new QR code using qrcodejs
+        new QRCode(container, {
+            text: syncUrl,
+            width: 200,
+            height: 200,
+            colorDark: '#6b7c93',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    }
+
+    updateConnectedDevices() {
+        const container = document.getElementById('connectedDevicesList');
+
+        if (this.connections.size === 0) {
+            container.innerHTML = '<div class="sync-no-devices">No devices connected yet</div>';
+            return;
+        }
+
+        const devicesHTML = Array.from(this.connections.values()).map(conn => {
+            const deviceName = conn.metadata?.deviceName || 'Unknown Device';
+            return `
+                <div class="sync-device-item">
+                    <span class="sync-device-icon">📱</span>
+                    <span class="sync-device-name">${deviceName}</span>
+                    <span class="sync-device-status">● Connected</span>
+                </div>
+            `;
+        }).join('');
+
+        container.innerHTML = devicesHTML;
+    }
+
+    updateLastSyncTime() {
+        const timeEl = document.getElementById('lastSyncTime');
+        if (timeEl) {
+            timeEl.textContent = 'Just now';
+        }
+    }
+
+    // Disconnect and cleanup
+    disconnect() {
+        if (this.peer) {
+            this.peer.destroy();
+            this.peer = null;
+        }
+
+        this.connections.clear();
+        this.isHost = false;
+        this.roomId = null;
+
+        this.showNotSyncingUI();
+    }
+}
+
 // Health tracking app
 class HealthTracker {
     constructor() {
+        this.currentProfile = null;
+        this.profiles = this.loadProfiles();
+
+        // Check if opened via QR code sync link
+        const urlParams = new URLSearchParams(window.location.search);
+        const syncCode = urlParams.get('sync');
+
+        // Check if we need to show profile selection
+        if (!this.hasActiveProfile()) {
+            // Attach profile event listeners first
+            this.attachProfileEventListeners();
+
+            // If joining via QR code, auto-create a temporary profile
+            if (syncCode) {
+                this.createSyncProfile(syncCode);
+                return;
+            }
+
+            // Check if this is a first-time user with existing data
+            const hasLegacyData = localStorage.getItem('medications') ||
+                                 localStorage.getItem('appointments') ||
+                                 localStorage.getItem('logs');
+
+            if (hasLegacyData && this.profiles.length === 0) {
+                // First-time migration - show form with migration option
+                setTimeout(() => {
+                    this.openProfileFormModal(true);
+                }, 100);
+            } else {
+                // No profiles exist, show profile selection
+                this.showProfileModal();
+            }
+            return; // Don't initialize the rest until profile is selected
+        }
+
+        this.initializeApp();
+    }
+
+    // Auto-create profile when joining via sync
+    createSyncProfile(syncCode) {
+        // Create a temporary profile that will be overwritten by sync
+        const profile = {
+            id: Date.now().toString(),
+            name: 'Synced Profile', // Will be updated when sync completes
+            createdAt: new Date().toISOString()
+        };
+
+        this.profiles.push(profile);
+        this.saveProfiles();
+        this.setActiveProfile(profile.id);
+
+        // Initialize app
+        this.initializeApp();
+
+        // Auto-connect after a brief delay
+        setTimeout(() => {
+            this.switchTab('settings');
+            setTimeout(() => {
+                document.getElementById('syncCode').value = syncCode;
+                // Directly join without showing modal
+                this.p2pSync.joinRoom(syncCode);
+
+                // Show instructions
+                alert('Connecting to shared profile...\n\nYou will receive all data from the host device.');
+            }, 300);
+        }, 500);
+    }
+
+    initializeApp() {
         this.medications = this.loadMedications();
         this.selectedDate = new Date();
 
@@ -31,10 +607,15 @@ class HealthTracker {
         this.alarmAudio = null;
         this.alarmCheckInterval = null;
         this.lastAlarmTime = null;
+
+        // Initialize P2P sync
+        this.p2pSync = new P2PSync(this);
+
         this.init();
     }
 
     init() {
+        this.updateCurrentProfileDisplay(); // Update profile name in settings
         this.updateHeader(this.currentTab); // Initialize header with current tab
         this.renderMedications();
         this.renderAppointments();
@@ -45,6 +626,31 @@ class HealthTracker {
         this.checkNewDay();
         this.checkiOSInstallPrompt(); // Check if we should show iOS install instructions
         this.startVersionCheck(); // Check for app updates periodically
+        this.checkSyncParameter(); // Check if opened with sync code
+    }
+
+    // Check if URL has sync parameter from QR code
+    checkSyncParameter() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const syncCode = urlParams.get('sync');
+
+        if (syncCode) {
+            // Clean up URL without reloading
+            window.history.replaceState({}, document.title, window.location.pathname);
+
+            // Switch to settings tab
+            this.switchTab('settings');
+
+            // Small delay to ensure UI is ready
+            setTimeout(() => {
+                // Auto-fill the code and open the join modal
+                document.getElementById('syncCode').value = syncCode;
+                this.openJoinSyncModal();
+
+                // Show a helpful message
+                alert(`Ready to connect with code: ${syncCode}\n\nClick "Connect" to join the shared profile.`);
+            }, 500);
+        }
     }
 
     // Get date as YYYY-MM-DD string
@@ -62,6 +668,11 @@ class HealthTracker {
 
     // Check if it's a new day and update to current date
     checkNewDay() {
+        // Don't run if app hasn't been initialized yet (no active profile)
+        if (!this.selectedDate || !this.currentProfile) {
+            return;
+        }
+
         const today = this.getDateString(new Date());
         const selectedDateStr = this.getDateString(this.selectedDate);
 
@@ -73,42 +684,332 @@ class HealthTracker {
         }
     }
 
+    // Profile Management Methods
+
+    loadProfiles() {
+        const stored = localStorage.getItem('healthProfiles');
+        if (stored) {
+            return JSON.parse(stored);
+        }
+        return [];
+    }
+
+    saveProfiles() {
+        localStorage.setItem('healthProfiles', JSON.stringify(this.profiles));
+    }
+
+    hasActiveProfile() {
+        const activeProfileId = localStorage.getItem('activeProfileId');
+        if (activeProfileId) {
+            const profile = this.profiles.find(p => p.id === activeProfileId);
+            if (profile) {
+                this.currentProfile = profile;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    setActiveProfile(profileId) {
+        const profile = this.profiles.find(p => p.id === profileId);
+        if (profile) {
+            this.currentProfile = profile;
+            localStorage.setItem('activeProfileId', profileId);
+            return true;
+        }
+        return false;
+    }
+
+    getProfileDataKey() {
+        // Return the key for this profile's data object
+        if (this.currentProfile) {
+            return `profileData_${this.currentProfile.id}`;
+        }
+        return null;
+    }
+
+    loadProfileData() {
+        const key = this.getProfileDataKey();
+        if (!key) return null;
+
+        const stored = localStorage.getItem(key);
+        if (stored) {
+            return JSON.parse(stored);
+        }
+
+        // Return empty data structure
+        return {
+            medications: [],
+            dailyLogs: {},
+            asNeededLogs: [],
+            appointments: [],
+            logs: []
+        };
+    }
+
+    saveProfileData() {
+        const key = this.getProfileDataKey();
+        if (!key) return;
+
+        const profileData = this.loadProfileData();
+
+        // Update with current data
+        profileData.medications = this.medications || [];
+        profileData.appointments = this.appointments || [];
+        profileData.logs = this.logs || [];
+
+        localStorage.setItem(key, JSON.stringify(profileData));
+    }
+
+    showProfileModal() {
+        this.renderProfileList();
+        document.getElementById('profileModal').classList.add('active');
+    }
+
+    closeProfileModal() {
+        document.getElementById('profileModal').classList.remove('active');
+    }
+
+    renderProfileList() {
+        const container = document.getElementById('profileListContainer');
+
+        if (this.profiles.length === 0) {
+            container.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">No profiles yet. Create your first profile to get started.</div>';
+            return;
+        }
+
+        container.innerHTML = this.profiles.map(profile => {
+            const isActive = this.currentProfile && this.currentProfile.id === profile.id;
+            const createdDate = new Date(profile.createdAt).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric'
+            });
+
+            return `
+                <div class="profile-item ${isActive ? 'active' : ''}" data-profile-id="${profile.id}">
+                    <div class="profile-item-info" onclick="tracker.selectProfile('${profile.id}')">
+                        <div class="profile-item-name">${profile.name}</div>
+                        <div class="profile-item-meta">Created ${createdDate}</div>
+                    </div>
+                    ${!isActive ? `<div class="profile-item-actions">
+                        <button class="profile-delete-button" onclick="tracker.deleteProfile('${profile.id}'); event.stopPropagation();">Delete</button>
+                    </div>` : '<div class="profile-item-meta">Active</div>'}
+                </div>
+            `;
+        }).join('');
+    }
+
+    selectProfile(profileId) {
+        if (this.currentProfile && this.currentProfile.id === profileId) {
+            // Already active, just close modal
+            this.closeProfileModal();
+            return;
+        }
+
+        if (this.setActiveProfile(profileId)) {
+            // Reload the app with the new profile
+            this.closeProfileModal();
+            location.reload();
+        }
+    }
+
+    deleteProfile(profileId) {
+        const profile = this.profiles.find(p => p.id === profileId);
+        if (!profile) return;
+
+        if (this.currentProfile && this.currentProfile.id === profileId) {
+            alert('Cannot delete the currently active profile. Please switch to another profile first.');
+            return;
+        }
+
+        if (confirm(`Are you sure you want to delete the profile "${profile.name}"? This will permanently delete all medications, appointments, and health data for this profile.`)) {
+            // Delete the single profile data object
+            localStorage.removeItem(`profileData_${profileId}`);
+
+            // Remove from profiles array
+            this.profiles = this.profiles.filter(p => p.id !== profileId);
+            this.saveProfiles();
+            this.renderProfileList();
+        }
+    }
+
+    openProfileFormModal(migrateData = false) {
+        document.getElementById('profileFormTitle').textContent = 'Create New Profile';
+        document.getElementById('profileName').value = '';
+        document.getElementById('migrateExistingData').checked = false;
+
+        // Show migration option if there's existing legacy data and this is first profile
+        const hasLegacyData = localStorage.getItem('medications') ||
+                             localStorage.getItem('appointments') ||
+                             localStorage.getItem('logs');
+
+        if (migrateData && hasLegacyData) {
+            document.getElementById('migrateDataGroup').style.display = 'block';
+        } else {
+            document.getElementById('migrateDataGroup').style.display = 'none';
+        }
+
+        document.getElementById('profileFormModal').classList.add('active');
+    }
+
+    closeProfileFormModal() {
+        document.getElementById('profileFormModal').classList.remove('active');
+        document.getElementById('profileForm').reset();
+    }
+
+    saveProfile() {
+        const name = document.getElementById('profileName').value.trim();
+        const migrateData = document.getElementById('migrateExistingData').checked;
+
+        if (!name) {
+            alert('Please enter a profile name');
+            return;
+        }
+
+        const profile = {
+            id: Date.now().toString(),
+            name: name,
+            createdAt: new Date().toISOString()
+        };
+
+        this.profiles.push(profile);
+        this.saveProfiles();
+
+        // If migrating data, copy legacy data to this profile
+        if (migrateData) {
+            this.migrateLegacyData(profile.id);
+        }
+
+        // Set as active profile and ensure it's saved
+        this.setActiveProfile(profile.id);
+
+        this.closeProfileFormModal();
+
+        // Use setTimeout to ensure localStorage writes complete before reload
+        setTimeout(() => {
+            location.reload();
+        }, 100);
+    }
+
+    migrateLegacyData(profileId) {
+        // Create a new profile data object from legacy data
+        const profileData = {
+            medications: [],
+            dailyLogs: {},
+            asNeededLogs: [],
+            appointments: [],
+            logs: []
+        };
+
+        // Migrate medications
+        const medications = localStorage.getItem('medications');
+        if (medications) {
+            profileData.medications = JSON.parse(medications);
+        }
+
+        // Migrate daily logs
+        const dailyLogs = localStorage.getItem('dailyLogs');
+        if (dailyLogs) {
+            profileData.dailyLogs = JSON.parse(dailyLogs);
+        }
+
+        // Migrate as-needed logs
+        const asNeededLogs = localStorage.getItem('asNeededLogs');
+        if (asNeededLogs) {
+            profileData.asNeededLogs = JSON.parse(asNeededLogs);
+        }
+
+        // Migrate appointments
+        const appointments = localStorage.getItem('appointments');
+        if (appointments) {
+            profileData.appointments = JSON.parse(appointments);
+        }
+
+        // Migrate logs (health metrics)
+        const logs = localStorage.getItem('logs');
+        if (logs) {
+            profileData.logs = JSON.parse(logs);
+        }
+
+        // Save the consolidated profile data
+        localStorage.setItem(`profileData_${profileId}`, JSON.stringify(profileData));
+    }
+
+    updateCurrentProfileDisplay() {
+        if (this.currentProfile) {
+            document.getElementById('currentProfileName').textContent = this.currentProfile.name;
+        }
+    }
+
+    // Join sync modal methods
+    openJoinSyncModal() {
+        document.getElementById('syncCode').value = '';
+        document.getElementById('joinSyncModal').classList.add('active');
+    }
+
+    closeJoinSyncModal() {
+        document.getElementById('joinSyncModal').classList.remove('active');
+    }
+
     // Load medications from localStorage
     loadMedications() {
-        const stored = localStorage.getItem('medications');
-        return stored ? JSON.parse(stored) : [];
+        const profileData = this.loadProfileData();
+        return profileData ? profileData.medications : [];
     }
 
     // Save medications to localStorage
     saveMedications() {
-        localStorage.setItem('medications', JSON.stringify(this.medications));
+        this.saveProfileData();
     }
 
     // Load daily log from localStorage for a specific date
     loadDailyLog(dateStr) {
-        const allLogs = JSON.parse(localStorage.getItem('dailyLogs') || '{}');
+        const profileData = this.loadProfileData();
+        const allLogs = profileData ? profileData.dailyLogs : {};
         return allLogs[dateStr] || { date: dateStr, taken: [] };
     }
 
     // Save daily log to localStorage
     saveDailyLog() {
-        const allLogs = JSON.parse(localStorage.getItem('dailyLogs') || '{}');
+        const profileData = this.loadProfileData();
         const dateStr = this.getDateString(this.selectedDate);
-        allLogs[dateStr] = this.dailyLog;
-        localStorage.setItem('dailyLogs', JSON.stringify(allLogs));
+        profileData.dailyLogs[dateStr] = this.dailyLog;
+
+        const key = this.getProfileDataKey();
+        if (key) {
+            localStorage.setItem(key, JSON.stringify(profileData));
+        }
     }
 
     // Load as-needed medication logs for a specific date
     loadAsNeededLogs(dateStr) {
-        const stored = localStorage.getItem('asNeededLogs');
-        const logs = stored ? JSON.parse(stored) : [];
+        const profileData = this.loadProfileData();
+        const logs = profileData ? profileData.asNeededLogs : [];
         // Filter to only the selected date's logs
         return logs.filter(log => log.date === dateStr);
     }
 
     // Save as-needed logs
     saveAsNeededLogs() {
-        localStorage.setItem('asNeededLogs', JSON.stringify(this.asNeededLogs));
+        const profileData = this.loadProfileData();
+
+        // Get all as-needed logs from the entire profile data
+        const allLogs = profileData.asNeededLogs || [];
+
+        // Update or add the current date's logs
+        const currentDateStr = this.getDateString(this.selectedDate);
+
+        // Remove existing logs for current date
+        const otherLogs = allLogs.filter(log => log.date !== currentDateStr);
+
+        // Add current logs
+        profileData.asNeededLogs = [...otherLogs, ...this.asNeededLogs];
+
+        const key = this.getProfileDataKey();
+        if (key) {
+            localStorage.setItem(key, JSON.stringify(profileData));
+        }
     }
 
     // Check if medication is taken today (supports both regular ID and displayId with time)
@@ -119,13 +1020,24 @@ class HealthTracker {
     // Toggle medication taken status (uses displayId which includes time)
     toggleTaken(displayId) {
         const index = this.dailyLog.taken.indexOf(displayId);
-        if (index > -1) {
+        const wasTaken = index > -1;
+
+        if (wasTaken) {
             this.dailyLog.taken.splice(index, 1);
         } else {
             this.dailyLog.taken.push(displayId);
         }
         this.saveDailyLog();
         this.renderMedications();
+
+        // Broadcast to connected peers
+        if (this.p2pSync) {
+            const messageType = wasTaken ? 'MED_UNTAKEN' : 'MED_TAKEN';
+            this.p2pSync.broadcastChange(messageType, {
+                medId: displayId,
+                dateStr: this.getDateString(this.selectedDate)
+            });
+        }
     }
 
     // Check if medication should be taken on the selected date
@@ -496,8 +1408,64 @@ class HealthTracker {
     //     document.getElementById('remainingCount').textContent = remaining;
     // }
 
+    // Attach profile-specific event listeners
+    attachProfileEventListeners() {
+        document.getElementById('addProfileButton').addEventListener('click', () => {
+            this.openProfileFormModal();
+        });
+
+        document.getElementById('profileFormCancelButton').addEventListener('click', () => {
+            this.closeProfileFormModal();
+        });
+
+        document.getElementById('profileForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveProfile();
+        });
+    }
+
     // Attach event listeners
     attachEventListeners() {
+        // Profile management
+        this.attachProfileEventListeners();
+
+        const switchProfileButton = document.getElementById('switchProfileButton');
+        if (switchProfileButton) {
+            switchProfileButton.addEventListener('click', () => {
+                this.showProfileModal();
+            });
+        }
+
+        // P2P Sync event listeners
+        document.getElementById('startHostButton').addEventListener('click', () => {
+            this.p2pSync.startHost();
+        });
+
+        document.getElementById('joinPeerButton').addEventListener('click', () => {
+            this.openJoinSyncModal();
+        });
+
+        document.getElementById('stopHostButton').addEventListener('click', () => {
+            this.p2pSync.disconnect();
+        });
+
+        document.getElementById('disconnectPeerButton').addEventListener('click', () => {
+            this.p2pSync.disconnect();
+        });
+
+        document.getElementById('joinSyncCancelButton').addEventListener('click', () => {
+            this.closeJoinSyncModal();
+        });
+
+        document.getElementById('joinSyncForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const code = document.getElementById('syncCode').value.trim().toUpperCase();
+            if (code) {
+                this.p2pSync.joinRoom(code);
+                this.closeJoinSyncModal();
+            }
+        });
+
         // Tab switching
         document.querySelectorAll('.tab-button').forEach(button => {
             button.addEventListener('click', (e) => {
@@ -644,6 +1612,11 @@ class HealthTracker {
             checkbox.addEventListener('change', () => {
                 this.updateStartTimeOptions();
             });
+        });
+
+        // Add specific time button
+        document.getElementById('addSpecificTimeButton').addEventListener('click', () => {
+            this.addSpecificTimeRow();
         });
 
         // Log entry modal
@@ -998,7 +1971,7 @@ class HealthTracker {
                         <img src="favicon.png" alt="App Icon" class="header-app-icon">
                         <div class="header-app-details">
                             <div class="header-app-name">Meds Tracker</div>
-                            <div class="header-app-version">Version 1.0.8 — January 6, 2026</div>
+                            <div class="header-app-version">Version 1.2.0 — January 8, 2026</div>
                             <div class="header-app-author">by Sid Cooperrider</div>
                         </div>
                     </div>
@@ -1066,6 +2039,9 @@ class HealthTracker {
                 cb.checked = times.includes(cb.value);
             });
 
+            // Load specific times
+            this.loadSpecificTimes(medication.specificTimes || []);
+
             // Update start time options based on selected times
             this.updateStartTimeOptions();
 
@@ -1114,6 +2090,8 @@ class HealthTracker {
             document.getElementById('durationNumberGroup').style.display = 'none';
             document.getElementById('endDateGroup').style.display = 'none';
             document.getElementById('bottleDosesGroup').style.display = 'none';
+            // Clear specific times
+            this.clearSpecificTimes();
             // Set default start date to today
             document.getElementById('medStartDate').value = new Date().toISOString().split('T')[0];
             this.editingId = null;
@@ -1127,6 +2105,7 @@ class HealthTracker {
     closeMedModal() {
         document.getElementById('medModal').classList.remove('active');
         document.getElementById('medForm').reset();
+        this.clearSpecificTimes();
         this.editingId = null;
     }
 
@@ -1186,6 +2165,90 @@ class HealthTracker {
         } else {
             startTimeGroup.style.display = 'none';
             startTimeSelect.innerHTML = '';
+        }
+    }
+
+    // Add a specific time row with time picker and alarm dropdown
+    addSpecificTimeRow() {
+        const container = document.getElementById('specificTimesContainer');
+        const rowId = `specificTime_${Date.now()}`;
+
+        const row = document.createElement('div');
+        row.className = 'specific-time-item';
+        row.dataset.id = rowId;
+
+        row.innerHTML = `
+            <label>Time:</label>
+            <input type="time" class="specific-time-input" data-row="${rowId}">
+            <select class="specific-alarm-select" data-row="${rowId}">
+                <option value="none">No Alarm</option>
+                <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
+                <option value="alarm_02.mp3">Alarm 2 - Soft Chime</option>
+                <option value="alarm_03.mp3">Alarm 3 - Morning Birds</option>
+                <option value="alarm_04.mp3">Alarm 4 - Classic Bell</option>
+                <option value="alarm_05.mp3">Alarm 5 - Digital Beep</option>
+                <option value="alarm_06.mp3">Alarm 6 - Pleasant Tone</option>
+                <option value="alarm_07.mp3">Alarm 7 - Piercing Beep Beep</option>
+            </select>
+            <button type="button" class="remove-specific-time" data-row="${rowId}">Remove</button>
+        `;
+
+        container.appendChild(row);
+
+        // Add event listener for remove button
+        row.querySelector('.remove-specific-time').addEventListener('click', (e) => {
+            this.removeSpecificTimeRow(e.target.dataset.row);
+        });
+    }
+
+    // Remove a specific time row
+    removeSpecificTimeRow(rowId) {
+        const row = document.querySelector(`.specific-time-item[data-id="${rowId}"]`);
+        if (row) {
+            row.remove();
+        }
+    }
+
+    // Get all specific times with their alarm sounds
+    getSpecificTimes() {
+        const rows = document.querySelectorAll('.specific-time-item');
+        const specificTimes = [];
+
+        rows.forEach(row => {
+            const timeInput = row.querySelector('.specific-time-input');
+            const alarmSelect = row.querySelector('.specific-alarm-select');
+
+            if (timeInput.value) {
+                specificTimes.push({
+                    time: timeInput.value,
+                    alarm: alarmSelect.value
+                });
+            }
+        });
+
+        return specificTimes;
+    }
+
+    // Clear all specific time rows
+    clearSpecificTimes() {
+        const container = document.getElementById('specificTimesContainer');
+        container.innerHTML = '';
+    }
+
+    // Load specific times into the form
+    loadSpecificTimes(specificTimes) {
+        this.clearSpecificTimes();
+
+        if (specificTimes && specificTimes.length > 0) {
+            specificTimes.forEach(st => {
+                this.addSpecificTimeRow();
+                // Find the last added row and set its values
+                const rows = document.querySelectorAll('.specific-time-item');
+                const lastRow = rows[rows.length - 1];
+
+                lastRow.querySelector('.specific-time-input').value = st.time;
+                lastRow.querySelector('.specific-alarm-select').value = st.alarm || 'none';
+            });
         }
     }
 
@@ -1319,13 +2382,16 @@ class HealthTracker {
         const selectedTimes = Array.from(document.querySelectorAll('input[name="medTimes"]:checked'))
             .map(cb => cb.value);
 
+        // Get specific times with alarms
+        const specificTimes = this.getSpecificTimes();
+
         if (!name || !dosage) {
             alert('Please fill in all required fields');
             return;
         }
 
-        if (selectedTimes.length === 0) {
-            alert('Please select at least one time of day');
+        if (selectedTimes.length === 0 && specificTimes.length === 0) {
+            alert('Please select at least one time of day or add a specific time');
             return;
         }
 
@@ -1398,6 +2464,9 @@ class HealthTracker {
             schedule.lastDayDoses = result.lastDayDoses;
         }
 
+        let updatedMed = null;
+        let isNew = false;
+
         if (this.editingId) {
             // Update existing medication
             const index = this.medications.findIndex(m => m.id === this.editingId);
@@ -1407,9 +2476,11 @@ class HealthTracker {
                     name,
                     dosage,
                     times: selectedTimes,
+                    specificTimes: specificTimes,
                     notes,
                     schedule
                 };
+                updatedMed = this.medications[index];
             }
         } else {
             // Add new medication
@@ -1419,15 +2490,24 @@ class HealthTracker {
                 name,
                 dosage,
                 times: selectedTimes,
+                specificTimes: specificTimes,
                 notes,
                 schedule
             };
             this.medications.push(medication);
+            updatedMed = medication;
+            isNew = true;
         }
 
         this.saveMedications();
         this.renderMedications();
         this.closeMedModal();
+
+        // Broadcast to connected peers
+        if (this.p2pSync && updatedMed) {
+            const messageType = isNew ? 'MED_ADDED' : 'MED_UPDATED';
+            this.p2pSync.broadcastChange(messageType, updatedMed);
+        }
     }
 
     // Edit medication
@@ -1447,6 +2527,11 @@ class HealthTracker {
             this.saveMedications();
             this.saveDailyLog();
             this.renderMedications();
+
+            // Broadcast to connected peers
+            if (this.p2pSync) {
+                this.p2pSync.broadcastChange('MED_DELETED', { id });
+            }
         }
     }
 
@@ -1571,12 +2656,12 @@ class HealthTracker {
 
     // Appointment methods
     loadAppointments() {
-        const stored = localStorage.getItem('appointments');
-        return stored ? JSON.parse(stored) : [];
+        const profileData = this.loadProfileData();
+        return profileData ? profileData.appointments : [];
     }
 
     saveAppointments() {
-        localStorage.setItem('appointments', JSON.stringify(this.appointments));
+        this.saveProfileData();
     }
 
     renderAppointments() {
@@ -1770,12 +2855,12 @@ class HealthTracker {
 
     // Log entry methods
     loadLogs() {
-        const stored = localStorage.getItem('logs');
-        return stored ? JSON.parse(stored) : [];
+        const profileData = this.loadProfileData();
+        return profileData ? profileData.logs : [];
     }
 
     saveLogs() {
-        localStorage.setItem('logs', JSON.stringify(this.logs));
+        this.saveProfileData();
     }
 
     renderLogs() {
@@ -2057,6 +3142,11 @@ class HealthTracker {
                     steps,
                     notes
                 };
+
+                // Broadcast update to connected peers
+                if (this.p2pSync) {
+                    this.p2pSync.broadcastChange('LOG_UPDATED', this.logs[index]);
+                }
             }
         } else {
             // Add new log
@@ -2073,6 +3163,11 @@ class HealthTracker {
                 notes
             };
             this.logs.push(log);
+
+            // Broadcast addition to connected peers
+            if (this.p2pSync) {
+                this.p2pSync.broadcastChange('LOG_ADDED', log);
+            }
         }
 
         this.saveLogs();
@@ -2092,6 +3187,11 @@ class HealthTracker {
             this.logs = this.logs.filter(l => l.id !== id);
             this.saveLogs();
             this.renderLogs();
+
+            // Broadcast deletion to connected peers
+            if (this.p2pSync) {
+                this.p2pSync.broadcastChange('LOG_DELETED', { id });
+            }
         }
     }
 
@@ -2133,7 +3233,7 @@ class HealthTracker {
             trackAppointments: localStorage.getItem('trackAppointments') === 'true',
             trackMetrics: localStorage.getItem('trackMetrics') === 'true',
             exportDate: new Date().toISOString(),
-            version: '1.0.8'
+            version: '1.2.0'
         };
 
         const dataStr = JSON.stringify(data, null, 2);
