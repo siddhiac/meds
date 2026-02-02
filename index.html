@@ -8,12 +8,13 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Meds">
-    <meta name="app-version" content="1.2.0">
+    <meta name="app-version" content="1.2.3">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <title>Meds</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles_profile.css">
 
     <!-- PeerJS for P2P sync -->
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
@@ -77,245 +78,213 @@
 
         <!-- Settings Section -->
         <div class="tab-content" id="settingsTab">
-            <div class="settings-section" id="profileManagementSection">
-                <h3 class="settings-section-title">Current Profile</h3>
-                <div class="current-profile-display">
-                    <div class="current-profile-info">
-                        <div class="current-profile-name" id="currentProfileName">Loading...</div>
-                        <div class="current-profile-desc">All data is stored separately per profile</div>
-                    </div>
-                    <button class="settings-data-button" id="switchProfileButton" style="margin: 0; border-color: #6b7c93;">
-                        <span class="settings-data-icon">👤</span>
-                        <div class="settings-data-content">
-                            <div class="settings-data-title">Switch Profile</div>
-                            <div class="settings-data-desc">Change to a different profile</div>
-                        </div>
-                    </button>
-                </div>
-            </div>
+            <div class="settings-section">
+                <h3 class="settings-section-title">Profile</h3>
 
-            <!-- Show when connected as peer -->
-            <div class="settings-section" id="syncedProfileSection" style="display: none;">
-                <h3 class="settings-section-title">Synced Profile</h3>
-                <div class="sync-connected-info">
-                    <div class="sync-status-header">
-                        <div class="sync-status-indicator online"></div>
-                        <div class="sync-status-text">Connected</div>
+                <!-- Profile Info Card -->
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-name-container">
+                            <div class="profile-name" id="activeProfileName">Loading...</div>
+                            <div class="profile-sync-badge" id="profileSyncBadge" style="display: none;">
+                                <div class="sync-status-indicator online"></div>
+                                <span id="profileSyncStatus">Synced</span>
+                            </div>
+                        </div>
+                        <div class="profile-desc" id="activeProfileDesc">All data is stored separately per profile</div>
                     </div>
-                    <div class="synced-profile-details">
-                        <div class="synced-profile-name" id="syncedProfileName">Shared Profile</div>
-                        <div class="synced-profile-desc">
-                            This device is viewing a shared profile. All changes sync in real-time with the host device.
+
+                    <!-- Profile Actions -->
+                    <div class="profile-actions" id="profileActions">
+                        <!-- Show when not syncing -->
+                        <div id="localProfileActions">
+                            <button class="profile-action-button" id="shareProfileButton">
+                                <span class="profile-action-icon">📡</span>
+                                <div class="profile-action-content">
+                                    <div class="profile-action-title">Share Profile</div>
+                                    <div class="profile-action-desc">Let others connect to sync</div>
+                                </div>
+                            </button>
+
+                            <button class="profile-action-button" id="switchOrJoinButton">
+                                <span class="profile-action-icon">🔄</span>
+                                <div class="profile-action-content">
+                                    <div class="profile-action-title">Switch or Join Profile</div>
+                                    <div class="profile-action-desc">Change profile or connect to shared</div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Show when sharing (host) -->
+                        <div id="sharingProfileState" style="display: none;">
+                            <div class="sharing-content">
+                                <p class="sharing-instructions">Scan this code with another device:</p>
+                                <div id="syncQRCode" class="sync-qr-canvas"></div>
+                                <p class="sync-code-text">Code: <strong id="syncRoomCode">Loading...</strong></p>
+
+                                <div class="connected-devices-section">
+                                    <h4 class="connected-devices-title">Connected Devices</h4>
+                                    <div id="connectedDevicesList" class="connected-devices-list">
+                                        <div class="no-devices-yet">No devices connected yet</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="profile-action-button danger" id="stopSharingButton">
+                                <span class="profile-action-icon">⏹</span>
+                                <div class="profile-action-content">
+                                    <div class="profile-action-title">Stop Sharing</div>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- Show when connected to shared profile (peer) -->
+                        <div id="connectedProfileState" style="display: none;">
+                            <div class="connected-info">
+                                <div class="connected-detail">
+                                    <span class="connected-label">Last sync:</span>
+                                    <span class="connected-value" id="lastSyncTime">Just now</span>
+                                </div>
+                                <div class="connected-detail">
+                                    <span class="connected-label">Status:</span>
+                                    <span class="connected-value sync-online">● Online</span>
+                                </div>
+                                <div class="connected-note">
+                                    All changes sync in real-time with the host device
+                                </div>
+                            </div>
+
+                            <button class="profile-action-button danger" id="disconnectButton">
+                                <span class="profile-action-icon">🔌</span>
+                                <div class="profile-action-content">
+                                    <div class="profile-action-title">Disconnect</div>
+                                </div>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="settings-section">
-                <h3 class="settings-section-title">Profile Sync</h3>
-                <p class="settings-section-desc">Share this profile with other devices on your local network for real-time syncing</p>
+                <h3 class="settings-section-title">Time of Day & Alarms</h3>
 
-                <!-- Not syncing state -->
-                <div id="syncNotActive" class="sync-container">
-                    <div class="sync-info">
-                        <div class="sync-status-indicator offline"></div>
-                        <div class="sync-status-text">Not syncing</div>
-                    </div>
-
-                    <div class="sync-actions">
-                        <button class="sync-button primary" id="startHostButton">
-                            <span class="sync-button-icon">📡</span>
-                            <div class="sync-button-content">
-                                <div class="sync-button-title">Share This Profile</div>
-                                <div class="sync-button-desc">Let others connect to this device</div>
-                            </div>
-                        </button>
-
-                        <button class="sync-button secondary" id="joinPeerButton">
-                            <span class="sync-button-icon">🔗</span>
-                            <div class="sync-button-content">
-                                <div class="sync-button-title">Join Shared Profile</div>
-                                <div class="sync-button-desc">Connect to another device</div>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Hosting state -->
-                <div id="syncHostActive" class="sync-container" style="display: none;">
-                    <div class="sync-info">
-                        <div class="sync-status-indicator online"></div>
-                        <div class="sync-status-text">Sharing profile</div>
-                    </div>
-
-                    <div class="sync-qr-container">
-                        <p class="sync-qr-instructions">Scan this code with another device to sync:</p>
-                        <div id="syncQRCode" class="sync-qr-canvas"></div>
-                        <p class="sync-code-text">Code: <strong id="syncRoomCode">Loading...</strong></p>
-                    </div>
-
-                    <div class="sync-connected-devices">
-                        <h4 class="sync-devices-title">Connected Devices:</h4>
-                        <div id="connectedDevicesList" class="sync-devices-list">
-                            <div class="sync-no-devices">No devices connected yet</div>
-                        </div>
-                    </div>
-
-                    <button class="sync-button danger" id="stopHostButton">
-                        Stop Sharing
-                    </button>
-                </div>
-
-                <!-- Peer connected state -->
-                <div id="syncPeerActive" class="sync-container" style="display: none;">
-                    <div class="sync-info">
-                        <div class="sync-status-indicator online"></div>
-                        <div class="sync-status-text">Connected to shared profile</div>
-                    </div>
-
-                    <div class="sync-peer-info">
-                        <div class="sync-peer-detail">
-                            <span class="sync-peer-label">Profile:</span>
-                            <span class="sync-peer-value" id="connectedProfileName">Mom's Profile</span>
-                        </div>
-                        <div class="sync-peer-detail">
-                            <span class="sync-peer-label">Last sync:</span>
-                            <span class="sync-peer-value" id="lastSyncTime">Just now</span>
-                        </div>
-                        <div class="sync-peer-detail">
-                            <span class="sync-peer-label">Status:</span>
-                            <span class="sync-peer-value sync-online">● Online</span>
-                        </div>
-                    </div>
-
-                    <button class="sync-button danger" id="disconnectPeerButton">
-                        Disconnect
-                    </button>
-                </div>
-            </div>
-
-            <div class="settings-section">
-                <h3 class="settings-section-title">Time of Day & Alarm Settings</h3>
-                <p class="settings-section-desc">Set times and optional alarm sounds for each time of day (alarms work only when app is open)</p>
-
-                <div class="settings-option" style="margin-bottom: 20px;">
+                <div class="settings-option" style="margin-bottom: 15px;">
                     <input type="checkbox" id="enableAlarms">
                     <label for="enableAlarms" style="cursor: pointer;">
                         <span class="settings-option-label">Enable Alarms</span>
-                        <span class="settings-option-desc">Play sound alerts when medications are due</span>
+                        <span class="settings-option-desc">Play sounds when medications are due (app must be open)</span>
                     </label>
                 </div>
 
-                <div class="time-alarm-settings">
+                <div class="time-alarm-table">
+                    <div class="time-alarm-header">
+                        <div class="time-alarm-col-label"></div>
+                        <div class="time-alarm-col-time">Time</div>
+                        <div class="time-alarm-col-alarm">Alarm Sound</div>
+                        <div class="time-alarm-col-test"></div>
+                    </div>
+
                     <!-- Morning -->
-                    <div class="time-alarm-group">
-                        <h4 class="time-alarm-heading">Morning</h4>
-                        <div class="time-alarm-controls">
-                            <div class="time-alarm-item">
-                                <label for="timeMorning" class="time-setting-label">Time</label>
-                                <input type="time" id="timeMorning" class="time-setting-input">
-                            </div>
-                            <div class="time-alarm-item" id="alarmMorningSettings">
-                                <label for="alarmSoundMorning" class="time-setting-label">Alarm Sound</label>
-                                <select id="alarmSoundMorning" class="alarm-sound-select">
-                                    <option value="none">No Alarm</option>
-                                    <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                    <option value="alarm_02.mp3">Alarm 2 - Ring</option>
-                                    <option value="alarm_03.mp3">Alarm 3 - Digital</option>
-                                    <option value="alarm_04.mp3">Alarm 4 - Classic</option>
-                                    <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
-                                    <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                    <option value="alarm_07.mp3">Alarm 7 - Piercing Beep</option>
-                                    <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                    <option value="alarm_09.mp3">Alarm 9 - Get Up</option>
-                                    <option value="alarm_10.mp3">Alarm 10 - Alert</option>
-                                </select>
-                            </div>
-                            <button type="button" class="test-alarm-button" data-time="morning">Test</button>
+                    <div class="time-alarm-row">
+                        <div class="time-alarm-col-label">Morning</div>
+                        <div class="time-alarm-col-time">
+                            <input type="time" id="timeMorning" class="time-input-compact">
+                        </div>
+                        <div class="time-alarm-col-alarm">
+                            <select id="alarmSoundMorning" class="alarm-select-compact">
+                                <option value="none">None</option>
+                                <option value="alarm_01.mp3">Alarm 1</option>
+                                <option value="alarm_02.mp3">Alarm 2</option>
+                                <option value="alarm_03.mp3">Alarm 3</option>
+                                <option value="alarm_04.mp3">Alarm 4</option>
+                                <option value="alarm_05.mp3">Alarm 5</option>
+                                <option value="alarm_06.mp3">Alarm 6</option>
+                                <option value="alarm_07.mp3">Alarm 7</option>
+                                <option value="alarm_08.mp3">Alarm 8</option>
+                                <option value="alarm_09.mp3">Alarm 9</option>
+                                <option value="alarm_10.mp3">Alarm 10</option>
+                            </select>
+                        </div>
+                        <div class="time-alarm-col-test">
+                            <button type="button" class="test-alarm-compact" data-time="morning">▶</button>
                         </div>
                     </div>
 
                     <!-- Afternoon -->
-                    <div class="time-alarm-group">
-                        <h4 class="time-alarm-heading">Afternoon</h4>
-                        <div class="time-alarm-controls">
-                            <div class="time-alarm-item">
-                                <label for="timeAfternoon" class="time-setting-label">Time</label>
-                                <input type="time" id="timeAfternoon" class="time-setting-input">
-                            </div>
-                            <div class="time-alarm-item" id="alarmAfternoonSettings">
-                                <label for="alarmSoundAfternoon" class="time-setting-label">Alarm Sound</label>
-                                <select id="alarmSoundAfternoon" class="alarm-sound-select">
-                                    <option value="none">No Alarm</option>
-                                    <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                    <option value="alarm_02.mp3">Alarm 2 - Ring</option>
-                                    <option value="alarm_03.mp3">Alarm 3 - Digital</option>
-                                    <option value="alarm_04.mp3">Alarm 4 - Classic</option>
-                                    <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
-                                    <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                    <option value="alarm_07.mp3">Alarm 7 - Piercing Beep</option>
-                                    <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                    <option value="alarm_09.mp3">Alarm 9 - Get Up</option>
-                                    <option value="alarm_10.mp3">Alarm 10 - Alert</option>
-                                </select>
-                            </div>
-                            <button type="button" class="test-alarm-button" data-time="afternoon">Test</button>
+                    <div class="time-alarm-row">
+                        <div class="time-alarm-col-label">Afternoon</div>
+                        <div class="time-alarm-col-time">
+                            <input type="time" id="timeAfternoon" class="time-input-compact">
+                        </div>
+                        <div class="time-alarm-col-alarm">
+                            <select id="alarmSoundAfternoon" class="alarm-select-compact">
+                                <option value="none">None</option>
+                                <option value="alarm_01.mp3">Alarm 1</option>
+                                <option value="alarm_02.mp3">Alarm 2</option>
+                                <option value="alarm_03.mp3">Alarm 3</option>
+                                <option value="alarm_04.mp3">Alarm 4</option>
+                                <option value="alarm_05.mp3">Alarm 5</option>
+                                <option value="alarm_06.mp3">Alarm 6</option>
+                                <option value="alarm_07.mp3">Alarm 7</option>
+                                <option value="alarm_08.mp3">Alarm 8</option>
+                                <option value="alarm_09.mp3">Alarm 9</option>
+                                <option value="alarm_10.mp3">Alarm 10</option>
+                            </select>
+                        </div>
+                        <div class="time-alarm-col-test">
+                            <button type="button" class="test-alarm-compact" data-time="afternoon">▶</button>
                         </div>
                     </div>
 
                     <!-- Evening -->
-                    <div class="time-alarm-group">
-                        <h4 class="time-alarm-heading">Evening</h4>
-                        <div class="time-alarm-controls">
-                            <div class="time-alarm-item">
-                                <label for="timeEvening" class="time-setting-label">Time</label>
-                                <input type="time" id="timeEvening" class="time-setting-input">
-                            </div>
-                            <div class="time-alarm-item" id="alarmEveningSettings">
-                                <label for="alarmSoundEvening" class="time-setting-label">Alarm Sound</label>
-                                <select id="alarmSoundEvening" class="alarm-sound-select">
-                                    <option value="none">No Alarm</option>
-                                    <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                    <option value="alarm_02.mp3">Alarm 2 - Ring</option>
-                                    <option value="alarm_03.mp3">Alarm 3 - Digital</option>
-                                    <option value="alarm_04.mp3">Alarm 4 - Classic</option>
-                                    <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
-                                    <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                    <option value="alarm_07.mp3">Alarm 7 - Piercing Beep</option>
-                                    <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                    <option value="alarm_09.mp3">Alarm 9 - Get Up</option>
-                                    <option value="alarm_10.mp3">Alarm 10 - Alert</option>
-                                </select>
-                            </div>
-                            <button type="button" class="test-alarm-button" data-time="evening">Test</button>
+                    <div class="time-alarm-row">
+                        <div class="time-alarm-col-label">Evening</div>
+                        <div class="time-alarm-col-time">
+                            <input type="time" id="timeEvening" class="time-input-compact">
+                        </div>
+                        <div class="time-alarm-col-alarm">
+                            <select id="alarmSoundEvening" class="alarm-select-compact">
+                                <option value="none">None</option>
+                                <option value="alarm_01.mp3">Alarm 1</option>
+                                <option value="alarm_02.mp3">Alarm 2</option>
+                                <option value="alarm_03.mp3">Alarm 3</option>
+                                <option value="alarm_04.mp3">Alarm 4</option>
+                                <option value="alarm_05.mp3">Alarm 5</option>
+                                <option value="alarm_06.mp3">Alarm 6</option>
+                                <option value="alarm_07.mp3">Alarm 7</option>
+                                <option value="alarm_08.mp3">Alarm 8</option>
+                                <option value="alarm_09.mp3">Alarm 9</option>
+                                <option value="alarm_10.mp3">Alarm 10</option>
+                            </select>
+                        </div>
+                        <div class="time-alarm-col-test">
+                            <button type="button" class="test-alarm-compact" data-time="evening">▶</button>
                         </div>
                     </div>
 
                     <!-- Bedtime -->
-                    <div class="time-alarm-group">
-                        <h4 class="time-alarm-heading">Bedtime</h4>
-                        <div class="time-alarm-controls">
-                            <div class="time-alarm-item">
-                                <label for="timeBedtime" class="time-setting-label">Time</label>
-                                <input type="time" id="timeBedtime" class="time-setting-input">
-                            </div>
-                            <div class="time-alarm-item" id="alarmBedtimeSettings">
-                                <label for="alarmSoundBedtime" class="time-setting-label">Alarm Sound</label>
-                                <select id="alarmSoundBedtime" class="alarm-sound-select">
-                                    <option value="none">No Alarm</option>
-                                    <option value="alarm_01.mp3">Alarm 1 - Gentle Bell</option>
-                                    <option value="alarm_02.mp3">Alarm 2 - Ring</option>
-                                    <option value="alarm_03.mp3">Alarm 3 - Digital</option>
-                                    <option value="alarm_04.mp3">Alarm 4 - Classic</option>
-                                    <option value="alarm_05.mp3">Alarm 5 - Soft Ring</option>
-                                    <option value="alarm_06.mp3">Alarm 6 - Notification</option>
-                                    <option value="alarm_07.mp3">Alarm 7 - Piercing Beep</option>
-                                    <option value="alarm_08.mp3">Alarm 8 - Beep</option>
-                                    <option value="alarm_09.mp3">Alarm 9 - Get Up</option>
-                                    <option value="alarm_10.mp3">Alarm 10 - Alert</option>
-                                </select>
-                            </div>
-                            <button type="button" class="test-alarm-button" data-time="bedtime">Test</button>
+                    <div class="time-alarm-row">
+                        <div class="time-alarm-col-label">Bedtime</div>
+                        <div class="time-alarm-col-time">
+                            <input type="time" id="timeBedtime" class="time-input-compact">
+                        </div>
+                        <div class="time-alarm-col-alarm">
+                            <select id="alarmSoundBedtime" class="alarm-select-compact">
+                                <option value="none">None</option>
+                                <option value="alarm_01.mp3">Alarm 1</option>
+                                <option value="alarm_02.mp3">Alarm 2</option>
+                                <option value="alarm_03.mp3">Alarm 3</option>
+                                <option value="alarm_04.mp3">Alarm 4</option>
+                                <option value="alarm_05.mp3">Alarm 5</option>
+                                <option value="alarm_06.mp3">Alarm 6</option>
+                                <option value="alarm_07.mp3">Alarm 7</option>
+                                <option value="alarm_08.mp3">Alarm 8</option>
+                                <option value="alarm_09.mp3">Alarm 9</option>
+                                <option value="alarm_10.mp3">Alarm 10</option>
+                            </select>
+                        </div>
+                        <div class="time-alarm-col-test">
+                            <button type="button" class="test-alarm-compact" data-time="bedtime">▶</button>
                         </div>
                     </div>
                 </div>
@@ -423,6 +392,8 @@
 
             <div class="profile-actions">
                 <button type="button" class="add-profile-button" id="addProfileButton">+ Create New Profile</button>
+                <button type="button" class="import-profile-button" id="importProfileButton">📥 Import from Backup</button>
+                <input type="file" id="importProfileFileInput" accept=".json" style="display: none;">
             </div>
         </div>
     </div>
@@ -454,7 +425,38 @@
     </div>
 
     <!-- Modal for joining sync -->
-    <div class="modal" id="joinSyncModal" style="z-index: 10001;">
+    <!-- Modal for Switch or Join Profile -->
+    <div class="modal" id="switchOrJoinModal" style="z-index: 10001;">
+        <div class="modal-content">
+            <h2>Switch or Join Profile</h2>
+            <p style="color: #666; margin-bottom: 20px;">Choose an action</p>
+
+            <div class="profile-choice-buttons">
+                <button class="profile-choice-button" id="switchProfileChoice">
+                    <span class="profile-choice-icon">👤</span>
+                    <div class="profile-choice-content">
+                        <div class="profile-choice-title">Switch Profile</div>
+                        <div class="profile-choice-desc">Change to a different local profile</div>
+                    </div>
+                </button>
+
+                <button class="profile-choice-button" id="joinProfileChoice">
+                    <span class="profile-choice-icon">🔗</span>
+                    <div class="profile-choice-content">
+                        <div class="profile-choice-title">Join Shared Profile</div>
+                        <div class="profile-choice-desc">Connect to another device</div>
+                    </div>
+                </button>
+            </div>
+
+            <div class="form-buttons">
+                <button type="button" class="cancel-button" id="switchOrJoinCancelButton">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for joining shared profile -->
+    <div class="modal" id="joinSyncModal" style="z-index: 10002;">
         <div class="modal-content">
             <h2>Join Shared Profile</h2>
             <p style="color: #666; margin-bottom: 20px;">Enter the sync code from the device sharing the profile</p>

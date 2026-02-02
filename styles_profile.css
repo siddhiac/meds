@@ -1,0 +1,399 @@
+/* Unified Profile Section Styles */
+
+.profile-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    border: 2px solid #e0e0e0;
+}
+
+.profile-header {
+    margin-bottom: 20px;
+}
+
+.profile-name-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.profile-sync-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: #e8f5e9;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #2e7d32;
+}
+
+.profile-sync-badge .sync-status-indicator {
+    width: 8px;
+    height: 8px;
+}
+
+.profile-desc {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+.profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.profile-action-button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    width: 100%;
+    text-align: left;
+}
+
+.profile-action-button:hover {
+    border-color: #6b7c93;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-action-button:active {
+    transform: translateY(0);
+}
+
+.profile-action-button.danger {
+    border-color: #dc3545;
+    background: #fff5f5;
+}
+
+.profile-action-button.danger:hover {
+    background: #dc3545;
+    color: white;
+}
+
+.profile-action-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.profile-action-content {
+    flex: 1;
+}
+
+.profile-action-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #2c3e50;
+}
+
+.profile-action-desc {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Sharing State */
+.sharing-content {
+    padding: 15px 0;
+}
+
+.sharing-instructions {
+    text-align: center;
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+
+.connected-devices-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #e0e0e0;
+}
+
+.connected-devices-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 12px;
+}
+
+.connected-devices-list {
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    min-height: 50px;
+}
+
+.no-devices-yet {
+    color: #999;
+    font-size: 0.9rem;
+    text-align: center;
+    font-style: italic;
+}
+
+/* Connected State */
+.connected-info {
+    padding: 15px 0;
+}
+
+.connected-detail {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.connected-detail:last-of-type {
+    border-bottom: none;
+}
+
+.connected-label {
+    font-weight: 600;
+    color: #666;
+}
+
+.connected-value {
+    color: #2c3e50;
+}
+
+.connected-value.sync-online {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.connected-note {
+    margin-top: 15px;
+    padding: 12px;
+    background: #e8f5e9;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #1b5e20;
+    line-height: 1.5;
+}
+
+/* Profile Choice Modal */
+.profile-choice-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.profile-choice-button {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 18px 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    text-align: left;
+}
+
+.profile-choice-button:hover {
+    border-color: #6b7c93;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.profile-choice-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.profile-choice-content {
+    flex: 1;
+}
+
+.profile-choice-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+    color: #2c3e50;
+}
+
+.profile-choice-desc {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Compact Time & Alarm Table */
+.time-alarm-table {
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid #e0e0e0;
+}
+
+.time-alarm-header {
+    display: grid;
+    grid-template-columns: 100px 1fr 2fr 60px;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #e0e0e0;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #2c3e50;
+}
+
+.time-alarm-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 2fr 60px;
+    gap: 10px;
+    padding: 10px 12px;
+    align-items: center;
+    border-bottom: 1px solid #e0e0e0;
+    background: white;
+}
+
+.time-alarm-row:last-child {
+    border-bottom: none;
+}
+
+.time-alarm-row:hover {
+    background: #f8f9fa;
+}
+
+.time-alarm-col-label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+.time-alarm-col-time {
+    display: flex;
+    align-items: center;
+}
+
+.time-input-compact {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: white;
+}
+
+.time-input-compact:focus {
+    outline: none;
+    border-color: #6b7c93;
+    box-shadow: 0 0 0 2px rgba(107, 124, 147, 0.1);
+}
+
+.time-alarm-col-alarm {
+    display: flex;
+    align-items: center;
+}
+
+.alarm-select-compact {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    background: white;
+    cursor: pointer;
+}
+
+.alarm-select-compact:focus {
+    outline: none;
+    border-color: #6b7c93;
+    box-shadow: 0 0 0 2px rgba(107, 124, 147, 0.1);
+}
+
+.time-alarm-col-test {
+    display: flex;
+    justify-content: center;
+}
+
+.test-alarm-compact {
+    width: 40px;
+    height: 32px;
+    padding: 0;
+    border: 1px solid #6b7c93;
+    border-radius: 6px;
+    background: white;
+    color: #6b7c93;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.test-alarm-compact:hover {
+    background: #6b7c93;
+    color: white;
+}
+
+.test-alarm-compact:active {
+    transform: scale(0.95);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .profile-name {
+        font-size: 1.3rem;
+    }
+
+    .profile-action-button {
+        padding: 14px 16px;
+    }
+
+    .profile-action-icon {
+        font-size: 1.5rem;
+    }
+
+    .profile-choice-icon {
+        font-size: 1.8rem;
+    }
+
+    .time-alarm-header {
+        grid-template-columns: 80px 1fr 1.5fr 50px;
+        gap: 8px;
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+
+    .time-alarm-row {
+        grid-template-columns: 80px 1fr 1.5fr 50px;
+        gap: 8px;
+        padding: 8px 10px;
+    }
+
+    .time-alarm-col-label {
+        font-size: 0.9rem;
+    }
+
+    .time-input-compact,
+    .alarm-select-compact {
+        font-size: 0.85rem;
+        padding: 5px 6px;
+    }
+
+    .test-alarm-compact {
+        width: 36px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+}

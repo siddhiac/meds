@@ -7,7 +7,9 @@ class P2PSync {
         this.isHost = false;
         this.roomId = null;
         this.deviceName = this.getDeviceName();
+        this.deviceId = this.getOrCreateDeviceId();
         this.hostProfileName = null; // Store host's profile name for peers
+        this.autoReconnectAttempted = false;
     }
 
     getDeviceName() {
@@ -21,6 +23,108 @@ class P2PSync {
         return 'Device';
     }
 
+    // Generate or retrieve a persistent device ID
+    getOrCreateDeviceId() {
+        let deviceId = localStorage.getItem('p2p_device_id');
+        if (!deviceId) {
+            deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substring(2, 11);
+            localStorage.setItem('p2p_device_id', deviceId);
+        }
+        return deviceId;
+    }
+
+    // Save sync state for auto-reconnect
+    saveSyncState() {
+        const state = {
+            isHost: this.isHost,
+            roomId: this.roomId,
+            profileId: this.tracker.currentProfile?.id,
+            hostProfileName: this.hostProfileName,
+            savedAt: Date.now()
+        };
+        localStorage.setItem('p2p_sync_state', JSON.stringify(state));
+    }
+
+    // Load sync state
+    loadSyncState() {
+        const stored = localStorage.getItem('p2p_sync_state');
+        if (!stored) return null;
+
+        try {
+            const state = JSON.parse(stored);
+            // State expires after 24 hours
+            if (Date.now() - state.savedAt > 24 * 60 * 60 * 1000) {
+                this.clearSyncState();
+                return null;
+            }
+            return state;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    // Clear sync state
+    clearSyncState() {
+        localStorage.removeItem('p2p_sync_state');
+    }
+
+    // Save trusted device
+    addTrustedDevice(deviceId, deviceName) {
+        const trusted = this.getTrustedDevices();
+        trusted[deviceId] = {
+            name: deviceName,
+            lastSeen: Date.now()
+        };
+        localStorage.setItem('p2p_trusted_devices', JSON.stringify(trusted));
+    }
+
+    // Get trusted devices
+    getTrustedDevices() {
+        const stored = localStorage.getItem('p2p_trusted_devices');
+        if (!stored) return {};
+        try {
+            return JSON.parse(stored);
+        } catch (e) {
+            return {};
+        }
+    }
+
+    // Check if device is trusted
+    isDeviceTrusted(deviceId) {
+        const trusted = this.getTrustedDevices();
+        return !!trusted[deviceId];
+    }
+
+    // Try to auto-reconnect based on saved state
+    tryAutoReconnect() {
+        if (this.autoReconnectAttempted) return false;
+        this.autoReconnectAttempted = true;
+
+        const state = this.loadSyncState();
+        if (!state || !state.roomId) return false;
+
+        // Only auto-reconnect for the same profile
+        if (state.profileId !== this.tracker.currentProfile?.id) return false;
+
+        console.log('Auto-reconnect: Found saved sync state', state);
+
+        // Show reconnecting UI
+        this.showReconnectingUI(state.isHost);
+
+        if (state.isHost) {
+            // Resume hosting with the same room code
+            console.log('Auto-reconnect: Resuming as host with code', state.roomId);
+            this.startHost(state.roomId);
+            return true;
+        } else {
+            // Try to reconnect as peer
+            console.log('Auto-reconnect: Reconnecting as peer to', state.roomId);
+            this.hostProfileName = state.hostProfileName;
+            this.joinRoom(state.roomId, true); // true = auto-reconnect attempt
+            return true;
+        }
+    }
+
     generateRoomId() {
         // Generate a short, memorable room code
         const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Removed ambiguous characters
@@ -32,9 +136,9 @@ class P2PSync {
     }
 
     // Start as host (sharing profile)
-    startHost() {
+    startHost(existingRoomId = null) {
         this.isHost = true;
-        this.roomId = this.generateRoomId();
+        this.roomId = existingRoomId || this.generateRoomId();
 
         // Configure PeerJS to use custom server (you'll need to set this up)
         // For now, using the default PeerJS cloud server
@@ -49,6 +153,9 @@ class P2PSync {
             console.log('Host started with ID:', id);
             this.showHostUI();
             this.generateQRCode(id);
+
+            // Save sync state for auto-reconnect
+            this.saveSyncState();
         });
 
         this.peer.on('connection', (conn) => {
@@ -58,7 +165,13 @@ class P2PSync {
 
         this.peer.on('error', (err) => {
             console.error('Peer error:', err);
-            alert('Connection error: ' + err.message);
+            // If auto-reconnecting and fails, clear the state
+            if (existingRoomId) {
+                console.log('Auto-reconnect failed, clearing state');
+                this.clearSyncState();
+            } else {
+                alert('Connection error: ' + err.message);
+            }
         });
     }
 
@@ -72,9 +185,10 @@ class P2PSync {
             // Send full profile data
             this.sendFullSync(conn);
 
-            // Send device info
+            // Send device info including our device ID
             conn.send({
                 type: 'DEVICE_INFO',
+                deviceId: this.deviceId,
                 deviceName: this.deviceName,
                 timestamp: Date.now()
             });
@@ -85,6 +199,16 @@ class P2PSync {
 
         conn.on('data', (data) => {
             this.handleIncomingData(data, conn);
+
+            // If we received device info, add to trusted devices
+            if (data.type === 'DEVICE_INFO' && data.deviceId) {
+                this.addTrustedDevice(data.deviceId, data.deviceName || 'Unknown Device');
+                conn.metadata = {
+                    deviceId: data.deviceId,
+                    deviceName: data.deviceName
+                };
+                this.updateConnectedDevices();
+            }
         });
 
         conn.on('close', () => {
@@ -101,9 +225,10 @@ class P2PSync {
     }
 
     // Join as peer (connecting to shared profile)
-    joinRoom(roomId) {
+    joinRoom(roomId, isAutoReconnect = false) {
         this.isHost = false;
         this.roomId = roomId;
+        this.isAutoReconnecting = isAutoReconnect;
 
         this.peer = new Peer({
             // Same server config as host
@@ -117,7 +242,13 @@ class P2PSync {
 
         this.peer.on('error', (err) => {
             console.error('Peer error:', err);
-            alert('Failed to connect: ' + err.message);
+            if (this.isAutoReconnecting) {
+                console.log('Auto-reconnect failed, clearing state');
+                this.clearSyncState();
+                this.isAutoReconnecting = false;
+            } else {
+                alert('Failed to connect: ' + err.message);
+            }
         });
     }
 
@@ -127,10 +258,12 @@ class P2PSync {
         conn.on('open', () => {
             console.log('Connected to host');
             this.showPeerUI();
+            this.isAutoReconnecting = false;
 
-            // Send device info
+            // Send device info including our device ID
             conn.send({
                 type: 'DEVICE_INFO',
+                deviceId: this.deviceId,
                 deviceName: this.deviceName,
                 timestamp: Date.now()
             });
@@ -140,6 +273,9 @@ class P2PSync {
                 type: 'REQUEST_FULL_SYNC',
                 timestamp: Date.now()
             });
+
+            // Save sync state for future auto-reconnect
+            this.saveSyncState();
         });
 
         conn.on('data', (data) => {
@@ -148,12 +284,12 @@ class P2PSync {
 
         conn.on('close', () => {
             console.log('Disconnected from host');
-            this.disconnect();
+            this.disconnect(true); // true = keep sync state for reconnect
         });
 
         conn.on('error', (err) => {
             console.error('Connection error:', err);
-            this.disconnect();
+            this.disconnect(true); // true = keep sync state for reconnect
         });
     }
 
@@ -250,21 +386,40 @@ class P2PSync {
     }
 
     handleFullSync(message) {
-        // Save the full profile data
+        // Store the host's profile info
+        this.hostProfileName = message.profileName;
+        this.hostProfileId = message.profileId;
+
+        // IMPORTANT: Update the tracker's current profile to use the host's profile ID
+        // This ensures all save/load operations use the same key as the host
+        const originalProfileId = this.tracker.currentProfile.id;
+        this.tracker.currentProfile = {
+            ...this.tracker.currentProfile,
+            id: message.profileId,
+            name: message.profileName,
+            originalId: originalProfileId, // Keep track of original for when we disconnect
+            isSynced: true
+        };
+
+        // Save the full profile data under the host's profile ID
         const key = `profileData_${message.profileId}`;
         localStorage.setItem(key, JSON.stringify(message.data));
 
-        // Store the host's profile name
-        this.hostProfileName = message.profileName;
-
         // Update profile name displays
-        document.getElementById('connectedProfileName').textContent = message.profileName;
-        document.getElementById('syncedProfileName').textContent = message.profileName;
+        const connectedProfileName = document.getElementById('connectedProfileName');
+        if (connectedProfileName) {
+            connectedProfileName.textContent = message.profileName;
+        }
+        document.getElementById('activeProfileName').textContent = message.profileName;
 
-        // Reload the app data
+        // Reload the app data from the synced data
         this.tracker.medications = message.data.medications || [];
         this.tracker.appointments = message.data.appointments || [];
         this.tracker.logs = message.data.logs || [];
+
+        // Also load daily logs for the current date
+        const dateStr = this.tracker.getDateString(this.tracker.selectedDate);
+        this.tracker.dailyLog = message.data.dailyLogs?.[dateStr] || { date: dateStr, taken: [] };
 
         // Re-render everything
         this.tracker.renderMedications();
@@ -405,37 +560,66 @@ class P2PSync {
 
     // UI Methods
     showHostUI() {
-        document.getElementById('syncNotActive').style.display = 'none';
-        document.getElementById('syncHostActive').style.display = 'block';
-        document.getElementById('syncPeerActive').style.display = 'none';
+        // Hide local profile actions
+        document.getElementById('localProfileActions').style.display = 'none';
+        document.getElementById('connectedProfileState').style.display = 'none';
 
-        // Show profile management for hosts (they can still switch profiles)
-        document.getElementById('profileManagementSection').style.display = 'block';
-        document.getElementById('syncedProfileSection').style.display = 'none';
+        // Show sharing state
+        document.getElementById('sharingProfileState').style.display = 'block';
+
+        // Update profile info
+        document.getElementById('activeProfileName').textContent = this.tracker.currentProfile?.name || 'Profile';
+        document.getElementById('activeProfileDesc').textContent = 'Sharing with connected devices';
+
+        // Show sync badge
+        const badge = document.getElementById('profileSyncBadge');
+        badge.style.display = 'inline-flex';
+        document.getElementById('profileSyncStatus').textContent = 'Sharing';
     }
 
     showPeerUI() {
-        document.getElementById('syncNotActive').style.display = 'none';
-        document.getElementById('syncHostActive').style.display = 'none';
-        document.getElementById('syncPeerActive').style.display = 'block';
+        // Hide local profile actions and sharing state
+        document.getElementById('localProfileActions').style.display = 'none';
+        document.getElementById('sharingProfileState').style.display = 'none';
 
-        // Hide profile management, show synced profile section
-        document.getElementById('profileManagementSection').style.display = 'none';
-        document.getElementById('syncedProfileSection').style.display = 'block';
+        // Show connected state
+        document.getElementById('connectedProfileState').style.display = 'block';
 
-        // Update synced profile name (use host's profile name if available)
+        // Update profile info with host's profile name
         const profileName = this.hostProfileName || 'Shared Profile';
-        document.getElementById('syncedProfileName').textContent = profileName;
+        document.getElementById('activeProfileName').textContent = profileName;
+        document.getElementById('activeProfileDesc').textContent = 'Syncing in real-time with host device';
+
+        // Show sync badge
+        const badge = document.getElementById('profileSyncBadge');
+        badge.style.display = 'inline-flex';
+        document.getElementById('profileSyncStatus').textContent = 'Synced';
+    }
+
+    showReconnectingUI(isHost) {
+        // Show badge with "Reconnecting" status
+        const badge = document.getElementById('profileSyncBadge');
+        badge.style.display = 'inline-flex';
+        document.getElementById('profileSyncStatus').textContent = 'Reconnecting...';
+
+        // Update description
+        document.getElementById('activeProfileDesc').textContent = isHost
+            ? 'Resuming sharing session...'
+            : 'Reconnecting to host device...';
     }
 
     showNotSyncingUI() {
-        document.getElementById('syncNotActive').style.display = 'block';
-        document.getElementById('syncHostActive').style.display = 'none';
-        document.getElementById('syncPeerActive').style.display = 'none';
+        // Show local profile actions
+        document.getElementById('localProfileActions').style.display = 'block';
+        document.getElementById('sharingProfileState').style.display = 'none';
+        document.getElementById('connectedProfileState').style.display = 'none';
 
-        // Show profile management, hide synced profile section
-        document.getElementById('profileManagementSection').style.display = 'block';
-        document.getElementById('syncedProfileSection').style.display = 'none';
+        // Update profile info
+        document.getElementById('activeProfileName').textContent = this.tracker.currentProfile?.name || 'Profile';
+        document.getElementById('activeProfileDesc').textContent = 'All data is stored separately per profile';
+
+        // Hide sync badge
+        document.getElementById('profileSyncBadge').style.display = 'none';
     }
 
     generateQRCode(roomId) {
@@ -491,7 +675,8 @@ class P2PSync {
     }
 
     // Disconnect and cleanup
-    disconnect() {
+    // keepStateForReconnect: if true, don't clear the sync state (allows auto-reconnect)
+    disconnect(keepStateForReconnect = false) {
         if (this.peer) {
             this.peer.destroy();
             this.peer = null;
@@ -500,6 +685,11 @@ class P2PSync {
         this.connections.clear();
         this.isHost = false;
         this.roomId = null;
+
+        // Clear sync state unless we want to allow auto-reconnect
+        if (!keepStateForReconnect) {
+            this.clearSyncState();
+        }
 
         this.showNotSyncingUI();
     }
@@ -627,6 +817,21 @@ class HealthTracker {
         this.checkiOSInstallPrompt(); // Check if we should show iOS install instructions
         this.startVersionCheck(); // Check for app updates periodically
         this.checkSyncParameter(); // Check if opened with sync code
+        this.tryAutoReconnect(); // Try to auto-reconnect if we were previously syncing
+    }
+
+    // Try to auto-reconnect to previous sync session
+    tryAutoReconnect() {
+        // Don't auto-reconnect if there's a sync code in URL (manual connect takes priority)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('sync')) return;
+
+        // Try auto-reconnect after a short delay to ensure UI is ready
+        setTimeout(() => {
+            if (this.p2pSync.tryAutoReconnect()) {
+                console.log('Auto-reconnect initiated');
+            }
+        }, 1000);
     }
 
     // Check if URL has sync parameter from QR code
@@ -938,7 +1143,17 @@ class HealthTracker {
 
     updateCurrentProfileDisplay() {
         if (this.currentProfile) {
-            document.getElementById('currentProfileName').textContent = this.currentProfile.name;
+            // Update the new unified profile UI
+            const activeProfileName = document.getElementById('activeProfileName');
+            if (activeProfileName) {
+                activeProfileName.textContent = this.currentProfile.name;
+            }
+
+            // Legacy support (if old elements still exist)
+            const currentProfileName = document.getElementById('currentProfileName');
+            if (currentProfileName) {
+                currentProfileName.textContent = this.currentProfile.name;
+            }
         }
     }
 
@@ -950,6 +1165,15 @@ class HealthTracker {
 
     closeJoinSyncModal() {
         document.getElementById('joinSyncModal').classList.remove('active');
+    }
+
+    // Switch or Join modal methods
+    openSwitchOrJoinModal() {
+        document.getElementById('switchOrJoinModal').classList.add('active');
+    }
+
+    closeSwitchOrJoinModal() {
+        document.getElementById('switchOrJoinModal').classList.remove('active');
     }
 
     // Load medications from localStorage
@@ -1422,6 +1646,16 @@ class HealthTracker {
             e.preventDefault();
             this.saveProfile();
         });
+
+        // Import from backup button in profile selection modal
+        document.getElementById('importProfileButton').addEventListener('click', () => {
+            document.getElementById('importProfileFileInput').click();
+        });
+
+        document.getElementById('importProfileFileInput').addEventListener('change', (e) => {
+            this.importDataWithProfile(e.target.files[0]);
+            e.target.value = ''; // Reset file input
+        });
     }
 
     // Attach event listeners
@@ -1429,27 +1663,34 @@ class HealthTracker {
         // Profile management
         this.attachProfileEventListeners();
 
-        const switchProfileButton = document.getElementById('switchProfileButton');
-        if (switchProfileButton) {
-            switchProfileButton.addEventListener('click', () => {
-                this.showProfileModal();
-            });
-        }
-
-        // P2P Sync event listeners
-        document.getElementById('startHostButton').addEventListener('click', () => {
+        // New unified profile UI event listeners
+        document.getElementById('shareProfileButton').addEventListener('click', () => {
             this.p2pSync.startHost();
         });
 
-        document.getElementById('joinPeerButton').addEventListener('click', () => {
+        document.getElementById('switchOrJoinButton').addEventListener('click', () => {
+            this.openSwitchOrJoinModal();
+        });
+
+        document.getElementById('switchOrJoinCancelButton').addEventListener('click', () => {
+            this.closeSwitchOrJoinModal();
+        });
+
+        document.getElementById('switchProfileChoice').addEventListener('click', () => {
+            this.closeSwitchOrJoinModal();
+            this.showProfileModal();
+        });
+
+        document.getElementById('joinProfileChoice').addEventListener('click', () => {
+            this.closeSwitchOrJoinModal();
             this.openJoinSyncModal();
         });
 
-        document.getElementById('stopHostButton').addEventListener('click', () => {
+        document.getElementById('stopSharingButton').addEventListener('click', () => {
             this.p2pSync.disconnect();
         });
 
-        document.getElementById('disconnectPeerButton').addEventListener('click', () => {
+        document.getElementById('disconnectButton').addEventListener('click', () => {
             this.p2pSync.disconnect();
         });
 
@@ -1722,7 +1963,8 @@ class HealthTracker {
         });
 
         // Test alarm buttons
-        document.querySelectorAll('.test-alarm-button').forEach(button => {
+        // Support both old and new test alarm button classes
+        document.querySelectorAll('.test-alarm-button, .test-alarm-compact').forEach(button => {
             button.addEventListener('click', (e) => {
                 const timeOfDay = e.target.getAttribute('data-time');
                 this.testAlarmSound(timeOfDay);
@@ -1971,7 +2213,7 @@ class HealthTracker {
                         <img src="favicon.png" alt="App Icon" class="header-app-icon">
                         <div class="header-app-details">
                             <div class="header-app-name">Meds Tracker</div>
-                            <div class="header-app-version">Version 1.2.0 — January 8, 2026</div>
+                            <div class="header-app-version">Version 1.2.3 — January 28, 2026</div>
                             <div class="header-app-author">by Sid Cooperrider</div>
                         </div>
                     </div>
@@ -3205,7 +3447,18 @@ class HealthTracker {
         document.getElementById('prevWeekButton').addEventListener('click', () => this.changeWeek(-1));
         document.getElementById('nextWeekButton').addEventListener('click', () => this.changeWeek(1));
         document.getElementById('weeklyViewCloseButton').addEventListener('click', () => this.closeWeeklyViewModal());
-        document.getElementById('weeklyViewPrintButton').addEventListener('click', () => window.print());
+        document.getElementById('weeklyViewPrintButton').addEventListener('click', () => {
+            document.body.classList.add('printing-weekly');
+
+            // Use afterprint event to remove class after print dialog closes
+            const handleAfterPrint = () => {
+                document.body.classList.remove('printing-weekly');
+                window.removeEventListener('afterprint', handleAfterPrint);
+            };
+            window.addEventListener('afterprint', handleAfterPrint);
+
+            window.print();
+        });
     }
 
     closeWeeklyViewModal() {
@@ -3223,17 +3476,25 @@ class HealthTracker {
 
     // Export all data to JSON file
     async exportData() {
+        // Get profile data which contains dailyLogs and asNeededLogs
+        const profileData = this.loadProfileData() || {};
+
         const data = {
+            // Include profile info for import on new devices
+            profile: {
+                name: this.currentProfile?.name || 'Imported Profile',
+                createdAt: this.currentProfile?.createdAt || new Date().toISOString()
+            },
             medications: this.medications,
-            dailyLogs: JSON.parse(localStorage.getItem('dailyLogs') || '{}'),
-            asNeededLogs: JSON.parse(localStorage.getItem('asNeededLogs') || '[]'),
+            dailyLogs: profileData.dailyLogs || {},
+            asNeededLogs: profileData.asNeededLogs || [],
             appointments: this.appointments,
             logs: this.logs,
             metricPreferences: JSON.parse(localStorage.getItem('metricPreferences') || '{}'),
             trackAppointments: localStorage.getItem('trackAppointments') === 'true',
             trackMetrics: localStorage.getItem('trackMetrics') === 'true',
             exportDate: new Date().toISOString(),
-            version: '1.2.0'
+            version: '1.2.3'
         };
 
         const dataStr = JSON.stringify(data, null, 2);
@@ -3330,6 +3591,76 @@ class HealthTracker {
 
             // Reset the file input
             document.getElementById('importFileInput').value = '';
+        };
+
+        reader.readAsText(file);
+    }
+
+    // Import data from backup file and create profile (for first-time setup)
+    importDataWithProfile(file) {
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target.result);
+
+                // Validate data structure
+                if (!data.medications && !data.dailyLogs) {
+                    throw new Error('Invalid backup file format');
+                }
+
+                // Get profile name from backup or prompt user
+                let profileName = data.profile?.name || 'Imported Profile';
+                const customName = prompt(`Enter a name for this profile:`, profileName);
+                if (customName === null) {
+                    // User cancelled
+                    return;
+                }
+                profileName = customName.trim() || profileName;
+
+                // Create new profile
+                const profile = {
+                    id: Date.now().toString(),
+                    name: profileName,
+                    createdAt: data.profile?.createdAt || new Date().toISOString()
+                };
+
+                // Save the profile
+                this.profiles.push(profile);
+                this.saveProfiles();
+
+                // Save data with the new profile's ID
+                const profileDataKey = `profileData_${profile.id}`;
+                const profileData = {
+                    medications: data.medications || [],
+                    appointments: data.appointments || [],
+                    logs: data.logs || [],
+                    dailyLogs: data.dailyLogs || {},
+                    asNeededLogs: data.asNeededLogs || []
+                };
+                localStorage.setItem(profileDataKey, JSON.stringify(profileData));
+
+                // Import settings
+                if (data.metricPreferences) {
+                    localStorage.setItem('metricPreferences', JSON.stringify(data.metricPreferences));
+                }
+                if (data.trackAppointments !== undefined) {
+                    localStorage.setItem('trackAppointments', data.trackAppointments.toString());
+                }
+                if (data.trackMetrics !== undefined) {
+                    localStorage.setItem('trackMetrics', data.trackMetrics.toString());
+                }
+
+                // Set as active profile
+                this.setActiveProfile(profile.id);
+
+                // Reload the page
+                alert(`Profile "${profileName}" created with imported data! The page will now reload.`);
+                location.reload();
+            } catch (error) {
+                alert('Error importing data: ' + error.message);
+            }
         };
 
         reader.readAsText(file);
@@ -3820,10 +4151,19 @@ class HealthTracker {
         const medsForTime = activeMeds.filter(med => med.time === time);
 
         if (medsForTime.length > 0) {
+            // Get the daily log for this date to check taken status
+            const dateStr = this.getDateString(date);
+            const dayLog = this.loadDailyLog(dateStr);
+            const takenIds = dayLog.taken || [];
+
             medsForTime.forEach(med => {
+                // Check if this medication was taken on this day
+                const isTaken = takenIds.includes(med.displayId);
+                const checkedAttr = isTaken ? 'checked' : '';
+
                 html += `
-                    <div class="weekly-med-item">
-                        <input type="checkbox" class="weekly-checkbox">
+                    <div class="weekly-med-item ${isTaken ? 'taken' : ''}">
+                        <input type="checkbox" class="weekly-checkbox" ${checkedAttr} disabled>
                         <span class="weekly-med-label">${med.name}</span>
                     </div>
                 `;
@@ -3962,8 +4302,8 @@ class HealthTracker {
     }
 
     updateTestButtonState(timeOfDay) {
-        // Find the test button for this time of day
-        const testButton = document.querySelector(`.test-alarm-button[data-time="${timeOfDay}"]`);
+        // Find the test button for this time of day (support both class names)
+        const testButton = document.querySelector(`.test-alarm-button[data-time="${timeOfDay}"], .test-alarm-compact[data-time="${timeOfDay}"]`);
         if (!testButton) return;
 
         // Get the alarm sound select
@@ -3992,9 +4332,9 @@ class HealthTracker {
             }
         });
 
-        // Show/hide test buttons
-        document.querySelectorAll('.test-alarm-button').forEach(button => {
-            button.style.display = show ? 'block' : 'none';
+        // Show/hide test buttons (support both class names)
+        document.querySelectorAll('.test-alarm-button, .test-alarm-compact').forEach(button => {
+            button.style.display = show ? 'flex' : 'none';
         });
     }
 
