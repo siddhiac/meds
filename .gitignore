@@ -25,7 +25,13 @@ Temporary Items
 # IDE
 .vscode/
 .idea/
+.claude/
 
 # Logs
 *.log
 npm-debug.log*
+
+# manually named backup files
+index.html_*
+app.js_*
+styles.css_*

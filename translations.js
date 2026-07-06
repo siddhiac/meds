@@ -1,0 +1,7735 @@
+const TRANSLATIONS = {
+  en: {
+    tab: { meds: 'Meds', appointments: 'Appointments', metrics: 'Metrics' },
+    header: {
+      meds: 'Meds', appointments: 'Appointments', metrics: 'Metrics',
+      medSchedule: 'Med Schedule', asNeeded: '+ As-Needed',
+      addAppointment: '+ Add Appointment', addMetrics: '+ Add Metrics',
+      weekView: 'Week View', back: '← Back', filterMetrics: 'Filter Metrics ▼', print: 'Print'
+    },
+    timeOfDay: {
+      morning: 'Morning', afternoon: 'Afternoon', evening: 'Evening',
+      bedtime: 'Bedtime', asNeeded: 'As-Needed'
+    },
+    meds: {
+      empty: 'No medications scheduled for today.',
+      takenAt: 'Taken at',
+      critical: 'Critical', optional: 'Optional',
+      tapToPriority: 'Tap to change priority'
+    },
+    medModal: {
+      addTitle: 'Add Medication', editTitle: 'Edit Medication',
+      name: 'Medication Name', dosage: 'Dosage (e.g., "1 pill", "2 tablets")',
+      dosagePlaceholder: 'e.g., 1 pill',
+      timeOfDay: 'Time of Day (select all that apply)',
+      addSpecificTime: '+ Add Specific Time',
+      frequency: 'How Often?',
+      freqDaily: 'Every Day', freqEveryOther: 'Every Other Day',
+      freqMWF: 'Monday, Wednesday, Friday', freqCustom: 'Custom Days of Week',
+      selectDays: 'Select Days',
+      startDate: 'Start Date', startTime: 'Start Time',
+      duration: 'Duration',
+      durOngoing: 'Ongoing (no end date)', durWeeks: 'For a number of weeks',
+      durMonths: 'For a number of months', durEndDate: 'Until a specific date',
+      durBottle: 'Until all taken',
+      endDate: 'End Date',
+      notes: 'Notes (optional)', notesPlaceholder: 'With food, etc.',
+      priority: 'Priority', priorityCritical: 'Critical', priorityOptional: 'Optional',
+      cancel: 'Cancel', save: 'Save', stop: 'Stop Medication',
+      alarmNone: 'No Alarm', remove: 'Remove'
+    },
+    asNeededModal: {
+      addTitle: 'Log As-Needed Medication', editTitle: 'Edit As-Needed Medication',
+      name: 'Medication Name', namePlaceholder: 'e.g., Norco, Tylenol',
+      dosage: 'Dosage', dosagePlaceholder: 'e.g., 1 pill, 5mg',
+      timeTaken: 'Time Taken',
+      notes: 'Notes (optional)', notesPlaceholder: 'Reason: headache, pain, etc.',
+      cancel: 'Cancel', log: 'Log Medication'
+    },
+    settings: {
+      profile: 'Profile', timeAlarms: 'Time of Day & Alarms',
+      enableAlarms: 'Enable Alarms',
+      enableAlarmsDesc: 'Play sounds when medications are due (app must be open)',
+      timeCol: 'Time', alarmSoundCol: 'Alarm Sound',
+      saveTimeAlarms: 'Save Time of Day & Alarm Settings',
+      alsoTrack: 'Also Track',
+      appointments: 'Appointments',
+      appointmentsDesc: 'Track doctor visits, procedures, and medical appointments',
+      healthMetrics: 'Health Metrics',
+      healthMetricsDesc: 'Log vital signs, weight, steps, and other health data',
+      weight: 'Weight', temperature: 'Temperature', bloodPressure: 'Blood Pressure',
+      heartRate: 'Heart Rate', bloodSugar: 'Blood Sugar', steps: 'Steps',
+      oxygenation: 'Oxygenation', sleep: 'Sleep',
+      dataManagement: 'Data Management',
+      exportData: 'Export Data', exportDesc: 'Download all your data as a backup file',
+      importData: 'Import Data', importDesc: 'Restore data from a backup file',
+      clearData: 'Clear All Data', clearDesc: 'Delete all medications, logs, and appointments',
+      language: 'Language',
+      install: 'Install as Home Screen App',
+      installDesc: 'Learn how to add this app to your home screen'
+    },
+    medListModal: {
+      title: 'Medication Schedule', close: 'Close', add: '+ Add Medication',
+      empty: 'No medications scheduled.\nClick "+ Add Medication" to get started.'
+    },
+    appointments: {
+      upcoming: 'Upcoming', past: 'Past', add: '+ Add Appointment',
+      noAny: 'No appointments scheduled yet.',
+      noAnyHint: 'Tap the button below to add your first appointment.',
+      noUpcoming: 'No upcoming appointments.', noPast: 'No past appointments.',
+      edit: 'Edit', delete: 'Delete', markComplete: 'Mark Complete', completed: '✓ Completed'
+    },
+    apptModal: {
+      addTitle: 'Add Appointment', editTitle: 'Edit Appointment',
+      type: 'Type', typeDoctorVisit: 'Doctor Visit', typeInfusion: 'Infusion',
+      typeLabWork: 'Lab Work', typeProcedure: 'Procedure', typeOther: 'Other',
+      titleField: 'Title/Description', titlePlaceholder: 'e.g., Dr. Smith Check-up',
+      date: 'Date', timeOptional: 'Time (optional)',
+      location: 'Location', locationVirtual: 'Virtual (Video Call)', locationInPerson: 'In-Person',
+      addressField: 'Address/Details', addressVirtualField: 'Video Call Link/Details',
+      addressPlaceholder: 'Hospital name, room number, or video link',
+      notes: 'Notes (optional)', notesPlaceholder: 'Bring insurance card, fasting required, etc.',
+      cancel: 'Cancel', save: 'Save'
+    },
+    metrics: {
+      add: '+ Add Metrics',
+      noData: 'No health metrics yet.', noDate: 'No metrics for this date.',
+      prompt: 'Click "+ Add Metrics" to start tracking.',
+      noMatch: 'No metrics match the current filter.',
+      noMatchHint: 'Try adjusting your filter settings or date range.',
+      noDataRange: 'No metrics data found for this date range.',
+      edit: 'Edit', delete: 'Delete', notes: 'Notes'
+    },
+    logModal: {
+      addTitle: 'Add Metrics', editTitle: 'Edit Metrics',
+      datetime: 'Date & Time',
+      temperature: 'Temperature (°F)', bloodPressure: 'Blood Pressure',
+      heartRate: 'Heart Rate (bpm)', bloodGlucose: 'Blood Glucose (mg/dL)',
+      weight: 'Weight (lbs)', steps: 'Steps', oxygenation: 'Oxygenation (%)',
+      sleep: 'Sleep (hrs)', notes: 'Notes',
+      systolicPlaceholder: 'Systolic', diastolicPlaceholder: 'Diastolic',
+      cancel: 'Cancel', save: 'Save'
+    },
+    weeklyView: {
+      prevWeek: '← Previous Week', nextWeek: 'Next Week →', close: 'Close', print: 'Print'
+    },
+    morningCheck: {
+      title: '⚠️ Missed Critical Meds',
+      message: "These critical medications weren't logged for {{slot}} yesterday:",
+      viewYesterday: "View Yesterday's Meds", dismiss: 'Dismiss'
+    },
+    alarmModal: {
+      title: '💊 Time to Take Your Medication',
+      message: "Please acknowledge that you've seen this reminder.",
+      gotIt: "I've Got It",
+      timeLabel: '{{time}} Medications',
+      notificationTitle: 'Medication Reminder',
+      notificationBody: 'Time for {{time}} medications!'
+    },
+    profile: {
+      loading: 'Loading...', allDataSeparate: 'All data is stored separately per profile',
+      shareTitle: 'Share Profile', shareDesc: 'Let others connect to sync',
+      switchJoinTitle: 'Switch or Join Profile', switchJoinDesc: 'Change profile or connect to shared',
+      stopSharing: 'Stop Sharing', disconnect: 'Disconnect',
+      connectedDevices: 'Connected Devices', noDevices: 'No devices connected yet',
+      scanCode: 'Scan this code with another device:', codeLabel: 'Code:',
+      lastSync: 'Last sync:', statusLabel: 'Status:', online: '● Online',
+      syncNote: 'All changes sync in real-time with the host device',
+      createNew: 'Create New Profile',
+      synced: 'Synced', sharing: 'Sharing',
+      sharingDesc: 'Sharing with connected devices',
+      syncedDesc: 'Syncing in real-time with host device',
+      reconnecting: 'Reconnecting...',
+      resumingDesc: 'Resuming sharing session...',
+      reconnectingDesc: 'Reconnecting to host device...',
+      justNow: 'Just now'
+    },
+    schedule: {
+      daily: 'Daily', everyOtherDay: 'Every other day', mwf: 'Mon, Wed, Fri',
+      ongoing: 'Ongoing', starts: '• Starts {{date}}',
+      nWeeks: '• {{n}} weeks', nMonths: '• {{n}} months',
+      untilDate: '• Until {{date}}', nDoses: '• {{n}} doses',
+      untilDateParens: '(until {{date}})', everyDay: 'Every day'
+    },
+    days: { sun: 'Sun', mon: 'Mon', tue: 'Tue', wed: 'Wed', thu: 'Thu', fri: 'Fri', sat: 'Sat' },
+    alerts: {
+      requiredFields: 'Please fill in all required fields',
+      selectTime: 'Please select at least one time of day or add a specific time',
+      selectStartDate: 'Please select a start date',
+      selectDays: 'Please select at least one day for custom schedule',
+      invalidDuration: 'Please enter a valid duration',
+      selectEndDate: 'Please select an end date',
+      bottleDosesRequired: 'Please enter the number of doses in the bottle',
+      deleteMed: 'Are you sure you want to delete this medication?',
+      stopMed: 'Stop this medication? This will set the end date to yesterday, removing all future doses.',
+      deleteLog: 'Are you sure you want to delete this log entry?',
+      deleteAppt: 'Are you sure you want to delete this appointment?',
+      importOverwrite: 'This will replace all current data with the imported data. Are you sure you want to continue?',
+      importSuccess: 'Data imported successfully! The page will now reload.',
+      exportSuccess: 'Data exported successfully! On iOS, you may need to long-press the downloaded file and choose "Save to Files" to keep it.',
+      clearConfirmMsg: 'Are you ABSOLUTELY sure you want to delete ALL data? This cannot be undone!\n\nThis will delete:\n• All medications\n• All medication logs\n• All appointments\n• All health metrics\n\nType "DELETE" in the next prompt to confirm.',
+      clearConfirmPrompt: 'Type DELETE to confirm:',
+      clearConfirmWord: 'DELETE',
+      deletionCancelled: 'Deletion cancelled.',
+      dataCleared: 'All data has been deleted. The page will now reload.',
+      deleteProfile: 'Are you sure you want to delete the profile "{{name}}"? This will permanently delete all medications, appointments, and health data for this profile.',
+      profileNameRequired: 'Please enter a profile name',
+      deleteActiveProfile: 'Cannot delete the currently active profile. Please switch to another profile first.'
+    },
+    toasts: { alarmSaved: 'Time of Day & Alarm settings saved!' },
+    updateBanner: {
+      title: 'Update Available', message: 'A new version ({{version}}) is available.',
+      updateNow: 'Update Now', later: 'Later'
+    }
+  },
+
+  es: {
+    tab: { meds: 'Medicamentos', appointments: 'Citas', metrics: 'Métricas' },
+    header: {
+      meds: 'Medicamentos', appointments: 'Citas', metrics: 'Métricas',
+      medSchedule: 'Horario de Meds', asNeeded: '+ Según Necesidad',
+      addAppointment: '+ Agregar Cita', addMetrics: '+ Agregar Métricas',
+      weekView: 'Vista Semanal', back: '← Atrás', filterMetrics: 'Filtrar Métricas ▼', print: 'Imprimir'
+    },
+    timeOfDay: {
+      morning: 'Mañana', afternoon: 'Tarde', evening: 'Noche',
+      bedtime: 'Al Dormir', asNeeded: 'Según Necesidad'
+    },
+    meds: {
+      empty: 'No hay medicamentos programados para hoy.',
+      takenAt: 'Tomado a las',
+      critical: 'Crítico', optional: 'Opcional',
+      tapToPriority: 'Toca para cambiar prioridad'
+    },
+    medModal: {
+      addTitle: 'Agregar Medicamento', editTitle: 'Editar Medicamento',
+      name: 'Nombre del Medicamento', dosage: 'Dosis (ej., "1 pastilla", "2 tabletas")',
+      dosagePlaceholder: 'ej., 1 pastilla',
+      timeOfDay: 'Hora del Día (selecciona todo lo que aplique)',
+      addSpecificTime: '+ Agregar Hora Específica',
+      frequency: '¿Con qué frecuencia?',
+      freqDaily: 'Cada Día', freqEveryOther: 'Cada Dos Días',
+      freqMWF: 'Lunes, Miércoles, Viernes', freqCustom: 'Días Personalizados',
+      selectDays: 'Seleccionar Días',
+      startDate: 'Fecha de Inicio', startTime: 'Hora de Inicio',
+      duration: 'Duración',
+      durOngoing: 'Continuo (sin fecha de fin)', durWeeks: 'Por número de semanas',
+      durMonths: 'Por número de meses', durEndDate: 'Hasta una fecha específica',
+      durBottle: 'Hasta agotar',
+      endDate: 'Fecha de Fin',
+      notes: 'Notas (opcional)', notesPlaceholder: 'Con comida, etc.',
+      priority: 'Prioridad', priorityCritical: 'Crítico', priorityOptional: 'Opcional',
+      cancel: 'Cancelar', save: 'Guardar', stop: 'Detener Medicamento',
+      alarmNone: 'Sin Alarma', remove: 'Quitar'
+    },
+    asNeededModal: {
+      addTitle: 'Registrar Medicamento Según Necesidad', editTitle: 'Editar Medicamento Según Necesidad',
+      name: 'Nombre del Medicamento', namePlaceholder: 'ej., Norco, Tylenol',
+      dosage: 'Dosis', dosagePlaceholder: 'ej., 1 pastilla, 5mg',
+      timeTaken: 'Hora en que se Tomó',
+      notes: 'Notas (opcional)', notesPlaceholder: 'Razón: dolor de cabeza, dolor, etc.',
+      cancel: 'Cancelar', log: 'Registrar Medicamento'
+    },
+    settings: {
+      profile: 'Perfil', timeAlarms: 'Hora del Día y Alarmas',
+      enableAlarms: 'Activar Alarmas',
+      enableAlarmsDesc: 'Reproducir sonidos cuando los medicamentos están programados (la app debe estar abierta)',
+      timeCol: 'Hora', alarmSoundCol: 'Sonido de Alarma',
+      saveTimeAlarms: 'Guardar Configuración de Hora y Alarmas',
+      alsoTrack: 'También Rastrear',
+      appointments: 'Citas',
+      appointmentsDesc: 'Rastrear visitas médicas, procedimientos y citas',
+      healthMetrics: 'Métricas de Salud',
+      healthMetricsDesc: 'Registrar signos vitales, peso, pasos y otros datos de salud',
+      weight: 'Peso', temperature: 'Temperatura', bloodPressure: 'Presión Arterial',
+      heartRate: 'Frecuencia Cardíaca', bloodSugar: 'Azúcar en Sangre', steps: 'Pasos',
+      oxygenation: 'Oxigenación', sleep: 'Sueño',
+      dataManagement: 'Gestión de Datos',
+      exportData: 'Exportar Datos', exportDesc: 'Descargar todos los datos como archivo de respaldo',
+      importData: 'Importar Datos', importDesc: 'Restaurar datos desde un archivo de respaldo',
+      clearData: 'Borrar Todos los Datos', clearDesc: 'Eliminar todos los medicamentos, registros y citas',
+      language: 'Idioma',
+      install: 'Instalar como App en Pantalla de Inicio',
+      installDesc: 'Aprende cómo agregar esta app a tu pantalla de inicio'
+    },
+    medListModal: {
+      title: 'Horario de Medicamentos', close: 'Cerrar', add: '+ Agregar Medicamento',
+      empty: 'No hay medicamentos programados.\nHaz clic en "+ Agregar Medicamento" para comenzar.'
+    },
+    appointments: {
+      upcoming: 'Próximas', past: 'Pasadas', add: '+ Agregar Cita',
+      noAny: 'Aún no hay citas programadas.',
+      noAnyHint: 'Toca el botón de abajo para agregar tu primera cita.',
+      noUpcoming: 'No hay citas próximas.', noPast: 'No hay citas pasadas.',
+      edit: 'Editar', delete: 'Eliminar', markComplete: 'Marcar Completado', completed: '✓ Completado'
+    },
+    apptModal: {
+      addTitle: 'Agregar Cita', editTitle: 'Editar Cita',
+      type: 'Tipo', typeDoctorVisit: 'Visita al Médico', typeInfusion: 'Infusión',
+      typeLabWork: 'Análisis de Laboratorio', typeProcedure: 'Procedimiento', typeOther: 'Otro',
+      titleField: 'Título/Descripción', titlePlaceholder: 'ej., Chequeo con el Dr. García',
+      date: 'Fecha', timeOptional: 'Hora (opcional)',
+      location: 'Ubicación', locationVirtual: 'Virtual (Videollamada)', locationInPerson: 'En Persona',
+      addressField: 'Dirección/Detalles', addressVirtualField: 'Enlace de Videollamada/Detalles',
+      addressPlaceholder: 'Nombre del hospital, número de sala o enlace de video',
+      notes: 'Notas (opcional)', notesPlaceholder: 'Traer tarjeta de seguro, ayuno requerido, etc.',
+      cancel: 'Cancelar', save: 'Guardar'
+    },
+    metrics: {
+      add: '+ Agregar Métricas',
+      noData: 'Aún no hay métricas de salud.', noDate: 'No hay métricas para esta fecha.',
+      prompt: 'Haz clic en "+ Agregar Métricas" para comenzar.',
+      noMatch: 'No hay métricas que coincidan con el filtro actual.',
+      noMatchHint: 'Intenta ajustar los filtros o el rango de fechas.',
+      noDataRange: 'No se encontraron métricas para este rango de fechas.',
+      edit: 'Editar', delete: 'Eliminar', notes: 'Notas'
+    },
+    logModal: {
+      addTitle: 'Agregar Métricas', editTitle: 'Editar Métricas',
+      datetime: 'Fecha y Hora',
+      temperature: 'Temperatura (°F)', bloodPressure: 'Presión Arterial',
+      heartRate: 'Frecuencia Cardíaca (lpm)', bloodGlucose: 'Glucosa en Sangre (mg/dL)',
+      weight: 'Peso (lbs)', steps: 'Pasos', oxygenation: 'Oxigenación (%)',
+      sleep: 'Sueño (hrs)', notes: 'Notas',
+      systolicPlaceholder: 'Sistólica', diastolicPlaceholder: 'Diastólica',
+      cancel: 'Cancelar', save: 'Guardar'
+    },
+    weeklyView: {
+      prevWeek: '← Semana Anterior', nextWeek: 'Próxima Semana →', close: 'Cerrar', print: 'Imprimir'
+    },
+    morningCheck: {
+      title: '⚠️ Medicamentos Críticos Perdidos',
+      message: 'Estos medicamentos críticos no se registraron para {{slot}} de ayer:',
+      viewYesterday: 'Ver Medicamentos de Ayer', dismiss: 'Descartar'
+    },
+    alarmModal: {
+      title: '💊 Hora de Tomar su Medicamento',
+      message: 'Por favor confirme que ha visto este recordatorio.',
+      gotIt: 'Entendido',
+      timeLabel: 'Medicamentos de {{time}}',
+      notificationTitle: 'Recordatorio de Medicamento',
+      notificationBody: '¡Hora de los medicamentos de {{time}}!'
+    },
+    profile: {
+      loading: 'Cargando...', allDataSeparate: 'Todos los datos se almacenan por separado por perfil',
+      shareTitle: 'Compartir Perfil', shareDesc: 'Permite que otros se conecten para sincronizar',
+      switchJoinTitle: 'Cambiar o Unirse a Perfil', switchJoinDesc: 'Cambiar perfil o conectarse a uno compartido',
+      stopSharing: 'Detener Compartir', disconnect: 'Desconectar',
+      connectedDevices: 'Dispositivos Conectados', noDevices: 'Aún no hay dispositivos conectados',
+      scanCode: 'Escanea este código con otro dispositivo:', codeLabel: 'Código:',
+      lastSync: 'Última sincronización:', statusLabel: 'Estado:', online: '● En Línea',
+      syncNote: 'Todos los cambios se sincronizan en tiempo real con el dispositivo host',
+      createNew: 'Crear Nuevo Perfil',
+      synced: 'Sincronizado', sharing: 'Compartiendo',
+      sharingDesc: 'Compartiendo con dispositivos conectados',
+      syncedDesc: 'Sincronizando en tiempo real con el dispositivo host',
+      reconnecting: 'Reconectando...',
+      resumingDesc: 'Reanudando sesión de compartir...',
+      reconnectingDesc: 'Reconectando al dispositivo principal...',
+      justNow: 'Ahora mismo'
+    },
+    schedule: {
+      daily: 'Diariamente', everyOtherDay: 'Cada dos días', mwf: 'Lun, Mié, Vie',
+      ongoing: 'Continuo', starts: '• Inicia {{date}}',
+      nWeeks: '• {{n}} semanas', nMonths: '• {{n}} meses',
+      untilDate: '• Hasta {{date}}', nDoses: '• {{n}} dosis',
+      untilDateParens: '(hasta {{date}})', everyDay: 'Cada día'
+    },
+    days: { sun: 'Dom', mon: 'Lun', tue: 'Mar', wed: 'Mié', thu: 'Jue', fri: 'Vie', sat: 'Sáb' },
+    alerts: {
+      requiredFields: 'Por favor complete todos los campos requeridos',
+      selectTime: 'Por favor seleccione al menos una hora del día o agregue una hora específica',
+      selectStartDate: 'Por favor seleccione una fecha de inicio',
+      selectDays: 'Por favor seleccione al menos un día para el horario personalizado',
+      invalidDuration: 'Por favor ingrese una duración válida',
+      selectEndDate: 'Por favor seleccione una fecha de fin',
+      bottleDosesRequired: 'Por favor ingrese el número de dosis en el frasco',
+      deleteMed: '¿Está seguro de que desea eliminar este medicamento?',
+      stopMed: '¿Detener este medicamento? Esto establecerá la fecha de fin a ayer, eliminando todas las dosis futuras.',
+      deleteLog: '¿Está seguro de que desea eliminar este registro?',
+      deleteAppt: '¿Está seguro de que desea eliminar esta cita?',
+      importOverwrite: 'Esto reemplazará todos los datos actuales con los datos importados. ¿Está seguro de que desea continuar?',
+      importSuccess: '¡Datos importados exitosamente! La página se recargará ahora.',
+      exportSuccess: '¡Datos exportados exitosamente! En iOS, es posible que deba mantener presionado el archivo descargado y elegir "Guardar en Archivos".',
+      clearConfirmMsg: '¿Está ABSOLUTAMENTE seguro de que desea eliminar TODOS los datos? ¡Esto no se puede deshacer!\n\nEsto eliminará:\n• Todos los medicamentos\n• Todos los registros de medicamentos\n• Todas las citas\n• Todas las métricas de salud\n\nEscriba "ELIMINAR" en el siguiente mensaje para confirmar.',
+      clearConfirmPrompt: 'Escriba ELIMINAR para confirmar:',
+      clearConfirmWord: 'ELIMINAR',
+      deletionCancelled: 'Eliminación cancelada.',
+      dataCleared: 'Todos los datos han sido eliminados. La página se recargará ahora.',
+      deleteProfile: '¿Está seguro de que desea eliminar el perfil "{{name}}"? Esto eliminará permanentemente todos los medicamentos, citas y datos de salud de este perfil.',
+      profileNameRequired: 'Por favor ingrese un nombre de perfil',
+      deleteActiveProfile: 'No se puede eliminar el perfil activo. Por favor cambie a otro perfil primero.'
+    },
+    toasts: { alarmSaved: '¡Configuración de Hora y Alarmas guardada!' },
+    updateBanner: {
+      title: 'Actualización Disponible', message: 'Hay una nueva versión ({{version}}) disponible.',
+      updateNow: 'Actualizar Ahora', later: 'Después'
+    }
+  },
+
+  zh: {
+    tab: { meds: '药物', appointments: '预约', metrics: '健康数据' },
+    header: {
+      meds: '药物', appointments: '预约', metrics: '健康数据',
+      medSchedule: '用药计划', asNeeded: '+ 按需用药',
+      addAppointment: '+ 添加预约', addMetrics: '+ 添加数据',
+      weekView: '周视图', back: '← 返回', filterMetrics: '筛选数据 ▼', print: '打印'
+    },
+    timeOfDay: {
+      morning: '早晨', afternoon: '下午', evening: '晚上',
+      bedtime: '睡前', asNeeded: '按需'
+    },
+    meds: {
+      empty: '今天没有安排药物。',
+      takenAt: '服药时间',
+      critical: '重要', optional: '可选',
+      tapToPriority: '点击更改优先级'
+    },
+    medModal: {
+      addTitle: '添加药物', editTitle: '编辑药物',
+      name: '药物名称', dosage: '剂量（例如："1粒"、"2片"）',
+      dosagePlaceholder: '例：1粒',
+      timeOfDay: '服药时间（可多选）',
+      addSpecificTime: '+ 添加具体时间',
+      frequency: '服药频率？',
+      freqDaily: '每天', freqEveryOther: '隔天',
+      freqMWF: '周一、周三、周五', freqCustom: '自定义日期',
+      selectDays: '选择日期',
+      startDate: '开始日期', startTime: '开始时间',
+      duration: '持续时间',
+      durOngoing: '持续（无结束日期）', durWeeks: '若干周',
+      durMonths: '若干月', durEndDate: '到指定日期',
+      durBottle: '直到服完',
+      endDate: '结束日期',
+      notes: '备注（可选）', notesPlaceholder: '随餐服用等',
+      priority: '优先级', priorityCritical: '重要', priorityOptional: '可选',
+      cancel: '取消', save: '保存', stop: '停止用药',
+      alarmNone: '无提醒', remove: '删除'
+    },
+    asNeededModal: {
+      addTitle: '记录按需用药', editTitle: '编辑按需用药',
+      name: '药物名称', namePlaceholder: '例：诺可、泰诺',
+      dosage: '剂量', dosagePlaceholder: '例：1粒，5mg',
+      timeTaken: '服药时间',
+      notes: '备注（可选）', notesPlaceholder: '原因：头痛、疼痛等',
+      cancel: '取消', log: '记录用药'
+    },
+    settings: {
+      profile: '档案', timeAlarms: '服药时间与提醒',
+      enableAlarms: '启用提醒',
+      enableAlarmsDesc: '到服药时间时播放提示音（需保持应用开启）',
+      timeCol: '时间', alarmSoundCol: '提醒音',
+      saveTimeAlarms: '保存时间与提醒设置',
+      alsoTrack: '同时追踪',
+      appointments: '预约',
+      appointmentsDesc: '追踪就诊、手术和医疗预约',
+      healthMetrics: '健康指标',
+      healthMetricsDesc: '记录生命体征、体重、步数和其他健康数据',
+      weight: '体重', temperature: '体温', bloodPressure: '血压',
+      heartRate: '心率', bloodSugar: '血糖', steps: '步数',
+      oxygenation: '血氧', sleep: '睡眠',
+      dataManagement: '数据管理',
+      exportData: '导出数据', exportDesc: '下载所有数据作为备份文件',
+      importData: '导入数据', importDesc: '从备份文件恢复数据',
+      clearData: '清除所有数据', clearDesc: '删除所有药物、记录和预约',
+      language: '语言',
+      install: '安装到主屏幕',
+      installDesc: '了解如何将此应用添加到主屏幕'
+    },
+    medListModal: {
+      title: '用药计划', close: '关闭', add: '+ 添加药物',
+      empty: '没有安排药物。\n点击"+ 添加药物"开始。'
+    },
+    appointments: {
+      upcoming: '即将到来', past: '已过去', add: '+ 添加预约',
+      noAny: '尚未安排预约。',
+      noAnyHint: '点击下方按钮添加第一个预约。',
+      noUpcoming: '没有即将到来的预约。', noPast: '没有过去的预约。',
+      edit: '编辑', delete: '删除', markComplete: '标记完成', completed: '✓ 已完成'
+    },
+    apptModal: {
+      addTitle: '添加预约', editTitle: '编辑预约',
+      type: '类型', typeDoctorVisit: '门诊', typeInfusion: '输液',
+      typeLabWork: '化验', typeProcedure: '手术/检查', typeOther: '其他',
+      titleField: '标题/描述', titlePlaceholder: '例：张医生复诊',
+      date: '日期', timeOptional: '时间（可选）',
+      location: '地点', locationVirtual: '线上（视频通话）', locationInPerson: '到场',
+      addressField: '地址/详情', addressVirtualField: '视频通话链接/详情',
+      addressPlaceholder: '医院名称、房间号或视频链接',
+      notes: '备注（可选）', notesPlaceholder: '带保险卡、需空腹等',
+      cancel: '取消', save: '保存'
+    },
+    metrics: {
+      add: '+ 添加数据',
+      noData: '尚无健康数据。', noDate: '此日期无数据。',
+      prompt: '点击"+ 添加数据"开始记录。',
+      noMatch: '没有符合当前筛选条件的数据。',
+      noMatchHint: '请尝试调整筛选设置或日期范围。',
+      noDataRange: '此日期范围内未找到数据。',
+      edit: '编辑', delete: '删除', notes: '备注'
+    },
+    logModal: {
+      addTitle: '添加数据', editTitle: '编辑数据',
+      datetime: '日期和时间',
+      temperature: '体温 (°F)', bloodPressure: '血压',
+      heartRate: '心率 (次/分)', bloodGlucose: '血糖 (mg/dL)',
+      weight: '体重 (磅)', steps: '步数', oxygenation: '血氧 (%)',
+      sleep: '睡眠 (小时)', notes: '备注',
+      systolicPlaceholder: '收缩压', diastolicPlaceholder: '舒张压',
+      cancel: '取消', save: '保存'
+    },
+    weeklyView: {
+      prevWeek: '← 上一周', nextWeek: '下一周 →', close: '关闭', print: '打印'
+    },
+    morningCheck: {
+      title: '⚠️ 遗漏重要药物',
+      message: '昨天{{slot}}的以下重要药物未记录：',
+      viewYesterday: '查看昨天的药物', dismiss: '关闭'
+    },
+    alarmModal: {
+      title: '💊 服药时间到',
+      message: '请确认您已看到此提醒。',
+      gotIt: '我知道了',
+      timeLabel: '{{time}}药物提醒',
+      notificationTitle: '服药提醒',
+      notificationBody: '{{time}}服药时间到！'
+    },
+    profile: {
+      loading: '加载中...', allDataSeparate: '每个档案的数据单独存储',
+      shareTitle: '分享档案', shareDesc: '允许其他设备连接同步',
+      switchJoinTitle: '切换或加入档案', switchJoinDesc: '更改档案或连接到共享档案',
+      stopSharing: '停止分享', disconnect: '断开连接',
+      connectedDevices: '已连接设备', noDevices: '尚未连接设备',
+      scanCode: '用其他设备扫描此码：', codeLabel: '代码：',
+      lastSync: '上次同步：', statusLabel: '状态：', online: '● 在线',
+      syncNote: '所有更改与主设备实时同步',
+      createNew: '创建新档案',
+      synced: '已同步', sharing: '分享中',
+      sharingDesc: '正在与已连接设备分享',
+      syncedDesc: '正在与主设备实时同步',
+      reconnecting: '重新连接中...',
+      resumingDesc: '正在恢复分享会话...',
+      reconnectingDesc: '正在重新连接到主设备...',
+      justNow: '刚刚'
+    },
+    schedule: {
+      daily: '每天', everyOtherDay: '隔天', mwf: '周一、三、五',
+      ongoing: '持续', starts: '• 开始于 {{date}}',
+      nWeeks: '• {{n}} 周', nMonths: '• {{n}} 个月',
+      untilDate: '• 直到 {{date}}', nDoses: '• {{n}} 剂',
+      untilDateParens: '（直到 {{date}}）', everyDay: '每天'
+    },
+    days: { sun: '日', mon: '一', tue: '二', wed: '三', thu: '四', fri: '五', sat: '六' },
+    alerts: {
+      requiredFields: '请填写所有必填字段',
+      selectTime: '请至少选择一个服药时间或添加具体时间',
+      selectStartDate: '请选择开始日期',
+      selectDays: '请为自定义计划选择至少一天',
+      invalidDuration: '请输入有效的持续时间',
+      selectEndDate: '请选择结束日期',
+      bottleDosesRequired: '请输入药瓶中的剂量数',
+      deleteMed: '确定要删除此药物吗？',
+      stopMed: '停止此药物？这将把结束日期设置为昨天，删除所有未来剂量。',
+      deleteLog: '确定要删除此记录吗？',
+      deleteAppt: '确定要删除此预约吗？',
+      importOverwrite: '这将用导入的数据替换所有当前数据。确定要继续吗？',
+      importSuccess: '数据导入成功！页面即将重新加载。',
+      exportSuccess: '数据导出成功！在iOS上，您可能需要长按下载的文件并选择"存储到文件"。',
+      clearConfirmMsg: '您确定要删除所有数据吗？此操作无法撤销！\n\n这将删除：\n• 所有药物\n• 所有用药记录\n• 所有预约\n• 所有健康数据\n\n请在下一个提示中输入"删除"以确认。',
+      clearConfirmPrompt: '输入"删除"以确认：',
+      clearConfirmWord: '删除',
+      deletionCancelled: '已取消删除。',
+      dataCleared: '所有数据已删除。页面即将重新加载。',
+      deleteProfile: '确定要删除档案"{{name}}"吗？这将永久删除此档案的所有药物、预约和健康数据。',
+      profileNameRequired: '请输入档案名称',
+      deleteActiveProfile: '无法删除当前活动档案。请先切换到其他档案。'
+    },
+    toasts: { alarmSaved: '服药时间和提醒设置已保存！' },
+    updateBanner: {
+      title: '有可用更新', message: '新版本 ({{version}}) 已可用。',
+      updateNow: '立即更新', later: '稍后'
+    }
+  },
+
+  vi: {
+    tab: { meds: 'Thuốc', appointments: 'Lịch Hẹn', metrics: 'Sức Khỏe' },
+    header: {
+      meds: 'Thuốc', appointments: 'Lịch Hẹn', metrics: 'Sức Khỏe',
+      medSchedule: 'Lịch Uống Thuốc', asNeeded: '+ Uống Khi Cần',
+      addAppointment: '+ Thêm Lịch Hẹn', addMetrics: '+ Thêm Dữ Liệu',
+      weekView: 'Xem Tuần', back: '← Quay Lại', filterMetrics: 'Lọc Dữ Liệu ▼', print: 'In'
+    },
+    timeOfDay: {
+      morning: 'Buổi Sáng', afternoon: 'Buổi Chiều', evening: 'Buổi Tối',
+      bedtime: 'Trước Khi Ngủ', asNeeded: 'Khi Cần'
+    },
+    meds: {
+      empty: 'Hôm nay không có thuốc nào được lên lịch.',
+      takenAt: 'Đã uống lúc',
+      critical: 'Quan Trọng', optional: 'Tùy Chọn',
+      tapToPriority: 'Nhấn để thay đổi mức độ ưu tiên'
+    },
+    medModal: {
+      addTitle: 'Thêm Thuốc', editTitle: 'Sửa Thuốc',
+      name: 'Tên Thuốc', dosage: 'Liều Lượng (vd: "1 viên", "2 viên")',
+      dosagePlaceholder: 'vd: 1 viên',
+      timeOfDay: 'Thời Gian Uống (chọn tất cả áp dụng)',
+      addSpecificTime: '+ Thêm Giờ Cụ Thể',
+      frequency: 'Tần Suất Uống?',
+      freqDaily: 'Mỗi Ngày', freqEveryOther: 'Cách Ngày',
+      freqMWF: 'Thứ 2, 4, 6', freqCustom: 'Tùy Chỉnh Ngày Trong Tuần',
+      selectDays: 'Chọn Ngày',
+      startDate: 'Ngày Bắt Đầu', startTime: 'Giờ Bắt Đầu',
+      duration: 'Thời Gian',
+      durOngoing: 'Liên Tục (không có ngày kết thúc)', durWeeks: 'Trong số tuần',
+      durMonths: 'Trong số tháng', durEndDate: 'Đến một ngày cụ thể',
+      durBottle: 'Đến khi uống hết',
+      endDate: 'Ngày Kết Thúc',
+      notes: 'Ghi Chú (tùy chọn)', notesPlaceholder: 'Uống cùng bữa ăn, v.v.',
+      priority: 'Mức Độ Ưu Tiên', priorityCritical: 'Quan Trọng', priorityOptional: 'Tùy Chọn',
+      cancel: 'Hủy', save: 'Lưu', stop: 'Dừng Thuốc',
+      alarmNone: 'Không Báo Thức', remove: 'Xóa'
+    },
+    asNeededModal: {
+      addTitle: 'Ghi Nhật Ký Thuốc Khi Cần', editTitle: 'Sửa Thuốc Khi Cần',
+      name: 'Tên Thuốc', namePlaceholder: 'vd: Norco, Tylenol',
+      dosage: 'Liều Lượng', dosagePlaceholder: 'vd: 1 viên, 5mg',
+      timeTaken: 'Giờ Uống',
+      notes: 'Ghi Chú (tùy chọn)', notesPlaceholder: 'Lý do: đau đầu, đau nhức, v.v.',
+      cancel: 'Hủy', log: 'Ghi Nhật Ký Thuốc'
+    },
+    settings: {
+      profile: 'Hồ Sơ', timeAlarms: 'Giờ Uống Thuốc & Báo Thức',
+      enableAlarms: 'Bật Báo Thức',
+      enableAlarmsDesc: 'Phát âm thanh khi đến giờ uống thuốc (ứng dụng phải mở)',
+      timeCol: 'Giờ', alarmSoundCol: 'Âm Thanh Báo Thức',
+      saveTimeAlarms: 'Lưu Cài Đặt Giờ & Báo Thức',
+      alsoTrack: 'Cũng Theo Dõi',
+      appointments: 'Lịch Hẹn',
+      appointmentsDesc: 'Theo dõi lịch khám, thủ thuật và lịch hẹn y tế',
+      healthMetrics: 'Chỉ Số Sức Khỏe',
+      healthMetricsDesc: 'Ghi lại chỉ số sinh tồn, cân nặng, số bước và dữ liệu sức khỏe khác',
+      weight: 'Cân Nặng', temperature: 'Nhiệt Độ', bloodPressure: 'Huyết Áp',
+      heartRate: 'Nhịp Tim', bloodSugar: 'Đường Huyết', steps: 'Số Bước',
+      oxygenation: 'Nồng Độ Oxy', sleep: 'Giấc Ngủ',
+      dataManagement: 'Quản Lý Dữ Liệu',
+      exportData: 'Xuất Dữ Liệu', exportDesc: 'Tải xuống tất cả dữ liệu dưới dạng tệp sao lưu',
+      importData: 'Nhập Dữ Liệu', importDesc: 'Khôi phục dữ liệu từ tệp sao lưu',
+      clearData: 'Xóa Tất Cả Dữ Liệu', clearDesc: 'Xóa tất cả thuốc, nhật ký và lịch hẹn',
+      language: 'Ngôn Ngữ',
+      install: 'Cài Đặt Như Ứng Dụng Màn Hình Chính',
+      installDesc: 'Tìm hiểu cách thêm ứng dụng này vào màn hình chính'
+    },
+    medListModal: {
+      title: 'Lịch Uống Thuốc', close: 'Đóng', add: '+ Thêm Thuốc',
+      empty: 'Chưa có thuốc nào được lên lịch.\nNhấn "+ Thêm Thuốc" để bắt đầu.'
+    },
+    appointments: {
+      upcoming: 'Sắp Tới', past: 'Đã Qua', add: '+ Thêm Lịch Hẹn',
+      noAny: 'Chưa có lịch hẹn nào.',
+      noAnyHint: 'Nhấn nút bên dưới để thêm lịch hẹn đầu tiên.',
+      noUpcoming: 'Không có lịch hẹn sắp tới.', noPast: 'Không có lịch hẹn đã qua.',
+      edit: 'Sửa', delete: 'Xóa', markComplete: 'Đánh Dấu Hoàn Thành', completed: '✓ Đã Hoàn Thành'
+    },
+    apptModal: {
+      addTitle: 'Thêm Lịch Hẹn', editTitle: 'Sửa Lịch Hẹn',
+      type: 'Loại', typeDoctorVisit: 'Khám Bác Sĩ', typeInfusion: 'Truyền Dịch',
+      typeLabWork: 'Xét Nghiệm', typeProcedure: 'Thủ Thuật', typeOther: 'Khác',
+      titleField: 'Tiêu Đề/Mô Tả', titlePlaceholder: 'vd: Tái Khám Bác Sĩ Nguyễn',
+      date: 'Ngày', timeOptional: 'Giờ (tùy chọn)',
+      location: 'Địa Điểm', locationVirtual: 'Trực Tuyến (Video)', locationInPerson: 'Trực Tiếp',
+      addressField: 'Địa Chỉ/Chi Tiết', addressVirtualField: 'Liên Kết Video/Chi Tiết',
+      addressPlaceholder: 'Tên bệnh viện, số phòng hoặc liên kết video',
+      notes: 'Ghi Chú (tùy chọn)', notesPlaceholder: 'Mang thẻ bảo hiểm, cần nhịn ăn, v.v.',
+      cancel: 'Hủy', save: 'Lưu'
+    },
+    metrics: {
+      add: '+ Thêm Dữ Liệu',
+      noData: 'Chưa có dữ liệu sức khỏe.', noDate: 'Không có dữ liệu cho ngày này.',
+      prompt: 'Nhấn "+ Thêm Dữ Liệu" để bắt đầu theo dõi.',
+      noMatch: 'Không có dữ liệu phù hợp với bộ lọc hiện tại.',
+      noMatchHint: 'Hãy thử điều chỉnh cài đặt bộ lọc hoặc phạm vi ngày.',
+      noDataRange: 'Không tìm thấy dữ liệu cho phạm vi ngày này.',
+      edit: 'Sửa', delete: 'Xóa', notes: 'Ghi Chú'
+    },
+    logModal: {
+      addTitle: 'Thêm Dữ Liệu', editTitle: 'Sửa Dữ Liệu',
+      datetime: 'Ngày & Giờ',
+      temperature: 'Nhiệt Độ (°F)', bloodPressure: 'Huyết Áp',
+      heartRate: 'Nhịp Tim (nhịp/phút)', bloodGlucose: 'Đường Huyết (mg/dL)',
+      weight: 'Cân Nặng (lbs)', steps: 'Số Bước', oxygenation: 'Nồng Độ Oxy (%)',
+      sleep: 'Giấc Ngủ (giờ)', notes: 'Ghi Chú',
+      systolicPlaceholder: 'Tâm Thu', diastolicPlaceholder: 'Tâm Trương',
+      cancel: 'Hủy', save: 'Lưu'
+    },
+    weeklyView: {
+      prevWeek: '← Tuần Trước', nextWeek: 'Tuần Sau →', close: 'Đóng', print: 'In'
+    },
+    morningCheck: {
+      title: '⚠️ Quên Uống Thuốc Quan Trọng',
+      message: 'Những thuốc quan trọng này chưa được ghi nhận cho {{slot}} hôm qua:',
+      viewYesterday: 'Xem Thuốc Hôm Qua', dismiss: 'Bỏ Qua'
+    },
+    alarmModal: {
+      title: '💊 Đến Giờ Uống Thuốc',
+      message: 'Vui lòng xác nhận rằng bạn đã thấy lời nhắc này.',
+      gotIt: 'Tôi Hiểu Rồi',
+      timeLabel: 'Thuốc {{time}}',
+      notificationTitle: 'Nhắc Nhở Uống Thuốc',
+      notificationBody: 'Đến giờ uống thuốc {{time}}!'
+    },
+    profile: {
+      loading: 'Đang tải...', allDataSeparate: 'Tất cả dữ liệu được lưu riêng theo hồ sơ',
+      shareTitle: 'Chia Sẻ Hồ Sơ', shareDesc: 'Cho phép thiết bị khác kết nối để đồng bộ',
+      switchJoinTitle: 'Chuyển hoặc Tham Gia Hồ Sơ', switchJoinDesc: 'Thay đổi hồ sơ hoặc kết nối với hồ sơ được chia sẻ',
+      stopSharing: 'Ngừng Chia Sẻ', disconnect: 'Ngắt Kết Nối',
+      connectedDevices: 'Thiết Bị Đã Kết Nối', noDevices: 'Chưa có thiết bị nào kết nối',
+      scanCode: 'Quét mã này bằng thiết bị khác:', codeLabel: 'Mã:',
+      lastSync: 'Đồng bộ lần cuối:', statusLabel: 'Trạng thái:', online: '● Trực Tuyến',
+      syncNote: 'Tất cả thay đổi được đồng bộ theo thời gian thực với thiết bị chủ',
+      createNew: 'Tạo Hồ Sơ Mới',
+      synced: 'Đã Đồng Bộ', sharing: 'Đang Chia Sẻ',
+      sharingDesc: 'Đang chia sẻ với các thiết bị đã kết nối',
+      syncedDesc: 'Đang đồng bộ theo thời gian thực với thiết bị chủ',
+      reconnecting: 'Đang Kết Nối Lại...',
+      resumingDesc: 'Đang tiếp tục phiên chia sẻ...',
+      reconnectingDesc: 'Đang kết nối lại với thiết bị chủ...',
+      justNow: 'Vừa xong'
+    },
+    schedule: {
+      daily: 'Hàng ngày', everyOtherDay: 'Cách ngày', mwf: 'T2, T4, T6',
+      ongoing: 'Liên tục', starts: '• Bắt đầu {{date}}',
+      nWeeks: '• {{n}} tuần', nMonths: '• {{n}} tháng',
+      untilDate: '• Đến {{date}}', nDoses: '• {{n}} liều',
+      untilDateParens: '(đến {{date}})', everyDay: 'Mỗi ngày'
+    },
+    days: { sun: 'CN', mon: 'T2', tue: 'T3', wed: 'T4', thu: 'T5', fri: 'T6', sat: 'T7' },
+    alerts: {
+      requiredFields: 'Vui lòng điền đầy đủ tất cả các trường bắt buộc',
+      selectTime: 'Vui lòng chọn ít nhất một thời điểm trong ngày hoặc thêm giờ cụ thể',
+      selectStartDate: 'Vui lòng chọn ngày bắt đầu',
+      selectDays: 'Vui lòng chọn ít nhất một ngày cho lịch tùy chỉnh',
+      invalidDuration: 'Vui lòng nhập thời gian hợp lệ',
+      selectEndDate: 'Vui lòng chọn ngày kết thúc',
+      bottleDosesRequired: 'Vui lòng nhập số liều trong chai',
+      deleteMed: 'Bạn có chắc muốn xóa thuốc này không?',
+      stopMed: 'Dừng thuốc này? Ngày kết thúc sẽ được đặt là hôm qua, xóa tất cả liều trong tương lai.',
+      deleteLog: 'Bạn có chắc muốn xóa mục nhật ký này không?',
+      deleteAppt: 'Bạn có chắc muốn xóa lịch hẹn này không?',
+      importOverwrite: 'Thao tác này sẽ thay thế tất cả dữ liệu hiện tại bằng dữ liệu nhập vào. Bạn có chắc muốn tiếp tục không?',
+      importSuccess: 'Nhập dữ liệu thành công! Trang sẽ tải lại ngay.',
+      exportSuccess: 'Xuất dữ liệu thành công! Trên iOS, bạn có thể cần nhấn giữ tệp đã tải xuống và chọn "Lưu vào Tệp".',
+      clearConfirmMsg: 'Bạn CÓ CHẮC CHẮN muốn xóa TẤT CẢ dữ liệu không? Thao tác này không thể hoàn tác!\n\nSẽ xóa:\n• Tất cả thuốc\n• Tất cả nhật ký thuốc\n• Tất cả lịch hẹn\n• Tất cả dữ liệu sức khỏe\n\nNhập "XÓA" vào ô tiếp theo để xác nhận.',
+      clearConfirmPrompt: 'Nhập XÓA để xác nhận:',
+      clearConfirmWord: 'XÓA',
+      deletionCancelled: 'Đã hủy xóa.',
+      dataCleared: 'Tất cả dữ liệu đã bị xóa. Trang sẽ tải lại ngay.',
+      deleteProfile: 'Bạn có chắc muốn xóa hồ sơ "{{name}}"? Thao tác này sẽ xóa vĩnh viễn tất cả thuốc, lịch hẹn và dữ liệu sức khỏe của hồ sơ này.',
+      profileNameRequired: 'Vui lòng nhập tên hồ sơ',
+      deleteActiveProfile: 'Không thể xóa hồ sơ đang hoạt động. Vui lòng chuyển sang hồ sơ khác trước.'
+    },
+    toasts: { alarmSaved: 'Đã lưu cài đặt giờ & báo thức!' },
+    updateBanner: {
+      title: 'Có Bản Cập Nhật', message: 'Phiên bản mới ({{version}}) đã có sẵn.',
+      updateNow: 'Cập Nhật Ngay', later: 'Để Sau'
+    }
+  },
+
+  tl: {
+    tab: { meds: 'Gamot', appointments: 'Appointment', metrics: 'Kalusugan' },
+    header: {
+      meds: 'Gamot', appointments: 'Appointment', metrics: 'Kalusugan',
+      medSchedule: 'Iskedyul ng Gamot', asNeeded: '+ Kung Kinakailangan',
+      addAppointment: '+ Magdagdag ng Appointment', addMetrics: '+ Magdagdag ng Data',
+      weekView: 'Lingguhang Tingin', back: '← Bumalik', filterMetrics: 'I-filter ang Data ▼', print: 'I-print'
+    },
+    timeOfDay: {
+      morning: 'Umaga', afternoon: 'Hapon', evening: 'Gabi',
+      bedtime: 'Bago Matulog', asNeeded: 'Kung Kinakailangan'
+    },
+    meds: {
+      empty: 'Walang gamot na naka-iskedyul para ngayon.',
+      takenAt: 'Nainom noong',
+      critical: 'Mahalaga', optional: 'Opsyonal',
+      tapToPriority: 'I-tap para baguhin ang priyoridad'
+    },
+    medModal: {
+      addTitle: 'Magdagdag ng Gamot', editTitle: 'I-edit ang Gamot',
+      name: 'Pangalan ng Gamot', dosage: 'Dosis (hal. "1 tableta", "2 kapsula")',
+      dosagePlaceholder: 'hal. 1 tableta',
+      timeOfDay: 'Oras ng Araw (piliin lahat ng angkop)',
+      addSpecificTime: '+ Magdagdag ng Tiyak na Oras',
+      frequency: 'Gaano Kadalas?',
+      freqDaily: 'Araw-Araw', freqEveryOther: 'Bawat Ibang Araw',
+      freqMWF: 'Lunes, Miyerkules, Biyernes', freqCustom: 'Mga Napiling Araw ng Linggo',
+      selectDays: 'Pumili ng Mga Araw',
+      startDate: 'Petsa ng Simula', startTime: 'Oras ng Simula',
+      duration: 'Tagal',
+      durOngoing: 'Patuloy (walang petsa ng katapusan)', durWeeks: 'Para sa ilang linggo',
+      durMonths: 'Para sa ilang buwan', durEndDate: 'Hanggang sa isang tiyak na petsa',
+      durBottle: 'Hanggang maubos',
+      endDate: 'Petsa ng Katapusan',
+      notes: 'Tala (opsyonal)', notesPlaceholder: 'Kasama ang pagkain, atbp.',
+      priority: 'Priyoridad', priorityCritical: 'Mahalaga', priorityOptional: 'Opsyonal',
+      cancel: 'Kanselahin', save: 'I-save', stop: 'Ihinto ang Gamot',
+      alarmNone: 'Walang Alarma', remove: 'Alisin'
+    },
+    asNeededModal: {
+      addTitle: 'I-log ang Gamot Kung Kinakailangan', editTitle: 'I-edit ang Gamot Kung Kinakailangan',
+      name: 'Pangalan ng Gamot', namePlaceholder: 'hal. Norco, Tylenol',
+      dosage: 'Dosis', dosagePlaceholder: 'hal. 1 tableta, 5mg',
+      timeTaken: 'Oras na Nainom',
+      notes: 'Tala (opsyonal)', notesPlaceholder: 'Dahilan: sakit ng ulo, pananakit, atbp.',
+      cancel: 'Kanselahin', log: 'I-log ang Gamot'
+    },
+    settings: {
+      profile: 'Profile', timeAlarms: 'Oras ng Araw at Alarma',
+      enableAlarms: 'I-enable ang Alarma',
+      enableAlarmsDesc: 'Mag-play ng tunog kapag oras na ng gamot (dapat bukas ang app)',
+      timeCol: 'Oras', alarmSoundCol: 'Tunog ng Alarma',
+      saveTimeAlarms: 'I-save ang Mga Setting ng Oras at Alarma',
+      alsoTrack: 'I-track Din',
+      appointments: 'Appointment',
+      appointmentsDesc: 'I-track ang mga bisita sa doktor, pamamaraan, at medikal na appointment',
+      healthMetrics: 'Mga Datos ng Kalusugan',
+      healthMetricsDesc: 'I-log ang vital signs, timbang, hakbang, at iba pang datos ng kalusugan',
+      weight: 'Timbang', temperature: 'Temperatura', bloodPressure: 'Presyon ng Dugo',
+      heartRate: 'Tibok ng Puso', bloodSugar: 'Asukal sa Dugo', steps: 'Mga Hakbang',
+      oxygenation: 'Oksihenasyon', sleep: 'Tulog',
+      dataManagement: 'Pamamahala ng Data',
+      exportData: 'I-export ang Data', exportDesc: 'I-download ang lahat ng data bilang backup',
+      importData: 'I-import ang Data', importDesc: 'Ibalik ang data mula sa backup file',
+      clearData: 'Burahin ang Lahat ng Data', clearDesc: 'Tanggalin ang lahat ng gamot, log, at appointment',
+      language: 'Wika',
+      install: 'I-install bilang Home Screen App',
+      installDesc: 'Alamin kung paano idagdag ang app na ito sa iyong home screen'
+    },
+    medListModal: {
+      title: 'Iskedyul ng Gamot', close: 'Isara', add: '+ Magdagdag ng Gamot',
+      empty: 'Walang gamot na naka-iskedyul.\nI-tap ang "+ Magdagdag ng Gamot" para magsimula.'
+    },
+    appointments: {
+      upcoming: 'Paparating', past: 'Nakalipas', add: '+ Magdagdag ng Appointment',
+      noAny: 'Wala pang naka-iskedyul na appointment.',
+      noAnyHint: 'I-tap ang button sa ibaba para magdagdag ng unang appointment.',
+      noUpcoming: 'Walang paparating na appointment.', noPast: 'Walang nakalipas na appointment.',
+      edit: 'I-edit', delete: 'Burahin', markComplete: 'Markahan bilang Tapos', completed: '✓ Tapos Na'
+    },
+    apptModal: {
+      addTitle: 'Magdagdag ng Appointment', editTitle: 'I-edit ang Appointment',
+      type: 'Uri', typeDoctorVisit: 'Pagbisita sa Doktor', typeInfusion: 'Infusion',
+      typeLabWork: 'Lab Work', typeProcedure: 'Pamamaraan', typeOther: 'Iba Pa',
+      titleField: 'Pamagat/Paglalarawan', titlePlaceholder: 'hal. Tsek-ap kay Dr. Reyes',
+      date: 'Petsa', timeOptional: 'Oras (opsyonal)',
+      location: 'Lokasyon', locationVirtual: 'Virtual (Video Call)', locationInPerson: 'Personal',
+      addressField: 'Address/Detalye', addressVirtualField: 'Link ng Video Call/Detalye',
+      addressPlaceholder: 'Pangalan ng ospital, numero ng kwarto, o video link',
+      notes: 'Tala (opsyonal)', notesPlaceholder: 'Magdala ng insurance card, kailangang mag-ayuno, atbp.',
+      cancel: 'Kanselahin', save: 'I-save'
+    },
+    metrics: {
+      add: '+ Magdagdag ng Data',
+      noData: 'Wala pang datos ng kalusugan.', noDate: 'Walang datos para sa petsang ito.',
+      prompt: 'I-tap ang "+ Magdagdag ng Data" para magsimulang mag-track.',
+      noMatch: 'Walang datos na tumutugma sa kasalukuyang filter.',
+      noMatchHint: 'Subukang ayusin ang mga setting ng filter o hanay ng petsa.',
+      noDataRange: 'Walang datos na nahanap para sa hanay ng petsang ito.',
+      edit: 'I-edit', delete: 'Burahin', notes: 'Tala'
+    },
+    logModal: {
+      addTitle: 'Magdagdag ng Data', editTitle: 'I-edit ang Data',
+      datetime: 'Petsa at Oras',
+      temperature: 'Temperatura (°F)', bloodPressure: 'Presyon ng Dugo',
+      heartRate: 'Tibok ng Puso (bpm)', bloodGlucose: 'Asukal sa Dugo (mg/dL)',
+      weight: 'Timbang (lbs)', steps: 'Mga Hakbang', oxygenation: 'Oksihenasyon (%)',
+      sleep: 'Tulog (oras)', notes: 'Tala',
+      systolicPlaceholder: 'Systolic', diastolicPlaceholder: 'Diastolic',
+      cancel: 'Kanselahin', save: 'I-save'
+    },
+    weeklyView: {
+      prevWeek: '← Nakaraang Linggo', nextWeek: 'Susunod na Linggo →', close: 'Isara', print: 'I-print'
+    },
+    morningCheck: {
+      title: '⚠️ Napalampas na Mahahalagang Gamot',
+      message: 'Ang mga mahahalagang gamot na ito ay hindi nai-log para sa {{slot}} kahapon:',
+      viewYesterday: 'Tingnan ang Gamot Kahapon', dismiss: 'Isara'
+    },
+    alarmModal: {
+      title: '💊 Oras na para Uminom ng Gamot',
+      message: 'Pakikilala na nakita mo ang paalala na ito.',
+      gotIt: 'Naiintindihan Ko',
+      timeLabel: 'Gamot sa {{time}}',
+      notificationTitle: 'Paalala ng Gamot',
+      notificationBody: 'Oras na para sa {{time}} na gamot!'
+    },
+    profile: {
+      loading: 'Naglo-load...', allDataSeparate: 'Ang lahat ng data ay naka-store nang hiwalay bawat profile',
+      shareTitle: 'I-share ang Profile', shareDesc: 'Payagan ang ibang device na kumonekta para mag-sync',
+      switchJoinTitle: 'Lumipat o Sumali sa Profile', switchJoinDesc: 'Palitan ang profile o kumonekta sa shared',
+      stopSharing: 'Ihinto ang Pagbabahagi', disconnect: 'Idiskonekta',
+      connectedDevices: 'Mga Konektadong Device', noDevices: 'Wala pang konektadong device',
+      scanCode: 'I-scan ang code na ito gamit ang ibang device:', codeLabel: 'Code:',
+      lastSync: 'Huling sync:', statusLabel: 'Status:', online: '● Online',
+      syncNote: 'Lahat ng pagbabago ay nag-si-sync nang real-time sa host device',
+      createNew: 'Lumikha ng Bagong Profile',
+      synced: 'Naka-sync', sharing: 'Nagbabahagi',
+      sharingDesc: 'Nagbabahagi sa mga konektadong device',
+      syncedDesc: 'Nag-si-sync nang real-time sa host device',
+      reconnecting: 'Nagkokonekta Ulit...',
+      resumingDesc: 'Isinasagawa muli ang sharing session...',
+      reconnectingDesc: 'Nagkokonekta ulit sa host device...',
+      justNow: 'Kailan lang'
+    },
+    schedule: {
+      daily: 'Araw-araw', everyOtherDay: 'Bawat ibang araw', mwf: 'Lun, Miy, Biy',
+      ongoing: 'Patuloy', starts: '• Nagsisimula {{date}}',
+      nWeeks: '• {{n}} linggo', nMonths: '• {{n}} buwan',
+      untilDate: '• Hanggang {{date}}', nDoses: '• {{n}} dosis',
+      untilDateParens: '(hanggang {{date}})', everyDay: 'Araw-araw'
+    },
+    days: { sun: 'Lin', mon: 'Lun', tue: 'Mar', wed: 'Miy', thu: 'Huw', fri: 'Biy', sat: 'Sab' },
+    alerts: {
+      requiredFields: 'Pakipunan ang lahat ng kinakailangang field',
+      selectTime: 'Mangyaring pumili ng kahit isang oras ng araw o magdagdag ng tiyak na oras',
+      selectStartDate: 'Mangyaring pumili ng petsa ng simula',
+      selectDays: 'Mangyaring pumili ng kahit isang araw para sa custom na iskedyul',
+      invalidDuration: 'Mangyaring maglagay ng wastong tagal',
+      selectEndDate: 'Mangyaring pumili ng petsa ng katapusan',
+      bottleDosesRequired: 'Mangyaring ilagay ang bilang ng dosis sa bote',
+      deleteMed: 'Sigurado ka bang gusto mong burahin ang gamot na ito?',
+      stopMed: 'Ihihinto ang gamot na ito? Itatakda ang petsa ng katapusan sa kahapon, na aalisin ang lahat ng mga susunod na dosis.',
+      deleteLog: 'Sigurado ka bang gusto mong burahin ang entry na ito?',
+      deleteAppt: 'Sigurado ka bang gusto mong burahin ang appointment na ito?',
+      importOverwrite: 'Papalitan nito ang lahat ng kasalukuyang data ng na-import na data. Sigurado ka bang gusto mong magpatuloy?',
+      importSuccess: 'Matagumpay na na-import ang data! Ire-reload na ang pahina.',
+      exportSuccess: 'Matagumpay na na-export ang data! Sa iOS, maaaring kailangan mong pindutin nang matagal ang na-download na file at piliin ang "I-save sa Mga File".',
+      clearConfirmMsg: 'SIGURADO ka bang gusto mong burahin ang LAHAT ng data? Hindi ito maaaring ibalik!\n\nMabubura ang:\n• Lahat ng gamot\n• Lahat ng log ng gamot\n• Lahat ng appointment\n• Lahat ng datos ng kalusugan\n\nI-type ang "BURAHIN" sa susunod na prompt para kumpirmahin.',
+      clearConfirmPrompt: 'I-type ang BURAHIN para kumpirmahin:',
+      clearConfirmWord: 'BURAHIN',
+      deletionCancelled: 'Nakansela ang pagbubura.',
+      dataCleared: 'Lahat ng data ay nabura na. Ire-reload na ang pahina.',
+      deleteProfile: 'Sigurado ka bang gusto mong burahin ang profile na "{{name}}"? Permanenteng mabubura ang lahat ng gamot, appointment, at datos ng kalusugan para sa profile na ito.',
+      profileNameRequired: 'Mangyaring ilagay ang pangalan ng profile',
+      deleteActiveProfile: 'Hindi maaaring burahin ang kasalukuyang aktibong profile. Mangyaring lumipat sa ibang profile muna.'
+    },
+    toasts: { alarmSaved: 'Nai-save na ang mga setting ng oras at alarma!' },
+    updateBanner: {
+      title: 'May Bagong Update', message: 'Available na ang bagong bersyon ({{version}}).',
+      updateNow: 'I-update Ngayon', later: 'Mamaya Na'
+    }
+  },
+
+  ko: {
+    tab: { meds: '약', appointments: '예약', metrics: '건강' },
+    header: {
+      meds: '약', appointments: '예약', metrics: '건강',
+      medSchedule: '복약 일정', asNeeded: '+ 필요시 복용',
+      addAppointment: '+ 예약 추가', addMetrics: '+ 데이터 추가',
+      weekView: '주간 보기', back: '← 뒤로', filterMetrics: '데이터 필터 ▼', print: '인쇄'
+    },
+    timeOfDay: {
+      morning: '아침', afternoon: '오후', evening: '저녁',
+      bedtime: '취침 전', asNeeded: '필요시'
+    },
+    meds: {
+      empty: '오늘 예정된 약이 없습니다.',
+      takenAt: '복용 시간',
+      critical: '중요', optional: '선택',
+      tapToPriority: '탭하여 우선순위 변경'
+    },
+    medModal: {
+      addTitle: '약 추가', editTitle: '약 수정',
+      name: '약 이름', dosage: '용량 (예: "1정", "2캡슐")',
+      dosagePlaceholder: '예: 1정',
+      timeOfDay: '복용 시간 (해당하는 것 모두 선택)',
+      addSpecificTime: '+ 특정 시간 추가',
+      frequency: '복용 빈도는?',
+      freqDaily: '매일', freqEveryOther: '격일',
+      freqMWF: '월, 수, 금', freqCustom: '요일 직접 선택',
+      selectDays: '요일 선택',
+      startDate: '시작 날짜', startTime: '시작 시간',
+      duration: '기간',
+      durOngoing: '계속 (종료일 없음)', durWeeks: '몇 주 동안',
+      durMonths: '몇 달 동안', durEndDate: '특정 날짜까지',
+      durBottle: '다 복용할 때까지',
+      endDate: '종료 날짜',
+      notes: '메모 (선택)', notesPlaceholder: '식사와 함께 등',
+      priority: '우선순위', priorityCritical: '중요', priorityOptional: '선택',
+      cancel: '취소', save: '저장', stop: '약 중단',
+      alarmNone: '알람 없음', remove: '삭제'
+    },
+    asNeededModal: {
+      addTitle: '필요시 복용 기록', editTitle: '필요시 복용 수정',
+      name: '약 이름', namePlaceholder: '예: 노르코, 타이레놀',
+      dosage: '용량', dosagePlaceholder: '예: 1정, 5mg',
+      timeTaken: '복용 시간',
+      notes: '메모 (선택)', notesPlaceholder: '이유: 두통, 통증 등',
+      cancel: '취소', log: '복용 기록'
+    },
+    settings: {
+      profile: '프로필', timeAlarms: '복용 시간 및 알람',
+      enableAlarms: '알람 활성화',
+      enableAlarmsDesc: '약 복용 시간에 소리 재생 (앱이 열려 있어야 함)',
+      timeCol: '시간', alarmSoundCol: '알람 소리',
+      saveTimeAlarms: '시간 및 알람 설정 저장',
+      alsoTrack: '함께 추적',
+      appointments: '예약',
+      appointmentsDesc: '진료, 시술 및 의료 예약 추적',
+      healthMetrics: '건강 지표',
+      healthMetricsDesc: '활력 징후, 체중, 걸음 수 및 기타 건강 데이터 기록',
+      weight: '체중', temperature: '체온', bloodPressure: '혈압',
+      heartRate: '심박수', bloodSugar: '혈당', steps: '걸음 수',
+      oxygenation: '산소 포화도', sleep: '수면',
+      dataManagement: '데이터 관리',
+      exportData: '데이터 내보내기', exportDesc: '모든 데이터를 백업 파일로 다운로드',
+      importData: '데이터 가져오기', importDesc: '백업 파일에서 데이터 복원',
+      clearData: '모든 데이터 삭제', clearDesc: '모든 약, 기록 및 예약 삭제',
+      language: '언어',
+      install: '홈 화면 앱으로 설치',
+      installDesc: '이 앱을 홈 화면에 추가하는 방법 알아보기'
+    },
+    medListModal: {
+      title: '복약 일정', close: '닫기', add: '+ 약 추가',
+      empty: '예정된 약이 없습니다.\n"+ 약 추가"를 탭하여 시작하세요.'
+    },
+    appointments: {
+      upcoming: '예정', past: '지난', add: '+ 예약 추가',
+      noAny: '아직 예약이 없습니다.',
+      noAnyHint: '아래 버튼을 탭하여 첫 번째 예약을 추가하세요.',
+      noUpcoming: '예정된 예약이 없습니다.', noPast: '지난 예약이 없습니다.',
+      edit: '수정', delete: '삭제', markComplete: '완료 표시', completed: '✓ 완료'
+    },
+    apptModal: {
+      addTitle: '예약 추가', editTitle: '예약 수정',
+      type: '유형', typeDoctorVisit: '진료', typeInfusion: '수액',
+      typeLabWork: '검사', typeProcedure: '시술', typeOther: '기타',
+      titleField: '제목/설명', titlePlaceholder: '예: 김 의사 정기 검진',
+      date: '날짜', timeOptional: '시간 (선택)',
+      location: '장소', locationVirtual: '온라인 (화상 통화)', locationInPerson: '직접 방문',
+      addressField: '주소/상세', addressVirtualField: '화상 통화 링크/상세',
+      addressPlaceholder: '병원 이름, 호실 번호 또는 영상 통화 링크',
+      notes: '메모 (선택)', notesPlaceholder: '보험증 지참, 금식 필요 등',
+      cancel: '취소', save: '저장'
+    },
+    metrics: {
+      add: '+ 데이터 추가',
+      noData: '아직 건강 데이터가 없습니다.', noDate: '이 날짜의 데이터가 없습니다.',
+      prompt: '"+ 데이터 추가"를 탭하여 기록을 시작하세요.',
+      noMatch: '현재 필터와 일치하는 데이터가 없습니다.',
+      noMatchHint: '필터 설정 또는 날짜 범위를 조정해 보세요.',
+      noDataRange: '이 날짜 범위에서 데이터를 찾을 수 없습니다.',
+      edit: '수정', delete: '삭제', notes: '메모'
+    },
+    logModal: {
+      addTitle: '데이터 추가', editTitle: '데이터 수정',
+      datetime: '날짜 및 시간',
+      temperature: '체온 (°F)', bloodPressure: '혈압',
+      heartRate: '심박수 (bpm)', bloodGlucose: '혈당 (mg/dL)',
+      weight: '체중 (lbs)', steps: '걸음 수', oxygenation: '산소 포화도 (%)',
+      sleep: '수면 (시간)', notes: '메모',
+      systolicPlaceholder: '수축기', diastolicPlaceholder: '이완기',
+      cancel: '취소', save: '저장'
+    },
+    weeklyView: {
+      prevWeek: '← 이전 주', nextWeek: '다음 주 →', close: '닫기', print: '인쇄'
+    },
+    morningCheck: {
+      title: '⚠️ 중요 약 누락',
+      message: '어제 {{slot}}의 다음 중요 약을 기록하지 않았습니다:',
+      viewYesterday: '어제 약 보기', dismiss: '닫기'
+    },
+    alarmModal: {
+      title: '💊 약 복용 시간입니다',
+      message: '이 알림을 확인해 주세요.',
+      gotIt: '확인했습니다',
+      timeLabel: '{{time}} 약',
+      notificationTitle: '복약 알림',
+      notificationBody: '{{time}} 약 복용 시간입니다!'
+    },
+    profile: {
+      loading: '로딩 중...', allDataSeparate: '모든 데이터는 프로필별로 별도 저장됩니다',
+      shareTitle: '프로필 공유', shareDesc: '다른 기기가 연결하여 동기화 허용',
+      switchJoinTitle: '프로필 전환 또는 참가', switchJoinDesc: '프로필 변경 또는 공유 프로필 연결',
+      stopSharing: '공유 중단', disconnect: '연결 해제',
+      connectedDevices: '연결된 기기', noDevices: '아직 연결된 기기가 없습니다',
+      scanCode: '다른 기기로 이 코드를 스캔하세요:', codeLabel: '코드:',
+      lastSync: '마지막 동기화:', statusLabel: '상태:', online: '● 온라인',
+      syncNote: '모든 변경 사항이 호스트 기기와 실시간 동기화됩니다',
+      createNew: '새 프로필 만들기',
+      synced: '동기화됨', sharing: '공유 중',
+      sharingDesc: '연결된 기기와 공유 중',
+      syncedDesc: '호스트 기기와 실시간 동기화 중',
+      reconnecting: '재연결 중...',
+      resumingDesc: '공유 세션 재개 중...',
+      reconnectingDesc: '호스트 기기에 재연결 중...',
+      justNow: '방금'
+    },
+    schedule: {
+      daily: '매일', everyOtherDay: '격일', mwf: '월, 수, 금',
+      ongoing: '계속', starts: '• 시작: {{date}}',
+      nWeeks: '• {{n}}주', nMonths: '• {{n}}개월',
+      untilDate: '• {{date}}까지', nDoses: '• {{n}}회',
+      untilDateParens: '({{date}}까지)', everyDay: '매일'
+    },
+    days: { sun: '일', mon: '월', tue: '화', wed: '수', thu: '목', fri: '금', sat: '토' },
+    alerts: {
+      requiredFields: '모든 필수 항목을 입력해 주세요',
+      selectTime: '하루 중 시간을 하나 이상 선택하거나 특정 시간을 추가해 주세요',
+      selectStartDate: '시작 날짜를 선택해 주세요',
+      selectDays: '맞춤 일정을 위해 최소 하루를 선택해 주세요',
+      invalidDuration: '유효한 기간을 입력해 주세요',
+      selectEndDate: '종료 날짜를 선택해 주세요',
+      bottleDosesRequired: '약병의 복용 횟수를 입력해 주세요',
+      deleteMed: '이 약을 삭제하시겠습니까?',
+      stopMed: '이 약을 중단하시겠습니까? 종료일이 어제로 설정되어 이후 모든 복용이 제거됩니다.',
+      deleteLog: '이 기록을 삭제하시겠습니까?',
+      deleteAppt: '이 예약을 삭제하시겠습니까?',
+      importOverwrite: '현재 데이터가 가져온 데이터로 교체됩니다. 계속하시겠습니까?',
+      importSuccess: '데이터를 성공적으로 가져왔습니다! 페이지가 곧 새로고침됩니다.',
+      exportSuccess: '데이터를 성공적으로 내보냈습니다! iOS에서는 다운로드한 파일을 길게 눌러 "파일에 저장"을 선택해야 할 수 있습니다.',
+      clearConfirmMsg: '모든 데이터를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다!\n\n삭제될 항목:\n• 모든 약\n• 모든 복약 기록\n• 모든 예약\n• 모든 건강 데이터\n\n확인하려면 다음 창에 "삭제"를 입력하세요.',
+      clearConfirmPrompt: '확인을 위해 삭제를 입력하세요:',
+      clearConfirmWord: '삭제',
+      deletionCancelled: '삭제가 취소되었습니다.',
+      dataCleared: '모든 데이터가 삭제되었습니다. 페이지가 곧 새로고침됩니다.',
+      deleteProfile: '"{{name}}" 프로필을 삭제하시겠습니까? 이 프로필의 모든 약, 예약 및 건강 데이터가 영구적으로 삭제됩니다.',
+      profileNameRequired: '프로필 이름을 입력해 주세요',
+      deleteActiveProfile: '현재 활성 프로필은 삭제할 수 없습니다. 먼저 다른 프로필로 전환해 주세요.'
+    },
+    toasts: { alarmSaved: '시간 및 알람 설정이 저장되었습니다!' },
+    updateBanner: {
+      title: '업데이트 가능', message: '새 버전 ({{version}})을 사용할 수 있습니다.',
+      updateNow: '지금 업데이트', later: '나중에'
+    }
+  },
+
+  hy: {
+    tab: { meds: 'Դեղեր', appointments: 'Ժամադրություն', metrics: 'Առողջություն' },
+    header: {
+      meds: 'Դեղեր', appointments: 'Ժամադրություն', metrics: 'Առողջություն',
+      medSchedule: 'Դեղերի Ժամանակացույց', asNeeded: '+ Ըստ Անհրաժեշտության',
+      addAppointment: '+ Ավելացնել Ժամադրություն', addMetrics: '+ Ավելացնել Տվյալ',
+      weekView: 'Շաբաթական Դիտում', back: '← Վերադառնալ', filterMetrics: 'Զտել Տվյալները ▼', print: 'Տպել'
+    },
+    timeOfDay: {
+      morning: 'Առավոտ', afternoon: 'Կեսօրից Հետո', evening: 'Երեկո',
+      bedtime: 'Քնելուց Առաջ', asNeeded: 'Ըստ Անհրաժեշտության'
+    },
+    meds: {
+      empty: 'Այսօրվա համար դեղ չի նախատեսված։',
+      takenAt: 'Ընդունված է ժամը',
+      critical: 'Կարևոր', optional: 'Կամընտրական',
+      tapToPriority: 'Սեղմեք՝ առաջնահերթությունը փոխելու համար'
+    },
+    medModal: {
+      addTitle: 'Ավելացնել Դեղ', editTitle: 'Խմբագրել Դեղ',
+      name: 'Դեղի Անվանում', dosage: 'Դոզա (օր.՝ «1 հաբ», «2 պարկուճ»)',
+      dosagePlaceholder: 'օր.՝ 1 հաբ',
+      timeOfDay: 'Օրվա Ժամ (ընտրեք բոլոր հարմարները)',
+      addSpecificTime: '+ Ավելացնել Կոնկրետ Ժամ',
+      frequency: 'Որքա՞ն Հաճախ?',
+      freqDaily: 'Ամեն Օր', freqEveryOther: 'Օրըստօրե',
+      freqMWF: 'Երկ, Չոր, Ուրբ', freqCustom: 'Շաբաթվա Հատուկ Օրեր',
+      selectDays: 'Ընտրեք Օրերը',
+      startDate: 'Մեկնարկի Ամսաթիվ', startTime: 'Մեկնարկի Ժամ',
+      duration: 'Տևողություն',
+      durOngoing: 'Շարունակական (առանց ավարտի)', durWeeks: 'Մի քանի շաբաթ',
+      durMonths: 'Մի քանի ամիս', durEndDate: 'Մինչև կոնկրետ ամսաթիվ',
+      durBottle: 'Մինչև վերջ ընդունելը',
+      endDate: 'Ավարտի Ամսաթիվ',
+      notes: 'Նշումներ (կամընտրական)', notesPlaceholder: 'Սննդի հետ և այլն',
+      priority: 'Առաջնահերթություն', priorityCritical: 'Կարևոր', priorityOptional: 'Կամընտրական',
+      cancel: 'Չեղարկել', save: 'Պահպանել', stop: 'Դադարեցնել Դեղը',
+      alarmNone: 'Ազդանշան Չկա', remove: 'Հեռացնել'
+    },
+    asNeededModal: {
+      addTitle: 'Գրառել Ըստ Անհրաժեշտության Դեղ', editTitle: 'Խմբագրել Ըստ Անհրաժեշտության Դեղ',
+      name: 'Դեղի Անվանում', namePlaceholder: 'օր.՝ Norco, Tylenol',
+      dosage: 'Դոզա', dosagePlaceholder: 'օր.՝ 1 հաբ, 5մգ',
+      timeTaken: 'Ընդունման Ժամ',
+      notes: 'Նշումներ (կամընտրական)', notesPlaceholder: 'Պատճառ՝ գլխացավ, ցավ և այլն',
+      cancel: 'Չեղարկել', log: 'Գրառել Դեղ'
+    },
+    settings: {
+      profile: 'Պրոֆիլ', timeAlarms: 'Ժամ & Ազդանշաններ',
+      enableAlarms: 'Միացնել Ազդանշանները',
+      enableAlarmsDesc: 'Հնչել, երբ դեղ ընդունելու ժամն է (հավելվածը պետք է բաց լինի)',
+      timeCol: 'Ժամ', alarmSoundCol: 'Ազդանշանի Ձայն',
+      saveTimeAlarms: 'Պահպանել Ժամ & Ազդանշան Կարգավորումները',
+      alsoTrack: 'Հետևել Նաև',
+      appointments: 'Ժամադրություններ',
+      appointmentsDesc: 'Հետևել բժշկական այցելություններին, ընթացակարգերին և ժամադրություններին',
+      healthMetrics: 'Առողջության Ցուցանիշներ',
+      healthMetricsDesc: 'Գրառել կենսական ցուցանիշները, քաշը, քայլերը և այլ տվյալներ',
+      weight: 'Քաշ', temperature: 'Ջերմություն', bloodPressure: 'Արյան Ճնշում',
+      heartRate: 'Սրտի Հաճախություն', bloodSugar: 'Արյան Շաքար', steps: 'Քայլեր',
+      oxygenation: 'Թթվածնի Հագեցվածություն', sleep: 'Քուն',
+      dataManagement: 'Տվյալների Կառավարում',
+      exportData: 'Արտահանել Տվյալները', exportDesc: 'Ներբեռնել բոլոր տվյալները որպես կրկնօրինակ',
+      importData: 'Ներմուծել Տվյալները', importDesc: 'Վերականգնել տվյալները կրկնօրինակ ֆայլից',
+      clearData: 'Ջնջել Բոլոր Տվյալները', clearDesc: 'Ջնջել բոլոր դեղերը, գրառումները և ժամադրությունները',
+      language: 'Լեզու',
+      install: 'Տեղադրել Որպես Հիմնական Էկրանի Հավելված',
+      installDesc: 'Իմացեք, թե ինչպես ավելացնել այս հավելվածը հիմնական էկրանին'
+    },
+    medListModal: {
+      title: 'Դեղերի Ժամանակացույց', close: 'Փակել', add: '+ Ավելացնել Դեղ',
+      empty: 'Դեղ չի նախատեսված։\nՍեղմեք «+ Ավելացնել Դեղ»՝ սկսելու համար։'
+    },
+    appointments: {
+      upcoming: 'Առաջիկա', past: 'Անցյալ', add: '+ Ավելացնել Ժամադրություն',
+      noAny: 'Դեռ ժամադրություն չկա։',
+      noAnyHint: 'Ներքևի կոճակը սեղմեք՝ առաջին ժամադրությունը ավելացնելու համար։',
+      noUpcoming: 'Առաջիկա ժամադրություն չկա։', noPast: 'Անցյալ ժամադրություն չկա։',
+      edit: 'Խմբագրել', delete: 'Ջնջել', markComplete: 'Նշել Որպես Ավարտված', completed: '✓ Ավարտված'
+    },
+    apptModal: {
+      addTitle: 'Ավելացնել Ժամադրություն', editTitle: 'Խմբագրել Ժամադրություն',
+      type: 'Տեսակ', typeDoctorVisit: 'Բժշկի Այց', typeInfusion: 'Ինֆուզիա',
+      typeLabWork: 'Լաբ Հետազոտություն', typeProcedure: 'Ընթացակարգ', typeOther: 'Այլ',
+      titleField: 'Վերնագիր/Նկարագրություն', titlePlaceholder: 'օր.՝ Դ-ր Ֆրիդի հետ ստուգում',
+      date: 'Ամսաթիվ', timeOptional: 'Ժամ (կամընտրական)',
+      location: 'Վայր', locationVirtual: 'Վիրտուալ (Տեսազանգ)', locationInPerson: 'Ներկայությամբ',
+      addressField: 'Հասցե/Մանրամասներ', addressVirtualField: 'Տեսազանգի Հղում/Մանրամասներ',
+      addressPlaceholder: 'Հիվանդանոցի անվանում, սենյակի համար կամ տեսազանգի հղում',
+      notes: 'Նշումներ (կամընտրական)', notesPlaceholder: 'Բերել ապահովագրական քարտ, պահանջվում է ծոմ և այլն',
+      cancel: 'Չեղարկել', save: 'Պահպանել'
+    },
+    metrics: {
+      add: '+ Ավելացնել Տվյալ',
+      noData: 'Դեռ առողջության տվյալ չկա։', noDate: 'Այս ամսաթվի համար տվյալ չկա։',
+      prompt: 'Սեղմեք «+ Ավելացնել Տվյալ»՝ հետևելու համար։',
+      noMatch: 'Ոչ մի տվյալ չի համապատասխանում ֆիլտրին։',
+      noMatchHint: 'Փորձեք փոխել ֆիլտրի կարգավորումները կամ ամսաթվի տիրույթը։',
+      noDataRange: 'Այս ամսաթվի տիրույթի համար տվյալ չի գտնվել։',
+      edit: 'Խմբագրել', delete: 'Ջնջել', notes: 'Նշումներ'
+    },
+    logModal: {
+      addTitle: 'Ավելացնել Տվյալ', editTitle: 'Խմբագրել Տվյալ',
+      datetime: 'Ամսաթիվ & Ժամ',
+      temperature: 'Ջերմություն (°F)', bloodPressure: 'Արյան Ճնշում',
+      heartRate: 'Սրտի Հաճախություն (bpm)', bloodGlucose: 'Արյան Շաքար (mg/dL)',
+      weight: 'Քաշ (lbs)', steps: 'Քայլեր', oxygenation: 'Թթվածնի Հագեցվածություն (%)',
+      sleep: 'Քուն (ժամ)', notes: 'Նշումներ',
+      systolicPlaceholder: 'Սիստոլիկ', diastolicPlaceholder: 'Դիաստոլիկ',
+      cancel: 'Չեղարկել', save: 'Պահպանել'
+    },
+    weeklyView: {
+      prevWeek: '← Նախորդ Շաբաթ', nextWeek: 'Հաջորդ Շաբաթ →', close: 'Փակել', print: 'Տպել'
+    },
+    morningCheck: {
+      title: '⚠️ Բաց Թողած Կարևոր Դեղեր',
+      message: 'Այս կարևոր դեղերը երեկ {{slot}} ժամին գրառված չեն.',
+      viewYesterday: 'Տեսնել Երեկվա Դեղերը', dismiss: 'Փակել'
+    },
+    alarmModal: {
+      title: '💊 Դեղ Ընդունելու Ժամն Է',
+      message: 'Խնդրում ենք հաստատել, որ տեսել եք այս հիշեցումը։',
+      gotIt: 'Հասկացա',
+      timeLabel: '{{time}} Դեղ',
+      notificationTitle: 'Դեղ Ընդունելու Հիշեցում',
+      notificationBody: '{{time}} ժամին դեղ ընդունելու ժամն է!'
+    },
+    profile: {
+      loading: 'Բեռնվում է...', allDataSeparate: 'Բոլոր տվյալները պահվում են առանձին պրոֆիլ',
+      shareTitle: 'Կիսվել Պրոֆիլով', shareDesc: 'Թույլ տալ մյուս սարքերին կապ հաստատելու',
+      switchJoinTitle: 'Փոխել կամ Միանալ Պրոֆիլ', switchJoinDesc: 'Փոխել պրոֆիլ կամ կապ հաստատել համօգտագործվողի հետ',
+      stopSharing: 'Դադարեցնել Կիսումը', disconnect: 'Անջատել',
+      connectedDevices: 'Կապված Սարքեր', noDevices: 'Դեռ կապված սարք չկա',
+      scanCode: 'Սկանավորեք այս կոդը մեկ այլ սարքով.', codeLabel: 'Կոդ.',
+      lastSync: 'Վերջին համաժամեցում.', statusLabel: 'Կարգավիճակ.', online: '● Առցանց',
+      syncNote: 'Բոլոր փոփոխությունները իրական ժամանակում համաժամեցվում են հյուրընկալող սարքի հետ',
+      createNew: 'Ստեղծել Նոր Պրոֆիլ',
+      synced: 'Համաժամեցված', sharing: 'Կիսվում է',
+      sharingDesc: 'Կիսվում է կապված սարքերի հետ',
+      syncedDesc: 'Իրական ժամանակում համաժամեցվում է հյուրընկալող սարքի հետ',
+      reconnecting: 'Վերակապ...',
+      resumingDesc: 'Վերսկսվում է կիսման նիստը...',
+      reconnectingDesc: 'Վերակապ հյուրընկալող սարքի հետ...',
+      justNow: 'Հենց հիմա'
+    },
+    schedule: {
+      daily: 'Ամեն օր', everyOtherDay: 'Օրըստօրե', mwf: 'Երկ, Չոր, Ուրբ',
+      ongoing: 'Շարունակական', starts: '• Սկսվում է {{date}}',
+      nWeeks: '• {{n}} շաբաթ', nMonths: '• {{n}} ամիս',
+      untilDate: '• Մինչև {{date}}', nDoses: '• {{n}} դոզա',
+      untilDateParens: '(մինչև {{date}})', everyDay: 'Ամեն օր'
+    },
+    days: { sun: 'Կիր', mon: 'Երկ', tue: 'Երք', wed: 'Չոր', thu: 'Հնգ', fri: 'Ուրբ', sat: 'Շաբ' },
+    alerts: {
+      requiredFields: 'Խնդրում ենք լրացնել բոլոր պարտադիր դաշտերը',
+      selectTime: 'Խնդրում ենք ընտրել օրվա ժամ կամ ավելացնել կոնկրետ ժամ',
+      selectStartDate: 'Խնդրում ենք ընտրել մեկնարկի ամսաթիվ',
+      selectDays: 'Խնդրում ենք ընտրել առնվազն մեկ օր հատուկ ժամանակացույցի համար',
+      invalidDuration: 'Խնդրում ենք մուտքագրել վավեր տևողություն',
+      selectEndDate: 'Խնդրում ենք ընտրել ավարտի ամսաթիվ',
+      bottleDosesRequired: 'Խնդրում ենք մուտքագրել շշի դոզաների քանակը',
+      deleteMed: 'Ջնջե՞լ այս դեղը',
+      stopMed: 'Դադարեցնե՞լ այս դեղը? Ավարտի ամսաթիվը կդառնա երեկ, հեռացնելով բոլոր ապագա դոզաները:',
+      deleteLog: 'Ջնջե՞լ այս գրառումը',
+      deleteAppt: 'Ջնջե՞լ այս ժամադրությունը',
+      importOverwrite: 'Ներկայիս տվյալները կփոխարինվեն ներմուծված տվյալներով: Շարունակե՞լ',
+      importSuccess: 'Տվյալները հաջողությամբ ներմուծվեցին: Էջը կբեռնվի:',
+      exportSuccess: 'Տվյալները հաջողությամբ արտահանվեցին: iOS-ում կարող է անհրաժեշտ լինել երկար սեղմել ֆայլի վրա և ընտրել «Պահպանել Ֆայլերում»:',
+      clearConfirmMsg: 'ՎՍՏԱ՞Հ ԵՔ, որ ցանկանում եք ջնջել ԲՈԼՈՐ տվյալները? Սա հնարավոր չէ հետ բերել!\n\nՋնջվելու է:\n• Բոլոր դեղերը\n• Բոլոր գրառումները\n• Բոլոր ժամադրությունները\n• Բոլոր առողջական տվյալները\n\nՀաստատելու համար հաջորդ հուշման մեջ մուտքագրեք «ՋՆՋԵԼ»:',
+      clearConfirmPrompt: 'Հաստատելու համար մուտքագրեք ՋՆՋԵԼ:',
+      clearConfirmWord: 'ՋՆՋԵԼ',
+      deletionCancelled: 'Ջնջումը չեղարկվեց:',
+      dataCleared: 'Բոլոր տվյալները ջնջվեցին: Էջը կբեռնվի:',
+      deleteProfile: 'Ջնջե՞լ «{{name}}» պրոֆիլը: Այս պրոֆիլի բոլոր դեղերը, ժամադրությունները և առողջական տվյալները կջնջվեն:',
+      profileNameRequired: 'Խնդրում ենք մուտքագրել պրոֆիլի անունը',
+      deleteActiveProfile: 'Հնարավոր չէ ջնջել ակտիվ պրոֆիլը: Նախ անցեք մեկ այլ պրոֆիլի:'
+    },
+    toasts: { alarmSaved: 'Ժամ & ազդանշանի կարգավորումները պահպանվեցին!' },
+    updateBanner: {
+      title: 'Հասանելի Է Թարմացում', message: 'Հասանելի է նոր տարբերակ ({{version}}):',
+      updateNow: 'Թարմացնել Հիմա', later: 'Հետո'
+    }
+  },
+
+  ru: {
+    tab: { meds: 'Лекарства', appointments: 'Приёмы', metrics: 'Здоровье' },
+    header: {
+      meds: 'Лекарства', appointments: 'Приёмы', metrics: 'Здоровье',
+      medSchedule: 'Расписание', asNeeded: '+ По Необходимости',
+      addAppointment: '+ Добавить Приём', addMetrics: '+ Добавить Данные',
+      weekView: 'Неделя', back: '← Назад', filterMetrics: 'Фильтр ▼', print: 'Печать'
+    },
+    timeOfDay: {
+      morning: 'Утро', afternoon: 'День', evening: 'Вечер',
+      bedtime: 'Перед Сном', asNeeded: 'По Необходимости'
+    },
+    meds: {
+      empty: 'На сегодня лекарства не запланированы.',
+      takenAt: 'Принято в',
+      critical: 'Важное', optional: 'Необязательное',
+      tapToPriority: 'Нажмите для изменения приоритета'
+    },
+    medModal: {
+      addTitle: 'Добавить Лекарство', editTitle: 'Редактировать Лекарство',
+      name: 'Название Лекарства', dosage: 'Дозировка (напр., «1 таблетка», «2 капсулы»)',
+      dosagePlaceholder: 'напр., 1 таблетка',
+      timeOfDay: 'Время Приёма (выберите все подходящие)',
+      addSpecificTime: '+ Добавить Точное Время',
+      frequency: 'Как Часто?',
+      freqDaily: 'Каждый День', freqEveryOther: 'Через День',
+      freqMWF: 'Пн, Ср, Пт', freqCustom: 'Выбрать Дни Недели',
+      selectDays: 'Выбрать Дни',
+      startDate: 'Дата Начала', startTime: 'Время Начала',
+      duration: 'Продолжительность',
+      durOngoing: 'Постоянно (без даты окончания)', durWeeks: 'Несколько недель',
+      durMonths: 'Несколько месяцев', durEndDate: 'До определённой даты',
+      durBottle: 'Пока не закончится',
+      endDate: 'Дата Окончания',
+      notes: 'Заметки (необязательно)', notesPlaceholder: 'Принимать с едой и т.д.',
+      priority: 'Приоритет', priorityCritical: 'Важное', priorityOptional: 'Необязательное',
+      cancel: 'Отмена', save: 'Сохранить', stop: 'Прекратить Приём',
+      alarmNone: 'Без Будильника', remove: 'Удалить'
+    },
+    asNeededModal: {
+      addTitle: 'Записать Приём По Необходимости', editTitle: 'Редактировать Приём По Необходимости',
+      name: 'Название Лекарства', namePlaceholder: 'напр., Норко, Тайленол',
+      dosage: 'Дозировка', dosagePlaceholder: 'напр., 1 таблетка, 5мг',
+      timeTaken: 'Время Приёма',
+      notes: 'Заметки (необязательно)', notesPlaceholder: 'Причина: головная боль, боль и т.д.',
+      cancel: 'Отмена', log: 'Записать Приём'
+    },
+    settings: {
+      profile: 'Профиль', timeAlarms: 'Время Приёма и Будильники',
+      enableAlarms: 'Включить Будильники',
+      enableAlarmsDesc: 'Воспроизводить звук в время приёма (приложение должно быть открыто)',
+      timeCol: 'Время', alarmSoundCol: 'Звук Будильника',
+      saveTimeAlarms: 'Сохранить Настройки Времени и Будильников',
+      alsoTrack: 'Также Отслеживать',
+      appointments: 'Приёмы',
+      appointmentsDesc: 'Отслеживать визиты к врачу, процедуры и медицинские приёмы',
+      healthMetrics: 'Показатели Здоровья',
+      healthMetricsDesc: 'Записывать жизненные показатели, вес, шаги и другие данные',
+      weight: 'Вес', temperature: 'Температура', bloodPressure: 'Давление',
+      heartRate: 'Пульс', bloodSugar: 'Сахар в Крови', steps: 'Шаги',
+      oxygenation: 'Насыщение Кислородом', sleep: 'Сон',
+      dataManagement: 'Управление Данными',
+      exportData: 'Экспортировать Данные', exportDesc: 'Скачать все данные в виде резервной копии',
+      importData: 'Импортировать Данные', importDesc: 'Восстановить данные из резервной копии',
+      clearData: 'Удалить Все Данные', clearDesc: 'Удалить все лекарства, записи и приёмы',
+      language: 'Язык',
+      install: 'Установить на Главный Экран',
+      installDesc: 'Узнайте, как добавить это приложение на главный экран'
+    },
+    medListModal: {
+      title: 'Расписание Лекарств', close: 'Закрыть', add: '+ Добавить Лекарство',
+      empty: 'Лекарства не запланированы.\nНажмите «+ Добавить Лекарство», чтобы начать.'
+    },
+    appointments: {
+      upcoming: 'Предстоящие', past: 'Прошедшие', add: '+ Добавить Приём',
+      noAny: 'Приёмы пока не запланированы.',
+      noAnyHint: 'Нажмите кнопку ниже, чтобы добавить первый приём.',
+      noUpcoming: 'Нет предстоящих приёмов.', noPast: 'Нет прошедших приёмов.',
+      edit: 'Изменить', delete: 'Удалить', markComplete: 'Отметить Выполненным', completed: '✓ Выполнено'
+    },
+    apptModal: {
+      addTitle: 'Добавить Приём', editTitle: 'Редактировать Приём',
+      type: 'Тип', typeDoctorVisit: 'Визит к Врачу', typeInfusion: 'Инфузия',
+      typeLabWork: 'Анализы', typeProcedure: 'Процедура', typeOther: 'Другое',
+      titleField: 'Название/Описание', titlePlaceholder: 'напр., Осмотр у д-ра Иванова',
+      date: 'Дата', timeOptional: 'Время (необязательно)',
+      location: 'Место', locationVirtual: 'Онлайн (Видеозвонок)', locationInPerson: 'Лично',
+      addressField: 'Адрес/Детали', addressVirtualField: 'Ссылка на Видеозвонок/Детали',
+      addressPlaceholder: 'Название больницы, номер кабинета или ссылка',
+      notes: 'Заметки (необязательно)', notesPlaceholder: 'Взять страховой полис, нужно натощак и т.д.',
+      cancel: 'Отмена', save: 'Сохранить'
+    },
+    metrics: {
+      add: '+ Добавить Данные',
+      noData: 'Данных о здоровье пока нет.', noDate: 'Данных за эту дату нет.',
+      prompt: 'Нажмите «+ Добавить Данные», чтобы начать.',
+      noMatch: 'Нет данных, соответствующих фильтру.',
+      noMatchHint: 'Попробуйте изменить фильтр или диапазон дат.',
+      noDataRange: 'Данных за указанный период не найдено.',
+      edit: 'Изменить', delete: 'Удалить', notes: 'Заметки'
+    },
+    logModal: {
+      addTitle: 'Добавить Данные', editTitle: 'Редактировать Данные',
+      datetime: 'Дата и Время',
+      temperature: 'Температура (°F)', bloodPressure: 'Давление',
+      heartRate: 'Пульс (уд/мин)', bloodGlucose: 'Сахар в Крови (мг/дл)',
+      weight: 'Вес (фунты)', steps: 'Шаги', oxygenation: 'Насыщение Кислородом (%)',
+      sleep: 'Сон (часы)', notes: 'Заметки',
+      systolicPlaceholder: 'Систолическое', diastolicPlaceholder: 'Диастолическое',
+      cancel: 'Отмена', save: 'Сохранить'
+    },
+    weeklyView: {
+      prevWeek: '← Прошлая Неделя', nextWeek: 'Следующая Неделя →', close: 'Закрыть', print: 'Печать'
+    },
+    morningCheck: {
+      title: '⚠️ Пропущены Важные Лекарства',
+      message: 'Следующие важные лекарства не были отмечены для {{slot}} вчера:',
+      viewYesterday: 'Посмотреть Вчерашние Лекарства', dismiss: 'Закрыть'
+    },
+    alarmModal: {
+      title: '💊 Время Принять Лекарство',
+      message: 'Пожалуйста, подтвердите, что вы увидели это напоминание.',
+      gotIt: 'Понятно',
+      timeLabel: 'Лекарства — {{time}}',
+      notificationTitle: 'Напоминание о Лекарстве',
+      notificationBody: 'Время принять лекарства — {{time}}!'
+    },
+    profile: {
+      loading: 'Загрузка...', allDataSeparate: 'Все данные хранятся отдельно по профилям',
+      shareTitle: 'Поделиться Профилем', shareDesc: 'Разрешить другим устройствам подключиться для синхронизации',
+      switchJoinTitle: 'Переключить или Присоединиться', switchJoinDesc: 'Изменить профиль или подключиться к общему',
+      stopSharing: 'Остановить Общий Доступ', disconnect: 'Отключиться',
+      connectedDevices: 'Подключённые Устройства', noDevices: 'Устройства ещё не подключены',
+      scanCode: 'Отсканируйте этот код другим устройством:', codeLabel: 'Код:',
+      lastSync: 'Последняя синхронизация:', statusLabel: 'Статус:', online: '● Онлайн',
+      syncNote: 'Все изменения синхронизируются в реальном времени с основным устройством',
+      createNew: 'Создать Новый Профиль',
+      synced: 'Синхронизировано', sharing: 'Общий Доступ',
+      sharingDesc: 'Открыт общий доступ для подключённых устройств',
+      syncedDesc: 'Синхронизируется в реальном времени с основным устройством',
+      reconnecting: 'Переподключение...',
+      resumingDesc: 'Возобновление сеанса общего доступа...',
+      reconnectingDesc: 'Переподключение к основному устройству...',
+      justNow: 'Только что'
+    },
+    schedule: {
+      daily: 'Ежедневно', everyOtherDay: 'Через день', mwf: 'Пн, Ср, Пт',
+      ongoing: 'Постоянно', starts: '• Начало {{date}}',
+      nWeeks: '• {{n}} нед.', nMonths: '• {{n}} мес.',
+      untilDate: '• До {{date}}', nDoses: '• {{n}} доз',
+      untilDateParens: '(до {{date}})', everyDay: 'Каждый день'
+    },
+    days: { sun: 'Вс', mon: 'Пн', tue: 'Вт', wed: 'Ср', thu: 'Чт', fri: 'Пт', sat: 'Сб' },
+    alerts: {
+      requiredFields: 'Пожалуйста, заполните все обязательные поля',
+      selectTime: 'Пожалуйста, выберите хотя бы одно время или добавьте точное время',
+      selectStartDate: 'Пожалуйста, выберите дату начала',
+      selectDays: 'Пожалуйста, выберите хотя бы один день для индивидуального расписания',
+      invalidDuration: 'Пожалуйста, введите корректную продолжительность',
+      selectEndDate: 'Пожалуйста, выберите дату окончания',
+      bottleDosesRequired: 'Пожалуйста, введите количество доз в упаковке',
+      deleteMed: 'Вы уверены, что хотите удалить это лекарство?',
+      stopMed: 'Прекратить приём этого лекарства? Дата окончания будет установлена на вчера, все будущие дозы будут удалены.',
+      deleteLog: 'Вы уверены, что хотите удалить эту запись?',
+      deleteAppt: 'Вы уверены, что хотите удалить этот приём?',
+      importOverwrite: 'Текущие данные будут заменены импортированными. Вы уверены, что хотите продолжить?',
+      importSuccess: 'Данные успешно импортированы! Страница обновится.',
+      exportSuccess: 'Данные успешно экспортированы! На iOS может потребоваться удерживать файл и выбрать «Сохранить в Файлы».',
+      clearConfirmMsg: 'Вы АБСОЛЮТНО уверены, что хотите удалить ВСЕ данные? Это действие нельзя отменить!\n\nБудет удалено:\n• Все лекарства\n• Все записи о приёмах\n• Все приёмы врачей\n• Все данные о здоровье\n\nВведите «УДАЛИТЬ» в следующем запросе для подтверждения.',
+      clearConfirmPrompt: 'Введите УДАЛИТЬ для подтверждения:',
+      clearConfirmWord: 'УДАЛИТЬ',
+      deletionCancelled: 'Удаление отменено.',
+      dataCleared: 'Все данные удалены. Страница обновится.',
+      deleteProfile: 'Вы уверены, что хотите удалить профиль «{{name}}»? Все лекарства, приёмы и данные о здоровье этого профиля будут удалены навсегда.',
+      profileNameRequired: 'Пожалуйста, введите название профиля',
+      deleteActiveProfile: 'Невозможно удалить активный профиль. Сначала переключитесь на другой профиль.'
+    },
+    toasts: { alarmSaved: 'Настройки времени и будильников сохранены!' },
+    updateBanner: {
+      title: 'Доступно Обновление', message: 'Доступна новая версия ({{version}}).',
+      updateNow: 'Обновить Сейчас', later: 'Позже'
+    }
+  },
+
+  ja: {
+    tab: { meds: '薬', appointments: '予約', metrics: '健康' },
+    header: {
+      meds: '薬', appointments: '予約', metrics: '健康',
+      medSchedule: '服薬スケジュール', asNeeded: '+ 必要時に服用',
+      addAppointment: '+ 予約を追加', addMetrics: '+ データを追加',
+      weekView: '週表示', back: '← 戻る', filterMetrics: 'データを絞り込む ▼', print: '印刷'
+    },
+    timeOfDay: {
+      morning: '朝', afternoon: '午後', evening: '夕方',
+      bedtime: '就寝前', asNeeded: '必要時'
+    },
+    meds: {
+      empty: '本日の服薬予定はありません。',
+      takenAt: '服用時刻',
+      critical: '重要', optional: '任意',
+      tapToPriority: 'タップして優先度を変更'
+    },
+    medModal: {
+      addTitle: '薬を追加', editTitle: '薬を編集',
+      name: '薬の名前', dosage: '用量（例：「1錠」「2カプセル」）',
+      dosagePlaceholder: '例：1錠',
+      timeOfDay: '服用時間帯（該当するものをすべて選択）',
+      addSpecificTime: '+ 時刻を追加',
+      frequency: '服用頻度は？',
+      freqDaily: '毎日', freqEveryOther: '1日おき',
+      freqMWF: '月・水・金', freqCustom: '曜日を選択',
+      selectDays: '曜日を選択',
+      startDate: '開始日', startTime: '開始時刻',
+      duration: '期間',
+      durOngoing: '継続（終了日なし）', durWeeks: '数週間',
+      durMonths: '数ヶ月', durEndDate: '特定の日まで',
+      durBottle: '飲み終わるまで',
+      endDate: '終了日',
+      notes: 'メモ（任意）', notesPlaceholder: '食事と一緒に等',
+      priority: '優先度', priorityCritical: '重要', priorityOptional: '任意',
+      cancel: 'キャンセル', save: '保存', stop: '服用を中止',
+      alarmNone: 'アラームなし', remove: '削除'
+    },
+    asNeededModal: {
+      addTitle: '必要時服用を記録', editTitle: '必要時服用を編集',
+      name: '薬の名前', namePlaceholder: '例：ノルコ、タイレノール',
+      dosage: '用量', dosagePlaceholder: '例：1錠、5mg',
+      timeTaken: '服用時刻',
+      notes: 'メモ（任意）', notesPlaceholder: '理由：頭痛、痛み等',
+      cancel: 'キャンセル', log: '服用を記録'
+    },
+    settings: {
+      profile: 'プロフィール', timeAlarms: '服用時間とアラーム',
+      enableAlarms: 'アラームを有効にする',
+      enableAlarmsDesc: '服用時間に音を鳴らす（アプリが起動中である必要があります）',
+      timeCol: '時間', alarmSoundCol: 'アラーム音',
+      saveTimeAlarms: '時間とアラームの設定を保存',
+      alsoTrack: '追加で記録',
+      appointments: '予約',
+      appointmentsDesc: '受診、処置、医療予約を管理',
+      healthMetrics: '健康指標',
+      healthMetricsDesc: 'バイタルサイン、体重、歩数などの健康データを記録',
+      weight: '体重', temperature: '体温', bloodPressure: '血圧',
+      heartRate: '心拍数', bloodSugar: '血糖値', steps: '歩数',
+      oxygenation: '血中酸素濃度', sleep: '睡眠',
+      dataManagement: 'データ管理',
+      exportData: 'データをエクスポート', exportDesc: 'すべてのデータをバックアップファイルとしてダウンロード',
+      importData: 'データをインポート', importDesc: 'バックアップファイルからデータを復元',
+      clearData: 'すべてのデータを削除', clearDesc: 'すべての薬、記録、予約を削除',
+      language: '言語',
+      install: 'ホーム画面にインストール',
+      installDesc: 'このアプリをホーム画面に追加する方法を確認'
+    },
+    medListModal: {
+      title: '服薬スケジュール', close: '閉じる', add: '+ 薬を追加',
+      empty: '薬が登録されていません。\n「+ 薬を追加」をタップして始めましょう。'
+    },
+    appointments: {
+      upcoming: '予定', past: '過去', add: '+ 予約を追加',
+      noAny: 'まだ予約がありません。',
+      noAnyHint: '下のボタンをタップして最初の予約を追加してください。',
+      noUpcoming: '予定の予約はありません。', noPast: '過去の予約はありません。',
+      edit: '編集', delete: '削除', markComplete: '完了にする', completed: '✓ 完了'
+    },
+    apptModal: {
+      addTitle: '予約を追加', editTitle: '予約を編集',
+      type: '種類', typeDoctorVisit: '受診', typeInfusion: '点滴',
+      typeLabWork: '検査', typeProcedure: '処置', typeOther: 'その他',
+      titleField: 'タイトル/説明', titlePlaceholder: '例：田中医師の定期検診',
+      date: '日付', timeOptional: '時刻（任意）',
+      location: '場所', locationVirtual: 'オンライン（ビデオ通話）', locationInPerson: '対面',
+      addressField: '住所/詳細', addressVirtualField: 'ビデオ通話リンク/詳細',
+      addressPlaceholder: '病院名、部屋番号、またはビデオリンク',
+      notes: 'メモ（任意）', notesPlaceholder: '保険証を持参、絶食が必要等',
+      cancel: 'キャンセル', save: '保存'
+    },
+    metrics: {
+      add: '+ データを追加',
+      noData: '健康データはまだありません。', noDate: 'この日付のデータはありません。',
+      prompt: '「+ データを追加」をタップして記録を始めましょう。',
+      noMatch: '現在のフィルターに一致するデータがありません。',
+      noMatchHint: 'フィルターの設定または日付範囲を変更してみてください。',
+      noDataRange: 'この日付範囲のデータは見つかりませんでした。',
+      edit: '編集', delete: '削除', notes: 'メモ'
+    },
+    logModal: {
+      addTitle: 'データを追加', editTitle: 'データを編集',
+      datetime: '日付と時刻',
+      temperature: '体温 (°F)', bloodPressure: '血圧',
+      heartRate: '心拍数 (bpm)', bloodGlucose: '血糖値 (mg/dL)',
+      weight: '体重 (lbs)', steps: '歩数', oxygenation: '血中酸素濃度 (%)',
+      sleep: '睡眠 (時間)', notes: 'メモ',
+      systolicPlaceholder: '収縮期', diastolicPlaceholder: '拡張期',
+      cancel: 'キャンセル', save: '保存'
+    },
+    weeklyView: {
+      prevWeek: '← 前の週', nextWeek: '次の週 →', close: '閉じる', print: '印刷'
+    },
+    morningCheck: {
+      title: '⚠️ 重要な薬を飲み忘れました',
+      message: '昨日の{{slot}}に以下の重要な薬が記録されていません：',
+      viewYesterday: '昨日の薬を確認', dismiss: '閉じる'
+    },
+    alarmModal: {
+      title: '💊 服薬の時間です',
+      message: 'このリマインダーを確認してください。',
+      gotIt: 'わかりました',
+      timeLabel: '{{time}}の薬',
+      notificationTitle: '服薬リマインダー',
+      notificationBody: '{{time}}の服薬時間です！'
+    },
+    profile: {
+      loading: '読み込み中...', allDataSeparate: 'すべてのデータはプロフィールごとに別々に保存されます',
+      shareTitle: 'プロフィールを共有', shareDesc: '他のデバイスの接続と同期を許可',
+      switchJoinTitle: 'プロフィールを切り替え・参加', switchJoinDesc: 'プロフィールを変更または共有に接続',
+      stopSharing: '共有を停止', disconnect: '切断',
+      connectedDevices: '接続済みデバイス', noDevices: 'まだ接続されたデバイスはありません',
+      scanCode: '他のデバイスでこのコードをスキャン：', codeLabel: 'コード：',
+      lastSync: '最終同期：', statusLabel: 'ステータス：', online: '● オンライン',
+      syncNote: 'すべての変更がホストデバイスとリアルタイムで同期されます',
+      createNew: '新しいプロフィールを作成',
+      synced: '同期済み', sharing: '共有中',
+      sharingDesc: '接続済みデバイスと共有中',
+      syncedDesc: 'ホストデバイスとリアルタイム同期中',
+      reconnecting: '再接続中...',
+      resumingDesc: '共有セッションを再開中...',
+      reconnectingDesc: 'ホストデバイスに再接続中...',
+      justNow: 'たった今'
+    },
+    schedule: {
+      daily: '毎日', everyOtherDay: '1日おき', mwf: '月・水・金',
+      ongoing: '継続', starts: '• 開始：{{date}}',
+      nWeeks: '• {{n}}週間', nMonths: '• {{n}}ヶ月',
+      untilDate: '• {{date}}まで', nDoses: '• {{n}}回分',
+      untilDateParens: '({{date}}まで)', everyDay: '毎日'
+    },
+    days: { sun: '日', mon: '月', tue: '火', wed: '水', thu: '木', fri: '金', sat: '土' },
+    alerts: {
+      requiredFields: 'すべての必須項目を入力してください',
+      selectTime: '時間帯を少なくとも1つ選択するか、特定の時刻を追加してください',
+      selectStartDate: '開始日を選択してください',
+      selectDays: 'カスタムスケジュールには少なくとも1日選択してください',
+      invalidDuration: '有効な期間を入力してください',
+      selectEndDate: '終了日を選択してください',
+      bottleDosesRequired: '薬瓶の用量数を入力してください',
+      deleteMed: 'この薬を削除してよろしいですか？',
+      stopMed: 'この薬の服用を中止しますか？終了日が昨日に設定され、今後の用量がすべて削除されます。',
+      deleteLog: 'この記録を削除してよろしいですか？',
+      deleteAppt: 'この予約を削除してよろしいですか？',
+      importOverwrite: '現在のデータがインポートしたデータに置き換えられます。続行してよろしいですか？',
+      importSuccess: 'データのインポートが完了しました！ページが再読み込みされます。',
+      exportSuccess: 'データのエクスポートが完了しました！iOSではダウンロードしたファイルを長押しして「ファイルに保存」を選択する必要がある場合があります。',
+      clearConfirmMsg: 'すべてのデータを削除してよろしいですか？この操作は取り消せません！\n\n削除されるもの：\n• すべての薬\n• すべての服薬記録\n• すべての予約\n• すべての健康データ\n\n確認するには次のプロンプトに「削除」と入力してください。',
+      clearConfirmPrompt: '確認のために「削除」と入力してください：',
+      clearConfirmWord: '削除',
+      deletionCancelled: '削除をキャンセルしました。',
+      dataCleared: 'すべてのデータが削除されました。ページが再読み込みされます。',
+      deleteProfile: 'プロフィール「{{name}}」を削除してよろしいですか？このプロフィールのすべての薬、予約、健康データが完全に削除されます。',
+      profileNameRequired: 'プロフィール名を入力してください',
+      deleteActiveProfile: '現在アクティブなプロフィールは削除できません。先に別のプロフィールに切り替えてください。'
+    },
+    toasts: { alarmSaved: '時間とアラームの設定を保存しました！' },
+    updateBanner: {
+      title: 'アップデートがあります', message: '新しいバージョン ({{version}}) が利用可能です。',
+      updateNow: '今すぐ更新', later: '後で'
+    }
+  },
+
+  ar: {
+    tab: { meds: 'الأدوية', appointments: 'المواعيد', metrics: 'الصحة' },
+    header: {
+      meds: 'الأدوية', appointments: 'المواعيد', metrics: 'الصحة',
+      medSchedule: 'جدول الأدوية', asNeeded: '+ عند الحاجة',
+      addAppointment: '+ إضافة موعد', addMetrics: '+ إضافة بيانات',
+      weekView: 'عرض أسبوعي', back: 'رجوع ←', filterMetrics: 'تصفية البيانات ▼', print: 'طباعة'
+    },
+    timeOfDay: {
+      morning: 'الصباح', afternoon: 'بعد الظهر', evening: 'المساء',
+      bedtime: 'قبل النوم', asNeeded: 'عند الحاجة'
+    },
+    meds: {
+      empty: 'لا توجد أدوية مجدولة اليوم.',
+      takenAt: 'تم التناول في',
+      critical: 'ضروري', optional: 'اختياري',
+      tapToPriority: 'اضغط لتغيير الأولوية'
+    },
+    medModal: {
+      addTitle: 'إضافة دواء', editTitle: 'تعديل دواء',
+      name: 'اسم الدواء', dosage: 'الجرعة (مثال: «قرص واحد»، «كبسولتان»)',
+      dosagePlaceholder: 'مثال: قرص واحد',
+      timeOfDay: 'وقت التناول (اختر كل ما ينطبق)',
+      addSpecificTime: '+ إضافة وقت محدد',
+      frequency: 'كم مرة؟',
+      freqDaily: 'يومياً', freqEveryOther: 'كل يومين',
+      freqMWF: 'الاثنين والأربعاء والجمعة', freqCustom: 'أيام مخصصة',
+      selectDays: 'اختر الأيام',
+      startDate: 'تاريخ البدء', startTime: 'وقت البدء',
+      duration: 'المدة',
+      durOngoing: 'مستمر (بدون تاريخ انتهاء)', durWeeks: 'لعدة أسابيع',
+      durMonths: 'لعدة أشهر', durEndDate: 'حتى تاريخ محدد',
+      durBottle: 'حتى نفاد الجرعات',
+      endDate: 'تاريخ الانتهاء',
+      notes: 'ملاحظات (اختياري)', notesPlaceholder: 'مع الطعام، إلخ.',
+      priority: 'الأولوية', priorityCritical: 'ضروري', priorityOptional: 'اختياري',
+      cancel: 'إلغاء', save: 'حفظ', stop: 'إيقاف الدواء',
+      alarmNone: 'بدون منبه', remove: 'حذف'
+    },
+    asNeededModal: {
+      addTitle: 'تسجيل دواء عند الحاجة', editTitle: 'تعديل دواء عند الحاجة',
+      name: 'اسم الدواء', namePlaceholder: 'مثال: نوركو، تايلينول',
+      dosage: 'الجرعة', dosagePlaceholder: 'مثال: قرص واحد، 5 ملغ',
+      timeTaken: 'وقت التناول',
+      notes: 'ملاحظات (اختياري)', notesPlaceholder: 'السبب: صداع، ألم، إلخ.',
+      cancel: 'إلغاء', log: 'تسجيل الدواء'
+    },
+    settings: {
+      profile: 'الملف الشخصي', timeAlarms: 'أوقات التناول والمنبهات',
+      enableAlarms: 'تفعيل المنبهات',
+      enableAlarmsDesc: 'تشغيل صوت عند حلول وقت الدواء (يجب أن يكون التطبيق مفتوحاً)',
+      timeCol: 'الوقت', alarmSoundCol: 'صوت المنبه',
+      saveTimeAlarms: 'حفظ إعدادات الوقت والمنبهات',
+      alsoTrack: 'تتبع أيضاً',
+      appointments: 'المواعيد',
+      appointmentsDesc: 'تتبع زيارات الطبيب والإجراءات والمواعيد الطبية',
+      healthMetrics: 'المؤشرات الصحية',
+      healthMetricsDesc: 'تسجيل العلامات الحيوية والوزن وعدد الخطوات وبيانات صحية أخرى',
+      weight: 'الوزن', temperature: 'درجة الحرارة', bloodPressure: 'ضغط الدم',
+      heartRate: 'معدل ضربات القلب', bloodSugar: 'سكر الدم', steps: 'عدد الخطوات',
+      oxygenation: 'تشبع الأكسجين', sleep: 'النوم',
+      dataManagement: 'إدارة البيانات',
+      exportData: 'تصدير البيانات', exportDesc: 'تنزيل جميع البيانات كملف نسخ احتياطي',
+      importData: 'استيراد البيانات', importDesc: 'استعادة البيانات من ملف نسخ احتياطي',
+      clearData: 'حذف جميع البيانات', clearDesc: 'حذف جميع الأدوية والسجلات والمواعيد',
+      language: 'اللغة',
+      install: 'تثبيت كتطبيق على الشاشة الرئيسية',
+      installDesc: 'تعرف على كيفية إضافة هذا التطبيق إلى شاشتك الرئيسية'
+    },
+    medListModal: {
+      title: 'جدول الأدوية', close: 'إغلاق', add: '+ إضافة دواء',
+      empty: 'لا توجد أدوية مجدولة.\nاضغط على «+ إضافة دواء» للبدء.'
+    },
+    appointments: {
+      upcoming: 'القادمة', past: 'الماضية', add: '+ إضافة موعد',
+      noAny: 'لا توجد مواعيد مجدولة بعد.',
+      noAnyHint: 'اضغط الزر أدناه لإضافة أول موعد.',
+      noUpcoming: 'لا توجد مواعيد قادمة.', noPast: 'لا توجد مواعيد ماضية.',
+      edit: 'تعديل', delete: 'حذف', markComplete: 'تحديد كمكتمل', completed: '✓ مكتمل'
+    },
+    apptModal: {
+      addTitle: 'إضافة موعد', editTitle: 'تعديل موعد',
+      type: 'النوع', typeDoctorVisit: 'زيارة الطبيب', typeInfusion: 'تسريب',
+      typeLabWork: 'تحاليل', typeProcedure: 'إجراء طبي', typeOther: 'أخرى',
+      titleField: 'العنوان/الوصف', titlePlaceholder: 'مثال: فحص دوري عند د. أحمد',
+      date: 'التاريخ', timeOptional: 'الوقت (اختياري)',
+      location: 'الموقع', locationVirtual: 'عن بُعد (مكالمة فيديو)', locationInPerson: 'حضوري',
+      addressField: 'العنوان/التفاصيل', addressVirtualField: 'رابط مكالمة الفيديو/التفاصيل',
+      addressPlaceholder: 'اسم المستشفى أو رقم الغرفة أو رابط الفيديو',
+      notes: 'ملاحظات (اختياري)', notesPlaceholder: 'إحضار بطاقة التأمين، صيام مطلوب، إلخ.',
+      cancel: 'إلغاء', save: 'حفظ'
+    },
+    metrics: {
+      add: '+ إضافة بيانات',
+      noData: 'لا توجد بيانات صحية بعد.', noDate: 'لا توجد بيانات لهذا التاريخ.',
+      prompt: 'اضغط على «+ إضافة بيانات» لبدء التتبع.',
+      noMatch: 'لا توجد بيانات تطابق الفلتر الحالي.',
+      noMatchHint: 'حاول تعديل إعدادات الفلتر أو نطاق التاريخ.',
+      noDataRange: 'لم يتم العثور على بيانات لنطاق التاريخ هذا.',
+      edit: 'تعديل', delete: 'حذف', notes: 'ملاحظات'
+    },
+    logModal: {
+      addTitle: 'إضافة بيانات', editTitle: 'تعديل بيانات',
+      datetime: 'التاريخ والوقت',
+      temperature: 'درجة الحرارة (°F)', bloodPressure: 'ضغط الدم',
+      heartRate: 'معدل ضربات القلب (نبضة/دقيقة)', bloodGlucose: 'سكر الدم (ملغ/دل)',
+      weight: 'الوزن (رطل)', steps: 'عدد الخطوات', oxygenation: 'تشبع الأكسجين (%)',
+      sleep: 'النوم (ساعات)', notes: 'ملاحظات',
+      systolicPlaceholder: 'الانقباضي', diastolicPlaceholder: 'الانبساطي',
+      cancel: 'إلغاء', save: 'حفظ'
+    },
+    weeklyView: {
+      prevWeek: 'الأسبوع السابق ←', nextWeek: '→ الأسبوع التالي', close: 'إغلاق', print: 'طباعة'
+    },
+    morningCheck: {
+      title: '⚠️ أدوية ضرورية فائتة',
+      message: 'لم يتم تسجيل هذه الأدوية الضرورية لـ{{slot}} أمس:',
+      viewYesterday: 'عرض أدوية الأمس', dismiss: 'إغلاق'
+    },
+    alarmModal: {
+      title: '💊 حان وقت تناول دوائك',
+      message: 'يرجى تأكيد رؤيتك لهذا التذكير.',
+      gotIt: 'حسناً، فهمت',
+      timeLabel: 'أدوية {{time}}',
+      notificationTitle: 'تذكير بالدواء',
+      notificationBody: 'حان وقت أدوية {{time}}!'
+    },
+    profile: {
+      loading: 'جاري التحميل...', allDataSeparate: 'تُخزَّن جميع البيانات بشكل منفصل لكل ملف',
+      shareTitle: 'مشاركة الملف', shareDesc: 'السماح للأجهزة الأخرى بالاتصال للمزامنة',
+      switchJoinTitle: 'تبديل أو الانضمام إلى ملف', switchJoinDesc: 'تغيير الملف أو الاتصال بملف مشترك',
+      stopSharing: 'إيقاف المشاركة', disconnect: 'قطع الاتصال',
+      connectedDevices: 'الأجهزة المتصلة', noDevices: 'لا توجد أجهزة متصلة بعد',
+      scanCode: 'امسح هذا الرمز بجهاز آخر:', codeLabel: 'الرمز:',
+      lastSync: 'آخر مزامنة:', statusLabel: 'الحالة:', online: '● متصل',
+      syncNote: 'تتم مزامنة جميع التغييرات في الوقت الفعلي مع الجهاز المضيف',
+      createNew: 'إنشاء ملف جديد',
+      synced: 'تمت المزامنة', sharing: 'جاري المشاركة',
+      sharingDesc: 'جاري المشاركة مع الأجهزة المتصلة',
+      syncedDesc: 'يتم المزامنة في الوقت الفعلي مع الجهاز المضيف',
+      reconnecting: 'جاري إعادة الاتصال...',
+      resumingDesc: 'جاري استئناف جلسة المشاركة...',
+      reconnectingDesc: 'جاري إعادة الاتصال بالجهاز المضيف...',
+      justNow: 'الآن'
+    },
+    schedule: {
+      daily: 'يومياً', everyOtherDay: 'كل يومين', mwf: 'الاثنين والأربعاء والجمعة',
+      ongoing: 'مستمر', starts: '• يبدأ {{date}}',
+      nWeeks: '• {{n}} أسابيع', nMonths: '• {{n}} أشهر',
+      untilDate: '• حتى {{date}}', nDoses: '• {{n}} جرعات',
+      untilDateParens: '(حتى {{date}})', everyDay: 'كل يوم'
+    },
+    days: { sun: 'أحد', mon: 'إثن', tue: 'ثلا', wed: 'أرب', thu: 'خمي', fri: 'جمع', sat: 'سبت' },
+    alerts: {
+      requiredFields: 'يرجى ملء جميع الحقول المطلوبة',
+      selectTime: 'يرجى اختيار وقت واحد على الأقل أو إضافة وقت محدد',
+      selectStartDate: 'يرجى اختيار تاريخ البدء',
+      selectDays: 'يرجى اختيار يوم واحد على الأقل للجدول المخصص',
+      invalidDuration: 'يرجى إدخال مدة صحيحة',
+      selectEndDate: 'يرجى اختيار تاريخ الانتهاء',
+      bottleDosesRequired: 'يرجى إدخال عدد الجرعات في الزجاجة',
+      deleteMed: 'هل أنت متأكد من حذف هذا الدواء؟',
+      stopMed: 'إيقاف هذا الدواء؟ سيتم تعيين تاريخ الانتهاء إلى الأمس وحذف جميع الجرعات المستقبلية.',
+      deleteLog: 'هل أنت متأكد من حذف هذا السجل؟',
+      deleteAppt: 'هل أنت متأكد من حذف هذا الموعد؟',
+      importOverwrite: 'سيتم استبدال جميع البيانات الحالية بالبيانات المستوردة. هل أنت متأكد من الاستمرار؟',
+      importSuccess: 'تم استيراد البيانات بنجاح! ستُعاد تحميل الصفحة الآن.',
+      exportSuccess: 'تم تصدير البيانات بنجاح! على iOS قد تحتاج إلى الضغط مطولاً على الملف واختيار «الحفظ في الملفات».',
+      clearConfirmMsg: 'هل أنت متأكد تماماً من حذف جميع البيانات؟ لا يمكن التراجع عن هذا!\n\nسيتم حذف:\n• جميع الأدوية\n• جميع سجلات الأدوية\n• جميع المواعيد\n• جميع البيانات الصحية\n\nاكتب «احذف» في المربع التالي للتأكيد.',
+      clearConfirmPrompt: 'اكتب احذف للتأكيد:',
+      clearConfirmWord: 'احذف',
+      deletionCancelled: 'تم إلغاء الحذف.',
+      dataCleared: 'تم حذف جميع البيانات. ستُعاد تحميل الصفحة الآن.',
+      deleteProfile: 'هل أنت متأكد من حذف الملف «{{name}}»؟ سيتم حذف جميع الأدوية والمواعيد والبيانات الصحية لهذا الملف نهائياً.',
+      profileNameRequired: 'يرجى إدخال اسم الملف الشخصي',
+      deleteActiveProfile: 'لا يمكن حذف الملف الشخصي النشط. يرجى التبديل إلى ملف آخر أولاً.'
+    },
+    toasts: { alarmSaved: 'تم حفظ إعدادات الوقت والمنبهات!' },
+    updateBanner: {
+      title: 'تحديث متاح', message: 'إصدار جديد ({{version}}) متاح.',
+      updateNow: 'تحديث الآن', later: 'لاحقاً'
+    }
+  },
+
+  fa: {
+    tab: { meds: 'داروها', appointments: 'قرار ملاقات', metrics: 'سلامتی' },
+    header: {
+      meds: 'داروها', appointments: 'قرار ملاقات', metrics: 'سلامتی',
+      medSchedule: 'برنامه دارویی', asNeeded: '+ در صورت نیاز',
+      addAppointment: '+ افزودن قرار', addMetrics: '+ افزودن داده',
+      weekView: 'نمای هفتگی', back: 'بازگشت ←', filterMetrics: 'فیلتر داده‌ها ▼', print: 'چاپ'
+    },
+    timeOfDay: {
+      morning: 'صبح', afternoon: 'بعدازظهر', evening: 'عصر',
+      bedtime: 'قبل از خواب', asNeeded: 'در صورت نیاز'
+    },
+    meds: {
+      empty: 'امروز هیچ دارویی برنامه‌ریزی نشده است.',
+      takenAt: 'مصرف شده در',
+      critical: 'ضروری', optional: 'اختیاری',
+      tapToPriority: 'برای تغییر اولویت ضربه بزنید'
+    },
+    medModal: {
+      addTitle: 'افزودن دارو', editTitle: 'ویرایش دارو',
+      name: 'نام دارو', dosage: 'دوز (مثال: «۱ قرص»، «۲ کپسول»)',
+      dosagePlaceholder: 'مثال: ۱ قرص',
+      timeOfDay: 'زمان مصرف (همه موارد مناسب را انتخاب کنید)',
+      addSpecificTime: '+ افزودن زمان دقیق',
+      frequency: 'چند بار؟',
+      freqDaily: 'هر روز', freqEveryOther: 'یک روز در میان',
+      freqMWF: 'شنبه، دوشنبه، چهارشنبه', freqCustom: 'روزهای دلخواه',
+      selectDays: 'انتخاب روزها',
+      startDate: 'تاریخ شروع', startTime: 'زمان شروع',
+      duration: 'مدت',
+      durOngoing: 'مداوم (بدون تاریخ پایان)', durWeeks: 'چند هفته',
+      durMonths: 'چند ماه', durEndDate: 'تا تاریخ مشخص',
+      durBottle: 'تا تمام شدن داروها',
+      endDate: 'تاریخ پایان',
+      notes: 'یادداشت (اختیاری)', notesPlaceholder: 'همراه با غذا و غیره',
+      priority: 'اولویت', priorityCritical: 'ضروری', priorityOptional: 'اختیاری',
+      cancel: 'لغو', save: 'ذخیره', stop: 'قطع دارو',
+      alarmNone: 'بدون زنگ هشدار', remove: 'حذف'
+    },
+    asNeededModal: {
+      addTitle: 'ثبت مصرف در صورت نیاز', editTitle: 'ویرایش مصرف در صورت نیاز',
+      name: 'نام دارو', namePlaceholder: 'مثال: نورکو، تایلنول',
+      dosage: 'دوز', dosagePlaceholder: 'مثال: ۱ قرص، ۵ میلی‌گرم',
+      timeTaken: 'زمان مصرف',
+      notes: 'یادداشت (اختیاری)', notesPlaceholder: 'دلیل: سردرد، درد و غیره',
+      cancel: 'لغو', log: 'ثبت مصرف'
+    },
+    settings: {
+      profile: 'پروفایل', timeAlarms: 'زمان مصرف و زنگ هشدار',
+      enableAlarms: 'فعال کردن زنگ هشدار',
+      enableAlarmsDesc: 'پخش صدا هنگام رسیدن زمان دارو (برنامه باید باز باشد)',
+      timeCol: 'زمان', alarmSoundCol: 'صدای زنگ',
+      saveTimeAlarms: 'ذخیره تنظیمات زمان و زنگ هشدار',
+      alsoTrack: 'همچنین پیگیری کنید',
+      appointments: 'قرار ملاقات‌ها',
+      appointmentsDesc: 'پیگیری ویزیت پزشک، اقدامات درمانی و قرار ملاقات‌های پزشکی',
+      healthMetrics: 'شاخص‌های سلامتی',
+      healthMetricsDesc: 'ثبت علائم حیاتی، وزن، قدم‌ها و سایر داده‌های سلامتی',
+      weight: 'وزن', temperature: 'دما', bloodPressure: 'فشار خون',
+      heartRate: 'ضربان قلب', bloodSugar: 'قند خون', steps: 'تعداد قدم',
+      oxygenation: 'اشباع اکسیژن', sleep: 'خواب',
+      dataManagement: 'مدیریت داده',
+      exportData: 'خروجی داده', exportDesc: 'دانلود همه داده‌ها به عنوان فایل پشتیبان',
+      importData: 'ورودی داده', importDesc: 'بازیابی داده از فایل پشتیبان',
+      clearData: 'حذف همه داده‌ها', clearDesc: 'حذف همه داروها، گزارش‌ها و قرار ملاقات‌ها',
+      language: 'زبان',
+      install: 'نصب به عنوان برنامه صفحه اصلی',
+      installDesc: 'یاد بگیرید چگونه این برنامه را به صفحه اصلی اضافه کنید'
+    },
+    medListModal: {
+      title: 'برنامه دارویی', close: 'بستن', add: '+ افزودن دارو',
+      empty: 'هیچ داروی برنامه‌ریزی شده‌ای وجود ندارد.\nروی «+ افزودن دارو» ضربه بزنید تا شروع کنید.'
+    },
+    appointments: {
+      upcoming: 'آینده', past: 'گذشته', add: '+ افزودن قرار',
+      noAny: 'هنوز قرار ملاقاتی برنامه‌ریزی نشده است.',
+      noAnyHint: 'روی دکمه زیر ضربه بزنید تا اولین قرار را اضافه کنید.',
+      noUpcoming: 'قرار آینده‌ای وجود ندارد.', noPast: 'قرار گذشته‌ای وجود ندارد.',
+      edit: 'ویرایش', delete: 'حذف', markComplete: 'علامت‌گذاری به عنوان انجام شده', completed: '✓ انجام شد'
+    },
+    apptModal: {
+      addTitle: 'افزودن قرار ملاقات', editTitle: 'ویرایش قرار ملاقات',
+      type: 'نوع', typeDoctorVisit: 'ویزیت پزشک', typeInfusion: 'سرم',
+      typeLabWork: 'آزمایش', typeProcedure: 'اقدام درمانی', typeOther: 'سایر',
+      titleField: 'عنوان/توضیحات', titlePlaceholder: 'مثال: معاینه دوره‌ای دکتر رضایی',
+      date: 'تاریخ', timeOptional: 'زمان (اختیاری)',
+      location: 'مکان', locationVirtual: 'آنلاین (تماس تصویری)', locationInPerson: 'حضوری',
+      addressField: 'آدرس/جزئیات', addressVirtualField: 'لینک تماس تصویری/جزئیات',
+      addressPlaceholder: 'نام بیمارستان، شماره اتاق یا لینک تصویری',
+      notes: 'یادداشت (اختیاری)', notesPlaceholder: 'بیمه همراه داشته باشید، ناشتا لازم است و غیره',
+      cancel: 'لغو', save: 'ذخیره'
+    },
+    metrics: {
+      add: '+ افزودن داده',
+      noData: 'هنوز داده سلامتی وجود ندارد.', noDate: 'داده‌ای برای این تاریخ وجود ندارد.',
+      prompt: 'روی «+ افزودن داده» ضربه بزنید تا پیگیری را شروع کنید.',
+      noMatch: 'هیچ داده‌ای با فیلتر فعلی مطابقت ندارد.',
+      noMatchHint: 'تنظیمات فیلتر یا بازه تاریخ را تغییر دهید.',
+      noDataRange: 'داده‌ای برای این بازه تاریخ یافت نشد.',
+      edit: 'ویرایش', delete: 'حذف', notes: 'یادداشت'
+    },
+    logModal: {
+      addTitle: 'افزودن داده', editTitle: 'ویرایش داده',
+      datetime: 'تاریخ و زمان',
+      temperature: 'دما (°F)', bloodPressure: 'فشار خون',
+      heartRate: 'ضربان قلب (bpm)', bloodGlucose: 'قند خون (mg/dL)',
+      weight: 'وزن (پوند)', steps: 'تعداد قدم', oxygenation: 'اشباع اکسیژن (%)',
+      sleep: 'خواب (ساعت)', notes: 'یادداشت',
+      systolicPlaceholder: 'سیستولیک', diastolicPlaceholder: 'دیاستولیک',
+      cancel: 'لغو', save: 'ذخیره'
+    },
+    weeklyView: {
+      prevWeek: 'هفته قبل ←', nextWeek: '→ هفته بعد', close: 'بستن', print: 'چاپ'
+    },
+    morningCheck: {
+      title: '⚠️ داروهای ضروری جا مانده',
+      message: 'این داروهای ضروری برای {{slot}} دیروز ثبت نشده‌اند:',
+      viewYesterday: 'مشاهده داروهای دیروز', dismiss: 'بستن'
+    },
+    alarmModal: {
+      title: '💊 وقت مصرف دارو است',
+      message: 'لطفاً تأیید کنید که این یادآوری را دیده‌اید.',
+      gotIt: 'متوجه شدم',
+      timeLabel: 'داروهای {{time}}',
+      notificationTitle: 'یادآوری دارو',
+      notificationBody: 'وقت داروهای {{time}} است!'
+    },
+    profile: {
+      loading: 'در حال بارگذاری...', allDataSeparate: 'همه داده‌ها به صورت جداگانه برای هر پروفایل ذخیره می‌شوند',
+      shareTitle: 'اشتراک‌گذاری پروفایل', shareDesc: 'اجازه دادن به دستگاه‌های دیگر برای اتصال و همگام‌سازی',
+      switchJoinTitle: 'تغییر یا پیوستن به پروفایل', switchJoinDesc: 'تغییر پروفایل یا اتصال به پروفایل مشترک',
+      stopSharing: 'توقف اشتراک‌گذاری', disconnect: 'قطع اتصال',
+      connectedDevices: 'دستگاه‌های متصل', noDevices: 'هنوز دستگاهی متصل نیست',
+      scanCode: 'این کد را با دستگاه دیگری اسکن کنید:', codeLabel: 'کد:',
+      lastSync: 'آخرین همگام‌سازی:', statusLabel: 'وضعیت:', online: '● آنلاین',
+      syncNote: 'همه تغییرات به صورت بلادرنگ با دستگاه میزبان همگام‌سازی می‌شوند',
+      createNew: 'ایجاد پروفایل جدید',
+      synced: 'همگام شد', sharing: 'در حال اشتراک‌گذاری',
+      sharingDesc: 'در حال اشتراک‌گذاری با دستگاه‌های متصل',
+      syncedDesc: 'در حال همگام‌سازی بلادرنگ با دستگاه میزبان',
+      reconnecting: 'در حال اتصال مجدد...',
+      resumingDesc: 'در حال از سرگیری جلسه اشتراک‌گذاری...',
+      reconnectingDesc: 'در حال اتصال مجدد به دستگاه میزبان...',
+      justNow: 'همین الان'
+    },
+    schedule: {
+      daily: 'هر روز', everyOtherDay: 'یک روز در میان', mwf: 'شنبه، دوشنبه، چهارشنبه',
+      ongoing: 'مداوم', starts: '• شروع {{date}}',
+      nWeeks: '• {{n}} هفته', nMonths: '• {{n}} ماه',
+      untilDate: '• تا {{date}}', nDoses: '• {{n}} دوز',
+      untilDateParens: '(تا {{date}})', everyDay: 'هر روز'
+    },
+    days: { sun: 'یک', mon: 'دو', tue: 'سه', wed: 'چهار', thu: 'پنج', fri: 'جمعه', sat: 'شنبه' },
+    alerts: {
+      requiredFields: 'لطفاً همه فیلدهای الزامی را پر کنید',
+      selectTime: 'لطفاً حداقل یک زمان روز را انتخاب کنید یا زمان دقیق اضافه کنید',
+      selectStartDate: 'لطفاً تاریخ شروع را انتخاب کنید',
+      selectDays: 'لطفاً حداقل یک روز برای برنامه سفارشی انتخاب کنید',
+      invalidDuration: 'لطفاً مدت زمان معتبری وارد کنید',
+      selectEndDate: 'لطفاً تاریخ پایان را انتخاب کنید',
+      bottleDosesRequired: 'لطفاً تعداد دوزهای داخل بطری را وارد کنید',
+      deleteMed: 'آیا مطمئن هستید که می‌خواهید این دارو را حذف کنید؟',
+      stopMed: 'این دارو متوقف شود؟ تاریخ پایان به دیروز تنظیم می‌شود و همه دوزهای آینده حذف می‌شوند.',
+      deleteLog: 'آیا مطمئن هستید که می‌خواهید این رکورد را حذف کنید؟',
+      deleteAppt: 'آیا مطمئن هستید که می‌خواهید این قرار را حذف کنید؟',
+      importOverwrite: 'همه داده‌های فعلی با داده‌های وارد شده جایگزین می‌شوند. آیا مطمئن هستید؟',
+      importSuccess: 'داده‌ها با موفقیت وارد شدند! صفحه دوباره بارگذاری می‌شود.',
+      exportSuccess: 'داده‌ها با موفقیت خروجی گرفته شدند! در iOS ممکن است لازم باشد فایل دانلود شده را نگه دارید و «ذخیره در Files» را انتخاب کنید.',
+      clearConfirmMsg: 'آیا کاملاً مطمئن هستید که می‌خواهید همه داده‌ها را حذف کنید؟ این عمل قابل بازگشت نیست!\n\nحذف می‌شود:\n• همه داروها\n• همه گزارش‌های دارویی\n• همه قرار ملاقات‌ها\n• همه داده‌های سلامتی\n\nبرای تأیید «حذف» را در کادر بعدی تایپ کنید.',
+      clearConfirmPrompt: 'برای تأیید «حذف» را تایپ کنید:',
+      clearConfirmWord: 'حذف',
+      deletionCancelled: 'حذف لغو شد.',
+      dataCleared: 'همه داده‌ها حذف شدند. صفحه دوباره بارگذاری می‌شود.',
+      deleteProfile: 'آیا مطمئن هستید که می‌خواهید پروفایل «{{name}}» را حذف کنید؟ همه داروها، قرار ملاقات‌ها و داده‌های سلامتی این پروفایل به طور دائمی حذف می‌شوند.',
+      profileNameRequired: 'لطفاً نام پروفایل را وارد کنید',
+      deleteActiveProfile: 'نمی‌توان پروفایل فعال را حذف کرد. لطفاً ابتدا به پروفایل دیگری بروید.'
+    },
+    toasts: { alarmSaved: 'تنظیمات زمان و زنگ هشدار ذخیره شد!' },
+    updateBanner: {
+      title: 'به‌روزرسانی موجود است', message: 'نسخه جدید ({{version}}) در دسترس است.',
+      updateNow: 'همین الان به‌روزرسانی کنید', later: 'بعداً'
+    }
+  },
+
+  hi: {
+    tab: { meds: 'दवाएं', appointments: 'अपॉइंटमेंट', metrics: 'स्वास्थ्य' },
+    header: {
+      meds: 'दवाएं', appointments: 'अपॉइंटमेंट', metrics: 'स्वास्थ्य',
+      medSchedule: 'दवा का शेड्यूल', asNeeded: '+ ज़रूरत पर',
+      addAppointment: '+ अपॉइंटमेंट जोड़ें', addMetrics: '+ डेटा जोड़ें',
+      weekView: 'साप्ताहिक दृश्य', back: '← वापस', filterMetrics: 'डेटा फ़िल्टर करें ▼', print: 'प्रिंट'
+    },
+    timeOfDay: {
+      morning: 'सुबह', afternoon: 'दोपहर', evening: 'शाम',
+      bedtime: 'सोने से पहले', asNeeded: 'ज़रूरत पर'
+    },
+    meds: {
+      empty: 'आज कोई दवा शेड्यूल नहीं है।',
+      takenAt: 'ली गई',
+      critical: 'ज़रूरी', optional: 'वैकल्पिक',
+      tapToPriority: 'प्राथमिकता बदलने के लिए टैप करें'
+    },
+    medModal: {
+      addTitle: 'दवा जोड़ें', editTitle: 'दवा संपादित करें',
+      name: 'दवा का नाम', dosage: 'खुराक (जैसे «1 गोली», «2 कैप्सूल»)',
+      dosagePlaceholder: 'जैसे: 1 गोली',
+      timeOfDay: 'लेने का समय (सभी लागू विकल्प चुनें)',
+      addSpecificTime: '+ निश्चित समय जोड़ें',
+      frequency: 'कितनी बार?',
+      freqDaily: 'रोज़ाना', freqEveryOther: 'हर दूसरे दिन',
+      freqMWF: 'सोमवार, बुधवार, शुक्रवार', freqCustom: 'कस्टम दिन',
+      selectDays: 'दिन चुनें',
+      startDate: 'शुरू की तारीख', startTime: 'शुरू का समय',
+      duration: 'अवधि',
+      durOngoing: 'जारी (कोई समाप्ति तारीख नहीं)', durWeeks: 'कुछ हफ़्तों के लिए',
+      durMonths: 'कुछ महीनों के लिए', durEndDate: 'एक निश्चित तारीख तक',
+      durBottle: 'सभी खुराक खत्म होने तक',
+      endDate: 'समाप्ति तारीख',
+      notes: 'नोट्स (वैकल्पिक)', notesPlaceholder: 'खाने के साथ, आदि',
+      priority: 'प्राथमिकता', priorityCritical: 'ज़रूरी', priorityOptional: 'वैकल्पिक',
+      cancel: 'रद्द करें', save: 'सहेजें', stop: 'दवा बंद करें',
+      alarmNone: 'कोई अलार्म नहीं', remove: 'हटाएं'
+    },
+    asNeededModal: {
+      addTitle: 'ज़रूरत पर ली गई दवा दर्ज करें', editTitle: 'ज़रूरत पर ली गई दवा संपादित करें',
+      name: 'दवा का नाम', namePlaceholder: 'जैसे: नॉर्को, टाइलेनॉल',
+      dosage: 'खुराक', dosagePlaceholder: 'जैसे: 1 गोली, 5 mg',
+      timeTaken: 'लेने का समय',
+      notes: 'नोट्स (वैकल्पिक)', notesPlaceholder: 'कारण: सिरदर्द, दर्द, आदि',
+      cancel: 'रद्द करें', log: 'दवा दर्ज करें'
+    },
+    settings: {
+      profile: 'प्रोफ़ाइल', timeAlarms: 'दवा का समय और अलार्म',
+      enableAlarms: 'अलार्म सक्षम करें',
+      enableAlarmsDesc: 'दवा का समय होने पर आवाज़ बजाएं (ऐप खुला होना चाहिए)',
+      timeCol: 'समय', alarmSoundCol: 'अलार्म की आवाज़',
+      saveTimeAlarms: 'समय और अलार्म सेटिंग्स सहेजें',
+      alsoTrack: 'यह भी ट्रैक करें',
+      appointments: 'अपॉइंटमेंट',
+      appointmentsDesc: 'डॉक्टर के दौरे, प्रक्रियाएं और चिकित्सा अपॉइंटमेंट ट्रैक करें',
+      healthMetrics: 'स्वास्थ्य मापदंड',
+      healthMetricsDesc: 'महत्वपूर्ण संकेत, वज़न, कदम और अन्य स्वास्थ्य डेटा दर्ज करें',
+      weight: 'वज़न', temperature: 'तापमान', bloodPressure: 'रक्तचाप',
+      heartRate: 'हृदय गति', bloodSugar: 'रक्त शर्करा', steps: 'कदम',
+      oxygenation: 'ऑक्सीजन संतृप्ति', sleep: 'नींद',
+      dataManagement: 'डेटा प्रबंधन',
+      exportData: 'डेटा निर्यात करें', exportDesc: 'सभी डेटा को बैकअप फ़ाइल के रूप में डाउनलोड करें',
+      importData: 'डेटा आयात करें', importDesc: 'बैकअप फ़ाइल से डेटा पुनर्स्थापित करें',
+      clearData: 'सभी डेटा हटाएं', clearDesc: 'सभी दवाएं, रिकॉर्ड और अपॉइंटमेंट हटाएं',
+      language: 'भाषा',
+      install: 'होम स्क्रीन ऐप के रूप में इंस्टॉल करें',
+      installDesc: 'इस ऐप को अपनी होम स्क्रीन पर जोड़ने का तरीका जानें'
+    },
+    medListModal: {
+      title: 'दवा का शेड्यूल', close: 'बंद करें', add: '+ दवा जोड़ें',
+      empty: 'कोई दवा शेड्यूल नहीं है।\nशुरू करने के लिए «+ दवा जोड़ें» टैप करें।'
+    },
+    appointments: {
+      upcoming: 'आगामी', past: 'पिछले', add: '+ अपॉइंटमेंट जोड़ें',
+      noAny: 'अभी तक कोई अपॉइंटमेंट शेड्यूल नहीं है।',
+      noAnyHint: 'पहला अपॉइंटमेंट जोड़ने के लिए नीचे का बटन टैप करें।',
+      noUpcoming: 'कोई आगामी अपॉइंटमेंट नहीं।', noPast: 'कोई पिछला अपॉइंटमेंट नहीं।',
+      edit: 'संपादित करें', delete: 'हटाएं', markComplete: 'पूर्ण के रूप में चिह्नित करें', completed: '✓ पूर्ण'
+    },
+    apptModal: {
+      addTitle: 'अपॉइंटमेंट जोड़ें', editTitle: 'अपॉइंटमेंट संपादित करें',
+      type: 'प्रकार', typeDoctorVisit: 'डॉक्टर का दौरा', typeInfusion: 'इन्फ्यूजन',
+      typeLabWork: 'लैब जांच', typeProcedure: 'प्रक्रिया', typeOther: 'अन्य',
+      titleField: 'शीर्षक/विवरण', titlePlaceholder: 'जैसे: डॉ. शर्मा के साथ जांच',
+      date: 'तारीख', timeOptional: 'समय (वैकल्पिक)',
+      location: 'स्थान', locationVirtual: 'ऑनलाइन (वीडियो कॉल)', locationInPerson: 'व्यक्तिगत',
+      addressField: 'पता/विवरण', addressVirtualField: 'वीडियो कॉल लिंक/विवरण',
+      addressPlaceholder: 'अस्पताल का नाम, कमरा नंबर, या वीडियो लिंक',
+      notes: 'नोट्स (वैकल्पिक)', notesPlaceholder: 'बीमा कार्ड लाएं, उपवास आवश्यक, आदि',
+      cancel: 'रद्द करें', save: 'सहेजें'
+    },
+    metrics: {
+      add: '+ डेटा जोड़ें',
+      noData: 'अभी तक कोई स्वास्थ्य डेटा नहीं है।', noDate: 'इस तारीख के लिए कोई डेटा नहीं।',
+      prompt: 'ट्रैकिंग शुरू करने के लिए «+ डेटा जोड़ें» टैप करें।',
+      noMatch: 'वर्तमान फ़िल्टर से कोई डेटा मेल नहीं खाता।',
+      noMatchHint: 'फ़िल्टर सेटिंग्स या तारीख सीमा बदलने का प्रयास करें।',
+      noDataRange: 'इस तारीख सीमा के लिए कोई डेटा नहीं मिला।',
+      edit: 'संपादित करें', delete: 'हटाएं', notes: 'नोट्स'
+    },
+    logModal: {
+      addTitle: 'डेटा जोड़ें', editTitle: 'डेटा संपादित करें',
+      datetime: 'तारीख और समय',
+      temperature: 'तापमान (°F)', bloodPressure: 'रक्तचाप',
+      heartRate: 'हृदय गति (bpm)', bloodGlucose: 'रक्त शर्करा (mg/dL)',
+      weight: 'वज़न (lbs)', steps: 'कदम', oxygenation: 'ऑक्सीजन संतृप्ति (%)',
+      sleep: 'नींद (घंटे)', notes: 'नोट्स',
+      systolicPlaceholder: 'सिस्टोलिक', diastolicPlaceholder: 'डायस्टोलिक',
+      cancel: 'रद्द करें', save: 'सहेजें'
+    },
+    weeklyView: {
+      prevWeek: '← पिछला सप्ताह', nextWeek: 'अगला सप्ताह →', close: 'बंद करें', print: 'प्रिंट'
+    },
+    morningCheck: {
+      title: '⚠️ ज़रूरी दवाएं छूट गईं',
+      message: 'कल {{slot}} की ये ज़रूरी दवाएं दर्ज नहीं हुईं:',
+      viewYesterday: 'कल की दवाएं देखें', dismiss: 'बंद करें'
+    },
+    alarmModal: {
+      title: '💊 दवा लेने का समय हो गया',
+      message: 'कृपया इस अनुस्मारक को देखने की पुष्टि करें।',
+      gotIt: 'ठीक है, समझ गया',
+      timeLabel: '{{time}} की दवाएं',
+      notificationTitle: 'दवा अनुस्मारक',
+      notificationBody: '{{time}} की दवाएं लेने का समय हो गया!'
+    },
+    profile: {
+      loading: 'लोड हो रहा है...', allDataSeparate: 'सभी डेटा प्रत्येक प्रोफ़ाइल के लिए अलग से संग्रहीत है',
+      shareTitle: 'प्रोफ़ाइल साझा करें', shareDesc: 'अन्य डिवाइस को सिंक के लिए कनेक्ट होने दें',
+      switchJoinTitle: 'प्रोफ़ाइल बदलें या जुड़ें', switchJoinDesc: 'प्रोफ़ाइल बदलें या साझा प्रोफ़ाइल से कनेक्ट करें',
+      stopSharing: 'साझाकरण बंद करें', disconnect: 'डिस्कनेक्ट करें',
+      connectedDevices: 'कनेक्टेड डिवाइस', noDevices: 'अभी तक कोई डिवाइस कनेक्ट नहीं',
+      scanCode: 'इस कोड को किसी अन्य डिवाइस से स्कैन करें:', codeLabel: 'कोड:',
+      lastSync: 'अंतिम सिंक:', statusLabel: 'स्थिति:', online: '● ऑनलाइन',
+      syncNote: 'सभी परिवर्तन होस्ट डिवाइस के साथ रीयल-टाइम में सिंक होते हैं',
+      createNew: 'नई प्रोफ़ाइल बनाएं',
+      synced: 'सिंक हो गया', sharing: 'साझा हो रहा है',
+      sharingDesc: 'कनेक्टेड डिवाइस के साथ साझा हो रहा है',
+      syncedDesc: 'होस्ट डिवाइस के साथ रीयल-टाइम सिंक हो रहा है',
+      reconnecting: 'पुनः कनेक्ट हो रहा है...',
+      resumingDesc: 'साझाकरण सत्र फिर से शुरू हो रहा है...',
+      reconnectingDesc: 'होस्ट डिवाइस से पुनः कनेक्ट हो रहा है...',
+      justNow: 'अभी'
+    },
+    schedule: {
+      daily: 'रोज़ाना', everyOtherDay: 'हर दूसरे दिन', mwf: 'सोम, बुध, शुक्र',
+      ongoing: 'जारी', starts: '• {{date}} से शुरू',
+      nWeeks: '• {{n}} हफ़्ते', nMonths: '• {{n}} महीने',
+      untilDate: '• {{date}} तक', nDoses: '• {{n}} खुराकें',
+      untilDateParens: '({{date}} तक)', everyDay: 'हर दिन'
+    },
+    days: { sun: 'रवि', mon: 'सोम', tue: 'मंगल', wed: 'बुध', thu: 'गुरु', fri: 'शुक्र', sat: 'शनि' },
+    alerts: {
+      requiredFields: 'कृपया सभी आवश्यक फ़ील्ड भरें',
+      selectTime: 'कृपया दिन का कम से कम एक समय चुनें या निश्चित समय जोड़ें',
+      selectStartDate: 'कृपया शुरू की तारीख चुनें',
+      selectDays: 'कृपया कस्टम शेड्यूल के लिए कम से कम एक दिन चुनें',
+      invalidDuration: 'कृपया एक मान्य अवधि दर्ज करें',
+      selectEndDate: 'कृपया समाप्ति तारीख चुनें',
+      bottleDosesRequired: 'कृपया बोतल में खुराकों की संख्या दर्ज करें',
+      deleteMed: 'क्या आप वाकई इस दवा को हटाना चाहते हैं?',
+      stopMed: 'यह दवा बंद करें? समाप्ति तारीख कल पर सेट हो जाएगी और सभी भविष्य की खुराकें हटा दी जाएंगी।',
+      deleteLog: 'क्या आप वाकई इस रिकॉर्ड को हटाना चाहते हैं?',
+      deleteAppt: 'क्या आप वाकई इस अपॉइंटमेंट को हटाना चाहते हैं?',
+      importOverwrite: 'सभी मौजूदा डेटा को आयातित डेटा से बदल दिया जाएगा। क्या आप जारी रखना चाहते हैं?',
+      importSuccess: 'डेटा सफलतापूर्वक आयात किया गया! पेज अभी रीलोड होगा।',
+      exportSuccess: 'डेटा सफलतापूर्वक निर्यात किया गया! iOS पर आपको डाउनलोड की गई फ़ाइल को होल्ड करके «Files में सहेजें» चुनना पड़ सकता है।',
+      clearConfirmMsg: 'क्या आप वाकई सभी डेटा हटाना चाहते हैं? यह वापस नहीं किया जा सकता!\n\nहटाया जाएगा:\n• सभी दवाएं\n• सभी दवा रिकॉर्ड\n• सभी अपॉइंटमेंट\n• सभी स्वास्थ्य डेटा\n\nपुष्टि के लिए अगले बॉक्स में «हटाएं» टाइप करें।',
+      clearConfirmPrompt: 'पुष्टि के लिए हटाएं टाइप करें:',
+      clearConfirmWord: 'हटाएं',
+      deletionCancelled: 'हटाना रद्द किया गया।',
+      dataCleared: 'सभी डेटा हटा दिया गया। पेज अभी रीलोड होगा।',
+      deleteProfile: 'क्या आप वाकई «{{name}}» प्रोफ़ाइल हटाना चाहते हैं? इस प्रोफ़ाइल की सभी दवाएं, अपॉइंटमेंट और स्वास्थ्य डेटा स्थायी रूप से हटा दिए जाएंगे।',
+      profileNameRequired: 'कृपया प्रोफ़ाइल का नाम दर्ज करें',
+      deleteActiveProfile: 'सक्रिय प्रोफ़ाइल को हटाया नहीं जा सकता। कृपया पहले किसी अन्य प्रोफ़ाइल पर जाएं।'
+    },
+    toasts: { alarmSaved: 'समय और अलार्म सेटिंग्स सहेजी गईं!' },
+    updateBanner: {
+      title: 'अपडेट उपलब्ध है', message: 'नया संस्करण ({{version}}) उपलब्ध है।',
+      updateNow: 'अभी अपडेट करें', later: 'बाद में'
+    }
+  },
+
+  pa: {
+    tab: { meds: 'ਦਵਾਈਆਂ', appointments: 'ਅਪੌਇੰਟਮੈਂਟ', metrics: 'ਸਿਹਤ' },
+    header: {
+      meds: 'ਦਵਾਈਆਂ', appointments: 'ਅਪੌਇੰਟਮੈਂਟ', metrics: 'ਸਿਹਤ',
+      medSchedule: 'ਦਵਾਈ ਸਮਾਂ-ਸੂਚੀ', asNeeded: '+ ਲੋੜ ਅਨੁਸਾਰ',
+      addAppointment: '+ ਅਪੌਇੰਟਮੈਂਟ ਜੋੜੋ', addMetrics: '+ ਡੇਟਾ ਜੋੜੋ',
+      weekView: 'ਹਫ਼ਤਾਵਾਰੀ ਦ੍ਰਿਸ਼', back: '← ਵਾਪਸ', filterMetrics: 'ਡੇਟਾ ਫਿਲਟਰ ▼', print: 'ਛਾਪੋ'
+    },
+    timeOfDay: {
+      morning: 'ਸਵੇਰ', afternoon: 'ਦੁਪਹਿਰ', evening: 'ਸ਼ਾਮ',
+      bedtime: 'ਸੌਣ ਤੋਂ ਪਹਿਲਾਂ', asNeeded: 'ਲੋੜ ਅਨੁਸਾਰ'
+    },
+    meds: {
+      empty: 'ਅੱਜ ਕੋਈ ਦਵਾਈ ਤਹਿ ਨਹੀਂ ਹੈ।',
+      takenAt: 'ਲਈ ਗਈ',
+      critical: 'ਜ਼ਰੂਰੀ', optional: 'ਵਿਕਲਪਿਕ',
+      tapToPriority: 'ਤਰਜੀਹ ਬਦਲਣ ਲਈ ਟੈਪ ਕਰੋ'
+    },
+    medModal: {
+      addTitle: 'ਦਵਾਈ ਜੋੜੋ', editTitle: 'ਦਵਾਈ ਸੰਪਾਦਿਤ ਕਰੋ',
+      name: 'ਦਵਾਈ ਦਾ ਨਾਮ', dosage: 'ਖੁਰਾਕ (ਜਿਵੇਂ «1 ਗੋਲੀ», «2 ਕੈਪਸੂਲ»)',
+      dosagePlaceholder: 'ਜਿਵੇਂ: 1 ਗੋਲੀ',
+      timeOfDay: 'ਲੈਣ ਦਾ ਸਮਾਂ (ਸਾਰੇ ਲਾਗੂ ਵਿਕਲਪ ਚੁਣੋ)',
+      addSpecificTime: '+ ਖਾਸ ਸਮਾਂ ਜੋੜੋ',
+      frequency: 'ਕਿੰਨੀ ਵਾਰ?',
+      freqDaily: 'ਰੋਜ਼ਾਨਾ', freqEveryOther: 'ਹਰ ਦੂਜੇ ਦਿਨ',
+      freqMWF: 'ਸੋਮ, ਬੁੱਧ, ਸ਼ੁੱਕਰ', freqCustom: 'ਕਸਟਮ ਦਿਨ',
+      selectDays: 'ਦਿਨ ਚੁਣੋ',
+      startDate: 'ਸ਼ੁਰੂ ਦੀ ਤਾਰੀਖ਼', startTime: 'ਸ਼ੁਰੂ ਦਾ ਸਮਾਂ',
+      duration: 'ਮਿਆਦ',
+      durOngoing: 'ਜਾਰੀ (ਕੋਈ ਸਮਾਪਤੀ ਤਾਰੀਖ਼ ਨਹੀਂ)', durWeeks: 'ਕੁਝ ਹਫ਼ਤਿਆਂ ਲਈ',
+      durMonths: 'ਕੁਝ ਮਹੀਨਿਆਂ ਲਈ', durEndDate: 'ਇੱਕ ਖਾਸ ਤਾਰੀਖ਼ ਤੱਕ',
+      durBottle: 'ਸਾਰੀਆਂ ਖੁਰਾਕਾਂ ਖਤਮ ਹੋਣ ਤੱਕ',
+      endDate: 'ਸਮਾਪਤੀ ਤਾਰੀਖ਼',
+      notes: 'ਨੋਟਸ (ਵਿਕਲਪਿਕ)', notesPlaceholder: 'ਖਾਣੇ ਨਾਲ, ਆਦਿ',
+      priority: 'ਤਰਜੀਹ', priorityCritical: 'ਜ਼ਰੂਰੀ', priorityOptional: 'ਵਿਕਲਪਿਕ',
+      cancel: 'ਰੱਦ ਕਰੋ', save: 'ਸੁਰੱਖਿਅਤ ਕਰੋ', stop: 'ਦਵਾਈ ਬੰਦ ਕਰੋ',
+      alarmNone: 'ਕੋਈ ਅਲਾਰਮ ਨਹੀਂ', remove: 'ਹਟਾਓ'
+    },
+    asNeededModal: {
+      addTitle: 'ਲੋੜ ਅਨੁਸਾਰ ਦਵਾਈ ਦਰਜ ਕਰੋ', editTitle: 'ਲੋੜ ਅਨੁਸਾਰ ਦਵਾਈ ਸੰਪਾਦਿਤ ਕਰੋ',
+      name: 'ਦਵਾਈ ਦਾ ਨਾਮ', namePlaceholder: 'ਜਿਵੇਂ: ਨੌਰਕੋ, ਟਾਇਲੇਨੌਲ',
+      dosage: 'ਖੁਰਾਕ', dosagePlaceholder: 'ਜਿਵੇਂ: 1 ਗੋਲੀ, 5 mg',
+      timeTaken: 'ਲੈਣ ਦਾ ਸਮਾਂ',
+      notes: 'ਨੋਟਸ (ਵਿਕਲਪਿਕ)', notesPlaceholder: 'ਕਾਰਨ: ਸਿਰਦਰਦ, ਦਰਦ, ਆਦਿ',
+      cancel: 'ਰੱਦ ਕਰੋ', log: 'ਦਵਾਈ ਦਰਜ ਕਰੋ'
+    },
+    settings: {
+      profile: 'ਪ੍ਰੋਫਾਈਲ', timeAlarms: 'ਦਵਾਈ ਦਾ ਸਮਾਂ ਅਤੇ ਅਲਾਰਮ',
+      enableAlarms: 'ਅਲਾਰਮ ਚਾਲੂ ਕਰੋ',
+      enableAlarmsDesc: 'ਦਵਾਈ ਦਾ ਸਮਾਂ ਆਉਣ ਤੇ ਆਵਾਜ਼ ਵਜਾਓ (ਐਪ ਖੁੱਲ੍ਹਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ)',
+      timeCol: 'ਸਮਾਂ', alarmSoundCol: 'ਅਲਾਰਮ ਦੀ ਆਵਾਜ਼',
+      saveTimeAlarms: 'ਸਮਾਂ ਅਤੇ ਅਲਾਰਮ ਸੈਟਿੰਗਾਂ ਸੁਰੱਖਿਅਤ ਕਰੋ',
+      alsoTrack: 'ਇਹ ਵੀ ਟਰੈਕ ਕਰੋ',
+      appointments: 'ਅਪੌਇੰਟਮੈਂਟ',
+      appointmentsDesc: 'ਡਾਕਟਰ ਦੌਰੇ, ਪ੍ਰਕਿਰਿਆਵਾਂ ਅਤੇ ਮੈਡੀਕਲ ਅਪੌਇੰਟਮੈਂਟ ਟਰੈਕ ਕਰੋ',
+      healthMetrics: 'ਸਿਹਤ ਮਾਪਦੰਡ',
+      healthMetricsDesc: 'ਮਹੱਤਵਪੂਰਨ ਸੰਕੇਤ, ਭਾਰ, ਕਦਮ ਅਤੇ ਹੋਰ ਸਿਹਤ ਡੇਟਾ ਦਰਜ ਕਰੋ',
+      weight: 'ਭਾਰ', temperature: 'ਤਾਪਮਾਨ', bloodPressure: 'ਬਲੱਡ ਪ੍ਰੈਸ਼ਰ',
+      heartRate: 'ਦਿਲ ਦੀ ਧੜਕਣ', bloodSugar: 'ਬਲੱਡ ਸ਼ੂਗਰ', steps: 'ਕਦਮ',
+      oxygenation: 'ਆਕਸੀਜਨ ਸੰਤ੍ਰਿਪਤਾ', sleep: 'ਨੀਂਦ',
+      dataManagement: 'ਡੇਟਾ ਪ੍ਰਬੰਧਨ',
+      exportData: 'ਡੇਟਾ ਨਿਰਯਾਤ ਕਰੋ', exportDesc: 'ਸਾਰਾ ਡੇਟਾ ਬੈਕਅੱਪ ਫਾਈਲ ਵਜੋਂ ਡਾਊਨਲੋਡ ਕਰੋ',
+      importData: 'ਡੇਟਾ ਆਯਾਤ ਕਰੋ', importDesc: 'ਬੈਕਅੱਪ ਫਾਈਲ ਤੋਂ ਡੇਟਾ ਬਹਾਲ ਕਰੋ',
+      clearData: 'ਸਾਰਾ ਡੇਟਾ ਮਿਟਾਓ', clearDesc: 'ਸਾਰੀਆਂ ਦਵਾਈਆਂ, ਰਿਕਾਰਡ ਅਤੇ ਅਪੌਇੰਟਮੈਂਟ ਮਿਟਾਓ',
+      language: 'ਭਾਸ਼ਾ',
+      install: 'ਹੋਮ ਸਕਰੀਨ ਐਪ ਵਜੋਂ ਇੰਸਟਾਲ ਕਰੋ',
+      installDesc: 'ਇਸ ਐਪ ਨੂੰ ਆਪਣੀ ਹੋਮ ਸਕਰੀਨ ਤੇ ਕਿਵੇਂ ਜੋੜਨਾ ਹੈ ਇਹ ਜਾਣੋ'
+    },
+    medListModal: {
+      title: 'ਦਵਾਈ ਸਮਾਂ-ਸੂਚੀ', close: 'ਬੰਦ ਕਰੋ', add: '+ ਦਵਾਈ ਜੋੜੋ',
+      empty: 'ਕੋਈ ਦਵਾਈ ਤਹਿ ਨਹੀਂ ਹੈ।\nਸ਼ੁਰੂ ਕਰਨ ਲਈ «+ ਦਵਾਈ ਜੋੜੋ» ਟੈਪ ਕਰੋ।'
+    },
+    appointments: {
+      upcoming: 'ਆਉਣ ਵਾਲੇ', past: 'ਪਿਛਲੇ', add: '+ ਅਪੌਇੰਟਮੈਂਟ ਜੋੜੋ',
+      noAny: 'ਅਜੇ ਕੋਈ ਅਪੌਇੰਟਮੈਂਟ ਤਹਿ ਨਹੀਂ ਹੈ।',
+      noAnyHint: 'ਪਹਿਲੀ ਅਪੌਇੰਟਮੈਂਟ ਜੋੜਨ ਲਈ ਹੇਠਾਂ ਦਾ ਬਟਨ ਟੈਪ ਕਰੋ।',
+      noUpcoming: 'ਕੋਈ ਆਉਣ ਵਾਲੀ ਅਪੌਇੰਟਮੈਂਟ ਨਹੀਂ।', noPast: 'ਕੋਈ ਪਿਛਲੀ ਅਪੌਇੰਟਮੈਂਟ ਨਹੀਂ।',
+      edit: 'ਸੰਪਾਦਿਤ ਕਰੋ', delete: 'ਮਿਟਾਓ', markComplete: 'ਪੂਰਾ ਮਾਰਕ ਕਰੋ', completed: '✓ ਪੂਰਾ'
+    },
+    apptModal: {
+      addTitle: 'ਅਪੌਇੰਟਮੈਂਟ ਜੋੜੋ', editTitle: 'ਅਪੌਇੰਟਮੈਂਟ ਸੰਪਾਦਿਤ ਕਰੋ',
+      type: 'ਕਿਸਮ', typeDoctorVisit: 'ਡਾਕਟਰ ਦੌਰਾ', typeInfusion: 'ਇਨਫਿਊਜ਼ਨ',
+      typeLabWork: 'ਲੈਬ ਜਾਂਚ', typeProcedure: 'ਪ੍ਰਕਿਰਿਆ', typeOther: 'ਹੋਰ',
+      titleField: 'ਸਿਰਲੇਖ/ਵੇਰਵਾ', titlePlaceholder: 'ਜਿਵੇਂ: ਡਾ. ਸਿੰਘ ਨਾਲ ਜਾਂਚ',
+      date: 'ਤਾਰੀਖ਼', timeOptional: 'ਸਮਾਂ (ਵਿਕਲਪਿਕ)',
+      location: 'ਸਥਾਨ', locationVirtual: 'ਔਨਲਾਈਨ (ਵੀਡੀਓ ਕਾਲ)', locationInPerson: 'ਵਿਅਕਤੀਗਤ',
+      addressField: 'ਪਤਾ/ਵੇਰਵਾ', addressVirtualField: 'ਵੀਡੀਓ ਕਾਲ ਲਿੰਕ/ਵੇਰਵਾ',
+      addressPlaceholder: 'ਹਸਪਤਾਲ ਦਾ ਨਾਮ, ਕਮਰਾ ਨੰਬਰ, ਜਾਂ ਵੀਡੀਓ ਲਿੰਕ',
+      notes: 'ਨੋਟਸ (ਵਿਕਲਪਿਕ)', notesPlaceholder: 'ਬੀਮਾ ਕਾਰਡ ਲਿਆਓ, ਵਰਤ ਲੋੜੀਂਦਾ, ਆਦਿ',
+      cancel: 'ਰੱਦ ਕਰੋ', save: 'ਸੁਰੱਖਿਅਤ ਕਰੋ'
+    },
+    metrics: {
+      add: '+ ਡੇਟਾ ਜੋੜੋ',
+      noData: 'ਅਜੇ ਕੋਈ ਸਿਹਤ ਡੇਟਾ ਨਹੀਂ ਹੈ।', noDate: 'ਇਸ ਤਾਰੀਖ਼ ਲਈ ਕੋਈ ਡੇਟਾ ਨਹੀਂ।',
+      prompt: 'ਟਰੈਕਿੰਗ ਸ਼ੁਰੂ ਕਰਨ ਲਈ «+ ਡੇਟਾ ਜੋੜੋ» ਟੈਪ ਕਰੋ।',
+      noMatch: 'ਮੌਜੂਦਾ ਫਿਲਟਰ ਨਾਲ ਕੋਈ ਡੇਟਾ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ।',
+      noMatchHint: 'ਫਿਲਟਰ ਸੈਟਿੰਗਾਂ ਜਾਂ ਤਾਰੀਖ਼ ਸੀਮਾ ਬਦਲਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।',
+      noDataRange: 'ਇਸ ਤਾਰੀਖ਼ ਸੀਮਾ ਲਈ ਕੋਈ ਡੇਟਾ ਨਹੀਂ ਮਿਲਿਆ।',
+      edit: 'ਸੰਪਾਦਿਤ ਕਰੋ', delete: 'ਮਿਟਾਓ', notes: 'ਨੋਟਸ'
+    },
+    logModal: {
+      addTitle: 'ਡੇਟਾ ਜੋੜੋ', editTitle: 'ਡੇਟਾ ਸੰਪਾਦਿਤ ਕਰੋ',
+      datetime: 'ਤਾਰੀਖ਼ ਅਤੇ ਸਮਾਂ',
+      temperature: 'ਤਾਪਮਾਨ (°F)', bloodPressure: 'ਬਲੱਡ ਪ੍ਰੈਸ਼ਰ',
+      heartRate: 'ਦਿਲ ਦੀ ਧੜਕਣ (bpm)', bloodGlucose: 'ਬਲੱਡ ਸ਼ੂਗਰ (mg/dL)',
+      weight: 'ਭਾਰ (lbs)', steps: 'ਕਦਮ', oxygenation: 'ਆਕਸੀਜਨ ਸੰਤ੍ਰਿਪਤਾ (%)',
+      sleep: 'ਨੀਂਦ (ਘੰਟੇ)', notes: 'ਨੋਟਸ',
+      systolicPlaceholder: 'ਸਿਸਟੋਲਿਕ', diastolicPlaceholder: 'ਡਾਇਸਟੋਲਿਕ',
+      cancel: 'ਰੱਦ ਕਰੋ', save: 'ਸੁਰੱਖਿਅਤ ਕਰੋ'
+    },
+    weeklyView: {
+      prevWeek: '← ਪਿਛਲਾ ਹਫ਼ਤਾ', nextWeek: 'ਅਗਲਾ ਹਫ਼ਤਾ →', close: 'ਬੰਦ ਕਰੋ', print: 'ਛਾਪੋ'
+    },
+    morningCheck: {
+      title: '⚠️ ਜ਼ਰੂਰੀ ਦਵਾਈਆਂ ਛੁੱਟ ਗਈਆਂ',
+      message: 'ਕੱਲ੍ਹ {{slot}} ਦੀਆਂ ਇਹ ਜ਼ਰੂਰੀ ਦਵਾਈਆਂ ਦਰਜ ਨਹੀਂ ਹੋਈਆਂ:',
+      viewYesterday: 'ਕੱਲ੍ਹ ਦੀਆਂ ਦਵਾਈਆਂ ਵੇਖੋ', dismiss: 'ਬੰਦ ਕਰੋ'
+    },
+    alarmModal: {
+      title: '💊 ਦਵਾਈ ਲੈਣ ਦਾ ਸਮਾਂ ਆ ਗਿਆ',
+      message: 'ਕਿਰਪਾ ਕਰਕੇ ਇਸ ਯਾਦ-ਦਿਹਾਨੀ ਨੂੰ ਦੇਖਣ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ।',
+      gotIt: 'ਠੀਕ ਹੈ, ਸਮਝ ਗਿਆ',
+      timeLabel: '{{time}} ਦੀਆਂ ਦਵਾਈਆਂ',
+      notificationTitle: 'ਦਵਾਈ ਯਾਦ-ਦਿਹਾਨੀ',
+      notificationBody: '{{time}} ਦੀਆਂ ਦਵਾਈਆਂ ਲੈਣ ਦਾ ਸਮਾਂ ਆ ਗਿਆ!'
+    },
+    profile: {
+      loading: 'ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...', allDataSeparate: 'ਸਾਰਾ ਡੇਟਾ ਹਰੇਕ ਪ੍ਰੋਫਾਈਲ ਲਈ ਵੱਖਰੇ ਤੌਰ ਤੇ ਸੁਰੱਖਿਅਤ ਹੈ',
+      shareTitle: 'ਪ੍ਰੋਫਾਈਲ ਸਾਂਝਾ ਕਰੋ', shareDesc: 'ਹੋਰ ਡਿਵਾਈਸਾਂ ਨੂੰ ਸਿੰਕ ਲਈ ਜੁੜਨ ਦਿਓ',
+      switchJoinTitle: 'ਪ੍ਰੋਫਾਈਲ ਬਦਲੋ ਜਾਂ ਜੁੜੋ', switchJoinDesc: 'ਪ੍ਰੋਫਾਈਲ ਬਦਲੋ ਜਾਂ ਸਾਂਝੇ ਪ੍ਰੋਫਾਈਲ ਨਾਲ ਜੁੜੋ',
+      stopSharing: 'ਸਾਂਝਾਕਰਨ ਬੰਦ ਕਰੋ', disconnect: 'ਡਿਸਕਨੈਕਟ ਕਰੋ',
+      connectedDevices: 'ਜੁੜੀਆਂ ਡਿਵਾਈਸਾਂ', noDevices: 'ਅਜੇ ਕੋਈ ਡਿਵਾਈਸ ਨਹੀਂ ਜੁੜੀ',
+      scanCode: 'ਇਸ ਕੋਡ ਨੂੰ ਕਿਸੇ ਹੋਰ ਡਿਵਾਈਸ ਨਾਲ ਸਕੈਨ ਕਰੋ:', codeLabel: 'ਕੋਡ:',
+      lastSync: 'ਆਖਰੀ ਸਿੰਕ:', statusLabel: 'ਸਥਿਤੀ:', online: '● ਔਨਲਾਈਨ',
+      syncNote: 'ਸਾਰੀਆਂ ਤਬਦੀਲੀਆਂ ਹੋਸਟ ਡਿਵਾਈਸ ਨਾਲ ਰੀਅਲ-ਟਾਈਮ ਵਿੱਚ ਸਿੰਕ ਹੁੰਦੀਆਂ ਹਨ',
+      createNew: 'ਨਵੀਂ ਪ੍ਰੋਫਾਈਲ ਬਣਾਓ',
+      synced: 'ਸਿੰਕ ਹੋ ਗਿਆ', sharing: 'ਸਾਂਝਾ ਹੋ ਰਿਹਾ ਹੈ',
+      sharingDesc: 'ਜੁੜੀਆਂ ਡਿਵਾਈਸਾਂ ਨਾਲ ਸਾਂਝਾ ਹੋ ਰਿਹਾ ਹੈ',
+      syncedDesc: 'ਹੋਸਟ ਡਿਵਾਈਸ ਨਾਲ ਰੀਅਲ-ਟਾਈਮ ਸਿੰਕ ਹੋ ਰਿਹਾ ਹੈ',
+      reconnecting: 'ਮੁੜ ਜੁੜ ਰਿਹਾ ਹੈ...',
+      resumingDesc: 'ਸਾਂਝਾਕਰਨ ਸੈਸ਼ਨ ਮੁੜ ਸ਼ੁਰੂ ਹੋ ਰਿਹਾ ਹੈ...',
+      reconnectingDesc: 'ਹੋਸਟ ਡਿਵਾਈਸ ਨਾਲ ਮੁੜ ਜੁੜ ਰਿਹਾ ਹੈ...',
+      justNow: 'ਹੁਣੇ'
+    },
+    schedule: {
+      daily: 'ਰੋਜ਼ਾਨਾ', everyOtherDay: 'ਹਰ ਦੂਜੇ ਦਿਨ', mwf: 'ਸੋਮ, ਬੁੱਧ, ਸ਼ੁੱਕਰ',
+      ongoing: 'ਜਾਰੀ', starts: '• {{date}} ਤੋਂ ਸ਼ੁਰੂ',
+      nWeeks: '• {{n}} ਹਫ਼ਤੇ', nMonths: '• {{n}} ਮਹੀਨੇ',
+      untilDate: '• {{date}} ਤੱਕ', nDoses: '• {{n}} ਖੁਰਾਕਾਂ',
+      untilDateParens: '({{date}} ਤੱਕ)', everyDay: 'ਹਰ ਰੋਜ਼'
+    },
+    days: { sun: 'ਐਤ', mon: 'ਸੋਮ', tue: 'ਮੰਗਲ', wed: 'ਬੁੱਧ', thu: 'ਵੀਰ', fri: 'ਸ਼ੁੱਕ', sat: 'ਸ਼ਨੀ' },
+    alerts: {
+      requiredFields: 'ਕਿਰਪਾ ਕਰਕੇ ਸਾਰੇ ਲੋੜੀਂਦੇ ਖੇਤਰ ਭਰੋ',
+      selectTime: 'ਕਿਰਪਾ ਕਰਕੇ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਸਮਾਂ ਚੁਣੋ ਜਾਂ ਖਾਸ ਸਮਾਂ ਜੋੜੋ',
+      selectStartDate: 'ਕਿਰਪਾ ਕਰਕੇ ਸ਼ੁਰੂ ਦੀ ਤਾਰੀਖ਼ ਚੁਣੋ',
+      selectDays: 'ਕਿਰਪਾ ਕਰਕੇ ਕਸਟਮ ਸਮਾਂ-ਸੂਚੀ ਲਈ ਘੱਟੋ-ਘੱਟ ਇੱਕ ਦਿਨ ਚੁਣੋ',
+      invalidDuration: 'ਕਿਰਪਾ ਕਰਕੇ ਇੱਕ ਮਾਨਤਾ ਪ੍ਰਾਪਤ ਮਿਆਦ ਦਾਖਲ ਕਰੋ',
+      selectEndDate: 'ਕਿਰਪਾ ਕਰਕੇ ਸਮਾਪਤੀ ਤਾਰੀਖ਼ ਚੁਣੋ',
+      bottleDosesRequired: 'ਕਿਰਪਾ ਕਰਕੇ ਬੋਤਲ ਵਿੱਚ ਖੁਰਾਕਾਂ ਦੀ ਗਿਣਤੀ ਦਾਖਲ ਕਰੋ',
+      deleteMed: 'ਕੀ ਤੁਸੀਂ ਸੱਚਮੁੱਚ ਇਹ ਦਵਾਈ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?',
+      stopMed: 'ਇਹ ਦਵਾਈ ਬੰਦ ਕਰੋ? ਸਮਾਪਤੀ ਤਾਰੀਖ਼ ਕੱਲ੍ਹ ਤੇ ਸੈੱਟ ਹੋ ਜਾਵੇਗੀ ਅਤੇ ਸਾਰੀਆਂ ਭਵਿੱਖੀ ਖੁਰਾਕਾਂ ਮਿਟਾ ਦਿੱਤੀਆਂ ਜਾਣਗੀਆਂ।',
+      deleteLog: 'ਕੀ ਤੁਸੀਂ ਸੱਚਮੁੱਚ ਇਹ ਰਿਕਾਰਡ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?',
+      deleteAppt: 'ਕੀ ਤੁਸੀਂ ਸੱਚਮੁੱਚ ਇਹ ਅਪੌਇੰਟਮੈਂਟ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?',
+      importOverwrite: 'ਸਾਰਾ ਮੌਜੂਦਾ ਡੇਟਾ ਆਯਾਤ ਕੀਤੇ ਡੇਟਾ ਨਾਲ ਬਦਲ ਦਿੱਤਾ ਜਾਵੇਗਾ। ਕੀ ਤੁਸੀਂ ਜਾਰੀ ਰੱਖਣਾ ਚਾਹੁੰਦੇ ਹੋ?',
+      importSuccess: 'ਡੇਟਾ ਸਫਲਤਾਪੂਰਵਕ ਆਯਾਤ ਕੀਤਾ ਗਿਆ! ਪੇਜ ਹੁਣੇ ਰੀਲੋਡ ਹੋਵੇਗਾ।',
+      exportSuccess: 'ਡੇਟਾ ਸਫਲਤਾਪੂਰਵਕ ਨਿਰਯਾਤ ਕੀਤਾ ਗਿਆ! iOS ਤੇ ਤੁਹਾਨੂੰ ਡਾਊਨਲੋਡ ਕੀਤੀ ਫਾਈਲ ਨੂੰ ਹੋਲਡ ਕਰਕੇ «Files ਵਿੱਚ ਸੁਰੱਖਿਅਤ ਕਰੋ» ਚੁਣਨ ਦੀ ਲੋੜ ਹੋ ਸਕਦੀ ਹੈ।',
+      clearConfirmMsg: 'ਕੀ ਤੁਸੀਂ ਸੱਚਮੁੱਚ ਸਾਰਾ ਡੇਟਾ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ? ਇਹ ਵਾਪਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਦਾ!\n\nਮਿਟਾਇਆ ਜਾਵੇਗਾ:\n• ਸਾਰੀਆਂ ਦਵਾਈਆਂ\n• ਸਾਰੇ ਦਵਾਈ ਰਿਕਾਰਡ\n• ਸਾਰੀਆਂ ਅਪੌਇੰਟਮੈਂਟਾਂ\n• ਸਾਰਾ ਸਿਹਤ ਡੇਟਾ\n\nਪੁਸ਼ਟੀ ਲਈ ਅਗਲੇ ਬਕਸੇ ਵਿੱਚ «ਮਿਟਾਓ» ਟਾਈਪ ਕਰੋ।',
+      clearConfirmPrompt: 'ਪੁਸ਼ਟੀ ਲਈ ਮਿਟਾਓ ਟਾਈਪ ਕਰੋ:',
+      clearConfirmWord: 'ਮਿਟਾਓ',
+      deletionCancelled: 'ਮਿਟਾਉਣਾ ਰੱਦ ਕੀਤਾ ਗਿਆ।',
+      dataCleared: 'ਸਾਰਾ ਡੇਟਾ ਮਿਟਾ ਦਿੱਤਾ ਗਿਆ। ਪੇਜ ਹੁਣੇ ਰੀਲੋਡ ਹੋਵੇਗਾ।',
+      deleteProfile: 'ਕੀ ਤੁਸੀਂ ਸੱਚਮੁੱਚ «{{name}}» ਪ੍ਰੋਫਾਈਲ ਮਿਟਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ? ਇਸ ਪ੍ਰੋਫਾਈਲ ਦੀਆਂ ਸਾਰੀਆਂ ਦਵਾਈਆਂ, ਅਪੌਇੰਟਮੈਂਟਾਂ ਅਤੇ ਸਿਹਤ ਡੇਟਾ ਸਥਾਈ ਤੌਰ ਤੇ ਮਿਟਾ ਦਿੱਤੇ ਜਾਣਗੇ।',
+      profileNameRequired: 'ਕਿਰਪਾ ਕਰਕੇ ਪ੍ਰੋਫਾਈਲ ਦਾ ਨਾਮ ਦਾਖਲ ਕਰੋ',
+      deleteActiveProfile: 'ਸਰਗਰਮ ਪ੍ਰੋਫਾਈਲ ਨੂੰ ਮਿਟਾਇਆ ਨਹੀਂ ਜਾ ਸਕਦਾ। ਕਿਰਪਾ ਕਰਕੇ ਪਹਿਲਾਂ ਕਿਸੇ ਹੋਰ ਪ੍ਰੋਫਾਈਲ ਤੇ ਜਾਓ।'
+    },
+    toasts: { alarmSaved: 'ਸਮਾਂ ਅਤੇ ਅਲਾਰਮ ਸੈਟਿੰਗਾਂ ਸੁਰੱਖਿਅਤ ਕੀਤੀਆਂ ਗਈਆਂ!' },
+    updateBanner: {
+      title: 'ਅੱਪਡੇਟ ਉਪਲਬਧ ਹੈ', message: 'ਨਵਾਂ ਸੰਸਕਰਣ ({{version}}) ਉਪਲਬਧ ਹੈ।',
+      updateNow: 'ਹੁਣੇ ਅੱਪਡੇਟ ਕਰੋ', later: 'ਬਾਅਦ ਵਿੱਚ'
+    }
+  },
+
+  fr: {
+    tab: { meds: 'Médicaments', appointments: 'Rendez-vous', metrics: 'Santé' },
+    header: {
+      meds: 'Médicaments', appointments: 'Rendez-vous', metrics: 'Santé',
+      medSchedule: 'Programme des médicaments', asNeeded: '+ Si besoin',
+      addAppointment: '+ Ajouter un rendez-vous', addMetrics: '+ Ajouter des données',
+      weekView: 'Vue semaine', back: '← Retour', filterMetrics: 'Filtrer ▼', print: 'Imprimer'
+    },
+    timeOfDay: {
+      morning: 'Matin', afternoon: 'Après-midi', evening: 'Soir',
+      bedtime: 'Coucher', asNeeded: 'Si besoin'
+    },
+    meds: {
+      empty: 'Aucun médicament prévu aujourd\'hui.',
+      takenAt: 'Pris à',
+      critical: 'Essentiel', optional: 'Optionnel',
+      tapToPriority: 'Appuyer pour changer la priorité'
+    },
+    medModal: {
+      addTitle: 'Ajouter un médicament', editTitle: 'Modifier le médicament',
+      name: 'Nom du médicament', dosage: 'Dosage (ex. «1 comprimé», «2 gélules»)',
+      dosagePlaceholder: 'Ex. : 1 comprimé',
+      timeOfDay: 'Moment de prise (cocher tout ce qui s\'applique)',
+      addSpecificTime: '+ Ajouter une heure précise',
+      frequency: 'À quelle fréquence ?',
+      freqDaily: 'Tous les jours', freqEveryOther: 'Un jour sur deux',
+      freqMWF: 'Lun, Mer, Ven', freqCustom: 'Jours personnalisés',
+      selectDays: 'Choisir les jours',
+      startDate: 'Date de début', startTime: 'Heure de début',
+      duration: 'Durée',
+      durOngoing: 'Continu (sans date de fin)', durWeeks: 'Pendant quelques semaines',
+      durMonths: 'Pendant quelques mois', durEndDate: 'Jusqu\'à une date précise',
+      durBottle: 'Jusqu\'à épuisement',
+      endDate: 'Date de fin',
+      notes: 'Notes (optionnel)', notesPlaceholder: 'Avec les repas, etc.',
+      priority: 'Priorité', priorityCritical: 'Essentiel', priorityOptional: 'Optionnel',
+      cancel: 'Annuler', save: 'Enregistrer', stop: 'Arrêter le médicament',
+      alarmNone: 'Pas d\'alarme', remove: 'Supprimer'
+    },
+    asNeededModal: {
+      addTitle: 'Enregistrer une prise si besoin', editTitle: 'Modifier la prise si besoin',
+      name: 'Nom du médicament', namePlaceholder: 'Ex. : Doliprane, Ibuprofène',
+      dosage: 'Dosage', dosagePlaceholder: 'Ex. : 1 comprimé, 5 mg',
+      timeTaken: 'Heure de prise',
+      notes: 'Notes (optionnel)', notesPlaceholder: 'Raison : maux de tête, douleur, etc.',
+      cancel: 'Annuler', log: 'Enregistrer la prise'
+    },
+    settings: {
+      profile: 'Profil', timeAlarms: 'Horaires et alarmes',
+      enableAlarms: 'Activer les alarmes',
+      enableAlarmsDesc: 'Émettre un son à l\'heure de prise (l\'appli doit être ouverte)',
+      timeCol: 'Heure', alarmSoundCol: 'Son de l\'alarme',
+      saveTimeAlarms: 'Enregistrer les horaires et alarmes',
+      alsoTrack: 'Suivre aussi',
+      appointments: 'Rendez-vous',
+      appointmentsDesc: 'Suivre les consultations, actes médicaux et rendez-vous',
+      healthMetrics: 'Indicateurs de santé',
+      healthMetricsDesc: 'Enregistrer les constantes, le poids, les pas et autres données de santé',
+      weight: 'Poids', temperature: 'Température', bloodPressure: 'Tension artérielle',
+      heartRate: 'Fréquence cardiaque', bloodSugar: 'Glycémie', steps: 'Pas',
+      oxygenation: 'Saturation en oxygène', sleep: 'Sommeil',
+      dataManagement: 'Gestion des données',
+      exportData: 'Exporter les données', exportDesc: 'Télécharger toutes les données en fichier de sauvegarde',
+      importData: 'Importer les données', importDesc: 'Restaurer les données depuis un fichier de sauvegarde',
+      clearData: 'Supprimer toutes les données', clearDesc: 'Supprimer tous les médicaments, historiques et rendez-vous',
+      language: 'Langue',
+      install: 'Installer sur l\'écran d\'accueil',
+      installDesc: 'Découvrez comment ajouter cette appli à votre écran d\'accueil'
+    },
+    medListModal: {
+      title: 'Programme des médicaments', close: 'Fermer', add: '+ Ajouter un médicament',
+      empty: 'Aucun médicament programmé.\nAppuyez sur «+ Ajouter un médicament» pour commencer.'
+    },
+    appointments: {
+      upcoming: 'À venir', past: 'Passés', add: '+ Ajouter un rendez-vous',
+      noAny: 'Aucun rendez-vous programmé pour l\'instant.',
+      noAnyHint: 'Appuyez sur le bouton ci-dessous pour ajouter votre premier rendez-vous.',
+      noUpcoming: 'Aucun rendez-vous à venir.', noPast: 'Aucun rendez-vous passé.',
+      edit: 'Modifier', delete: 'Supprimer', markComplete: 'Marquer comme terminé', completed: '✓ Terminé'
+    },
+    apptModal: {
+      addTitle: 'Ajouter un rendez-vous', editTitle: 'Modifier le rendez-vous',
+      type: 'Type', typeDoctorVisit: 'Consultation', typeInfusion: 'Perfusion',
+      typeLabWork: 'Analyses', typeProcedure: 'Acte médical', typeOther: 'Autre',
+      titleField: 'Titre/Description', titlePlaceholder: 'Ex. : Bilan chez Dr. Martin',
+      date: 'Date', timeOptional: 'Heure (optionnel)',
+      location: 'Lieu', locationVirtual: 'En ligne (téléconsultation)', locationInPerson: 'En cabinet',
+      addressField: 'Adresse/Détails', addressVirtualField: 'Lien vidéo/Détails',
+      addressPlaceholder: 'Nom de la clinique, numéro de salle ou lien vidéo',
+      notes: 'Notes (optionnel)', notesPlaceholder: 'Apporter la carte Vitale, jeûne requis, etc.',
+      cancel: 'Annuler', save: 'Enregistrer'
+    },
+    metrics: {
+      add: '+ Ajouter des données',
+      noData: 'Aucune donnée de santé pour l\'instant.', noDate: 'Aucune donnée pour cette date.',
+      prompt: 'Appuyez sur «+ Ajouter des données» pour commencer le suivi.',
+      noMatch: 'Aucune donnée ne correspond au filtre actuel.',
+      noMatchHint: 'Essayez de modifier les paramètres du filtre ou la plage de dates.',
+      noDataRange: 'Aucune donnée trouvée pour cette plage de dates.',
+      edit: 'Modifier', delete: 'Supprimer', notes: 'Notes'
+    },
+    logModal: {
+      addTitle: 'Ajouter des données', editTitle: 'Modifier les données',
+      datetime: 'Date et heure',
+      temperature: 'Température (°F)', bloodPressure: 'Tension artérielle',
+      heartRate: 'Fréquence cardiaque (bpm)', bloodGlucose: 'Glycémie (mg/dL)',
+      weight: 'Poids (lbs)', steps: 'Pas', oxygenation: 'Saturation en oxygène (%)',
+      sleep: 'Sommeil (heures)', notes: 'Notes',
+      systolicPlaceholder: 'Systolique', diastolicPlaceholder: 'Diastolique',
+      cancel: 'Annuler', save: 'Enregistrer'
+    },
+    weeklyView: {
+      prevWeek: '← Semaine préc.', nextWeek: 'Semaine suiv. →', close: 'Fermer', print: 'Imprimer'
+    },
+    morningCheck: {
+      title: '⚠️ Médicaments essentiels manqués',
+      message: 'Ces médicaments essentiels du {{slot}} d\'hier n\'ont pas été enregistrés :',
+      viewYesterday: 'Voir les médicaments d\'hier', dismiss: 'Fermer'
+    },
+    alarmModal: {
+      title: '💊 C\'est l\'heure de vos médicaments',
+      message: 'Veuillez confirmer que vous avez vu ce rappel.',
+      gotIt: 'Compris',
+      timeLabel: 'Médicaments du {{time}}',
+      notificationTitle: 'Rappel médicament',
+      notificationBody: 'C\'est l\'heure des médicaments du {{time}} !'
+    },
+    profile: {
+      loading: 'Chargement...', allDataSeparate: 'Toutes les données sont stockées séparément pour chaque profil',
+      shareTitle: 'Partager le profil', shareDesc: 'Permettre à d\'autres appareils de se connecter pour synchroniser',
+      switchJoinTitle: 'Changer ou rejoindre un profil', switchJoinDesc: 'Changer de profil ou rejoindre un profil partagé',
+      stopSharing: 'Arrêter le partage', disconnect: 'Déconnecter',
+      connectedDevices: 'Appareils connectés', noDevices: 'Aucun appareil connecté pour l\'instant',
+      scanCode: 'Scanner ce code avec un autre appareil :', codeLabel: 'Code :',
+      lastSync: 'Dernière sync. :', statusLabel: 'Statut :', online: '● En ligne',
+      syncNote: 'Toutes les modifications sont synchronisées en temps réel avec l\'appareil hôte',
+      createNew: 'Créer un nouveau profil',
+      synced: 'Synchronisé', sharing: 'Partage en cours',
+      sharingDesc: 'Partage en cours avec les appareils connectés',
+      syncedDesc: 'Synchronisation en temps réel avec l\'appareil hôte',
+      reconnecting: 'Reconnexion en cours...',
+      resumingDesc: 'Reprise de la session de partage...',
+      reconnectingDesc: 'Reconnexion à l\'appareil hôte...',
+      justNow: 'À l\'instant'
+    },
+    schedule: {
+      daily: 'Tous les jours', everyOtherDay: 'Un jour sur deux', mwf: 'Lun, Mer, Ven',
+      ongoing: 'Continu', starts: '• Début le {{date}}',
+      nWeeks: '• {{n}} semaines', nMonths: '• {{n}} mois',
+      untilDate: '• Jusqu\'au {{date}}', nDoses: '• {{n}} doses',
+      untilDateParens: '(jusqu\'au {{date}})', everyDay: 'Chaque jour'
+    },
+    days: { sun: 'Dim', mon: 'Lun', tue: 'Mar', wed: 'Mer', thu: 'Jeu', fri: 'Ven', sat: 'Sam' },
+    alerts: {
+      requiredFields: 'Veuillez remplir tous les champs obligatoires',
+      selectTime: 'Veuillez sélectionner au moins un moment de la journée ou ajouter une heure précise',
+      selectStartDate: 'Veuillez sélectionner une date de début',
+      selectDays: 'Veuillez sélectionner au moins un jour pour le programme personnalisé',
+      invalidDuration: 'Veuillez saisir une durée valide',
+      selectEndDate: 'Veuillez sélectionner une date de fin',
+      bottleDosesRequired: 'Veuillez saisir le nombre de doses dans le flacon',
+      deleteMed: 'Êtes-vous sûr de vouloir supprimer ce médicament ?',
+      stopMed: 'Arrêter ce médicament ? La date de fin sera fixée à hier et toutes les prises futures seront supprimées.',
+      deleteLog: 'Êtes-vous sûr de vouloir supprimer cet historique ?',
+      deleteAppt: 'Êtes-vous sûr de vouloir supprimer ce rendez-vous ?',
+      importOverwrite: 'Toutes les données actuelles seront remplacées par les données importées. Voulez-vous continuer ?',
+      importSuccess: 'Données importées avec succès ! La page va se recharger.',
+      exportSuccess: 'Données exportées avec succès ! Sur iOS, vous devrez peut-être maintenir le fichier téléchargé et choisir «Enregistrer dans Fichiers».',
+      clearConfirmMsg: 'Êtes-vous absolument sûr de vouloir supprimer toutes les données ? Cette action est irréversible !\n\nSeront supprimés :\n• Tous les médicaments\n• Tout l\'historique des prises\n• Tous les rendez-vous\n• Toutes les données de santé\n\nSaisissez «supprimer» dans la zone suivante pour confirmer.',
+      clearConfirmPrompt: 'Saisissez supprimer pour confirmer :',
+      clearConfirmWord: 'supprimer',
+      deletionCancelled: 'Suppression annulée.',
+      dataCleared: 'Toutes les données ont été supprimées. La page va se recharger.',
+      deleteProfile: 'Êtes-vous sûr de vouloir supprimer le profil «{{name}}» ? Tous les médicaments, rendez-vous et données de santé de ce profil seront définitivement supprimés.',
+      profileNameRequired: 'Veuillez saisir un nom de profil',
+      deleteActiveProfile: 'Impossible de supprimer le profil actif. Veuillez d\'abord basculer vers un autre profil.'
+    },
+    toasts: { alarmSaved: 'Horaires et alarmes enregistrés !' },
+    updateBanner: {
+      title: 'Mise à jour disponible', message: 'Une nouvelle version ({{version}}) est disponible.',
+      updateNow: 'Mettre à jour', later: 'Plus tard'
+    }
+  },
+
+  de: {
+    tab: { meds: 'Medikamente', appointments: 'Termine', metrics: 'Gesundheit' },
+    header: {
+      meds: 'Medikamente', appointments: 'Termine', metrics: 'Gesundheit',
+      medSchedule: 'Medikamentenplan', asNeeded: '+ Bei Bedarf',
+      addAppointment: '+ Termin hinzufügen', addMetrics: '+ Daten hinzufügen',
+      weekView: 'Wochenansicht', back: '← Zurück', filterMetrics: 'Daten filtern ▼', print: 'Drucken'
+    },
+    timeOfDay: {
+      morning: 'Morgens', afternoon: 'Mittags', evening: 'Abends',
+      bedtime: 'Schlafenszeit', asNeeded: 'Bei Bedarf'
+    },
+    meds: {
+      empty: 'Heute keine Medikamente geplant.',
+      takenAt: 'Genommen um',
+      critical: 'Wichtig', optional: 'Optional',
+      tapToPriority: 'Tippen um Priorität zu ändern'
+    },
+    medModal: {
+      addTitle: 'Medikament hinzufügen', editTitle: 'Medikament bearbeiten',
+      name: 'Medikamentenname', dosage: 'Dosierung (z. B. «1 Tablette», «2 Kapseln»)',
+      dosagePlaceholder: 'z. B. 1 Tablette',
+      timeOfDay: 'Einnahmezeit (alle zutreffenden auswählen)',
+      addSpecificTime: '+ Genaue Uhrzeit hinzufügen',
+      frequency: 'Wie oft?',
+      freqDaily: 'Täglich', freqEveryOther: 'Jeden zweiten Tag',
+      freqMWF: 'Mo, Mi, Fr', freqCustom: 'Benutzerdefinierte Tage',
+      selectDays: 'Tage auswählen',
+      startDate: 'Startdatum', startTime: 'Startzeit',
+      duration: 'Dauer',
+      durOngoing: 'Dauerhaft (kein Enddatum)', durWeeks: 'Für einige Wochen',
+      durMonths: 'Für einige Monate', durEndDate: 'Bis zu einem bestimmten Datum',
+      durBottle: 'Bis alle Dosen aufgebraucht sind',
+      endDate: 'Enddatum',
+      notes: 'Hinweise (optional)', notesPlaceholder: 'Mit dem Essen, usw.',
+      priority: 'Priorität', priorityCritical: 'Wichtig', priorityOptional: 'Optional',
+      cancel: 'Abbrechen', save: 'Speichern', stop: 'Medikament absetzen',
+      alarmNone: 'Kein Alarm', remove: 'Entfernen'
+    },
+    asNeededModal: {
+      addTitle: 'Bedarfsmedikament erfassen', editTitle: 'Bedarfsmedikament bearbeiten',
+      name: 'Medikamentenname', namePlaceholder: 'z. B. Ibuprofen, Paracetamol',
+      dosage: 'Dosierung', dosagePlaceholder: 'z. B. 1 Tablette, 5 mg',
+      timeTaken: 'Einnahmezeit',
+      notes: 'Hinweise (optional)', notesPlaceholder: 'Grund: Kopfschmerzen, Schmerzen, usw.',
+      cancel: 'Abbrechen', log: 'Einnahme erfassen'
+    },
+    settings: {
+      profile: 'Profil', timeAlarms: 'Einnahmezeiten und Alarme',
+      enableAlarms: 'Alarme aktivieren',
+      enableAlarmsDesc: 'Ton abspielen wenn Einnahmezeit erreicht ist (App muss geöffnet sein)',
+      timeCol: 'Uhrzeit', alarmSoundCol: 'Alarmton',
+      saveTimeAlarms: 'Zeiten und Alarme speichern',
+      alsoTrack: 'Außerdem verfolgen',
+      appointments: 'Termine',
+      appointmentsDesc: 'Arztbesuche, Behandlungen und medizinische Termine verfolgen',
+      healthMetrics: 'Gesundheitswerte',
+      healthMetricsDesc: 'Vitalwerte, Gewicht, Schritte und andere Gesundheitsdaten erfassen',
+      weight: 'Gewicht', temperature: 'Temperatur', bloodPressure: 'Blutdruck',
+      heartRate: 'Herzfrequenz', bloodSugar: 'Blutzucker', steps: 'Schritte',
+      oxygenation: 'Sauerstoffsättigung', sleep: 'Schlaf',
+      dataManagement: 'Datenverwaltung',
+      exportData: 'Daten exportieren', exportDesc: 'Alle Daten als Sicherungsdatei herunterladen',
+      importData: 'Daten importieren', importDesc: 'Daten aus einer Sicherungsdatei wiederherstellen',
+      clearData: 'Alle Daten löschen', clearDesc: 'Alle Medikamente, Einnahmen und Termine löschen',
+      language: 'Sprache',
+      install: 'Als App auf dem Startbildschirm installieren',
+      installDesc: 'Erfahren Sie, wie Sie diese App zu Ihrem Startbildschirm hinzufügen'
+    },
+    medListModal: {
+      title: 'Medikamentenplan', close: 'Schließen', add: '+ Medikament hinzufügen',
+      empty: 'Keine Medikamente geplant.\nTippen Sie auf «+ Medikament hinzufügen» um zu beginnen.'
+    },
+    appointments: {
+      upcoming: 'Bevorstehend', past: 'Vergangen', add: '+ Termin hinzufügen',
+      noAny: 'Noch keine Termine geplant.',
+      noAnyHint: 'Tippen Sie auf die Schaltfläche unten, um Ihren ersten Termin hinzuzufügen.',
+      noUpcoming: 'Keine bevorstehenden Termine.', noPast: 'Keine vergangenen Termine.',
+      edit: 'Bearbeiten', delete: 'Löschen', markComplete: 'Als erledigt markieren', completed: '✓ Erledigt'
+    },
+    apptModal: {
+      addTitle: 'Termin hinzufügen', editTitle: 'Termin bearbeiten',
+      type: 'Typ', typeDoctorVisit: 'Arztbesuch', typeInfusion: 'Infusion',
+      typeLabWork: 'Laboruntersuchung', typeProcedure: 'Behandlung', typeOther: 'Sonstiges',
+      titleField: 'Titel/Beschreibung', titlePlaceholder: 'z. B. Kontrolluntersuchung bei Dr. Müller',
+      date: 'Datum', timeOptional: 'Uhrzeit (optional)',
+      location: 'Ort', locationVirtual: 'Online (Videosprechstunde)', locationInPerson: 'Vor Ort',
+      addressField: 'Adresse/Details', addressVirtualField: 'Videolink/Details',
+      addressPlaceholder: 'Praxisname, Zimmernummer oder Videolink',
+      notes: 'Hinweise (optional)', notesPlaceholder: 'Krankenversicherungskarte mitbringen, nüchtern erscheinen, usw.',
+      cancel: 'Abbrechen', save: 'Speichern'
+    },
+    metrics: {
+      add: '+ Daten hinzufügen',
+      noData: 'Noch keine Gesundheitsdaten.', noDate: 'Keine Daten für dieses Datum.',
+      prompt: 'Tippen Sie auf «+ Daten hinzufügen» um die Erfassung zu beginnen.',
+      noMatch: 'Keine Daten stimmen mit dem aktuellen Filter überein.',
+      noMatchHint: 'Versuchen Sie, die Filtereinstellungen oder den Datumsbereich zu ändern.',
+      noDataRange: 'Für diesen Datumsbereich wurden keine Daten gefunden.',
+      edit: 'Bearbeiten', delete: 'Löschen', notes: 'Hinweise'
+    },
+    logModal: {
+      addTitle: 'Daten hinzufügen', editTitle: 'Daten bearbeiten',
+      datetime: 'Datum und Uhrzeit',
+      temperature: 'Temperatur (°F)', bloodPressure: 'Blutdruck',
+      heartRate: 'Herzfrequenz (bpm)', bloodGlucose: 'Blutzucker (mg/dL)',
+      weight: 'Gewicht (lbs)', steps: 'Schritte', oxygenation: 'Sauerstoffsättigung (%)',
+      sleep: 'Schlaf (Stunden)', notes: 'Hinweise',
+      systolicPlaceholder: 'Systolisch', diastolicPlaceholder: 'Diastolisch',
+      cancel: 'Abbrechen', save: 'Speichern'
+    },
+    weeklyView: {
+      prevWeek: '← Vorherige Woche', nextWeek: 'Nächste Woche →', close: 'Schließen', print: 'Drucken'
+    },
+    morningCheck: {
+      title: '⚠️ Wichtige Medikamente vergessen',
+      message: 'Diese wichtigen Medikamente wurden gestern {{slot}} nicht erfasst:',
+      viewYesterday: 'Gestrige Medikamente ansehen', dismiss: 'Schließen'
+    },
+    alarmModal: {
+      title: '💊 Zeit für Ihre Medikamente',
+      message: 'Bitte bestätigen Sie, dass Sie diese Erinnerung gesehen haben.',
+      gotIt: 'Verstanden',
+      timeLabel: 'Medikamente {{time}}',
+      notificationTitle: 'Medikamentenerinnerung',
+      notificationBody: 'Zeit für die Medikamente {{time}}!'
+    },
+    profile: {
+      loading: 'Wird geladen...', allDataSeparate: 'Alle Daten werden für jedes Profil getrennt gespeichert',
+      shareTitle: 'Profil teilen', shareDesc: 'Anderen Geräten erlauben, sich zur Synchronisierung zu verbinden',
+      switchJoinTitle: 'Profil wechseln oder beitreten', switchJoinDesc: 'Profil wechseln oder einem geteilten Profil beitreten',
+      stopSharing: 'Teilen beenden', disconnect: 'Trennen',
+      connectedDevices: 'Verbundene Geräte', noDevices: 'Noch keine Geräte verbunden',
+      scanCode: 'Diesen Code mit einem anderen Gerät scannen:', codeLabel: 'Code:',
+      lastSync: 'Letzte Synchronisierung:', statusLabel: 'Status:', online: '● Online',
+      syncNote: 'Alle Änderungen werden in Echtzeit mit dem Hostgerät synchronisiert',
+      createNew: 'Neues Profil erstellen',
+      synced: 'Synchronisiert', sharing: 'Wird geteilt',
+      sharingDesc: 'Wird mit verbundenen Geräten geteilt',
+      syncedDesc: 'Echtzeit-Synchronisierung mit dem Hostgerät',
+      reconnecting: 'Verbindung wird wiederhergestellt...',
+      resumingDesc: 'Freigabesitzung wird fortgesetzt...',
+      reconnectingDesc: 'Verbindung zum Hostgerät wird wiederhergestellt...',
+      justNow: 'Gerade eben'
+    },
+    schedule: {
+      daily: 'Täglich', everyOtherDay: 'Jeden zweiten Tag', mwf: 'Mo, Mi, Fr',
+      ongoing: 'Dauerhaft', starts: '• Beginnt am {{date}}',
+      nWeeks: '• {{n}} Wochen', nMonths: '• {{n}} Monate',
+      untilDate: '• Bis {{date}}', nDoses: '• {{n}} Dosen',
+      untilDateParens: '(bis {{date}})', everyDay: 'Jeden Tag'
+    },
+    days: { sun: 'So', mon: 'Mo', tue: 'Di', wed: 'Mi', thu: 'Do', fri: 'Fr', sat: 'Sa' },
+    alerts: {
+      requiredFields: 'Bitte alle Pflichtfelder ausfüllen',
+      selectTime: 'Bitte mindestens eine Tageszeit auswählen oder eine genaue Uhrzeit hinzufügen',
+      selectStartDate: 'Bitte ein Startdatum auswählen',
+      selectDays: 'Bitte mindestens einen Tag für den benutzerdefinierten Plan auswählen',
+      invalidDuration: 'Bitte eine gültige Dauer eingeben',
+      selectEndDate: 'Bitte ein Enddatum auswählen',
+      bottleDosesRequired: 'Bitte die Anzahl der Dosen in der Packung eingeben',
+      deleteMed: 'Möchten Sie dieses Medikament wirklich löschen?',
+      stopMed: 'Dieses Medikament absetzen? Das Enddatum wird auf gestern gesetzt und alle zukünftigen Dosen werden gelöscht.',
+      deleteLog: 'Möchten Sie diesen Eintrag wirklich löschen?',
+      deleteAppt: 'Möchten Sie diesen Termin wirklich löschen?',
+      importOverwrite: 'Alle aktuellen Daten werden durch die importierten Daten ersetzt. Möchten Sie fortfahren?',
+      importSuccess: 'Daten erfolgreich importiert! Die Seite wird neu geladen.',
+      exportSuccess: 'Daten erfolgreich exportiert! Auf iOS müssen Sie die heruntergeladene Datei möglicherweise gedrückt halten und «In Dateien speichern» wählen.',
+      clearConfirmMsg: 'Möchten Sie wirklich alle Daten löschen? Dies kann nicht rückgängig gemacht werden!\n\nWird gelöscht:\n• Alle Medikamente\n• Alle Einnahmeprotokolle\n• Alle Termine\n• Alle Gesundheitsdaten\n\nGeben Sie «löschen» in das folgende Feld ein, um zu bestätigen.',
+      clearConfirmPrompt: 'Löschen eingeben zur Bestätigung:',
+      clearConfirmWord: 'löschen',
+      deletionCancelled: 'Löschen abgebrochen.',
+      dataCleared: 'Alle Daten wurden gelöscht. Die Seite wird neu geladen.',
+      deleteProfile: 'Möchten Sie das Profil «{{name}}» wirklich löschen? Alle Medikamente, Termine und Gesundheitsdaten dieses Profils werden dauerhaft gelöscht.',
+      profileNameRequired: 'Bitte einen Profilnamen eingeben',
+      deleteActiveProfile: 'Das aktive Profil kann nicht gelöscht werden. Bitte zuerst zu einem anderen Profil wechseln.'
+    },
+    toasts: { alarmSaved: 'Zeiten und Alarme gespeichert!' },
+    updateBanner: {
+      title: 'Update verfügbar', message: 'Eine neue Version ({{version}}) ist verfügbar.',
+      updateNow: 'Jetzt aktualisieren', later: 'Später'
+    }
+  },
+
+  pt: {
+    tab: { meds: 'Medicamentos', appointments: 'Consultas', metrics: 'Saúde' },
+    header: {
+      meds: 'Medicamentos', appointments: 'Consultas', metrics: 'Saúde',
+      medSchedule: 'Agenda de medicamentos', asNeeded: '+ Se necessário',
+      addAppointment: '+ Adicionar consulta', addMetrics: '+ Adicionar dados',
+      weekView: 'Visão semanal', back: '← Voltar', filterMetrics: 'Filtrar dados ▼', print: 'Imprimir'
+    },
+    timeOfDay: {
+      morning: 'Manhã', afternoon: 'Tarde', evening: 'Noite',
+      bedtime: 'Antes de dormir', asNeeded: 'Se necessário'
+    },
+    meds: {
+      empty: 'Nenhum medicamento agendado para hoje.',
+      takenAt: 'Tomado às',
+      critical: 'Essencial', optional: 'Opcional',
+      tapToPriority: 'Toque para mudar a prioridade'
+    },
+    medModal: {
+      addTitle: 'Adicionar medicamento', editTitle: 'Editar medicamento',
+      name: 'Nome do medicamento', dosage: 'Dose (ex.: «1 comprimido», «2 cápsulas»)',
+      dosagePlaceholder: 'Ex.: 1 comprimido',
+      timeOfDay: 'Horário de uso (marque todos que se aplicam)',
+      addSpecificTime: '+ Adicionar horário específico',
+      frequency: 'Com que frequência?',
+      freqDaily: 'Diariamente', freqEveryOther: 'Em dias alternados',
+      freqMWF: 'Seg, Qua, Sex', freqCustom: 'Dias personalizados',
+      selectDays: 'Selecionar dias',
+      startDate: 'Data de início', startTime: 'Horário de início',
+      duration: 'Duração',
+      durOngoing: 'Contínuo (sem data de término)', durWeeks: 'Por algumas semanas',
+      durMonths: 'Por alguns meses', durEndDate: 'Até uma data específica',
+      durBottle: 'Até acabar as doses',
+      endDate: 'Data de término',
+      notes: 'Observações (opcional)', notesPlaceholder: 'Com alimentação, etc.',
+      priority: 'Prioridade', priorityCritical: 'Essencial', priorityOptional: 'Opcional',
+      cancel: 'Cancelar', save: 'Salvar', stop: 'Parar medicamento',
+      alarmNone: 'Sem alarme', remove: 'Remover'
+    },
+    asNeededModal: {
+      addTitle: 'Registrar uso se necessário', editTitle: 'Editar uso se necessário',
+      name: 'Nome do medicamento', namePlaceholder: 'Ex.: Dipirona, Ibuprofeno',
+      dosage: 'Dose', dosagePlaceholder: 'Ex.: 1 comprimido, 5 mg',
+      timeTaken: 'Horário de uso',
+      notes: 'Observações (opcional)', notesPlaceholder: 'Motivo: dor de cabeça, dor, etc.',
+      cancel: 'Cancelar', log: 'Registrar uso'
+    },
+    settings: {
+      profile: 'Perfil', timeAlarms: 'Horários e alarmes',
+      enableAlarms: 'Ativar alarmes',
+      enableAlarmsDesc: 'Tocar um som no horário do medicamento (o app deve estar aberto)',
+      timeCol: 'Horário', alarmSoundCol: 'Som do alarme',
+      saveTimeAlarms: 'Salvar horários e alarmes',
+      alsoTrack: 'Também acompanhar',
+      appointments: 'Consultas',
+      appointmentsDesc: 'Acompanhar consultas médicas, procedimentos e compromissos',
+      healthMetrics: 'Indicadores de saúde',
+      healthMetricsDesc: 'Registrar sinais vitais, peso, passos e outros dados de saúde',
+      weight: 'Peso', temperature: 'Temperatura', bloodPressure: 'Pressão arterial',
+      heartRate: 'Frequência cardíaca', bloodSugar: 'Glicemia', steps: 'Passos',
+      oxygenation: 'Saturação de oxigênio', sleep: 'Sono',
+      dataManagement: 'Gerenciamento de dados',
+      exportData: 'Exportar dados', exportDesc: 'Baixar todos os dados como arquivo de backup',
+      importData: 'Importar dados', importDesc: 'Restaurar dados a partir de um arquivo de backup',
+      clearData: 'Excluir todos os dados', clearDesc: 'Excluir todos os medicamentos, registros e consultas',
+      language: 'Idioma',
+      install: 'Instalar como app na tela inicial',
+      installDesc: 'Saiba como adicionar este app à sua tela inicial'
+    },
+    medListModal: {
+      title: 'Agenda de medicamentos', close: 'Fechar', add: '+ Adicionar medicamento',
+      empty: 'Nenhum medicamento agendado.\nToque em «+ Adicionar medicamento» para começar.'
+    },
+    appointments: {
+      upcoming: 'Próximas', past: 'Anteriores', add: '+ Adicionar consulta',
+      noAny: 'Nenhuma consulta agendada ainda.',
+      noAnyHint: 'Toque no botão abaixo para adicionar sua primeira consulta.',
+      noUpcoming: 'Nenhuma consulta próxima.', noPast: 'Nenhuma consulta anterior.',
+      edit: 'Editar', delete: 'Excluir', markComplete: 'Marcar como concluído', completed: '✓ Concluído'
+    },
+    apptModal: {
+      addTitle: 'Adicionar consulta', editTitle: 'Editar consulta',
+      type: 'Tipo', typeDoctorVisit: 'Consulta médica', typeInfusion: 'Infusão',
+      typeLabWork: 'Exames', typeProcedure: 'Procedimento', typeOther: 'Outro',
+      titleField: 'Título/Descrição', titlePlaceholder: 'Ex.: Retorno com Dr. Silva',
+      date: 'Data', timeOptional: 'Horário (opcional)',
+      location: 'Local', locationVirtual: 'Online (teleconsulta)', locationInPerson: 'Presencial',
+      addressField: 'Endereço/Detalhes', addressVirtualField: 'Link da videochamada/Detalhes',
+      addressPlaceholder: 'Nome do hospital, número da sala ou link de vídeo',
+      notes: 'Observações (opcional)', notesPlaceholder: 'Trazer carteirinha do plano, jejum necessário, etc.',
+      cancel: 'Cancelar', save: 'Salvar'
+    },
+    metrics: {
+      add: '+ Adicionar dados',
+      noData: 'Nenhum dado de saúde ainda.', noDate: 'Nenhum dado para esta data.',
+      prompt: 'Toque em «+ Adicionar dados» para começar o acompanhamento.',
+      noMatch: 'Nenhum dado corresponde ao filtro atual.',
+      noMatchHint: 'Tente ajustar as configurações do filtro ou o intervalo de datas.',
+      noDataRange: 'Nenhum dado encontrado para este intervalo de datas.',
+      edit: 'Editar', delete: 'Excluir', notes: 'Observações'
+    },
+    logModal: {
+      addTitle: 'Adicionar dados', editTitle: 'Editar dados',
+      datetime: 'Data e horário',
+      temperature: 'Temperatura (°F)', bloodPressure: 'Pressão arterial',
+      heartRate: 'Frequência cardíaca (bpm)', bloodGlucose: 'Glicemia (mg/dL)',
+      weight: 'Peso (lbs)', steps: 'Passos', oxygenation: 'Saturação de oxigênio (%)',
+      sleep: 'Sono (horas)', notes: 'Observações',
+      systolicPlaceholder: 'Sistólica', diastolicPlaceholder: 'Diastólica',
+      cancel: 'Cancelar', save: 'Salvar'
+    },
+    weeklyView: {
+      prevWeek: '← Semana anterior', nextWeek: 'Próxima semana →', close: 'Fechar', print: 'Imprimir'
+    },
+    morningCheck: {
+      title: '⚠️ Medicamentos essenciais não tomados',
+      message: 'Estes medicamentos essenciais da {{slot}} de ontem não foram registrados:',
+      viewYesterday: 'Ver medicamentos de ontem', dismiss: 'Fechar'
+    },
+    alarmModal: {
+      title: '💊 Hora de tomar os medicamentos',
+      message: 'Por favor, confirme que viu este lembrete.',
+      gotIt: 'Entendido',
+      timeLabel: 'Medicamentos da {{time}}',
+      notificationTitle: 'Lembrete de medicamento',
+      notificationBody: 'Hora dos medicamentos da {{time}}!'
+    },
+    profile: {
+      loading: 'Carregando...', allDataSeparate: 'Todos os dados são armazenados separadamente para cada perfil',
+      shareTitle: 'Compartilhar perfil', shareDesc: 'Permitir que outros dispositivos se conectem para sincronizar',
+      switchJoinTitle: 'Trocar ou entrar em um perfil', switchJoinDesc: 'Trocar de perfil ou conectar a um perfil compartilhado',
+      stopSharing: 'Parar compartilhamento', disconnect: 'Desconectar',
+      connectedDevices: 'Dispositivos conectados', noDevices: 'Nenhum dispositivo conectado ainda',
+      scanCode: 'Escaneie este código com outro dispositivo:', codeLabel: 'Código:',
+      lastSync: 'Última sincronização:', statusLabel: 'Status:', online: '● Online',
+      syncNote: 'Todas as alterações são sincronizadas em tempo real com o dispositivo host',
+      createNew: 'Criar novo perfil',
+      synced: 'Sincronizado', sharing: 'Compartilhando',
+      sharingDesc: 'Compartilhando com dispositivos conectados',
+      syncedDesc: 'Sincronizando em tempo real com o dispositivo host',
+      reconnecting: 'Reconectando...',
+      resumingDesc: 'Retomando sessão de compartilhamento...',
+      reconnectingDesc: 'Reconectando ao dispositivo host...',
+      justNow: 'Agora mesmo'
+    },
+    schedule: {
+      daily: 'Diariamente', everyOtherDay: 'Em dias alternados', mwf: 'Seg, Qua, Sex',
+      ongoing: 'Contínuo', starts: '• Início em {{date}}',
+      nWeeks: '• {{n}} semanas', nMonths: '• {{n}} meses',
+      untilDate: '• Até {{date}}', nDoses: '• {{n}} doses',
+      untilDateParens: '(até {{date}})', everyDay: 'Todo dia'
+    },
+    days: { sun: 'Dom', mon: 'Seg', tue: 'Ter', wed: 'Qua', thu: 'Qui', fri: 'Sex', sat: 'Sáb' },
+    alerts: {
+      requiredFields: 'Por favor, preencha todos os campos obrigatórios',
+      selectTime: 'Por favor, selecione pelo menos um horário do dia ou adicione um horário específico',
+      selectStartDate: 'Por favor, selecione uma data de início',
+      selectDays: 'Por favor, selecione pelo menos um dia para o plano personalizado',
+      invalidDuration: 'Por favor, insira uma duração válida',
+      selectEndDate: 'Por favor, selecione uma data de término',
+      bottleDosesRequired: 'Por favor, insira o número de doses no frasco',
+      deleteMed: 'Tem certeza que deseja excluir este medicamento?',
+      stopMed: 'Parar este medicamento? A data de término será definida para ontem e todas as doses futuras serão excluídas.',
+      deleteLog: 'Tem certeza que deseja excluir este registro?',
+      deleteAppt: 'Tem certeza que deseja excluir esta consulta?',
+      importOverwrite: 'Todos os dados atuais serão substituídos pelos dados importados. Deseja continuar?',
+      importSuccess: 'Dados importados com sucesso! A página será recarregada.',
+      exportSuccess: 'Dados exportados com sucesso! No iOS, pode ser necessário manter o arquivo baixado pressionado e escolher «Salvar em Arquivos».',
+      clearConfirmMsg: 'Tem absoluta certeza que deseja excluir todos os dados? Isso não pode ser desfeito!\n\nSerão excluídos:\n• Todos os medicamentos\n• Todos os registros de uso\n• Todas as consultas\n• Todos os dados de saúde\n\nDigite «excluir» na caixa a seguir para confirmar.',
+      clearConfirmPrompt: 'Digite excluir para confirmar:',
+      clearConfirmWord: 'excluir',
+      deletionCancelled: 'Exclusão cancelada.',
+      dataCleared: 'Todos os dados foram excluídos. A página será recarregada.',
+      deleteProfile: 'Tem certeza que deseja excluir o perfil «{{name}}»? Todos os medicamentos, consultas e dados de saúde deste perfil serão excluídos permanentemente.',
+      profileNameRequired: 'Por favor, insira um nome para o perfil',
+      deleteActiveProfile: 'Não é possível excluir o perfil ativo. Por favor, troque para outro perfil primeiro.'
+    },
+    toasts: { alarmSaved: 'Horários e alarmes salvos!' },
+    updateBanner: {
+      title: 'Atualização disponível', message: 'Uma nova versão ({{version}}) está disponível.',
+      updateNow: 'Atualizar agora', later: 'Depois'
+    }
+  },
+
+  ilo: {
+    tab: { meds: 'Agas', appointments: 'Urnos', metrics: 'Salun-at' },
+    header: {
+      meds: 'Agas', appointments: 'Urnos', metrics: 'Salun-at',
+      medSchedule: 'Iskedyul ti Agas', asNeeded: '+ No Kasapulan',
+      addAppointment: '+ Agnayon ti Urnos', addMetrics: '+ Agnayon ti Data',
+      weekView: 'Palawaw ti Lawas', back: '← Subali', filterMetrics: 'Pilien ti Data ▼', print: 'Imprinta'
+    },
+    timeOfDay: {
+      morning: 'Bigat', afternoon: 'Malem', evening: 'Rabii',
+      bedtime: 'Turog', asNeeded: 'No Kasapulan'
+    },
+    meds: {
+      empty: 'Awan ti agas para ita nga aldaw.',
+      takenAt: 'Nainumen ti',
+      critical: 'Importante', optional: 'Opsional',
+      tapToPriority: 'I-tap tapno balbaliwen ti prioridad'
+    },
+    medModal: {
+      addTitle: 'Agnayon ti Agas', editTitle: 'Balbaliwen ti Agas',
+      name: 'Nagan ti Agas', dosage: 'Dosis (halimbawa: «1 tableta», «2 kapsula»)',
+      dosagePlaceholder: 'Halimbawa: 1 tableta',
+      timeOfDay: 'Oras ti Inum (pilien ti amin a naaramid)',
+      addSpecificTime: '+ Agnayon ti Espesipiko nga Oras',
+      frequency: 'Mano a Beses?',
+      freqDaily: 'Inaldaw', freqEveryOther: 'Kada Dua nga Aldaw',
+      freqMWF: 'Lun, Miy, Bie', freqCustom: 'Nairaman nga Aldaw',
+      selectDays: 'Pilien ti Aldaw',
+      startDate: 'Petsa ti Rugian', startTime: 'Oras ti Rugian',
+      duration: 'Kaano',
+      durOngoing: 'Agpaypayso (awan ti panungpalan)', durWeeks: 'Para ti Dadduma nga Lawas',
+      durMonths: 'Para ti Dadduma nga Bulan', durEndDate: 'Agingga ti Maysa nga Petsa',
+      durBottle: 'Agingga Malpas ti Dosis',
+      endDate: 'Petsa ti Panungpalan',
+      notes: 'Nota (opsional)', notesPlaceholder: 'Kaabay ti kanen, etc.',
+      priority: 'Prioridad', priorityCritical: 'Importante', priorityOptional: 'Opsional',
+      cancel: 'Ikansela', save: 'Isalbar', stop: 'Iggem ti Agas',
+      alarmNone: 'Awan Alarma', remove: 'Ikkaten'
+    },
+    asNeededModal: {
+      addTitle: 'Irehistro ti Agas no Kasapulan', editTitle: 'Balbaliwen ti Agas no Kasapulan',
+      name: 'Nagan ti Agas', namePlaceholder: 'Halimbawa: Paracetamol, Ibuprofen',
+      dosage: 'Dosis', dosagePlaceholder: 'Halimbawa: 1 tableta, 5 mg',
+      timeTaken: 'Oras ti Inum',
+      notes: 'Nota (opsional)', notesPlaceholder: 'Rason: ulget, sakit, etc.',
+      cancel: 'Ikansela', log: 'Irehistro ti Agas'
+    },
+    settings: {
+      profile: 'Pilo', timeAlarms: 'Oras ti Agas ken Alarma',
+      enableAlarms: 'I-on ti Alarma',
+      enableAlarmsDesc: 'Agtugtog no oras ti agas (maikkan ti app nga nakalukat)',
+      timeCol: 'Oras', alarmSoundCol: 'Tuno ti Alarma',
+      saveTimeAlarms: 'Isalbar ti Oras ken Alarma',
+      alsoTrack: 'Ilaban Pay',
+      appointments: 'Urnos',
+      appointmentsDesc: 'Ilaban ti bisita doktor, prosedimento, ken medikal nga urnos',
+      healthMetrics: 'Rekord ti Salun-at',
+      healthMetricsDesc: 'Irehistro ti vital signs, timbang, addang, ken dadduma pa nga datos',
+      weight: 'Timbang', temperature: 'Temperatura', bloodPressure: 'Presyon ti Dara',
+      heartRate: 'Puso', bloodSugar: 'Asukar ti Dara', steps: 'Addang',
+      oxygenation: 'Oksiheno', sleep: 'Turog',
+      dataManagement: 'Pamamahala ti Data',
+      exportData: 'I-export ti Data', exportDesc: 'I-download ti amin nga datos kas backup',
+      importData: 'I-import ti Data', importDesc: 'Isubli ti datos manipud backup',
+      clearData: 'Buraen ti Amin nga Data', clearDesc: 'Buraen ti amin nga agas, rekord, ken urnos',
+      language: 'Lengguahe',
+      install: 'Iinstalar kas App iti Home Screen',
+      installDesc: 'Amuen no kasano ti pagnayon iti app iti home screen'
+    },
+    medListModal: {
+      title: 'Iskedyul ti Agas', close: 'Isara', add: '+ Agnayon ti Agas',
+      empty: 'Awan ti nairehistro nga agas.\nI-tap ti «+ Agnayon ti Agas» tapno magrugi.'
+    },
+    appointments: {
+      upcoming: 'Madamdama', past: 'Napalabas', add: '+ Agnayon ti Urnos',
+      noAny: 'Awan pay nga urnos nga nairehistro.',
+      noAnyHint: 'I-tap ti butones iti baba tapno agnayon ti umuna nga urnos.',
+      noUpcoming: 'Awan ti madamdama nga urnos.', noPast: 'Awan ti napalabas nga urnos.',
+      edit: 'Balbaliwen', delete: 'Buraen', markComplete: 'Markahan kas Nalpas', completed: '✓ Nalpas'
+    },
+    apptModal: {
+      addTitle: 'Agnayon ti Urnos', editTitle: 'Balbaliwen ti Urnos',
+      type: 'Klase', typeDoctorVisit: 'Bisita ti Doktor', typeInfusion: 'Inpusyon',
+      typeLabWork: 'Lab', typeProcedure: 'Prosedimento', typeOther: 'Dadduma',
+      titleField: 'Titulo/Deskripsyon', titlePlaceholder: 'Halimbawa: Tsek-ap ken Dr. Reyes',
+      date: 'Petsa', timeOptional: 'Oras (opsional)',
+      location: 'Lugar', locationVirtual: 'Online (Video Call)', locationInPerson: 'Personal',
+      addressField: 'Adres/Detalye', addressVirtualField: 'Link ti Video/Detalye',
+      addressPlaceholder: 'Nagan ti ospital, numero ti kwarto, wenno video link',
+      notes: 'Nota (opsional)', notesPlaceholder: 'Iyeg ti insurance card, nakuskor, etc.',
+      cancel: 'Ikansela', save: 'Isalbar'
+    },
+    metrics: {
+      add: '+ Agnayon ti Data',
+      noData: 'Awan pay nga datos ti salun-at.', noDate: 'Awan ti datos para iti daytoy nga petsa.',
+      prompt: 'I-tap ti «+ Agnayon ti Data» tapno magrugi ti pag-ilaban.',
+      noMatch: 'Awan ti datos nga naaramid iti agdama nga piltro.',
+      noMatchHint: 'Padasen ti balbaliwen ti piltro wenno saklaw ti petsa.',
+      noDataRange: 'Awan ti datos a nabirukan para iti daytoy nga saklaw ti petsa.',
+      edit: 'Balbaliwen', delete: 'Buraen', notes: 'Nota'
+    },
+    logModal: {
+      addTitle: 'Agnayon ti Data', editTitle: 'Balbaliwen ti Data',
+      datetime: 'Petsa ken Oras',
+      temperature: 'Temperatura (°F)', bloodPressure: 'Presyon ti Dara',
+      heartRate: 'Puso (bpm)', bloodGlucose: 'Asukar ti Dara (mg/dL)',
+      weight: 'Timbang (lbs)', steps: 'Addang', oxygenation: 'Oksiheno (%)',
+      sleep: 'Turog (oras)', notes: 'Nota',
+      systolicPlaceholder: 'Systolic', diastolicPlaceholder: 'Diastolic',
+      cancel: 'Ikansela', save: 'Isalbar'
+    },
+    weeklyView: {
+      prevWeek: '← Napalabas nga Lawas', nextWeek: 'Sumaganad nga Lawas →', close: 'Isara', print: 'Imprinta'
+    },
+    morningCheck: {
+      title: '⚠️ Importante nga Agas nga Nalipatan',
+      message: 'Daytoy nga importante nga agas para ti {{slot}} idi kalman ket saan a narehistro:',
+      viewYesterday: 'Kitaen ti Agas idi Kalman', dismiss: 'Isara'
+    },
+    alarmModal: {
+      title: '💊 Oras ti Agas',
+      message: 'Pakiconfirm nga nakita mo daytoy nga palagip.',
+      gotIt: 'Naamuan ko',
+      timeLabel: 'Agas ti {{time}}',
+      notificationTitle: 'Palagip ti Agas',
+      notificationBody: 'Oras ti agas ti {{time}}!'
+    },
+    profile: {
+      loading: 'Aglulukat...', allDataSeparate: 'Amin nga datos ket nakaimbak nga bukod para iti tunggal pilo',
+      shareTitle: 'Ibingay ti Pilo', shareDesc: 'Palubosan ti dadduma nga device nga kumonekta para iti sinkronisasyon',
+      switchJoinTitle: 'Agbaliw wenno Sumali ti Pilo', switchJoinDesc: 'Agbaliw ti pilo wenno kumonekta iti naibingay nga pilo',
+      stopSharing: 'Iggem ti Ibingay', disconnect: 'Idiskonekta',
+      connectedDevices: 'Nakakonekta nga Device', noDevices: 'Awan pay nga nakakonektang device',
+      scanCode: 'I-scan daytoy nga code babaen ti sabali nga device:', codeLabel: 'Code:',
+      lastSync: 'Naudi nga Sinkronisasyon:', statusLabel: 'Kasasaad:', online: '● Online',
+      syncNote: 'Amin nga balbaliw ket nasinkronisa real-time iti host device',
+      createNew: 'Agnayon ti Baro nga Pilo',
+      synced: 'Nasinkronisa', sharing: 'Agibingbingay',
+      sharingDesc: 'Agibingbingay iti nakakonektang device',
+      syncedDesc: 'Nasinkronisa real-time iti host device',
+      reconnecting: 'Agkokonekta manen...',
+      resumingDesc: 'Isubli ti sesyon ti ibingay...',
+      reconnectingDesc: 'Agkokonekta manen iti host device...',
+      justNow: 'Ita Laeng'
+    },
+    schedule: {
+      daily: 'Inaldaw', everyOtherDay: 'Kada Dua nga Aldaw', mwf: 'Lun, Miy, Bie',
+      ongoing: 'Agpaypayso', starts: '• Magrugi ti {{date}}',
+      nWeeks: '• {{n}} Lawas', nMonths: '• {{n}} Bulan',
+      untilDate: '• Agingga ti {{date}}', nDoses: '• {{n}} Dosis',
+      untilDateParens: '(agingga ti {{date}})', everyDay: 'Tunggal Aldaw'
+    },
+    days: { sun: 'Dom', mon: 'Lun', tue: 'Mar', wed: 'Miy', thu: 'Hue', fri: 'Bie', sat: 'Sab' },
+    alerts: {
+      requiredFields: 'Pakipuno ti amin nga nakaukoman nga lugar',
+      selectTime: 'Pakipili ti maysa man nga oras ti aldaw wenno agnayon ti espesipiko nga oras',
+      selectStartDate: 'Pakipili ti petsa ti rugian',
+      selectDays: 'Pakipili ti maysa man nga aldaw para iti nairaman nga iskedyul',
+      invalidDuration: 'Pakiisurat ti balido nga tagal',
+      selectEndDate: 'Pakipili ti petsa ti panungpalan',
+      bottleDosesRequired: 'Pakiisurat ti bilang ti dosis iti bote',
+      deleteMed: 'Sigurado ka nga kayatmo ti buraen daytoy nga agas?',
+      stopMed: 'Iggemen daytoy nga agas? Ti petsa ti panungpalan ket mailagda iti kalman ken amin nga sumaganad nga dosis ket mabura.',
+      deleteLog: 'Sigurado ka nga kayatmo ti buraen daytoy nga rekord?',
+      deleteAppt: 'Sigurado ka nga kayatmo ti buraen daytoy nga urnos?',
+      importOverwrite: 'Amin nga agdama nga datos ket masulit babaen ti na-import nga datos. Kayatmo nga agpadayon?',
+      importSuccess: 'Nasulit ti datos! Agmurnong manen ti pahina.',
+      exportSuccess: 'Na-export ti datos! Iti iOS masapul ti pagpigsa iti na-download nga file ken piliin ti «I-save iti Files».',
+      clearConfirmMsg: 'Talaga nga kayatmo ti buraen ti amin nga datos? Saan a mabalik-balik daytoy!\n\nMabura:\n• Amin nga agas\n• Amin nga rekord ti agas\n• Amin nga urnos\n• Amin nga datos ti salun-at\n\nIsurat ti «buraen» iti sumaganad tapno maconfirm.',
+      clearConfirmPrompt: 'Isurat ti buraen tapno maconfirm:',
+      clearConfirmWord: 'buraen',
+      deletionCancelled: 'Nakansela ti pabura.',
+      dataCleared: 'Nabura ti amin nga datos. Agmurnong manen ti pahina.',
+      deleteProfile: 'Sigurado ka nga kayatmo ti buraen ti pilo nga «{{name}}»? Amin nga agas, urnos, ken datos ti salun-at iti daytoy nga pilo ket mabura nga di mabawi.',
+      profileNameRequired: 'Pakiisurat ti nagan ti pilo',
+      deleteActiveProfile: 'Saan a mabura ti aktibo nga pilo. Pakibaliw ti sabali nga pilo nga umuna.'
+    },
+    toasts: { alarmSaved: 'Nasalbar ti oras ken alarma!' },
+    updateBanner: {
+      title: 'Adda Update', message: 'Adda baro nga bersion ({{version}}).',
+      updateNow: 'I-update Ita', later: 'Makin-adu'
+    }
+  },
+
+  sm: {
+    tab: { meds: 'Vailaʻau', appointments: 'Tofiga', metrics: 'Soifua' },
+    header: {
+      meds: 'Vailaʻau', appointments: 'Tofiga', metrics: 'Soifua',
+      medSchedule: 'Faasologa o Vailaʻau', asNeeded: '+ Pe a Manaomia',
+      addAppointment: '+ Faaopoopo Tofiga', addMetrics: '+ Faaopoopo Faʻamaumauga',
+      weekView: 'Vaʻaiga Vaiaso', back: '← Toe Foʻi', filterMetrics: 'Sieve Faʻamaumauga ▼', print: 'Lolomi'
+    },
+    timeOfDay: {
+      morning: 'Taeao', afternoon: 'Aoauli', evening: 'Afiafi',
+      bedtime: 'Moe', asNeeded: 'Pe a Manaomia'
+    },
+    meds: {
+      empty: 'Leai se vailaʻau mo aso nei.',
+      takenAt: 'Aʻoaʻo i le',
+      critical: 'Tāua', optional: 'Filifilia',
+      tapToPriority: 'Taaʻi e suia le tāua'
+    },
+    medModal: {
+      addTitle: 'Faaopoopo Vailaʻau', editTitle: 'Suia le Vailaʻau',
+      name: 'Igoa o le Vailaʻau', dosage: 'Fuafuaina (e.g. «1 fasi», «2 kapusulu»)',
+      dosagePlaceholder: 'E.g.: 1 fasi',
+      timeOfDay: 'Taimi o le Aso (filifili uma e talafeagai)',
+      addSpecificTime: '+ Faaopoopo Taimi Manino',
+      frequency: 'E Fiā Taimi?',
+      freqDaily: 'Ia Aso Uma', freqEveryOther: 'Ia Aso Sili',
+      freqMWF: 'Gaf, Lul, Far', freqCustom: 'Aso Filifilia',
+      selectDays: 'Filifili Aso',
+      startDate: 'Aso Amata', startTime: 'Taimi Amata',
+      duration: 'Umi',
+      durOngoing: 'Faaauau (e leai se aso faaiū)', durWeeks: 'Mo Nai Vaiaso',
+      durMonths: 'Mo Nai Masina', durEndDate: 'Seia Oʻo i se Aso Faʻapitoa',
+      durBottle: 'Seia Uma Uma Toso',
+      endDate: 'Aso Faaiū',
+      notes: 'Manatua (filifilia)', notesPlaceholder: 'Faatasi ma meaʻai, etc.',
+      priority: 'Tāua', priorityCritical: 'Tāua Tele', priorityOptional: 'Filifilia',
+      cancel: 'Faaleaogā', save: 'Faʻamauina', stop: 'Taofi Vailaʻau',
+      alarmNone: 'Leai se Momo', remove: 'Aveese'
+    },
+    asNeededModal: {
+      addTitle: 'Faamauina Vailaʻau Pe a Manaomia', editTitle: 'Suia Vailaʻau Pe a Manaomia',
+      name: 'Igoa o le Vailaʻau', namePlaceholder: 'E.g.: Paracetamol, Ibuprofen',
+      dosage: 'Fuafuaina', dosagePlaceholder: 'E.g.: 1 fasi, 5 mg',
+      timeTaken: 'Taimi na Inu ai',
+      notes: 'Manatua (filifilia)', notesPlaceholder: 'Mafuaaga: ulu tiga, tiga, etc.',
+      cancel: 'Faaleaogā', log: 'Faamau le Vailaʻau'
+    },
+    settings: {
+      profile: 'Faʻamatalaga', timeAlarms: 'Taimi o Vailaʻau ma Momo',
+      enableAlarms: 'Faʻaogaina Momo',
+      enableAlarmsDesc: 'Faʻatagi le leo pe a oʻo i le taimi o le vailaʻau (e tatau ona tatala le app)',
+      timeCol: 'Taimi', alarmSoundCol: 'Leo o le Momo',
+      saveTimeAlarms: 'Faʻamauina Taimi ma Momo',
+      alsoTrack: 'Siomia Foi',
+      appointments: 'Tofiga',
+      appointmentsDesc: 'Siomia asiasiga foma, faagasologa, ma tofiga faafoma',
+      healthMetrics: 'Fua o le Soifua Maloloina',
+      healthMetricsDesc: 'Faamauina fua tino, mamafa, soo, ma isi faʻamaumauga soifua',
+      weight: 'Mamafa', temperature: 'Vevela', bloodPressure: 'Mamafa Toto',
+      heartRate: 'Fatu', bloodSugar: 'Suka Toto', steps: 'Soo',
+      oxygenation: 'Okesene', sleep: 'Moe',
+      dataManagement: 'Puleaina Faʻamaumauga',
+      exportData: 'Auina Faʻamaumauga', exportDesc: 'Sii uma faʻamaumauga o se faila sefe',
+      importData: 'Aumai Faʻamaumauga', importDesc: 'Toe faafouina faʻamaumauga mai faila sefe',
+      clearData: 'Tapeina Uma Faʻamaumauga', clearDesc: 'Tapeina vailaʻau uma, faamaumauga, ma tofiga',
+      language: 'Gagana',
+      install: 'Faʻapipiʻi e Pei o App i le Home Screen',
+      installDesc: 'Aʻoaʻoina pe faapefea ona faaopoopo lenei app i lau Home Screen'
+    },
+    medListModal: {
+      title: 'Faasologa o Vailaʻau', close: 'Tapuni', add: '+ Faaopoopo Vailaʻau',
+      empty: 'Leai se vailaʻau ua faatulagaina.\nTaaʻi «+ Faaopoopo Vailaʻau» e amata.'
+    },
+    appointments: {
+      upcoming: 'Faatalitali', past: 'Ua Mavae', add: '+ Faaopoopo Tofiga',
+      noAny: 'Leai ni tofiga ua faatulagaina.',
+      noAnyHint: 'Taaʻi le faamau i lalo e faaopoopo lau tofiga muamua.',
+      noUpcoming: 'Leai ni tofiga faatalitali.', noPast: 'Leai ni tofiga ua mavae.',
+      edit: 'Suia', delete: 'Tapeina', markComplete: 'Faailoga Ua Maeʻa', completed: '✓ Maeʻa'
+    },
+    apptModal: {
+      addTitle: 'Faaopoopo Tofiga', editTitle: 'Suia Tofiga',
+      type: 'Ituaiga', typeDoctorVisit: 'Asiasiga Foma', typeInfusion: 'Suauʻu Vailaʻau',
+      typeLabWork: 'Suʻesuʻega Lab', typeProcedure: 'Faagasologa', typeOther: 'Isi',
+      titleField: 'Ulutala/Faʻamatalaga', titlePlaceholder: 'E.g.: Siaki ma Dr. Faleolo',
+      date: 'Aso', timeOptional: 'Taimi (filifilia)',
+      location: 'Nofoaga', locationVirtual: 'Initaneti (Video Call)', locationInPerson: 'Faatauva',
+      addressField: 'Tuatusi/Faʻamatalaga', addressVirtualField: 'Sootaga Video/Faʻamatalaga',
+      addressPlaceholder: 'Igoa o falemaʻi, numera potu, pe sootaga video',
+      notes: 'Manatua (filifilia)', notesPlaceholder: 'Aumai kaate inisiua, e manaomia le anapogi, etc.',
+      cancel: 'Faaleaogā', save: 'Faʻamauina'
+    },
+    metrics: {
+      add: '+ Faaopoopo Faʻamaumauga',
+      noData: 'Leai ni faʻamaumauga soifua.', noDate: 'Leai ni faʻamaumauga mo lenei aso.',
+      prompt: 'Taaʻi «+ Faaopoopo Faʻamaumauga» e amata siomia.',
+      noMatch: 'Leai ni faʻamaumauga e fetaui ma le sieve.',
+      noMatchHint: 'Taumafai e suia sieve poʻo le faʻalautele o aso.',
+      noDataRange: 'Leai ni faʻamaumauga na maua mo lenei faʻalautele o aso.',
+      edit: 'Suia', delete: 'Tapeina', notes: 'Manatua'
+    },
+    logModal: {
+      addTitle: 'Faaopoopo Faʻamaumauga', editTitle: 'Suia Faʻamaumauga',
+      datetime: 'Aso ma Taimi',
+      temperature: 'Vevela (°F)', bloodPressure: 'Mamafa Toto',
+      heartRate: 'Fatu (bpm)', bloodGlucose: 'Suka Toto (mg/dL)',
+      weight: 'Mamafa (lbs)', steps: 'Soo', oxygenation: 'Okesene (%)',
+      sleep: 'Moe (itula)', notes: 'Manatua',
+      systolicPlaceholder: 'Systolic', diastolicPlaceholder: 'Diastolic',
+      cancel: 'Faaleaogā', save: 'Faʻamauina'
+    },
+    weeklyView: {
+      prevWeek: '← Vaiaso Talu', nextWeek: 'Vaiaso Sau →', close: 'Tapuni', print: 'Lolomi'
+    },
+    morningCheck: {
+      title: '⚠️ Vailaʻau Tāua ua Misia',
+      message: 'O nei vailaʻau tāua mo le {{slot}} o ananafi e leʻi faamauina:',
+      viewYesterday: 'Vaʻai Vailaʻau o Ananafi', dismiss: 'Tapuni'
+    },
+    alarmModal: {
+      title: '💊 Taimi o Vailaʻau',
+      message: 'Faʻamolemole faʻamaonia ua e vaʻaia lenei faʻamanatu.',
+      gotIt: 'Ua Malamalama',
+      timeLabel: 'Vailaʻau o le {{time}}',
+      notificationTitle: 'Faʻamanatu Vailaʻau',
+      notificationBody: 'Taimi o vailaʻau o le {{time}}!'
+    },
+    profile: {
+      loading: 'Faʻatali...', allDataSeparate: 'O uma faʻamaumauga e teuina faʻavasega mo faʻamatalaga taitasi',
+      shareTitle: 'Faasoa Faʻamatalaga', shareDesc: 'Faataga isi masini e fesootaʻi e sinkronia',
+      switchJoinTitle: 'Suia pe Auai Faʻamatalaga', switchJoinDesc: 'Suia faʻamatalaga pe fesootaʻi ma faʻamatalaga faasoa',
+      stopSharing: 'Taofi Faasoa', disconnect: 'Faʻamavae',
+      connectedDevices: 'Masini Fesootaʻi', noDevices: 'Leai ni masini fesootaʻi',
+      scanCode: 'Siaki lenei code ma se isi masini:', codeLabel: 'Code:',
+      lastSync: 'Sinkronia Mulimuli:', statusLabel: 'Tulaga:', online: '● Online',
+      syncNote: 'O suiga uma e sinkronia totonu ma le masini autu',
+      createNew: 'Fai Faʻamatalaga Fou',
+      synced: 'Ua Sinkronia', sharing: 'Faʻasoa Ana',
+      sharingDesc: 'Faʻasoa ana ma masini fesootaʻi',
+      syncedDesc: 'Sinkronia totonu ma le masini autu',
+      reconnecting: 'Toe Fesootaʻi Ana...',
+      resumingDesc: 'Toe amata le seshone faasoa...',
+      reconnectingDesc: 'Toe fesootaʻi ma le masini autu...',
+      justNow: 'Nei Lava'
+    },
+    schedule: {
+      daily: 'Ia Aso Uma', everyOtherDay: 'Ia Aso Sili', mwf: 'Gaf, Lul, Far',
+      ongoing: 'Faaauau', starts: '• Amata {{date}}',
+      nWeeks: '• {{n}} Vaiaso', nMonths: '• {{n}} Masina',
+      untilDate: '• Seia {{date}}', nDoses: '• {{n}} Toso',
+      untilDateParens: '(seia {{date}})', everyDay: 'Aso Uma'
+    },
+    days: { sun: 'Sa', mon: 'Gaf', tue: 'Lua', wed: 'Lul', thu: 'Tof', fri: 'Far', sat: 'Ton' },
+    alerts: {
+      requiredFields: 'Faʻamolemole faatumu uma vaega manaomia',
+      selectTime: 'Faʻamolemole filifili le itiiti ifo ma le tasi taimi po o faaopoopo se taimi manino',
+      selectStartDate: 'Faʻamolemole filifili le aso amata',
+      selectDays: 'Faʻamolemole filifili le itiiti ifo ma le tasi aso mo le faasologa faʻapitoa',
+      invalidDuration: 'Faʻamolemole tusia se umi atoatoa',
+      selectEndDate: 'Faʻamolemole filifili le aso faaiū',
+      bottleDosesRequired: 'Faʻamolemole tusia le numera o toso i le fagu',
+      deleteMed: 'E te mautinoa e te manaomia e tapeina lenei vailaʻau?',
+      stopMed: 'Taofi lenei vailaʻau? O le aso faaiū o le a seti i ananafi ma uma toso o le a tapeina.',
+      deleteLog: 'E te mautinoa e te manaomia e tapeina lenei faamaumauga?',
+      deleteAppt: 'E te mautinoa e te manaomia e tapeina lenei tofiga?',
+      importOverwrite: 'O uma faʻamaumauga o loʻo iai o le a suia e faʻamaumauga aumai. E te manaomia e faaauau?',
+      importSuccess: 'Ua manuia le aumai o faʻamaumauga! O le a toe faʻafoʻi le itulau.',
+      exportSuccess: 'Ua manuia le auina o faʻamaumauga! I luga o iOS atonu e manaomia e누누 누누 누누 누누 누누 누누 누누 누누 누 누누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 누 nu누 누 누 nu 누 누 nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu nu누 누 nu nu',
+      clearConfirmMsg: 'E te mautinoa moni e te manaomia e tapeina uma faʻamaumauga? E le mafai ona toe faʻafoʻi!\n\nO le a tapeina:\n• Uma vailaʻau\n• Uma faamaumauga vailaʻau\n• Uma tofiga\n• Uma faʻamaumauga soifua\n\nTusia «tapeina» i le pusa o loʻo sosoo ai e faʻamaonia.',
+      clearConfirmPrompt: 'Tusia tapeina e faʻamaonia:',
+      clearConfirmWord: 'tapeina',
+      deletionCancelled: 'Ua faaleaogāina le tapeina.',
+      dataCleared: 'Ua tapeina uma faʻamaumauga. O le a toe faʻafoʻi le itulau.',
+      deleteProfile: 'E te mautinoa e te manaomia e tapeina le faʻamatalaga «{{name}}»? O uma vailaʻau, tofiga, ma faʻamaumauga soifua o lenei faʻamatalaga o le a tapeina faʻaletonu.',
+      profileNameRequired: 'Faʻamolemole tusia le igoa o le faʻamatalaga',
+      deleteActiveProfile: 'E le mafai ona tapeina le faʻamatalaga galue. Faʻamolemole suia i se isi faʻamatalaga muamua.'
+    },
+    toasts: { alarmSaved: 'Ua faʻamauina taimi ma momo!' },
+    updateBanner: {
+      title: 'E Iai se Faafoufouina', message: 'E iai se lomiga fou ({{version}}).',
+      updateNow: 'Faafoufou Nei', later: 'Mulimuli Ane'
+    }
+  },
+
+  haw: {
+    tab: { meds: 'Lāʻau', appointments: 'Hālāwai', metrics: 'Ola' },
+    header: {
+      meds: 'Lāʻau', appointments: 'Hālāwai', metrics: 'Ola',
+      medSchedule: 'Papa Hana Lāʻau', asNeeded: '+ I ka Wā Pono',
+      addAppointment: '+ Hoʻohui Hālāwai', addMetrics: '+ Hoʻohui ʻIke',
+      weekView: 'Nānā Pule', back: '← Hoʻi', filterMetrics: 'Kāʻili ʻIke ▼', print: 'Pai Pā'
+    },
+    timeOfDay: {
+      morning: 'Kakahiaka', afternoon: 'ʻAuinalā', evening: 'Ahiahi',
+      bedtime: 'Hiamoe', asNeeded: 'I ka Wā Pono'
+    },
+    meds: {
+      empty: 'ʻAʻohe lāʻau no kēia lā.',
+      takenAt: 'Ua inu i ka',
+      critical: 'Koʻikoʻi', optional: 'Koho',
+      tapToPriority: 'Paʻi e hoʻololi i ka nui koʻikoʻi'
+    },
+    medModal: {
+      addTitle: 'Hoʻohui Lāʻau', editTitle: 'Hoʻololi Lāʻau',
+      name: 'Inoa o ka Lāʻau', dosage: 'Ana lāʻau (e.g. «1 pila», «2 kapuke»)',
+      dosagePlaceholder: 'E.g.: 1 pila',
+      timeOfDay: 'Wā o ka ʻAi Lāʻau (koho i nā mea kūpono)',
+      addSpecificTime: '+ Hoʻohui Hola Pono',
+      frequency: 'Ehia manawa?',
+      freqDaily: 'I kēlā me kēia lā', freqEveryOther: 'I kēlā lā ʻē',
+      freqMWF: 'Kah, Kol, Lim', freqCustom: 'Nā Lā Koho',
+      selectDays: 'Koho i nā Lā',
+      startDate: 'Lā Hoʻomaka', startTime: 'Hola Hoʻomaka',
+      duration: 'Lōihi',
+      durOngoing: 'Mau loa (ʻaʻohe lā pau)', durWeeks: 'No kekahi mau pule',
+      durMonths: 'No kekahi mau mahina', durEndDate: 'A hiki i ka lā koho',
+      durBottle: 'A pau nā lāʻau',
+      endDate: 'Lā Hoʻopau',
+      notes: 'Memo (koho)', notesPlaceholder: 'Me ka meaʻai, etc.',
+      priority: 'Nui koʻikoʻi', priorityCritical: 'Koʻikoʻi', priorityOptional: 'Koho',
+      cancel: 'Hoʻopau', save: 'Mālama', stop: 'Hoʻoki Lāʻau',
+      alarmNone: 'ʻAʻohe Leo', remove: 'Holoi'
+    },
+    asNeededModal: {
+      addTitle: 'Hoʻopaʻa Lāʻau i ka Wā Pono', editTitle: 'Hoʻololi Lāʻau i ka Wā Pono',
+      name: 'Inoa o ka Lāʻau', namePlaceholder: 'E.g.: Paracetamol, Ibuprofen',
+      dosage: 'Ana lāʻau', dosagePlaceholder: 'E.g.: 1 pila, 5 mg',
+      timeTaken: 'Hola i inu ai',
+      notes: 'Memo (koho)', notesPlaceholder: 'Kumu: poʻo eha, eha, etc.',
+      cancel: 'Hoʻopau', log: 'Hoʻopaʻa Lāʻau'
+    },
+    settings: {
+      profile: 'Moʻokāki', timeAlarms: 'Nā Hola Lāʻau a me nā Leo',
+      enableAlarms: 'Hoʻohana i nā Leo',
+      enableAlarmsDesc: 'Kani i ka hola lāʻau (pono e wehe ʻia ka app)',
+      timeCol: 'Hola', alarmSoundCol: 'Leo o ka Momo',
+      saveTimeAlarms: 'Mālama Nā Hola a me Nā Leo',
+      alsoTrack: 'E Nānā Pū',
+      appointments: 'Nā Hālāwai',
+      appointmentsDesc: 'E nānā i nā hālāwai kauka, nā hana lapaʻau, a me nā hālāwai ola',
+      healthMetrics: 'Nā Ana Ola',
+      healthMetricsDesc: 'E hoʻopaʻa i nā hōʻailona kino, kaumaha, nā kapuaʻi, a me nā ʻike ola',
+      weight: 'Kaumaha', temperature: 'Wela', bloodPressure: 'Kaomi Koko',
+      heartRate: 'Pahu Puʻuwai', bloodSugar: 'Kō Koko', steps: 'Nā Kapuaʻi',
+      oxygenation: 'Okikene', sleep: 'Hiamoe',
+      dataManagement: 'Hoʻokele ʻIke',
+      exportData: 'Hoʻouna ʻIke', exportDesc: 'Hoʻoiho i ka ʻike a pau ma ke ʻano faila mālama',
+      importData: 'Lawe Mai ʻIke', importDesc: 'Hoʻihoʻi i ka ʻike mai ka faila mālama',
+      clearData: 'Holoi i ka ʻIke a Pau', clearDesc: 'Holoi i nā lāʻau, moʻolelo, a me nā hālāwai a pau',
+      language: 'ʻŌlelo',
+      install: 'Hoʻokomo ma ke ʻano App i ka Home Screen',
+      installDesc: 'E aʻo i ke ala e hoʻohui ai i kēia app i kāu Home Screen'
+    },
+    medListModal: {
+      title: 'Papa Hana Lāʻau', close: 'Pani', add: '+ Hoʻohui Lāʻau',
+      empty: 'ʻAʻohe lāʻau i hoʻonohonoho ʻia.\nE paʻi i «+ Hoʻohui Lāʻau» e hoʻomaka.'
+    },
+    appointments: {
+      upcoming: 'Kūkulu Mai', past: 'Ua Hala', add: '+ Hoʻohui Hālāwai',
+      noAny: 'ʻAʻohe hālāwai i hoʻonohonoho ʻia.',
+      noAnyHint: 'E paʻi i ka pihi ma lalo e hoʻohui i kāu hālāwai mua.',
+      noUpcoming: 'ʻAʻohe hālāwai kūkulu mai.', noPast: 'ʻAʻohe hālāwai ua hala.',
+      edit: 'Hoʻololi', delete: 'Holoi', markComplete: 'Hōʻailona Hoʻopau', completed: '✓ Pau'
+    },
+    apptModal: {
+      addTitle: 'Hoʻohui Hālāwai', editTitle: 'Hoʻololi Hālāwai',
+      type: 'ʻAno', typeDoctorVisit: 'Hālāwai Kauka', typeInfusion: 'Inu Lāʻau',
+      typeLabWork: 'Hoʻāʻo Lab', typeProcedure: 'Hana Lapaʻau', typeOther: 'Nā mea ʻē aʻe',
+      titleField: 'Pōʻaiapili/Wehewehe', titlePlaceholder: 'E.g.: Nānā me Dr. Keli',
+      date: 'Lā', timeOptional: 'Hola (koho)',
+      location: 'Wahi', locationVirtual: 'Pūnaewele (Wikiō Kelepona)', locationInPerson: 'Kūikawā',
+      addressField: 'Helu Hale/Kikowaena', addressVirtualField: 'Loulou Wikiō/Kikowaena',
+      addressPlaceholder: 'Inoa hale maʻi, helu lumi, a i ʻole loulou wikiō',
+      notes: 'Memo (koho)', notesPlaceholder: 'Lawe i ka kāleka inūlana, pono ka ōpū wale, etc.',
+      cancel: 'Hoʻopau', save: 'Mālama'
+    },
+    metrics: {
+      add: '+ Hoʻohui ʻIke',
+      noData: 'ʻAʻohe ʻike ola.', noDate: 'ʻAʻohe ʻike no kēia lā.',
+      prompt: 'E paʻi i «+ Hoʻohui ʻIke» e hoʻomaka i ka nānā ʻana.',
+      noMatch: 'ʻAʻohe ʻike e pili ana i ka kāʻili.',
+      noMatchHint: 'E hoʻāʻo e hoʻololi i nā koho kāʻili a i ʻole ka loli lā.',
+      noDataRange: 'ʻAʻohe ʻike i loaʻa no kēia loli lā.',
+      edit: 'Hoʻololi', delete: 'Holoi', notes: 'Memo'
+    },
+    logModal: {
+      addTitle: 'Hoʻohui ʻIke', editTitle: 'Hoʻololi ʻIke',
+      datetime: 'Lā a me ka Hola',
+      temperature: 'Wela (°F)', bloodPressure: 'Kaomi Koko',
+      heartRate: 'Pahu Puʻuwai (bpm)', bloodGlucose: 'Kō Koko (mg/dL)',
+      weight: 'Kaumaha (lbs)', steps: 'Kapuaʻi', oxygenation: 'Okikene (%)',
+      sleep: 'Hiamoe (hola)', notes: 'Memo',
+      systolicPlaceholder: 'Systolic', diastolicPlaceholder: 'Diastolic',
+      cancel: 'Hoʻopau', save: 'Mālama'
+    },
+    weeklyView: {
+      prevWeek: '← Pule i Hala', nextWeek: 'Pule e Hiki Mai →', close: 'Pani', print: 'Pai Pā'
+    },
+    morningCheck: {
+      title: '⚠️ Nā Lāʻau Koʻikoʻi i Nalowale',
+      message: 'ʻAʻole i hoʻopaʻa ʻia kēia mau lāʻau koʻikoʻi no {{slot}} o nehinei:',
+      viewYesterday: 'Nānā i Nā Lāʻau o Nehinei', dismiss: 'Pani'
+    },
+    alarmModal: {
+      title: '💊 Ka Wā o ka Lāʻau',
+      message: 'E ʻoluʻolu e hōʻoia ua ʻike ʻoe i kēia hoʻomanaʻo.',
+      gotIt: 'Ua Maopopo',
+      timeLabel: 'Nā Lāʻau {{time}}',
+      notificationTitle: 'Hoʻomanaʻo Lāʻau',
+      notificationBody: 'Ka wā o nā lāʻau {{time}}!'
+    },
+    profile: {
+      loading: 'Ke hoʻouka nei...', allDataSeparate: 'Mālama ʻia nā ʻike a pau kaʻawale no kēlā me kēia moʻokāki',
+      shareTitle: 'Kaʻana like i ka Moʻokāki', shareDesc: 'E ʻae i nā mīkini ʻē aʻe e pili mai e hoʻonohonoho pū',
+      switchJoinTitle: 'Hoʻololi a Komo i ka Moʻokāki', switchJoinDesc: 'Hoʻololi moʻokāki a i ʻole e pili i ka moʻokāki kaʻana like',
+      stopSharing: 'Hoʻoki i ka Kaʻana like', disconnect: 'Kaʻawale',
+      connectedDevices: 'Nā Mīkini Pili', noDevices: 'ʻAʻohe mīkini pili',
+      scanCode: 'E nānā i kēia code me kekahi mīkini ʻē:', codeLabel: 'Code:',
+      lastSync: 'Hoʻonohonoho pū hope loa:', statusLabel: 'Kūlana:', online: '● Pūnaewele',
+      syncNote: 'Hoʻonohonoho pū ʻia nā hoʻololi a pau me ka mīkini haku i ka wā ʻoiaʻiʻo',
+      createNew: 'Hana i Moʻokāki Hou',
+      synced: 'Ua Hoʻonohonoho pū', sharing: 'Ke Kaʻana like nei',
+      sharingDesc: 'Ke kaʻana like nei me nā mīkini pili',
+      syncedDesc: 'Hoʻonohonoho pū ana me ka mīkini haku i ka wā ʻoiaʻiʻo',
+      reconnecting: 'Ke Pili hou nei...',
+      resumingDesc: 'Ke hoʻomaka hou nei i ka hana kaʻana like...',
+      reconnectingDesc: 'Ke pili hou nei me ka mīkini haku...',
+      justNow: 'Kēia Manawa'
+    },
+    schedule: {
+      daily: 'I kēlā me kēia lā', everyOtherDay: 'I kēlā lā ʻē', mwf: 'Kah, Kol, Lim',
+      ongoing: 'Mau loa', starts: '• Hoʻomaka {{date}}',
+      nWeeks: '• {{n}} pule', nMonths: '• {{n}} mahina',
+      untilDate: '• A hiki i {{date}}', nDoses: '• {{n}} mau lāʻau',
+      untilDateParens: '(a hiki i {{date}})', everyDay: 'I kēlā me kēia lā'
+    },
+    days: { sun: 'Lāp', mon: 'Kah', tue: 'Lua', wed: 'Kol', thu: 'Hā', fri: 'Lim', sat: 'Ono' },
+    alerts: {
+      requiredFields: 'E ʻoluʻolu e hoʻopiha i nā wahi pono a pau',
+      selectTime: 'E ʻoluʻolu e koho i kekahi wā o ka lā a e hoʻohui i kekahi hola pono',
+      selectStartDate: 'E ʻoluʻolu e koho i ka lā hoʻomaka',
+      selectDays: 'E ʻoluʻolu e koho i kekahi lā no ka papa hana koho',
+      invalidDuration: 'E ʻoluʻolu e hoʻokomo i ka lōihi kūpono',
+      selectEndDate: 'E ʻoluʻolu e koho i ka lā hoʻopau',
+      bottleDosesRequired: 'E ʻoluʻolu e hoʻokomo i ka helu o nā lāʻau i ka pola',
+      deleteMed: 'Makemake ʻoe e holoi i kēia lāʻau?',
+      stopMed: 'E hoʻoki i kēia lāʻau? E hoʻonohonoho ʻia ka lā hoʻopau i nehinei a e holoi ʻia nā lāʻau e hiki mai ana.',
+      deleteLog: 'Makemake ʻoe e holoi i kēia moʻolelo?',
+      deleteAppt: 'Makemake ʻoe e holoi i kēia hālāwai?',
+      importOverwrite: 'E pani ʻia nā ʻike a pau i loaʻa me nā ʻike e lawe mai ana. Makemake ʻoe e hoʻomau?',
+      importSuccess: 'Ua lawe maiʻia nā ʻike! E hoʻouka hou ana ka ʻaoʻao.',
+      exportSuccess: 'Ua hoʻounaiʻia nā ʻike! Ma iOS pono paha e paʻa mau i ka faila a koho i «Mālama i nā Faila».',
+      clearConfirmMsg: 'Makemake maoli ʻoe e holoi i nā ʻike a pau? ʻAʻole hiki ke hoʻihoʻi!\n\nE holoi ʻia:\n• Nā lāʻau a pau\n• Nā moʻolelo lāʻau a pau\n• Nā hālāwai a pau\n• Nā ʻike ola a pau\n\nE paʻi i «holoi» i ka pahu e hōʻoia ai.',
+      clearConfirmPrompt: 'E paʻi i holoi e hōʻoia:',
+      clearConfirmWord: 'holoi',
+      deletionCancelled: 'Ua hoʻopau ʻia ka holoi.',
+      dataCleared: 'Ua holoi ʻia nā ʻike a pau. E hoʻouka hou ana ka ʻaoʻao.',
+      deleteProfile: 'Makemake ʻoe e holoi i ka moʻokāki «{{name}}»? E holoi mau ʻia nā lāʻau, hālāwai, a me nā ʻike ola a pau o kēia moʻokāki.',
+      profileNameRequired: 'E ʻoluʻolu e hoʻokomo i ka inoa moʻokāki',
+      deleteActiveProfile: 'ʻAʻole hiki ke holoi i ka moʻokāki hana. E hoʻololi i kekahi moʻokāki ʻē aʻe e ʻoluʻolu.'
+    },
+    toasts: { alarmSaved: 'Ua mālama ʻia nā hola a me nā leo!' },
+    updateBanner: {
+      title: 'He Hoʻohou Hou', message: 'He mana hou ({{version}}) i loaʻa.',
+      updateNow: 'E Hoʻohou Kēia Manawa', later: 'Ma hope aku'
+    }
+  },
+
+  th: {
+    tab: { meds: 'ยา', appointments: 'นัดหมาย', metrics: 'สุขภาพ' },
+    header: {
+      meds: 'ยา', appointments: 'นัดหมาย', metrics: 'สุขภาพ',
+      medSchedule: 'ตารางยา', asNeeded: '+ เมื่อจำเป็น',
+      addAppointment: '+ เพิ่มนัดหมาย', addMetrics: '+ เพิ่มข้อมูล',
+      weekView: 'มุมมองรายสัปดาห์', back: '← ย้อนกลับ', filterMetrics: 'กรองข้อมูล ▼', print: 'พิมพ์'
+    },
+    timeOfDay: {
+      morning: 'เช้า', afternoon: 'บ่าย', evening: 'เย็น',
+      bedtime: 'ก่อนนอน', asNeeded: 'เมื่อจำเป็น'
+    },
+    meds: {
+      empty: 'ไม่มียาที่กำหนดไว้สำหรับวันนี้',
+      takenAt: 'รับประทานเมื่อ',
+      critical: 'สำคัญมาก', optional: 'ไม่บังคับ',
+      tapToPriority: 'แตะเพื่อเปลี่ยนความสำคัญ'
+    },
+    medModal: {
+      addTitle: 'เพิ่มยา', editTitle: 'แก้ไขยา',
+      name: 'ชื่อยา', dosage: 'ขนาดยา (เช่น «1 เม็ด», «2 แคปซูล»)',
+      dosagePlaceholder: 'เช่น: 1 เม็ด',
+      timeOfDay: 'เวลารับประทาน (เลือกทั้งหมดที่เกี่ยวข้อง)',
+      addSpecificTime: '+ เพิ่มเวลาที่แน่นอน',
+      frequency: 'บ่อยแค่ไหน?',
+      freqDaily: 'ทุกวัน', freqEveryOther: 'วันเว้นวัน',
+      freqMWF: 'จ, พ, ศ', freqCustom: 'วันที่กำหนดเอง',
+      selectDays: 'เลือกวัน',
+      startDate: 'วันที่เริ่ม', startTime: 'เวลาที่เริ่ม',
+      duration: 'ระยะเวลา',
+      durOngoing: 'ต่อเนื่อง (ไม่มีวันสิ้นสุด)', durWeeks: 'หลายสัปดาห์',
+      durMonths: 'หลายเดือน', durEndDate: 'จนถึงวันที่กำหนด',
+      durBottle: 'จนหมดยา',
+      endDate: 'วันที่สิ้นสุด',
+      notes: 'หมายเหตุ (ไม่บังคับ)', notesPlaceholder: 'รับประทานพร้อมอาหาร เป็นต้น',
+      priority: 'ความสำคัญ', priorityCritical: 'สำคัญมาก', priorityOptional: 'ไม่บังคับ',
+      cancel: 'ยกเลิก', save: 'บันทึก', stop: 'หยุดยา',
+      alarmNone: 'ไม่มีการแจ้งเตือน', remove: 'ลบ'
+    },
+    asNeededModal: {
+      addTitle: 'บันทึกการใช้ยาเมื่อจำเป็น', editTitle: 'แก้ไขการใช้ยาเมื่อจำเป็น',
+      name: 'ชื่อยา', namePlaceholder: 'เช่น: พาราเซตามอล, ไอบูโพรเฟน',
+      dosage: 'ขนาดยา', dosagePlaceholder: 'เช่น: 1 เม็ด, 5 mg',
+      timeTaken: 'เวลาที่รับประทาน',
+      notes: 'หมายเหตุ (ไม่บังคับ)', notesPlaceholder: 'สาเหตุ: ปวดหัว, ปวด เป็นต้น',
+      cancel: 'ยกเลิก', log: 'บันทึกการใช้ยา'
+    },
+    settings: {
+      profile: 'โปรไฟล์', timeAlarms: 'เวลายาและการแจ้งเตือน',
+      enableAlarms: 'เปิดใช้การแจ้งเตือน',
+      enableAlarmsDesc: 'เล่นเสียงเมื่อถึงเวลายา (แอปต้องเปิดอยู่)',
+      timeCol: 'เวลา', alarmSoundCol: 'เสียงแจ้งเตือน',
+      saveTimeAlarms: 'บันทึกเวลาและการแจ้งเตือน',
+      alsoTrack: 'ติดตามเพิ่มเติม',
+      appointments: 'นัดหมาย',
+      appointmentsDesc: 'ติดตามการพบแพทย์ การรักษา และนัดหมายทางการแพทย์',
+      healthMetrics: 'ตัวชี้วัดสุขภาพ',
+      healthMetricsDesc: 'บันทึกสัญญาณชีพ น้ำหนัก ก้าวเดิน และข้อมูลสุขภาพอื่นๆ',
+      weight: 'น้ำหนัก', temperature: 'อุณหภูมิ', bloodPressure: 'ความดันโลหิต',
+      heartRate: 'ชีพจร', bloodSugar: 'น้ำตาลในเลือด', steps: 'ก้าวเดิน',
+      oxygenation: 'ออกซิเจนในเลือด', sleep: 'การนอนหลับ',
+      dataManagement: 'การจัดการข้อมูล',
+      exportData: 'ส่งออกข้อมูล', exportDesc: 'ดาวน์โหลดข้อมูลทั้งหมดเป็นไฟล์สำรอง',
+      importData: 'นำเข้าข้อมูล', importDesc: 'กู้คืนข้อมูลจากไฟล์สำรอง',
+      clearData: 'ลบข้อมูลทั้งหมด', clearDesc: 'ลบยา บันทึก และนัดหมายทั้งหมด',
+      language: 'ภาษา',
+      install: 'ติดตั้งเป็นแอปบนหน้าจอหลัก',
+      installDesc: 'เรียนรู้วิธีเพิ่มแอปนี้ในหน้าจอหลักของคุณ'
+    },
+    medListModal: {
+      title: 'ตารางยา', close: 'ปิด', add: '+ เพิ่มยา',
+      empty: 'ไม่มียาที่กำหนดไว้\nแตะ «+ เพิ่มยา» เพื่อเริ่มต้น'
+    },
+    appointments: {
+      upcoming: 'ที่จะมาถึง', past: 'ที่ผ่านมา', add: '+ เพิ่มนัดหมาย',
+      noAny: 'ยังไม่มีนัดหมายที่กำหนดไว้',
+      noAnyHint: 'แตะปุ่มด้านล่างเพื่อเพิ่มนัดหมายแรก',
+      noUpcoming: 'ไม่มีนัดหมายที่จะมาถึง', noPast: 'ไม่มีนัดหมายที่ผ่านมา',
+      edit: 'แก้ไข', delete: 'ลบ', markComplete: 'ทำเครื่องหมายว่าเสร็จแล้ว', completed: '✓ เสร็จแล้ว'
+    },
+    apptModal: {
+      addTitle: 'เพิ่มนัดหมาย', editTitle: 'แก้ไขนัดหมาย',
+      type: 'ประเภท', typeDoctorVisit: 'พบแพทย์', typeInfusion: 'ให้สารน้ำ',
+      typeLabWork: 'ตรวจแล็บ', typeProcedure: 'หัตถการ', typeOther: 'อื่นๆ',
+      titleField: 'หัวข้อ/คำอธิบาย', titlePlaceholder: 'เช่น: ตรวจสุขภาพกับ นพ. สมชาย',
+      date: 'วันที่', timeOptional: 'เวลา (ไม่บังคับ)',
+      location: 'สถานที่', locationVirtual: 'ออนไลน์ (วิดีโอคอล)', locationInPerson: 'ไปพบด้วยตนเอง',
+      addressField: 'ที่อยู่/รายละเอียด', addressVirtualField: 'ลิงก์วิดีโอ/รายละเอียด',
+      addressPlaceholder: 'ชื่อโรงพยาบาล หมายเลขห้อง หรือลิงก์วิดีโอ',
+      notes: 'หมายเหตุ (ไม่บังคับ)', notesPlaceholder: 'นำบัตรประกัน งดอาหาร เป็นต้น',
+      cancel: 'ยกเลิก', save: 'บันทึก'
+    },
+    metrics: {
+      add: '+ เพิ่มข้อมูล',
+      noData: 'ยังไม่มีข้อมูลสุขภาพ', noDate: 'ไม่มีข้อมูลสำหรับวันนี้',
+      prompt: 'แตะ «+ เพิ่มข้อมูล» เพื่อเริ่มติดตาม',
+      noMatch: 'ไม่มีข้อมูลที่ตรงกับตัวกรองปัจจุบัน',
+      noMatchHint: 'ลองเปลี่ยนการตั้งค่าตัวกรองหรือช่วงวันที่',
+      noDataRange: 'ไม่พบข้อมูลสำหรับช่วงวันที่นี้',
+      edit: 'แก้ไข', delete: 'ลบ', notes: 'หมายเหตุ'
+    },
+    logModal: {
+      addTitle: 'เพิ่มข้อมูล', editTitle: 'แก้ไขข้อมูล',
+      datetime: 'วันที่และเวลา',
+      temperature: 'อุณหภูมิ (°F)', bloodPressure: 'ความดันโลหิต',
+      heartRate: 'ชีพจร (bpm)', bloodGlucose: 'น้ำตาลในเลือด (mg/dL)',
+      weight: 'น้ำหนัก (lbs)', steps: 'ก้าวเดิน', oxygenation: 'ออกซิเจนในเลือด (%)',
+      sleep: 'การนอนหลับ (ชั่วโมง)', notes: 'หมายเหตุ',
+      systolicPlaceholder: 'ซิสโตลิก', diastolicPlaceholder: 'ไดแอสโตลิก',
+      cancel: 'ยกเลิก', save: 'บันทึก'
+    },
+    weeklyView: {
+      prevWeek: '← สัปดาห์ที่แล้ว', nextWeek: 'สัปดาห์หน้า →', close: 'ปิด', print: 'พิมพ์'
+    },
+    morningCheck: {
+      title: '⚠️ ยาสำคัญที่ลืมรับประทาน',
+      message: 'ยาสำคัญเหล่านี้ช่วง{{slot}}ของเมื่อวานยังไม่ได้บันทึก:',
+      viewYesterday: 'ดูยาเมื่อวาน', dismiss: 'ปิด'
+    },
+    alarmModal: {
+      title: '💊 ถึงเวลารับประทานยาแล้ว',
+      message: 'กรุณายืนยันว่าคุณได้รับการแจ้งเตือนนี้แล้ว',
+      gotIt: 'รับทราบแล้ว',
+      timeLabel: 'ยา{{time}}',
+      notificationTitle: 'แจ้งเตือนยา',
+      notificationBody: 'ถึงเวลายา{{time}}แล้ว!'
+    },
+    profile: {
+      loading: 'กำลังโหลด...', allDataSeparate: 'ข้อมูลทั้งหมดถูกจัดเก็บแยกกันสำหรับแต่ละโปรไฟล์',
+      shareTitle: 'แชร์โปรไฟล์', shareDesc: 'อนุญาตให้อุปกรณ์อื่นเชื่อมต่อเพื่อซิงค์',
+      switchJoinTitle: 'เปลี่ยนหรือเข้าร่วมโปรไฟล์', switchJoinDesc: 'เปลี่ยนโปรไฟล์หรือเชื่อมต่อกับโปรไฟล์ที่แชร์',
+      stopSharing: 'หยุดการแชร์', disconnect: 'ยกเลิกการเชื่อมต่อ',
+      connectedDevices: 'อุปกรณ์ที่เชื่อมต่อ', noDevices: 'ยังไม่มีอุปกรณ์เชื่อมต่อ',
+      scanCode: 'สแกนรหัสนี้ด้วยอุปกรณ์อื่น:', codeLabel: 'รหัส:',
+      lastSync: 'ซิงค์ล่าสุด:', statusLabel: 'สถานะ:', online: '● ออนไลน์',
+      syncNote: 'การเปลี่ยนแปลงทั้งหมดจะซิงค์แบบเรียลไทม์กับอุปกรณ์หลัก',
+      createNew: 'สร้างโปรไฟล์ใหม่',
+      synced: 'ซิงค์แล้ว', sharing: 'กำลังแชร์',
+      sharingDesc: 'กำลังแชร์กับอุปกรณ์ที่เชื่อมต่อ',
+      syncedDesc: 'ซิงค์แบบเรียลไทม์กับอุปกรณ์หลัก',
+      reconnecting: 'กำลังเชื่อมต่อใหม่...',
+      resumingDesc: 'กำลังเริ่มต้นเซสชันการแชร์ใหม่...',
+      reconnectingDesc: 'กำลังเชื่อมต่อกับอุปกรณ์หลักใหม่...',
+      justNow: 'เมื่อกี้นี้'
+    },
+    schedule: {
+      daily: 'ทุกวัน', everyOtherDay: 'วันเว้นวัน', mwf: 'จ, พ, ศ',
+      ongoing: 'ต่อเนื่อง', starts: '• เริ่ม {{date}}',
+      nWeeks: '• {{n}} สัปดาห์', nMonths: '• {{n}} เดือน',
+      untilDate: '• จนถึง {{date}}', nDoses: '• {{n}} ครั้ง',
+      untilDateParens: '(จนถึง {{date}})', everyDay: 'ทุกวัน'
+    },
+    days: { sun: 'อา', mon: 'จ', tue: 'อ', wed: 'พ', thu: 'พฤ', fri: 'ศ', sat: 'ส' },
+    alerts: {
+      requiredFields: 'กรุณากรอกข้อมูลในช่องที่จำเป็นทั้งหมด',
+      selectTime: 'กรุณาเลือกช่วงเวลาอย่างน้อยหนึ่งช่วงหรือเพิ่มเวลาที่แน่นอน',
+      selectStartDate: 'กรุณาเลือกวันที่เริ่ม',
+      selectDays: 'กรุณาเลือกอย่างน้อยหนึ่งวันสำหรับตารางที่กำหนดเอง',
+      invalidDuration: 'กรุณากรอกระยะเวลาที่ถูกต้อง',
+      selectEndDate: 'กรุณาเลือกวันที่สิ้นสุด',
+      bottleDosesRequired: 'กรุณากรอกจำนวนยาในขวด',
+      deleteMed: 'คุณแน่ใจหรือว่าต้องการลบยานี้?',
+      stopMed: 'หยุดยานี้? วันสิ้นสุดจะถูกตั้งเป็นเมื่อวานและยาที่เหลือทั้งหมดจะถูกลบ',
+      deleteLog: 'คุณแน่ใจหรือว่าต้องการลบบันทึกนี้?',
+      deleteAppt: 'คุณแน่ใจหรือว่าต้องการลบนัดหมายนี้?',
+      importOverwrite: 'ข้อมูลปัจจุบันทั้งหมดจะถูกแทนที่ด้วยข้อมูลที่นำเข้า คุณต้องการดำเนินการต่อหรือไม่?',
+      importSuccess: 'นำเข้าข้อมูลสำเร็จ! หน้าจะโหลดใหม่ทันที',
+      exportSuccess: 'ส่งออกข้อมูลสำเร็จ! บน iOS คุณอาจต้องกดค้างที่ไฟล์แล้วเลือก «บันทึกในไฟล์»',
+      clearConfirmMsg: 'คุณแน่ใจหรือว่าต้องการลบข้อมูลทั้งหมด? การดำเนินการนี้ไม่สามารถยกเลิกได้!\n\nจะถูกลบ:\n• ยาทั้งหมด\n• บันทึกการใช้ยาทั้งหมด\n• นัดหมายทั้งหมด\n• ข้อมูลสุขภาพทั้งหมด\n\nพิมพ์ «ลบ» ในช่องถัดไปเพื่อยืนยัน',
+      clearConfirmPrompt: 'พิมพ์ ลบ เพื่อยืนยัน:',
+      clearConfirmWord: 'ลบ',
+      deletionCancelled: 'ยกเลิกการลบแล้ว',
+      dataCleared: 'ลบข้อมูลทั้งหมดแล้ว หน้าจะโหลดใหม่ทันที',
+      deleteProfile: 'คุณแน่ใจหรือว่าต้องการลบโปรไฟล์ «{{name}}»? ยา นัดหมาย และข้อมูลสุขภาพทั้งหมดของโปรไฟล์นี้จะถูกลบอย่างถาวร',
+      profileNameRequired: 'กรุณากรอกชื่อโปรไฟล์',
+      deleteActiveProfile: 'ไม่สามารถลบโปรไฟล์ที่กำลังใช้งานได้ กรุณาเปลี่ยนไปใช้โปรไฟล์อื่นก่อน'
+    },
+    toasts: { alarmSaved: 'บันทึกเวลาและการแจ้งเตือนแล้ว!' },
+    updateBanner: {
+      title: 'มีการอัปเดต', message: 'มีเวอร์ชันใหม่ ({{version}}) แล้ว',
+      updateNow: 'อัปเดตเดี๋ยวนี้', later: 'ภายหลัง'
+    }
+  },
+
+  lo: {
+    tab: { meds: 'ຢາ', appointments: 'ນັດໝາຍ', metrics: 'ສຸຂະພາບ' },
+    header: {
+      meds: 'ຢາ', appointments: 'ນັດໝາຍ', metrics: 'ສຸຂະພາບ',
+      medSchedule: 'ຕາຕະລາງຢາ', asNeeded: '+ ເມື່ອຈຳເປັນ',
+      addAppointment: '+ ເພີ່ມນັດໝາຍ', addMetrics: '+ ເພີ່ມຂໍ້ມູນ',
+      weekView: 'ມຸມມອງລາຍອາທິດ', back: '← ຍ້ອນກັບ', filterMetrics: 'ກອງຂໍ້ມູນ ▼', print: 'ພິມ'
+    },
+    timeOfDay: {
+      morning: 'ເຊົ້າ', afternoon: 'ບ່າຍ', evening: 'ແລງ',
+      bedtime: 'ກ່ອນນອນ', asNeeded: 'ເມື່ອຈຳເປັນ'
+    },
+    meds: {
+      empty: 'ບໍ່ມີຢາທີ່ກຳນົດໄວ້ສຳລັບມື້ນີ້',
+      takenAt: 'ກິນເມື່ອ',
+      critical: 'ສຳຄັນຫຼາຍ', optional: 'ບໍ່ບັງຄັບ',
+      tapToPriority: 'ແຕະເພື່ອປ່ຽນຄວາມສຳຄັນ'
+    },
+    medModal: {
+      addTitle: 'ເພີ່ມຢາ', editTitle: 'ແກ້ໄຂຢາ',
+      name: 'ຊື່ຢາ', dosage: 'ຂະໜາດຢາ (ເຊັ່ນ «1 ເມັດ», «2 ແຄັບຊູນ»)',
+      dosagePlaceholder: 'ເຊັ່ນ: 1 ເມັດ',
+      timeOfDay: 'ເວລາກິນຢາ (ເລືອກທັງໝົດທີ່ກ່ຽວຂ້ອງ)',
+      addSpecificTime: '+ ເພີ່ມເວລາທີ່ແນ່ນອນ',
+      frequency: 'ເລື້ອຍແຄ່ໃດ?',
+      freqDaily: 'ທຸກວັນ', freqEveryOther: 'ວັນເວັ້ນວັນ',
+      freqMWF: 'ຈ, ພ, ສ', freqCustom: 'ວັນທີ່ກຳນົດເອງ',
+      selectDays: 'ເລືອກວັນ',
+      startDate: 'ວັນທີ່ເລີ່ມ', startTime: 'ເວລາທີ່ເລີ່ມ',
+      duration: 'ໄລຍະເວລາ',
+      durOngoing: 'ຕໍ່ເນື່ອງ (ບໍ່ມີວັນສິ້ນສຸດ)', durWeeks: 'ຫຼາຍອາທິດ',
+      durMonths: 'ຫຼາຍເດືອນ', durEndDate: 'ຈົນຮອດວັນທີ່ກຳນົດ',
+      durBottle: 'ຈົນໝົດຢາ',
+      endDate: 'ວັນທີ່ສິ້ນສຸດ',
+      notes: 'ບັນທຶກ (ບໍ່ບັງຄັບ)', notesPlaceholder: 'ກິນພ້ອມອາຫານ ເປັນຕົ້ນ',
+      priority: 'ຄວາມສຳຄັນ', priorityCritical: 'ສຳຄັນຫຼາຍ', priorityOptional: 'ບໍ່ບັງຄັບ',
+      cancel: 'ຍົກເລີກ', save: 'ບັນທຶກ', stop: 'ຢຸດຢາ',
+      alarmNone: 'ບໍ່ມີສັນຍານເຕືອນ', remove: 'ລຶບ'
+    },
+    asNeededModal: {
+      addTitle: 'ບັນທຶກການໃຊ້ຢາເມື່ອຈຳເປັນ', editTitle: 'ແກ້ໄຂການໃຊ້ຢາເມື່ອຈຳເປັນ',
+      name: 'ຊື່ຢາ', namePlaceholder: 'ເຊັ່ນ: ພາລາເຊຕາມົນ, ໄອບູໂປຣເຟັນ',
+      dosage: 'ຂະໜາດຢາ', dosagePlaceholder: 'ເຊັ່ນ: 1 ເມັດ, 5 mg',
+      timeTaken: 'ເວລາທີ່ກິນ',
+      notes: 'ບັນທຶກ (ບໍ່ບັງຄັບ)', notesPlaceholder: 'ເຫດຜົນ: ເຈັບຫົວ, ເຈັບ ເປັນຕົ້ນ',
+      cancel: 'ຍົກເລີກ', log: 'ບັນທຶກການໃຊ້ຢາ'
+    },
+    settings: {
+      profile: 'ໂປຣໄຟລ໌', timeAlarms: 'ເວລາຢາ ແລະ ສັນຍານເຕືອນ',
+      enableAlarms: 'ເປີດໃຊ້ສັນຍານເຕືອນ',
+      enableAlarmsDesc: 'ດັງສຽງເມື່ອຮອດເວລາຢາ (ຕ້ອງເປີດແອັບຢູ່)',
+      timeCol: 'ເວລາ', alarmSoundCol: 'ສຽງສັນຍານ',
+      saveTimeAlarms: 'ບັນທຶກເວລາ ແລະ ສັນຍານເຕືອນ',
+      alsoTrack: 'ຕິດຕາມເພີ່ມເຕີມ',
+      appointments: 'ນັດໝາຍ',
+      appointmentsDesc: 'ຕິດຕາມການພົບແພດ ການຮັກສາ ແລະ ນັດໝາຍທາງການແພດ',
+      healthMetrics: 'ຕົວຊີ້ວັດສຸຂະພາບ',
+      healthMetricsDesc: 'ບັນທຶກສັນຍານຊີວິດ ນ້ຳໜັກ ຂັ້ນຕອນ ແລະ ຂໍ້ມູນສຸຂະພາບອື່ນໆ',
+      weight: 'ນ້ຳໜັກ', temperature: 'ອຸນຫະພູມ', bloodPressure: 'ຄວາມດັນເລືອດ',
+      heartRate: 'ອັດຕາການເຕັ້ນຂອງຫົວໃຈ', bloodSugar: 'ນ້ຳຕານໃນເລືອດ', steps: 'ຂັ້ນຕອນ',
+      oxygenation: 'ອົກຊີເຈນໃນເລືອດ', sleep: 'ການນອນ',
+      dataManagement: 'ການຈັດການຂໍ້ມູນ',
+      exportData: 'ສົ່ງອອກຂໍ້ມູນ', exportDesc: 'ດາວໂຫຼດຂໍ້ມູນທັງໝົດເປັນໄຟລ໌ສຳຮອງ',
+      importData: 'ນຳເຂົ້າຂໍ້ມູນ', importDesc: 'ກູ້ຄືນຂໍ້ມູນຈາກໄຟລ໌ສຳຮອງ',
+      clearData: 'ລຶບຂໍ້ມູນທັງໝົດ', clearDesc: 'ລຶບຢາ ບັນທຶກ ແລະ ນັດໝາຍທັງໝົດ',
+      language: 'ພາສາ',
+      install: 'ຕິດຕັ້ງເປັນແອັບໜ້າຈໍຫຼັກ',
+      installDesc: 'ຮຽນຮູ້ວິທີເພີ່ມແອັບນີ້ໃນໜ້າຈໍຫຼັກຂອງທ່ານ'
+    },
+    medListModal: {
+      title: 'ຕາຕະລາງຢາ', close: 'ປິດ', add: '+ ເພີ່ມຢາ',
+      empty: 'ບໍ່ມີຢາທີ່ກຳນົດໄວ້\nແຕະ «+ ເພີ່ມຢາ» ເພື່ອເລີ່ມຕົ້ນ'
+    },
+    appointments: {
+      upcoming: 'ທີ່ຈະມາເຖິງ', past: 'ທີ່ຜ່ານມາ', add: '+ ເພີ່ມນັດໝາຍ',
+      noAny: 'ຍັງບໍ່ມີນັດໝາຍທີ່ກຳນົດໄວ້',
+      noAnyHint: 'ແຕະປຸ່ມດ້ານລຸ່ມເພື່ອເພີ່ມນັດໝາຍທຳອິດ',
+      noUpcoming: 'ບໍ່ມີນັດໝາຍທີ່ຈະມາເຖິງ', noPast: 'ບໍ່ມີນັດໝາຍທີ່ຜ່ານມາ',
+      edit: 'ແກ້ໄຂ', delete: 'ລຶບ', markComplete: 'ໝາຍວ່າສຳເລັດ', completed: '✓ ສຳເລັດ'
+    },
+    apptModal: {
+      addTitle: 'ເພີ່ມນັດໝາຍ', editTitle: 'ແກ້ໄຂນັດໝາຍ',
+      type: 'ປະເພດ', typeDoctorVisit: 'ພົບແພດ', typeInfusion: 'ໃຫ້ນ້ຳເກືອ',
+      typeLabWork: 'ກວດຫ້ອງທົດລອງ', typeProcedure: 'ຫັດຖະການ', typeOther: 'ອື່ນໆ',
+      titleField: 'ຫົວຂໍ້/ຄຳອະທິບາຍ', titlePlaceholder: 'ເຊັ່ນ: ກວດສຸຂະພາບກັບ ທ່ານໝໍ ສົມສັກ',
+      date: 'ວັນທີ', timeOptional: 'ເວລາ (ບໍ່ບັງຄັບ)',
+      location: 'ສະຖານທີ່', locationVirtual: 'ອອນລາຍ (ວິດີໂອຄອນ)', locationInPerson: 'ໄປດ້ວຍຕົນເອງ',
+      addressField: 'ທີ່ຢູ່/ລາຍລະອຽດ', addressVirtualField: 'ລິ້ງວິດີໂອ/ລາຍລະອຽດ',
+      addressPlaceholder: 'ຊື່ໂຮງໝໍ ເລກຫ້ອງ ຫຼື ລິ້ງວິດີໂອ',
+      notes: 'ບັນທຶກ (ບໍ່ບັງຄັບ)', notesPlaceholder: 'ນຳບັດປະກັນ ອົດອາຫານ ເປັນຕົ້ນ',
+      cancel: 'ຍົກເລີກ', save: 'ບັນທຶກ'
+    },
+    metrics: {
+      add: '+ ເພີ່ມຂໍ້ມູນ',
+      noData: 'ຍັງບໍ່ມີຂໍ້ມູນສຸຂະພາບ', noDate: 'ບໍ່ມີຂໍ້ມູນສຳລັບວັນນີ້',
+      prompt: 'ແຕະ «+ ເພີ່ມຂໍ້ມູນ» ເພື່ອເລີ່ມຕິດຕາມ',
+      noMatch: 'ບໍ່ມີຂໍ້ມູນທີ່ກົງກັບຕົວກອງປັດຈຸບັນ',
+      noMatchHint: 'ລອງປ່ຽນການຕັ້ງຄ່າຕົວກອງຫຼືຊ່ວງວັນທີ',
+      noDataRange: 'ບໍ່ພົບຂໍ້ມູນສຳລັບຊ່ວງວັນທີນີ້',
+      edit: 'ແກ້ໄຂ', delete: 'ລຶບ', notes: 'ບັນທຶກ'
+    },
+    logModal: {
+      addTitle: 'ເພີ່ມຂໍ້ມູນ', editTitle: 'ແກ້ໄຂຂໍ້ມູນ',
+      datetime: 'ວັນທີ ແລະ ເວລາ',
+      temperature: 'ອຸນຫະພູມ (°F)', bloodPressure: 'ຄວາມດັນເລືອດ',
+      heartRate: 'ອັດຕາຫົວໃຈ (bpm)', bloodGlucose: 'ນ້ຳຕານໃນເລືອດ (mg/dL)',
+      weight: 'ນ້ຳໜັກ (lbs)', steps: 'ຂັ້ນຕອນ', oxygenation: 'ອົກຊີເຈນ (%)',
+      sleep: 'ການນອນ (ຊົ່ວໂມງ)', notes: 'ບັນທຶກ',
+      systolicPlaceholder: 'ຊິດໂຕລິກ', diastolicPlaceholder: 'ໄດແອດໂຕລິກ',
+      cancel: 'ຍົກເລີກ', save: 'ບັນທຶກ'
+    },
+    weeklyView: {
+      prevWeek: '← ອາທິດກ່ອນ', nextWeek: 'ອາທິດໜ້າ →', close: 'ປິດ', print: 'ພິມ'
+    },
+    morningCheck: {
+      title: '⚠️ ຢາສຳຄັນທີ່ລືມກິນ',
+      message: 'ຢາສຳຄັນເຫຼົ່ານີ້ຊ່ວງ{{slot}}ຂອງມື້ວານຍັງບໍ່ໄດ້ບັນທຶກ:',
+      viewYesterday: 'ເບິ່ງຢາມື້ວານ', dismiss: 'ປິດ'
+    },
+    alarmModal: {
+      title: '💊 ຮອດເວລາກິນຢາແລ້ວ',
+      message: 'ກະລຸນາຢືນຢັນວ່າທ່ານໄດ້ເຫັນການແຈ້ງເຕືອນນີ້',
+      gotIt: 'ຮັບຊາບແລ້ວ',
+      timeLabel: 'ຢາ{{time}}',
+      notificationTitle: 'ແຈ້ງເຕືອນຢາ',
+      notificationBody: 'ຮອດເວລາຢາ{{time}}ແລ້ວ!'
+    },
+    profile: {
+      loading: 'ກຳລັງໂຫຼດ...', allDataSeparate: 'ຂໍ້ມູນທັງໝົດຖືກເກັບໄວ້ແຍກຕ່າງຫາກສຳລັບແຕ່ລະໂປຣໄຟລ໌',
+      shareTitle: 'ແບ່ງປັນໂປຣໄຟລ໌', shareDesc: 'ອະນຸຍາດໃຫ້ອຸປະກອນອື່ນເຊື່ອມຕໍ່ເພື່ອຊິງຄ໌',
+      switchJoinTitle: 'ປ່ຽນຫຼືເຂົ້າຮ່ວມໂປຣໄຟລ໌', switchJoinDesc: 'ປ່ຽນໂປຣໄຟລ໌ຫຼືເຊື່ອມຕໍ່ກັບໂປຣໄຟລ໌ທີ່ແບ່ງປັນ',
+      stopSharing: 'ຢຸດການແບ່ງປັນ', disconnect: 'ຍົກເລີກການເຊື່ອມຕໍ່',
+      connectedDevices: 'ອຸປະກອນທີ່ເຊື່ອມຕໍ່', noDevices: 'ຍັງບໍ່ມີອຸປະກອນເຊື່ອມຕໍ່',
+      scanCode: 'ສະແກນລະຫັດນີ້ດ້ວຍອຸປະກອນອື່ນ:', codeLabel: 'ລະຫັດ:',
+      lastSync: 'ຊິງຄ໌ຫຼ້າສຸດ:', statusLabel: 'ສະຖານະ:', online: '● ອອນລາຍ',
+      syncNote: 'ການປ່ຽນແປງທັງໝົດຈະຊິງຄ໌ແບບເຣີໂລທາຍກັບອຸປະກອນຫຼັກ',
+      createNew: 'ສ້າງໂປຣໄຟລ໌ໃໝ່',
+      synced: 'ຊິງຄ໌ແລ້ວ', sharing: 'ກຳລັງແບ່ງປັນ',
+      sharingDesc: 'ກຳລັງແບ່ງປັນກັບອຸປະກອນທີ່ເຊື່ອມຕໍ່',
+      syncedDesc: 'ຊິງຄ໌ແບບເຣີໂລທາຍກັບອຸປະກອນຫຼັກ',
+      reconnecting: 'ກຳລັງເຊື່ອມຕໍ່ໃໝ່...',
+      resumingDesc: 'ກຳລັງເລີ່ມໄດ້ສ່ວນການແບ່ງປັນໃໝ່...',
+      reconnectingDesc: 'ກຳລັງເຊື່ອມຕໍ່ກັບອຸປະກອນຫຼັກໃໝ່...',
+      justNow: 'ຫາກໍ່ນີ້'
+    },
+    schedule: {
+      daily: 'ທຸກວັນ', everyOtherDay: 'ວັນເວັ້ນວັນ', mwf: 'ຈ, ພ, ສ',
+      ongoing: 'ຕໍ່ເນື່ອງ', starts: '• ເລີ່ມ {{date}}',
+      nWeeks: '• {{n}} ອາທິດ', nMonths: '• {{n}} ເດືອນ',
+      untilDate: '• ຈົນຮອດ {{date}}', nDoses: '• {{n}} ຄັ້ງ',
+      untilDateParens: '(ຈົນຮອດ {{date}})', everyDay: 'ທຸກວັນ'
+    },
+    days: { sun: 'ອາ', mon: 'ຈ', tue: 'ອ', wed: 'ພ', thu: 'ພຫ', fri: 'ສ', sat: 'ເສ' },
+    alerts: {
+      requiredFields: 'ກະລຸນາຕື່ມຂໍ້ມູນໃນຊ່ອງທີ່ຈຳເປັນທັງໝົດ',
+      selectTime: 'ກະລຸນາເລືອກຢ່າງໜ້ອຍໜຶ່ງຊ່ວງເວລາຫຼືເພີ່ມເວລາທີ່ແນ່ນອນ',
+      selectStartDate: 'ກະລຸນາເລືອກວັນທີ່ເລີ່ມ',
+      selectDays: 'ກະລຸນາເລືອກຢ່າງໜ້ອຍໜຶ່ງວັນສຳລັບຕາຕະລາງທີ່ກຳນົດເອງ',
+      invalidDuration: 'ກະລຸນາໃສ່ໄລຍະເວລາທີ່ຖືກຕ້ອງ',
+      selectEndDate: 'ກະລຸນາເລືອກວັນທີ່ສິ້ນສຸດ',
+      bottleDosesRequired: 'ກະລຸນາໃສ່ຈຳນວນຢາໃນຂວດ',
+      deleteMed: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບຢານີ້?',
+      stopMed: 'ຢຸດຢານີ້? ວັນທີ່ສິ້ນສຸດຈະຖືກຕັ້ງເປັນມື້ວານ ແລະ ຢາທີ່ເຫຼືອທັງໝົດຈະຖືກລຶບ',
+      deleteLog: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບບັນທຶກນີ້?',
+      deleteAppt: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບນັດໝາຍນີ້?',
+      importOverwrite: 'ຂໍ້ມູນປັດຈຸບັນທັງໝົດຈະຖືກແທນທີ່ດ້ວຍຂໍ້ມູນທີ່ນຳເຂົ້າ. ທ່ານຕ້ອງການດຳເນີນການຕໍ່ບໍ່?',
+      importSuccess: 'ນຳເຂົ້າຂໍ້ມູນສຳເລັດ! ໜ້າຈະໂຫຼດໃໝ່ທັນທີ',
+      exportSuccess: 'ສົ່ງອອກຂໍ້ມູນສຳເລັດ! ໃນ iOS ທ່ານອາດຕ້ອງກົດຄ້າງທີ່ໄຟລ໌ ແລ້ວເລືອກ «ບັນທຶກໃນໄຟລ໌»',
+      clearConfirmMsg: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບຂໍ້ມູນທັງໝົດ? ການດຳເນີນການນີ້ບໍ່ສາມາດຍົກເລີກໄດ້!\n\nຈະຖືກລຶບ:\n• ຢາທັງໝົດ\n• ບັນທຶກການໃຊ້ຢາທັງໝົດ\n• ນັດໝາຍທັງໝົດ\n• ຂໍ້ມູນສຸຂະພາບທັງໝົດ\n\nພິມ «ລຶບ» ໃນຊ່ອງຕໍ່ໄປເພື່ອຢືນຢັນ',
+      clearConfirmPrompt: 'ພິມ ລຶບ ເພື່ອຢືນຢັນ:',
+      clearConfirmWord: 'ລຶບ',
+      deletionCancelled: 'ຍົກເລີກການລຶບແລ້ວ',
+      dataCleared: 'ລຶບຂໍ້ມູນທັງໝົດແລ້ວ ໜ້າຈະໂຫຼດໃໝ່ທັນທີ',
+      deleteProfile: 'ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບໂປຣໄຟລ໌ «{{name}}»? ຢາ ນັດໝາຍ ແລະ ຂໍ້ມູນສຸຂະພາບທັງໝົດຂອງໂປຣໄຟລ໌ນີ້ຈະຖືກລຶບຖາວອນ',
+      profileNameRequired: 'ກະລຸນາໃສ່ຊື່ໂປຣໄຟລ໌',
+      deleteActiveProfile: 'ບໍ່ສາມາດລຶບໂປຣໄຟລ໌ທີ່ກຳລັງໃຊ້ງານໄດ້ ກະລຸນາປ່ຽນໄປໃຊ້ໂປຣໄຟລ໌ອື່ນກ່ອນ'
+    },
+    toasts: { alarmSaved: 'ບັນທຶກເວລາ ແລະ ສັນຍານເຕືອນແລ້ວ!' },
+    updateBanner: {
+      title: 'ມີການອັບເດດ', message: 'ມີເວີຊັນໃໝ່ ({{version}}) ແລ້ວ',
+      updateNow: 'ອັບເດດດຽວນີ້', later: 'ພາຍຫຼັງ'
+    }
+  },
+
+  hmn: {
+    tab: { meds: 'Tshuaj', appointments: 'Caij Ntsib', metrics: 'Kev Noj Qab Haus Huv' },
+    header: {
+      meds: 'Tshuaj', appointments: 'Caij Ntsib', metrics: 'Kev Noj Qab Haus Huv',
+      medSchedule: 'Sijhawm Haus Tshuaj', asNeeded: '+ Thaum Xav Tau',
+      addAppointment: '+ Ntxiv Caij Ntsib', addMetrics: '+ Ntxiv Cov Ntaub Ntawv',
+      weekView: 'Saib Txhua Lim Tiam', back: '← Rov Qab', filterMetrics: 'Lim Cov Ntaub Ntawv ▼', print: 'Luam'
+    },
+    timeOfDay: {
+      morning: 'Sawv Ntxov', afternoon: 'Tav Su', evening: 'Tsaus Ntuj',
+      bedtime: 'Ua Ntej Pw', asNeeded: 'Thaum Xav Tau'
+    },
+    meds: {
+      empty: 'Tsis muaj tshuaj rau hnub no.',
+      takenAt: 'Haus thaum',
+      critical: 'Tseem Ceeb', optional: 'Xaiv Tau',
+      tapToPriority: 'Kov los hloov qib tseem ceeb'
+    },
+    medModal: {
+      addTitle: 'Ntxiv Tshuaj', editTitle: 'Kho Tshuaj',
+      name: 'Npe Tshuaj', dosage: 'Ntau npaum li cas (piv txwv: «1 lub», «2 lub»)',
+      dosagePlaceholder: 'Piv txwv: 1 lub',
+      timeOfDay: 'Sijhawm Haus (xaiv txhua yam haum)',
+      addSpecificTime: '+ Ntxiv Sijhawm Tshwj Xeeb',
+      frequency: 'Ntau npaum li cas?',
+      freqDaily: 'Txhua Hnub', freqEveryOther: 'Ib Hnub Ib Zaug',
+      freqMWF: 'Ib, Peb, Tsib', freqCustom: 'Hnub Xaiv',
+      selectDays: 'Xaiv Cov Hnub',
+      startDate: 'Hnub Pib', startTime: 'Sijhawm Pib',
+      duration: 'Ntev Npaum Li Cas',
+      durOngoing: 'Mus Ntxiv (tsis muaj hnub kawg)', durWeeks: 'Ob Peb Lim Tiam',
+      durMonths: 'Ob Peb Lub Hlis', durEndDate: 'Txog Hnub Tshwj Xeeb',
+      durBottle: 'Txog Thaum Tshuaj Tas',
+      endDate: 'Hnub Kawg',
+      notes: 'Nco Tseg (xaiv tau)', notesPlaceholder: 'Haus nrog zaub mov, thiab lwm yam',
+      priority: 'Qib Tseem Ceeb', priorityCritical: 'Tseem Ceeb', priorityOptional: 'Xaiv Tau',
+      cancel: 'Tso Tseg', save: 'Khaws Cia', stop: 'Nres Tshuaj',
+      alarmNone: 'Tsis Muaj Nrov', remove: 'Tshem Tawm'
+    },
+    asNeededModal: {
+      addTitle: 'Sau Tshuaj Thaum Xav Tau', editTitle: 'Kho Tshuaj Thaum Xav Tau',
+      name: 'Npe Tshuaj', namePlaceholder: 'Piv txwv: Tylenol, Ibuprofen',
+      dosage: 'Ntau Npaum Li Cas', dosagePlaceholder: 'Piv txwv: 1 lub, 5 mg',
+      timeTaken: 'Sijhawm Haus',
+      notes: 'Nco Tseg (xaiv tau)', notesPlaceholder: 'Vim li cas: mob taub hau, mob, thiab lwm yam',
+      cancel: 'Tso Tseg', log: 'Sau Tshuaj'
+    },
+    settings: {
+      profile: 'Phau Ntaub Ntawv', timeAlarms: 'Sijhawm Tshuaj thiab Nrov',
+      enableAlarms: 'Qhib Nrov Ceeb Toom',
+      enableAlarmsDesc: 'Tshuab suab thaum txog sijhawm tshuaj (app yuav tsum qhib)',
+      timeCol: 'Sijhawm', alarmSoundCol: 'Suab Nrov',
+      saveTimeAlarms: 'Khaws Sijhawm thiab Nrov',
+      alsoTrack: 'Saib Xyuas Ntxiv',
+      appointments: 'Caij Ntsib',
+      appointmentsDesc: 'Saib xyuas kev mus ntsib kws kho mob thiab caij ntsib lwm yam',
+      healthMetrics: 'Kev Noj Qab Haus Huv Cov Ntaub Ntawv',
+      healthMetricsDesc: 'Sau cov tsos mob, hnyav, kauj ruam, thiab lwm cov ntaub ntawv',
+      weight: 'Hnyav', temperature: 'Kub', bloodPressure: 'Ntshav Siab',
+      heartRate: 'Plawv Dhia', bloodSugar: 'Qab Zib Ntshav', steps: 'Kauj Ruam',
+      oxygenation: 'Oxygen Hauv Ntshav', sleep: 'Tsaug Zog',
+      dataManagement: 'Tswj Cov Ntaub Ntawv',
+      exportData: 'Xa Tawm Cov Ntaub Ntawv', exportDesc: 'Rub tawm txhua yam ua cov ntaub ntawv thaub qab',
+      importData: 'Coj Los Cov Ntaub Ntawv', importDesc: 'Rov qab cov ntaub ntawv los ntawm cov ntaub ntawv thaub qab',
+      clearData: 'Rho Tawm Tag Nrho Cov Ntaub Ntawv', clearDesc: 'Rho tawm txhua tshuaj, ntaub ntawv, thiab caij ntsib',
+      language: 'Lus',
+      install: 'Nruab ua App ntawm Lub Vijtsam Tseem Ceeb',
+      installDesc: 'Kawm txog yuav ntxiv app no rau koj lub vijtsam tseem ceeb li cas'
+    },
+    medListModal: {
+      title: 'Sijhawm Haus Tshuaj', close: 'Kaw', add: '+ Ntxiv Tshuaj',
+      empty: 'Tsis muaj tshuaj tau teem tseg.\nKov «+ Ntxiv Tshuaj» los pib.'
+    },
+    appointments: {
+      upcoming: 'Tab Tom Los', past: 'Dhau Los', add: '+ Ntxiv Caij Ntsib',
+      noAny: 'Tsis tau muaj caij ntsib teem tseg.',
+      noAnyHint: 'Kov lub pob hauv qab los ntxiv koj thawj caij ntsib.',
+      noUpcoming: 'Tsis muaj caij ntsib tab tom los.', noPast: 'Tsis muaj caij ntsib dhau los.',
+      edit: 'Kho', delete: 'Rho Tawm', markComplete: 'Kos Ua Tiav', completed: '✓ Ua Tiav'
+    },
+    apptModal: {
+      addTitle: 'Ntxiv Caij Ntsib', editTitle: 'Kho Caij Ntsib',
+      type: 'Hom', typeDoctorVisit: 'Mus Ntsib Kws Kho Mob', typeInfusion: 'Kho Mob IV',
+      typeLabWork: 'Kuaj Ntshav', typeProcedure: 'Txheej Txheem Kho Mob', typeOther: 'Lwm Yam',
+      titleField: 'Lub Npe/Piav Qhia', titlePlaceholder: 'Piv txwv: Mus ntsib Dr. Vang',
+      date: 'Hnub', timeOptional: 'Sijhawm (xaiv tau)',
+      location: 'Qhov Chaw', locationVirtual: 'Online (Video Hu)', locationInPerson: 'Ntsib Ncaj Ncees',
+      addressField: 'Chaw Nyob/Cov Ntsiab Lus', addressVirtualField: 'Video Txuas/Cov Ntsiab Lus',
+      addressPlaceholder: 'Npe tsev kho mob, lej chav, los yog video txuas',
+      notes: 'Nco Tseg (xaiv tau)', notesPlaceholder: 'Coj daim npav kho mob, tsis noj mov, thiab lwm yam',
+      cancel: 'Tso Tseg', save: 'Khaws Cia'
+    },
+    metrics: {
+      add: '+ Ntxiv Cov Ntaub Ntawv',
+      noData: 'Tsis tau muaj cov ntaub ntawv kev noj qab haus huv.', noDate: 'Tsis muaj cov ntaub ntawv rau hnub no.',
+      prompt: 'Kov «+ Ntxiv Cov Ntaub Ntawv» los pib saib xyuas.',
+      noMatch: 'Tsis muaj cov ntaub ntawv haum rau cov lim tam sim no.',
+      noMatchHint: 'Sim hloov cov lim qauv los yog lub hnub qhov chaw.',
+      noDataRange: 'Tsis pom cov ntaub ntawv rau lub hnub qhov chaw no.',
+      edit: 'Kho', delete: 'Rho Tawm', notes: 'Nco Tseg'
+    },
+    logModal: {
+      addTitle: 'Ntxiv Cov Ntaub Ntawv', editTitle: 'Kho Cov Ntaub Ntawv',
+      datetime: 'Hnub thiab Sijhawm',
+      temperature: 'Kub (°F)', bloodPressure: 'Ntshav Siab',
+      heartRate: 'Plawv Dhia (bpm)', bloodGlucose: 'Qab Zib Ntshav (mg/dL)',
+      weight: 'Hnyav (lbs)', steps: 'Kauj Ruam', oxygenation: 'Oxygen (%)',
+      sleep: 'Tsaug Zog (teev)', notes: 'Nco Tseg',
+      systolicPlaceholder: 'Systolic', diastolicPlaceholder: 'Diastolic',
+      cancel: 'Tso Tseg', save: 'Khaws Cia'
+    },
+    weeklyView: {
+      prevWeek: '← Lim Tiam Dhau', nextWeek: 'Lim Tiam Tom Ntej →', close: 'Kaw', print: 'Luam'
+    },
+    morningCheck: {
+      title: '⚠️ Tshuaj Tseem Ceeb Uas Tsis Tau Haus',
+      message: 'Cov tshuaj tseem ceeb no rau {{slot}} ntawm nag hmo tsis tau sau tseg:',
+      viewYesterday: 'Saib Tshuaj Nag Hmo', dismiss: 'Kaw'
+    },
+    alarmModal: {
+      title: '💊 Txog Sijhawm Haus Tshuaj',
+      message: 'Thov lees paub tias koj pom cov lus ceeb toom no.',
+      gotIt: 'Paub Lawm',
+      timeLabel: 'Tshuaj {{time}}',
+      notificationTitle: 'Ceeb Toom Tshuaj',
+      notificationBody: 'Txog sijhawm haus tshuaj {{time}}!'
+    },
+    profile: {
+      loading: 'Tab Tom Rub...', allDataSeparate: 'Txhua cov ntaub ntawv raug khaws cia sib cais rau txhua phau ntaub ntawv',
+      shareTitle: 'Qhia Phau Ntaub Ntawv', shareDesc: 'Tso cai rau lwm cov cuab yeej txuas los synchronized',
+      switchJoinTitle: 'Hloov los yog Koom Phau Ntaub Ntawv', switchJoinDesc: 'Hloov phau ntaub ntawv los yog txuas rau phau ntaub ntawv uas qhia',
+      stopSharing: 'Nres Kev Qhia', disconnect: 'Txiav Txuas',
+      connectedDevices: 'Cov Cuab Yeej Txuas', noDevices: 'Tsis tau muaj cuab yeej txuas',
+      scanCode: 'Scan daim code no nrog lwm lub cuab yeej:', codeLabel: 'Code:',
+      lastSync: 'Sync Kawg Tshaj Plaws:', statusLabel: 'Xwm Txheej:', online: '● Online',
+      syncNote: 'Txhua kev hloov pauv raug sync tiag tiag nrog lub cuab yeej tswj',
+      createNew: 'Tsim Phau Ntaub Ntawv Tshiab',
+      synced: 'Tau Sync', sharing: 'Tab Tom Qhia',
+      sharingDesc: 'Tab tom qhia nrog cov cuab yeej txuas',
+      syncedDesc: 'Sync tiag tiag nrog lub cuab yeej tswj',
+      reconnecting: 'Tab Tom Txuas Dua...',
+      resumingDesc: 'Tab tom rov pib lub sijhawm qhia...',
+      reconnectingDesc: 'Tab tom txuas dua nrog lub cuab yeej tswj...',
+      justNow: 'Tam Sim No'
+    },
+    schedule: {
+      daily: 'Txhua Hnub', everyOtherDay: 'Ib Hnub Ib Zaug', mwf: 'Ib, Peb, Tsib',
+      ongoing: 'Mus Ntxiv', starts: '• Pib {{date}}',
+      nWeeks: '• {{n}} Lim Tiam', nMonths: '• {{n}} Lub Hlis',
+      untilDate: '• Txog {{date}}', nDoses: '• {{n}} Zaug',
+      untilDateParens: '(txog {{date}})', everyDay: 'Txhua Hnub'
+    },
+    days: { sun: 'Hnu', mon: 'Ib', tue: 'Ob', wed: 'Peb', thu: 'Pla', fri: 'Tsi', sat: 'Rau' },
+    alerts: {
+      requiredFields: 'Thov ntxuv tag nrho cov seem xav tau',
+      selectTime: 'Thov xaiv tsawg kawg ib lub sijhawm los yog ntxiv sijhawm tshwj xeeb',
+      selectStartDate: 'Thov xaiv hnub pib',
+      selectDays: 'Thov xaiv tsawg kawg ib hnub rau cov txheej txheem tshwj xeeb',
+      invalidDuration: 'Thov ntxuv lub sijhawm raug',
+      selectEndDate: 'Thov xaiv hnub kawg',
+      bottleDosesRequired: 'Thov ntxuv tus lej tshuaj hauv lub raj',
+      deleteMed: 'Koj puas xav rho tawm tshuaj no?',
+      stopMed: 'Nres tshuaj no? Hnub kawg yuav raug teev ua nag hmo thiab txhua cov tshuaj tom ntej yuav raug rho tawm.',
+      deleteLog: 'Koj puas xav rho tawm cov ntaub ntawv no?',
+      deleteAppt: 'Koj puas xav rho tawm caij ntsib no?',
+      importOverwrite: 'Tag nrho cov ntaub ntawv tam sim no yuav raug hloov los ntawm cov ntaub ntawv coj los. Koj puas xav txuas ntxiv?',
+      importSuccess: 'Coj los cov ntaub ntawv tiav! Nplooj ntawv yuav rov tshaj tawm.',
+      exportSuccess: 'Xa tawm cov ntaub ntawv tiav! Ntawm iOS koj yuav tsum nias mus ntev rau cov ntaub ntawv thiab xaiv «Khaws Cia rau Cov Ntaub Ntawv».',
+      clearConfirmMsg: 'Koj puas xav tiag tiag rho tawm tag nrho cov ntaub ntawv? Qhov no tsis tuaj yeem rov qab tau!\n\nYuav raug rho tawm:\n• Tag nrho cov tshuaj\n• Tag nrho cov ntaub ntawv tshuaj\n• Tag nrho caij ntsib\n• Tag nrho cov ntaub ntawv kev noj qab haus huv\n\nSau «rho tawm» hauv lub thawv tom ntej los lees paub.',
+      clearConfirmPrompt: 'Sau rho tawm los lees paub:',
+      clearConfirmWord: 'rho tawm',
+      deletionCancelled: 'Kev rho tawm raug tso tseg.',
+      dataCleared: 'Tag nrho cov ntaub ntawv raug rho tawm. Nplooj ntawv yuav rov tshaj tawm.',
+      deleteProfile: 'Koj puas xav rho tawm phau ntaub ntawv «{{name}}»? Tag nrho cov tshuaj, caij ntsib, thiab cov ntaub ntawv kev noj qab haus huv ntawm phau ntaub ntawv no yuav raug rho tawm mus ib txhis.',
+      profileNameRequired: 'Thov ntxuv npe phau ntaub ntawv',
+      deleteActiveProfile: 'Tsis tuaj yeem rho tawm phau ntaub ntawv siv tam sim no. Thov hloov mus rau lwm phau ntaub ntawv ua ntej.'
+    },
+    toasts: { alarmSaved: 'Khaws sijhawm thiab nrov ceeb toom tiav!' },
+    updateBanner: {
+      title: 'Muaj Kev Hloov Tshiab', message: 'Muaj version tshiab ({{version}}) lawm.',
+      updateNow: 'Hloov Tshiab Tam Sim No', later: 'Tom Qab'
+    }
+  },
+
+  km: {
+    tab: { meds: 'ថ្នាំ', appointments: 'ការណាត់', metrics: 'សុខភាព' },
+    header: {
+      meds: 'ថ្នាំ', appointments: 'ការណាត់', metrics: 'សុខភាព',
+      medSchedule: 'កាលវិភាគថ្នាំ', asNeeded: '+ នៅពេលចាំបាច់',
+      addAppointment: '+ បន្ថែមការណាត់', addMetrics: '+ បន្ថែមទិន្នន័យ',
+      weekView: 'មើលប្រចាំសប្តាហ៍', back: '← ត្រឡប់', filterMetrics: 'ត្រងទិន្នន័យ ▼', print: 'បោះពុម្ព'
+    },
+    timeOfDay: {
+      morning: 'ព្រឹក', afternoon: 'រសៀល', evening: 'ល្ងាច',
+      bedtime: 'មុនគេង', asNeeded: 'នៅពេលចាំបាច់'
+    },
+    meds: {
+      empty: 'គ្មានថ្នាំដែលបានកំណត់សម្រាប់ថ្ងៃនេះ',
+      takenAt: 'បានលេបនៅ',
+      critical: 'សំខាន់ខ្លាំង', optional: 'ជម្រើស',
+      tapToPriority: 'ចុចដើម្បីផ្លាស់ប្តូរអាទិភាព'
+    },
+    medModal: {
+      addTitle: 'បន្ថែមថ្នាំ', editTitle: 'កែសម្រួលថ្នាំ',
+      name: 'ឈ្មោះថ្នាំ', dosage: 'កម្រិតថ្នាំ (ឧ. «១គ្រាប់», «២កាប់ស៊ូល»)',
+      dosagePlaceholder: 'ឧ.៖ ១គ្រាប់',
+      timeOfDay: 'ពេលលេបថ្នាំ (ជ្រើសរើសទាំងអស់ដែលត្រូវ)',
+      addSpecificTime: '+ បន្ថែមពេលវេលាជាក់លាក់',
+      frequency: 'ញឹកញាប់ប៉ុណ្ណា?',
+      freqDaily: 'រាល់ថ្ងៃ', freqEveryOther: 'ថ្ងៃម្ចាស់ថ្ងៃ',
+      freqMWF: 'ច, ព, ស', freqCustom: 'ថ្ងៃតាមជម្រើស',
+      selectDays: 'ជ្រើសរើសថ្ងៃ',
+      startDate: 'កាលបរិច្ឆេទចាប់ផ្តើម', startTime: 'ពេលវេលាចាប់ផ្តើម',
+      duration: 'រយៈពេល',
+      durOngoing: 'បន្ត (គ្មានថ្ងៃបញ្ចប់)', durWeeks: 'រយៈពេលប៉ុន្មានសប្តាហ៍',
+      durMonths: 'រយៈពេលប៉ុន្មានខែ', durEndDate: 'រហូតដល់ថ្ងៃជាក់លាក់',
+      durBottle: 'រហូតអស់ថ្នាំ',
+      endDate: 'កាលបរិច្ឆេទបញ្ចប់',
+      notes: 'កំណត់ចំណាំ (ស្រេចចិត្ត)', notesPlaceholder: 'ញ៉ាំជាមួយអាហារ ជាដើម',
+      priority: 'អាទិភាព', priorityCritical: 'សំខាន់ខ្លាំង', priorityOptional: 'ជម្រើស',
+      cancel: 'បោះបង់', save: 'រក្សាទុក', stop: 'ឈប់ប្រើថ្នាំ',
+      alarmNone: 'គ្មានការជូនដំណឹង', remove: 'លុប'
+    },
+    asNeededModal: {
+      addTitle: 'កត់ត្រាការប្រើថ្នាំនៅពេលចាំបាច់', editTitle: 'កែសម្រួលការប្រើថ្នាំនៅពេលចាំបាច់',
+      name: 'ឈ្មោះថ្នាំ', namePlaceholder: 'ឧ.៖ Paracetamol, Ibuprofen',
+      dosage: 'កម្រិតថ្នាំ', dosagePlaceholder: 'ឧ.៖ ១គ្រាប់, ៥mg',
+      timeTaken: 'ពេលវេលាដែលបានលេប',
+      notes: 'កំណត់ចំណាំ (ស្រេចចិត្ត)', notesPlaceholder: 'មូលហេតុ: ឈឺក្បាល, ឈឺ ជាដើម',
+      cancel: 'បោះបង់', log: 'កត់ត្រាការប្រើថ្នាំ'
+    },
+    settings: {
+      profile: 'ប្រវត្តិរូប', timeAlarms: 'ពេលវេលាថ្នាំ និងការជូនដំណឹង',
+      enableAlarms: 'បើកការជូនដំណឹង',
+      enableAlarmsDesc: 'បញ្ចេញសំឡេងនៅពេលដល់ពេលថ្នាំ (ត្រូវបើកកម្មវិធី)',
+      timeCol: 'ពេលវេលា', alarmSoundCol: 'សំឡេងជូនដំណឹង',
+      saveTimeAlarms: 'រក្សាទុកពេលវេលា និងការជូនដំណឹង',
+      alsoTrack: 'តាមដានបន្ថែម',
+      appointments: 'ការណាត់',
+      appointmentsDesc: 'តាមដានការទៅជួបគ្រូពេទ្យ ការព្យាបាល និងការណាត់ផ្នែកវេជ្ជសាស្ត្រ',
+      healthMetrics: 'សូចនាករសុខភាព',
+      healthMetricsDesc: 'កត់ត្រាសញ្ញាសំខាន់ ទម្ងន់ ជំហាន និងទិន្នន័យសុខភាពផ្សេងៗ',
+      weight: 'ទម្ងន់', temperature: 'សីតុណ្ហភាព', bloodPressure: 'សម្ពាធឈាម',
+      heartRate: 'អត្រាបេះដូង', bloodSugar: 'ជាតិស្ករក្នុងឈាម', steps: 'ជំហាន',
+      oxygenation: 'អុកស៊ីហ្សែនក្នុងឈាម', sleep: 'ការគេង',
+      dataManagement: 'ការគ្រប់គ្រងទិន្នន័យ',
+      exportData: 'នាំចេញទិន្នន័យ', exportDesc: 'ទាញយកទិន្នន័យទាំងអស់ជាឯកសារបម្រុង',
+      importData: 'នាំចូលទិន្នន័យ', importDesc: 'ស្តារទិន្នន័យពីឯកសារបម្រុង',
+      clearData: 'លុបទិន្នន័យទាំងអស់', clearDesc: 'លុបថ្នាំ កំណត់ហេតុ និងការណាត់ទាំងអស់',
+      language: 'ភាសា',
+      install: 'ដំឡើងជាកម្មវិធីនៅអេក្រង់គេហទំព័រ',
+      installDesc: 'រៀនពីរបៀបបន្ថែមកម្មវិធីនេះទៅអេក្រង់គេហទំព័ររបស់អ្នក'
+    },
+    medListModal: {
+      title: 'កាលវិភាគថ្នាំ', close: 'បិទ', add: '+ បន្ថែមថ្នាំ',
+      empty: 'គ្មានថ្នាំដែលបានកំណត់\nចុច «+ បន្ថែមថ្នាំ» ដើម្បីចាប់ផ្តើម'
+    },
+    appointments: {
+      upcoming: 'នាពេលខាងមុខ', past: 'កន្លងទៅ', add: '+ បន្ថែមការណាត់',
+      noAny: 'មិនទាន់មានការណាត់ណាមួយទេ',
+      noAnyHint: 'ចុចប៊ូតុងខាងក្រោមដើម្បីបន្ថែមការណាត់ដំបូងរបស់អ្នក',
+      noUpcoming: 'គ្មានការណាត់នាពេលខាងមុខ', noPast: 'គ្មានការណាត់កន្លងទៅ',
+      edit: 'កែសម្រួល', delete: 'លុប', markComplete: 'សម្គាល់ថាបានបញ្ចប់', completed: '✓ បានបញ្ចប់'
+    },
+    apptModal: {
+      addTitle: 'បន្ថែមការណាត់', editTitle: 'កែសម្រួលការណាត់',
+      type: 'ប្រភេទ', typeDoctorVisit: 'ជួបគ្រូពេទ្យ', typeInfusion: 'ការចាក់ IV',
+      typeLabWork: 'ការធ្វើតេស្ត', typeProcedure: 'នីតិវិធីព្យាបាល', typeOther: 'ផ្សេងៗ',
+      titleField: 'ចំណងជើង/ការពិពណ៌នា', titlePlaceholder: 'ឧ.៖ ពិនិត្យជាមួយ Dr. សុខ',
+      date: 'កាលបរិច្ឆេទ', timeOptional: 'ពេលវេលា (ស្រេចចិត្ត)',
+      location: 'ទីតាំង', locationVirtual: 'អនឡាញ (វីដេអូ)', locationInPerson: 'ទៅដោយផ្ទាល់',
+      addressField: 'អាសយដ្ឋាន/ព័ត៌មានលំអិត', addressVirtualField: 'តំណវីដេអូ/ព័ត៌មានលំអិត',
+      addressPlaceholder: 'ឈ្មោះមន្ទីរពេទ្យ លេខបន្ទប់ ឬតំណវីដេអូ',
+      notes: 'កំណត់ចំណាំ (ស្រេចចិត្ត)', notesPlaceholder: 'យកប័ណ្ណធានារ៉ាប់រង តម ជាដើម',
+      cancel: 'បោះបង់', save: 'រក្សាទុក'
+    },
+    metrics: {
+      add: '+ បន្ថែមទិន្នន័យ',
+      noData: 'មិនទាន់មានទិន្នន័យសុខភាព', noDate: 'គ្មានទិន្នន័យសម្រាប់ថ្ងៃនេះ',
+      prompt: 'ចុច «+ បន្ថែមទិន្នន័យ» ដើម្បីចាប់ផ្តើមតាមដាន',
+      noMatch: 'គ្មានទិន្នន័យដែលត្រូវនឹងតម្រងបច្ចុប្បន្ន',
+      noMatchHint: 'សាកល្បងផ្លាស់ប្តូរការកំណត់តម្រង ឬជ្រូកកាលបរិច្ឆេទ',
+      noDataRange: 'រកមិនឃើញទិន្នន័យសម្រាប់ជ្រូកកាលបរិច្ឆេទនេះ',
+      edit: 'កែសម្រួល', delete: 'លុប', notes: 'កំណត់ចំណាំ'
+    },
+    logModal: {
+      addTitle: 'បន្ថែមទិន្នន័យ', editTitle: 'កែសម្រួលទិន្នន័យ',
+      datetime: 'កាលបរិច្ឆេទ និងពេលវេលា',
+      temperature: 'សីតុណ្ហភាព (°F)', bloodPressure: 'សម្ពាធឈាម',
+      heartRate: 'អត្រាបេះដូង (bpm)', bloodGlucose: 'ជាតិស្ករ (mg/dL)',
+      weight: 'ទម្ងន់ (lbs)', steps: 'ជំហាន', oxygenation: 'អុកស៊ីហ្សែន (%)',
+      sleep: 'ការគេង (ម៉ោង)', notes: 'កំណត់ចំណាំ',
+      systolicPlaceholder: 'Systolic', diastolicPlaceholder: 'Diastolic',
+      cancel: 'បោះបង់', save: 'រក្សាទុក'
+    },
+    weeklyView: {
+      prevWeek: '← សប្តាហ៍មុន', nextWeek: 'សប្តាហ៍ក្រោយ →', close: 'បិទ', print: 'បោះពុម្ព'
+    },
+    morningCheck: {
+      title: '⚠️ ថ្នាំសំខាន់ដែលបានបំភ្លេច',
+      message: 'ថ្នាំសំខាន់ទាំងនេះសម្រាប់ {{slot}} កាលពីម្សិលមិញមិនទាន់បានកត់ត្រា:',
+      viewYesterday: 'មើលថ្នាំម្សិលមិញ', dismiss: 'បិទ'
+    },
+    alarmModal: {
+      title: '💊 ដល់ពេលលេបថ្នាំហើយ',
+      message: 'សូមបញ្ជាក់ថាអ្នកបានឃើញការជូនដំណឹងនេះ',
+      gotIt: 'យល់ព្រម',
+      timeLabel: 'ថ្នាំ{{time}}',
+      notificationTitle: 'ការជូនដំណឹងថ្នាំ',
+      notificationBody: 'ដល់ពេលថ្នាំ{{time}}ហើយ!'
+    },
+    profile: {
+      loading: 'កំពុងផ្ទុក...', allDataSeparate: 'ទិន្នន័យទាំងអស់ត្រូវបានរក្សាទុកដាច់ដោយឡែកសម្រាប់ប្រវត្តិរូបនីមួយៗ',
+      shareTitle: 'ចែករំលែកប្រវត្តិរូប', shareDesc: 'អនុញ្ញាតឱ្យឧបករណ៍ផ្សេងភ្ជាប់ដើម្បីធ្វើសមកាលកម្ម',
+      switchJoinTitle: 'ប្តូរ ឬចូលរួមប្រវត្តិរូប', switchJoinDesc: 'ប្តូរប្រវត្តិរូប ឬភ្ជាប់ជាមួយប្រវត្តិរូបដែលបានចែករំលែក',
+      stopSharing: 'ឈប់ចែករំលែក', disconnect: 'ផ្តាច់ការភ្ជាប់',
+      connectedDevices: 'ឧបករណ៍ដែលភ្ជាប់', noDevices: 'មិនទាន់មានឧបករណ៍ភ្ជាប់',
+      scanCode: 'ស្កែនលេខកូដនេះជាមួយឧបករណ៍ផ្សេង:', codeLabel: 'លេខកូដ:',
+      lastSync: 'ធ្វើសមកាលកម្មចុងក្រោយ:', statusLabel: 'ស្ថានភាព:', online: '● អនឡាញ',
+      syncNote: 'ការផ្លាស់ប្តូរទាំងអស់ត្រូវបានធ្វើសមកាលកម្មជាពេលជាក់ស្តែងជាមួយឧបករណ៍មេ',
+      createNew: 'បង្កើតប្រវត្តិរូបថ្មី',
+      synced: 'បានធ្វើសមកាលកម្ម', sharing: 'កំពុងចែករំលែក',
+      sharingDesc: 'កំពុងចែករំលែកជាមួយឧបករណ៍ដែលភ្ជាប់',
+      syncedDesc: 'ធ្វើសមកាលកម្មជាពេលជាក់ស្តែងជាមួយឧបករណ៍មេ',
+      reconnecting: 'កំពុងភ្ជាប់ឡើងវិញ...',
+      resumingDesc: 'កំពុងបន្តវគ្គចែករំលែក...',
+      reconnectingDesc: 'កំពុងភ្ជាប់ជាមួយឧបករណ៍មេឡើងវិញ...',
+      justNow: 'ទើបតែ'
+    },
+    schedule: {
+      daily: 'រាល់ថ្ងៃ', everyOtherDay: 'ថ្ងៃម្ចាស់ថ្ងៃ', mwf: 'ច, ព, ស',
+      ongoing: 'បន្ត', starts: '• ចាប់ផ្តើម {{date}}',
+      nWeeks: '• {{n}} សប្តាហ៍', nMonths: '• {{n}} ខែ',
+      untilDate: '• រហូតដល់ {{date}}', nDoses: '• {{n}} ដង',
+      untilDateParens: '(រហូតដល់ {{date}})', everyDay: 'រាល់ថ្ងៃ'
+    },
+    days: { sun: 'អា', mon: 'ច', tue: 'អ', wed: 'ព', thu: 'ព្រ', fri: 'សុ', sat: 'ស' },
+    alerts: {
+      requiredFields: 'សូមបំពេញព័ត៌មានចាំបាច់ទាំងអស់',
+      selectTime: 'សូមជ្រើសរើសពេលវេលាយ៉ាងហោចណាស់មួយ ឬបន្ថែមពេលវេលាជាក់លាក់',
+      selectStartDate: 'សូមជ្រើសរើសកាលបរិច្ឆេទចាប់ផ្តើម',
+      selectDays: 'សូមជ្រើសរើសថ្ងៃយ៉ាងហោចណាស់មួយសម្រាប់កាលវិភាគតាមជម្រើស',
+      invalidDuration: 'សូមបញ្ចូលរយៈពេលដែលត្រឹមត្រូវ',
+      selectEndDate: 'សូមជ្រើសរើសកាលបរិច្ឆេទបញ្ចប់',
+      bottleDosesRequired: 'សូមបញ្ចូលចំនួនថ្នាំក្នុងដប',
+      deleteMed: 'តើអ្នកពិតជាចង់លុបថ្នាំនេះមែនទេ?',
+      stopMed: 'ឈប់ប្រើថ្នាំនេះ? កាលបរិច្ឆេទបញ្ចប់នឹងត្រូវកំណត់ជាម្សិលមិញ ហើយថ្នាំដែលនៅសល់ទាំងអស់នឹងត្រូវលុប',
+      deleteLog: 'តើអ្នកពិតជាចង់លុបកំណត់ហេតុនេះមែនទេ?',
+      deleteAppt: 'តើអ្នកពិតជាចង់លុបការណាត់នេះមែនទេ?',
+      importOverwrite: 'ទិន្នន័យបច្ចុប្បន្នទាំងអស់នឹងត្រូវជំនួសដោយទិន្នន័យដែលនាំចូល។ តើអ្នកចង់បន្តទេ?',
+      importSuccess: 'នាំចូលទិន្នន័យដោយជោគជ័យ! ទំព័រនឹងផ្ទុកឡើងវិញ',
+      exportSuccess: 'នាំចេញទិន្នន័យដោយជោគជ័យ! នៅលើ iOS អ្នកប្រហែលជាត្រូវចុចឯកសារឱ្យជាប់ ហើយជ្រើស «រក្សាទុកក្នុងឯកសារ»',
+      clearConfirmMsg: 'តើអ្នកពិតជាចង់លុបទិន្នន័យទាំងអស់មែនទេ? វាមិនអាចត្រឡប់វិញបានទេ!\n\nនឹងត្រូវលុប:\n• ថ្នាំទាំងអស់\n• កំណត់ហេតុថ្នាំទាំងអស់\n• ការណាត់ទាំងអស់\n• ទិន្នន័យសុខភាពទាំងអស់\n\nវាយ «លុប» ក្នុងប្រអប់បន្ទាប់ ដើម្បីបញ្ជាក់',
+      clearConfirmPrompt: 'វាយ លុប ដើម្បីបញ្ជាក់:',
+      clearConfirmWord: 'លុប',
+      deletionCancelled: 'បានបោះបង់ការលុប',
+      dataCleared: 'បានលុបទិន្នន័យទាំងអស់ ទំព័រនឹងផ្ទុកឡើងវិញ',
+      deleteProfile: 'តើអ្នកពិតជាចង់លុបប្រវត្តិរូប «{{name}}» មែនទេ? ថ្នាំ ការណាត់ និងទិន្នន័យសុខភាពទាំងអស់របស់ប្រវត្តិរូបនេះនឹងត្រូវលុបជាអចិន្ត្រៃយ៍',
+      profileNameRequired: 'សូមបញ្ចូលឈ្មោះប្រវត្តិរូប',
+      deleteActiveProfile: 'មិនអាចលុបប្រវត្តិរូបដែលកំពុងប្រើបានទេ សូមប្តូរទៅប្រវត្តិរូបផ្សេងជាមុន'
+    },
+    toasts: { alarmSaved: 'បានរក្សាទុកពេលវេលា និងការជូនដំណឹង!' },
+    updateBanner: {
+      title: 'មានការអាប់ដេត', message: 'កំណែថ្មី ({{version}}) មានរួចហើយ',
+      updateNow: 'អាប់ដេតឥឡូវ', later: 'នៅពេលក្រោយ'
+    }
+  },
+
+  'zh-TW': {
+    tab: { meds: '藥物', appointments: '預約', metrics: '健康' },
+    header: {
+      meds: '藥物', appointments: '預約', metrics: '健康',
+      medSchedule: '服藥時間表', asNeeded: '+ 按需服用',
+      addAppointment: '+ 新增預約', addMetrics: '+ 新增資料',
+      weekView: '週視圖', back: '← 返回', filterMetrics: '篩選資料 ▼', print: '列印'
+    },
+    timeOfDay: { morning: '早上', afternoon: '下午', evening: '晚上', bedtime: '睡前', asNeeded: '按需' },
+    meds: {
+      empty: '今天沒有安排藥物。', takenAt: '已服用於',
+      critical: '必要', optional: '可選', tapToPriority: '點擊更改優先順序'
+    },
+    medModal: {
+      addTitle: '新增藥物', editTitle: '編輯藥物',
+      name: '藥物名稱', dosage: '劑量（例：「1 片」、「2 顆膠囊」）',
+      dosagePlaceholder: '例：1 片',
+      timeOfDay: '服用時間（選擇所有適用項目）',
+      addSpecificTime: '+ 新增具體時間',
+      frequency: '服用頻率？',
+      freqDaily: '每天', freqEveryOther: '隔天', freqMWF: '一、三、五', freqCustom: '自訂日期',
+      selectDays: '選擇日期',
+      startDate: '開始日期', startTime: '開始時間',
+      duration: '持續時間',
+      durOngoing: '持續（無結束日期）', durWeeks: '幾週', durMonths: '幾個月',
+      durEndDate: '至特定日期', durBottle: '直至藥物用完',
+      endDate: '結束日期',
+      notes: '備註（選填）', notesPlaceholder: '隨餐服用等',
+      priority: '優先順序', priorityCritical: '必要', priorityOptional: '可選',
+      cancel: '取消', save: '儲存', stop: '停用藥物', alarmNone: '無鬧鐘', remove: '刪除'
+    },
+    asNeededModal: {
+      addTitle: '記錄按需用藥', editTitle: '編輯按需用藥',
+      name: '藥物名稱', namePlaceholder: '例：普拿疼、布洛芬',
+      dosage: '劑量', dosagePlaceholder: '例：1 片、5mg',
+      timeTaken: '服用時間',
+      notes: '備註（選填）', notesPlaceholder: '原因：頭痛、疼痛等',
+      cancel: '取消', log: '記錄用藥'
+    },
+    settings: {
+      profile: '個人檔案', timeAlarms: '用藥時間與鬧鐘',
+      enableAlarms: '啟用鬧鐘',
+      enableAlarmsDesc: '用藥時間到時播放聲音（需保持應用程式開啟）',
+      timeCol: '時間', alarmSoundCol: '鬧鐘聲音',
+      saveTimeAlarms: '儲存時間與鬧鐘設定',
+      alsoTrack: '同時追蹤',
+      appointments: '預約', appointmentsDesc: '追蹤醫師看診、療程與醫療預約',
+      healthMetrics: '健康指標', healthMetricsDesc: '記錄生命徵象、體重、步數及其他健康資料',
+      weight: '體重', temperature: '體溫', bloodPressure: '血壓',
+      heartRate: '心率', bloodSugar: '血糖', steps: '步數', oxygenation: '血氧', sleep: '睡眠',
+      dataManagement: '資料管理',
+      exportData: '匯出資料', exportDesc: '將所有資料下載為備份檔案',
+      importData: '匯入資料', importDesc: '從備份檔案還原資料',
+      clearData: '清除所有資料', clearDesc: '刪除所有藥物、記錄與預約',
+      language: '語言',
+      install: '安裝為主畫面應用程式', installDesc: '了解如何將此應用程式加入主畫面'
+    },
+    medListModal: {
+      title: '服藥時間表', close: '關閉', add: '+ 新增藥物',
+      empty: '尚未安排任何藥物。\n點擊「+ 新增藥物」開始使用。'
+    },
+    appointments: {
+      upcoming: '即將到來', past: '過去', add: '+ 新增預約',
+      noAny: '尚未安排任何預約。', noAnyHint: '點擊下方按鈕新增第一個預約。',
+      noUpcoming: '無即將到來的預約。', noPast: '無過去的預約。',
+      edit: '編輯', delete: '刪除', markComplete: '標記為完成', completed: '✓ 已完成'
+    },
+    apptModal: {
+      addTitle: '新增預約', editTitle: '編輯預約',
+      type: '類型', typeDoctorVisit: '看診', typeInfusion: '輸液',
+      typeLabWork: '抽血檢查', typeProcedure: '醫療程序', typeOther: '其他',
+      titleField: '標題／說明', titlePlaceholder: '例：與王醫師的定期檢查',
+      date: '日期', timeOptional: '時間（選填）',
+      location: '地點', locationVirtual: '線上（視訊）', locationInPerson: '實體到場',
+      addressField: '地址／詳情', addressVirtualField: '視訊連結／詳情',
+      addressPlaceholder: '醫院名稱、房間號或視訊連結',
+      notes: '備註（選填）', notesPlaceholder: '攜帶健保卡、需空腹等',
+      cancel: '取消', save: '儲存'
+    },
+    metrics: {
+      add: '+ 新增資料', noData: '尚無健康資料。', noDate: '此日期無資料。',
+      prompt: '點擊「+ 新增資料」開始追蹤。',
+      noMatch: '無資料符合目前的篩選條件。', noMatchHint: '請嘗試調整篩選設定或日期範圍。',
+      noDataRange: '找不到此日期範圍的資料。',
+      edit: '編輯', delete: '刪除', notes: '備註'
+    },
+    logModal: {
+      addTitle: '新增資料', editTitle: '編輯資料',
+      datetime: '日期與時間',
+      temperature: '體溫 (°F)', bloodPressure: '血壓', heartRate: '心率 (bpm)',
+      bloodGlucose: '血糖 (mg/dL)', weight: '體重 (磅)', steps: '步數',
+      oxygenation: '血氧 (%)', sleep: '睡眠 (小時)', notes: '備註',
+      systolicPlaceholder: '收縮壓', diastolicPlaceholder: '舒張壓',
+      cancel: '取消', save: '儲存'
+    },
+    weeklyView: { prevWeek: '← 上一週', nextWeek: '下一週 →', close: '關閉', print: '列印' },
+    morningCheck: {
+      title: '⚠️ 必要藥物未服用',
+      message: '昨天 {{slot}} 的這些必要藥物尚未記錄：',
+      viewYesterday: '查看昨天的藥物', dismiss: '關閉'
+    },
+    alarmModal: {
+      title: '💊 服藥時間到了', message: '請確認您已看到此提醒。', gotIt: '好，知道了',
+      timeLabel: '{{time}} 的藥物', notificationTitle: '用藥提醒',
+      notificationBody: '{{time}} 的用藥時間到了！'
+    },
+    profile: {
+      loading: '載入中…', allDataSeparate: '所有資料按個人檔案分開儲存',
+      shareTitle: '分享個人檔案', shareDesc: '允許其他裝置連線同步',
+      switchJoinTitle: '切換或加入個人檔案', switchJoinDesc: '切換個人檔案或連線至共享個人檔案',
+      stopSharing: '停止分享', disconnect: '中斷連線',
+      connectedDevices: '已連線裝置', noDevices: '尚無裝置連線',
+      scanCode: '使用其他裝置掃描此碼：', codeLabel: '代碼：',
+      lastSync: '上次同步：', statusLabel: '狀態：', online: '● 上線',
+      syncNote: '所有變更會即時同步至主裝置',
+      createNew: '建立新個人檔案',
+      synced: '已同步', sharing: '分享中', sharingDesc: '正在與已連線裝置分享',
+      syncedDesc: '正在即時同步至主裝置', reconnecting: '重新連線中…',
+      resumingDesc: '正在恢復分享工作階段…', reconnectingDesc: '正在重新連線至主裝置…',
+      justNow: '剛才'
+    },
+    schedule: {
+      daily: '每天', everyOtherDay: '隔天', mwf: '一、三、五', ongoing: '持續',
+      starts: '• 開始於 {{date}}', nWeeks: '• {{n}} 週', nMonths: '• {{n}} 個月',
+      untilDate: '• 至 {{date}}', nDoses: '• {{n}} 劑',
+      untilDateParens: '（至 {{date}}）', everyDay: '每天'
+    },
+    days: { sun: '日', mon: '一', tue: '二', wed: '三', thu: '四', fri: '五', sat: '六' },
+    alerts: {
+      requiredFields: '請填寫所有必填欄位',
+      selectTime: '請至少選擇一個時段或新增具體時間',
+      selectStartDate: '請選擇開始日期',
+      selectDays: '請至少選擇一天作為自訂排程',
+      invalidDuration: '請輸入有效的持續時間',
+      selectEndDate: '請選擇結束日期',
+      bottleDosesRequired: '請輸入藥瓶中的劑量數',
+      deleteMed: '確定要刪除此藥物嗎？',
+      stopMed: '停用此藥物？結束日期將設為昨天，所有未來劑量將被刪除。',
+      deleteLog: '確定要刪除此記錄嗎？',
+      deleteAppt: '確定要刪除此預約嗎？',
+      importOverwrite: '所有現有資料將被匯入的資料取代。確定要繼續嗎？',
+      importSuccess: '資料匯入成功！頁面即將重新載入。',
+      exportSuccess: '資料匯出成功！在 iOS 上，您可能需要長按下載的檔案並選擇「儲存至檔案」。',
+      clearConfirmMsg: '確定要刪除所有資料嗎？此操作無法復原！\n\n將刪除：\n• 所有藥物\n• 所有用藥記錄\n• 所有預約\n• 所有健康資料\n\n在下方方框中輸入「刪除」以確認。',
+      clearConfirmPrompt: '輸入刪除以確認：',
+      clearConfirmWord: '刪除',
+      deletionCancelled: '已取消刪除。',
+      dataCleared: '所有資料已刪除。頁面即將重新載入。',
+      deleteProfile: '確定要刪除「{{name}}」個人檔案嗎？此個人檔案的所有藥物、預約和健康資料將被永久刪除。',
+      profileNameRequired: '請輸入個人檔案名稱',
+      deleteActiveProfile: '無法刪除目前使用的個人檔案。請先切換至其他個人檔案。'
+    },
+    toasts: { alarmSaved: '時間與鬧鐘設定已儲存！' },
+    updateBanner: {
+      title: '有可用更新', message: '新版本 ({{version}}) 已可使用。',
+      updateNow: '立即更新', later: '稍後'
+    }
+  },
+
+  ht: {
+    tab: { meds: 'Medikaman', appointments: 'Randevou', metrics: 'Sante' },
+    header: {
+      meds: 'Medikaman', appointments: 'Randevou', metrics: 'Sante',
+      medSchedule: 'Orè Medikaman', asNeeded: '+ Si Nesesè',
+      addAppointment: '+ Ajoute Randevou', addMetrics: '+ Ajoute Done',
+      weekView: 'Semèn Konplè', back: '← Retounen', filterMetrics: 'Filtre Done ▼', print: 'Enprime'
+    },
+    timeOfDay: { morning: 'Maten', afternoon: 'Aprèmidi', evening: 'Swa', bedtime: 'Anvan Dòmi', asNeeded: 'Si Nesesè' },
+    meds: {
+      empty: 'Pa gen medikaman pwograme pou jodi a.', takenAt: 'Pran a',
+      critical: 'Enpòtan', optional: 'Opsyonèl', tapToPriority: 'Touche pou chanje priyorite'
+    },
+    medModal: {
+      addTitle: 'Ajoute Medikaman', editTitle: 'Modifye Medikaman',
+      name: 'Non Medikaman', dosage: 'Dòz (egz. «1 grenn», «2 kapsil»)',
+      dosagePlaceholder: 'Egz.: 1 grenn',
+      timeOfDay: 'Lè pou pran (chwazi tout ki aplikab)',
+      addSpecificTime: '+ Ajoute Lè Espesifik',
+      frequency: 'Konbyen fwa?',
+      freqDaily: 'Chak Jou', freqEveryOther: 'Chak Dezyèm Jou', freqMWF: 'Lun, Mèk, Van', freqCustom: 'Jou Pèsonalize',
+      selectDays: 'Chwazi Jou',
+      startDate: 'Dat Kòmansman', startTime: 'Lè Kòmansman',
+      duration: 'Dire',
+      durOngoing: 'Kontinye (san dat fen)', durWeeks: 'Pou Kèk Semèn', durMonths: 'Pou Kèk Mwa',
+      durEndDate: 'Jiska yon Dat', durBottle: 'Jouk Medikaman Fini',
+      endDate: 'Dat Fen',
+      notes: 'Nòt (opsyonèl)', notesPlaceholder: 'Avèk manje, elatriye',
+      priority: 'Priyorite', priorityCritical: 'Enpòtan', priorityOptional: 'Opsyonèl',
+      cancel: 'Anile', save: 'Sove', stop: 'Kanpe Medikaman', alarmNone: 'Pa gen Alàm', remove: 'Efase'
+    },
+    asNeededModal: {
+      addTitle: 'Anrejistre Medikaman Si Nesesè', editTitle: 'Modifye Medikaman Si Nesesè',
+      name: 'Non Medikaman', namePlaceholder: 'Egz.: Tylenol, Ibipwofèn',
+      dosage: 'Dòz', dosagePlaceholder: 'Egz.: 1 grenn, 5 mg',
+      timeTaken: 'Lè Pran',
+      notes: 'Nòt (opsyonèl)', notesPlaceholder: 'Rezon: tèt fè mal, doulè',
+      cancel: 'Anile', log: 'Anrejistre Medikaman'
+    },
+    settings: {
+      profile: 'Pwofil', timeAlarms: 'Lè Medikaman ak Alàm',
+      enableAlarms: 'Aktive Alàm',
+      enableAlarmsDesc: 'Jwe son lè lè medikaman rive (aplikasyon an dwe louvri)',
+      timeCol: 'Lè', alarmSoundCol: 'Son Alàm',
+      saveTimeAlarms: 'Sove Lè ak Alàm',
+      alsoTrack: 'Swiv Tou',
+      appointments: 'Randevou', appointmentsDesc: 'Swiv vizit doktè, pwosedi ak randevou medikal',
+      healthMetrics: 'Endikasyon Sante', healthMetricsDesc: 'Anrejistre siy vital, pwa, pa ak lòt done sante',
+      weight: 'Pwa', temperature: 'Tanperati', bloodPressure: 'Tansyon',
+      heartRate: 'Batman Kè', bloodSugar: 'Sik San', steps: 'Pa', oxygenation: 'Oksijèn San', sleep: 'Somèy',
+      dataManagement: 'Jesyon Done',
+      exportData: 'Ekspòte Done', exportDesc: 'Telechaje tout done kòm fichye backup',
+      importData: 'Enpòte Done', importDesc: 'Restore done depi fichye backup',
+      clearData: 'Efase Tout Done', clearDesc: 'Efase tout medikaman, anrejistreman ak randevou',
+      language: 'Lang',
+      install: 'Enstale kòm App sou Ekran Akèy', installDesc: 'Aprann kijan pou ajoute app sa a sou ekran akèy ou'
+    },
+    medListModal: {
+      title: 'Orè Medikaman', close: 'Fèmen', add: '+ Ajoute Medikaman',
+      empty: 'Pa gen medikaman pwograme.\nTouche «+ Ajoute Medikaman» pou kòmanse.'
+    },
+    appointments: {
+      upcoming: 'Pwochen', past: 'Pase', add: '+ Ajoute Randevou',
+      noAny: 'Pa gen randevou pwograme pou kounye a.', noAnyHint: 'Touche bouton anba a pou ajoute premye randevou ou.',
+      noUpcoming: 'Pa gen randevou pwochen.', noPast: 'Pa gen randevou pase.',
+      edit: 'Modifye', delete: 'Efase', markComplete: 'Make kòm Fini', completed: '✓ Fini'
+    },
+    apptModal: {
+      addTitle: 'Ajoute Randevou', editTitle: 'Modifye Randevou',
+      type: 'Tip', typeDoctorVisit: 'Vizit Doktè', typeInfusion: 'Enfizyon',
+      typeLabWork: 'Egzamen Lab', typeProcedure: 'Pwosedi', typeOther: 'Lòt',
+      titleField: 'Tit/Deskripsyon', titlePlaceholder: 'Egz.: Bilan avèk Dr. Jean',
+      date: 'Dat', timeOptional: 'Lè (opsyonèl)',
+      location: 'Kote', locationVirtual: 'Anliy (Videyo)', locationInPerson: 'An Pèsòn',
+      addressField: 'Adrès/Detay', addressVirtualField: 'Lyen Videyo/Detay',
+      addressPlaceholder: 'Non klinik, nimewo chanm, oswa lyen videyo',
+      notes: 'Nòt (opsyonèl)', notesPlaceholder: 'Pote kat asirans, rès vant vid, elatriye',
+      cancel: 'Anile', save: 'Sove'
+    },
+    metrics: {
+      add: '+ Ajoute Done', noData: 'Pa gen done sante pou kounye a.', noDate: 'Pa gen done pou dat sa a.',
+      prompt: 'Touche «+ Ajoute Done» pou kòmanse swivi.',
+      noMatch: 'Pa gen done ki koresponn ak filtre aktyèl la.', noMatchHint: 'Eseye chanje paramèt filtre oswa peryòd dat.',
+      noDataRange: 'Pa jwenn done pou peryòd dat sa a.',
+      edit: 'Modifye', delete: 'Efase', notes: 'Nòt'
+    },
+    logModal: {
+      addTitle: 'Ajoute Done', editTitle: 'Modifye Done',
+      datetime: 'Dat ak Lè',
+      temperature: 'Tanperati (°F)', bloodPressure: 'Tansyon', heartRate: 'Batman Kè (bpm)',
+      bloodGlucose: 'Sik San (mg/dL)', weight: 'Pwa (lbs)', steps: 'Pa',
+      oxygenation: 'Oksijèn (%)', sleep: 'Somèy (èdtan)', notes: 'Nòt',
+      systolicPlaceholder: 'Sistòlik', diastolicPlaceholder: 'Dyastòlik',
+      cancel: 'Anile', save: 'Sove'
+    },
+    weeklyView: { prevWeek: '← Semèn Anvan', nextWeek: 'Semèn Pwochen →', close: 'Fèmen', print: 'Enprime' },
+    morningCheck: {
+      title: '⚠️ Medikaman Enpòtan Pase',
+      message: 'Medikaman enpòtan sa yo pou {{slot}} yè pa t anrejistre:',
+      viewYesterday: 'Gade Medikaman Yè', dismiss: 'Fèmen'
+    },
+    alarmModal: {
+      title: '💊 Lè Pou Pran Medikaman', message: 'Tanpri konfime ou wè rapèl sa a.', gotIt: 'Dakò',
+      timeLabel: 'Medikaman {{time}}', notificationTitle: 'Rapèl Medikaman',
+      notificationBody: 'Lè medikaman {{time}} rive!'
+    },
+    profile: {
+      loading: 'Ap chaje…', allDataSeparate: 'Tout done estoke separeman pou chak pwofil',
+      shareTitle: 'Pataje Pwofil', shareDesc: 'Pèmèt lòt aparèy konekte pou senkronize',
+      switchJoinTitle: 'Chanje oswa Rantre nan Pwofil', switchJoinDesc: 'Chanje pwofil oswa konekte ak pwofil pataje',
+      stopSharing: 'Kanpe Pataj', disconnect: 'Dekonekte',
+      connectedDevices: 'Aparèy Konekte', noDevices: 'Pa gen aparèy konekte pou kounye a',
+      scanCode: 'Eskane kòd sa a ak yon lòt aparèy:', codeLabel: 'Kòd:',
+      lastSync: 'Dènye Senkronizasyon:', statusLabel: 'Estati:', online: '● Anliy',
+      syncNote: 'Tout chanjman senkronize an tan reyèl ak aparèy òt la',
+      createNew: 'Kreye Nouvo Pwofil',
+      synced: 'Senkronize', sharing: 'Ap Pataje', sharingDesc: 'Ap pataje ak aparèy konekte yo',
+      syncedDesc: 'Senkronizasyon an tan reyèl ak aparèy òt la', reconnecting: 'Ap rekonekte…',
+      resumingDesc: 'Ap reprann sesyon pataj la…', reconnectingDesc: 'Ap rekonekte ak aparèy òt la…',
+      justNow: 'Kounye a'
+    },
+    schedule: {
+      daily: 'Chak Jou', everyOtherDay: 'Chak Dezyèm Jou', mwf: 'Lun, Mèk, Van',
+      ongoing: 'Kontinye', starts: '• Kòmanse {{date}}',
+      nWeeks: '• {{n}} Semèn', nMonths: '• {{n}} Mwa', untilDate: '• Jiska {{date}}', nDoses: '• {{n}} Dòz',
+      untilDateParens: '(jiska {{date}})', everyDay: 'Chak Jou'
+    },
+    days: { sun: 'Dim', mon: 'Lun', tue: 'Mar', wed: 'Mèk', thu: 'Jed', fri: 'Van', sat: 'Sam' },
+    alerts: {
+      requiredFields: 'Tanpri ranpli tout chan obligatwa yo',
+      selectTime: 'Tanpri chwazi omwen yon peryòd tan oswa ajoute yon lè espesifik',
+      selectStartDate: 'Tanpri chwazi yon dat kòmansman',
+      selectDays: 'Tanpri chwazi omwen yon jou pou orè pèsonalize a',
+      invalidDuration: 'Tanpri antre yon dire valid',
+      selectEndDate: 'Tanpri chwazi yon dat fen',
+      bottleDosesRequired: 'Tanpri antre kantite dòz nan boutèy la',
+      deleteMed: 'Ou sèten ou vle efase medikaman sa a?',
+      stopMed: 'Kanpe medikaman sa a? Dat fen an pral mete sou yè epi tout dòz alavni pral efase.',
+      deleteLog: 'Ou sèten ou vle efase anrejistreman sa a?',
+      deleteAppt: 'Ou sèten ou vle efase randevou sa a?',
+      importOverwrite: 'Tout done aktyèl yo pral ranplase pa done enpòte yo. Ou vle kontinye?',
+      importSuccess: 'Done enpòte avèk siksè! Paj la pral rechaje.',
+      exportSuccess: 'Done ekspòte avèk siksè! Sou iOS ou ka bezwen kenbe fichye telechaje a epi chwazi «Sove nan Fichye».',
+      clearConfirmMsg: 'Ou absoilman sèten ou vle efase tout done yo? Sa pa ka defèt!\n\nPral efase:\n• Tout medikaman\n• Tout istwa medikaman\n• Tout randevou\n• Tout done sante\n\nEkri «efase» nan bwat ki vini apre a pou konfime.',
+      clearConfirmPrompt: 'Ekri efase pou konfime:',
+      clearConfirmWord: 'efase',
+      deletionCancelled: 'Efasaj anile.',
+      dataCleared: 'Tout done efase. Paj la pral rechaje.',
+      deleteProfile: 'Ou sèten ou vle efase pwofil «{{name}}» a? Tout done pral efase pèmanantman.',
+      profileNameRequired: 'Tanpri antre yon non pwofil',
+      deleteActiveProfile: 'Ou pa ka efase pwofil aktif la. Tanpri chanje nan yon lòt pwofil dabò.'
+    },
+    toasts: { alarmSaved: 'Lè ak alàm sove!' },
+    updateBanner: {
+      title: 'Miz ajou disponib', message: 'Nouvo vèsyon ({{version}}) disponib.',
+      updateNow: 'Mete ajou kounye a', later: 'Pita'
+    }
+  },
+
+  gu: {
+    tab: { meds: 'દવા', appointments: 'મુલાકાત', metrics: 'સ્વાસ્થ્ય' },
+    header: {
+      meds: 'દવા', appointments: 'મુલાકાત', metrics: 'સ્વાસ્થ્ય',
+      medSchedule: 'દવાનો સમયપત્રક', asNeeded: '+ જ્યારે જરૂર હોય',
+      addAppointment: '+ મુલાકાત ઉમેરો', addMetrics: '+ ડેટા ઉમેરો',
+      weekView: 'સાપ્તાહિક દૃષ્ટિ', back: '← પાછળ', filterMetrics: 'ડેટા ફિલ્ટર ▼', print: 'છાપો'
+    },
+    timeOfDay: { morning: 'સવાર', afternoon: 'બપોર', evening: 'સાંજ', bedtime: 'સૂતા પહેલાં', asNeeded: 'જ્યારે જરૂર હોય' },
+    meds: {
+      empty: 'આજ માટે કોઈ દવા નિર્ધારિત નથી.', takenAt: 'લીધી',
+      critical: 'જરૂરી', optional: 'ઐચ્છિક', tapToPriority: 'પ્રાધાન્ય બદલવા ટૅપ કરો'
+    },
+    medModal: {
+      addTitle: 'દવા ઉમેરો', editTitle: 'દવા સંપાદિત કરો',
+      name: 'દવાનું નામ', dosage: 'માત્રા (દા.ત. «1 ગોળી», «2 કૅપ્સ્યૂલ»)',
+      dosagePlaceholder: 'દા.ત.: 1 ગોળી',
+      timeOfDay: 'લેવાનો સમય (બધા લાગુ વિકલ્પ પસંદ કરો)',
+      addSpecificTime: '+ ચોક્કસ સમય ઉમેરો',
+      frequency: 'કેટલી વાર?',
+      freqDaily: 'રોજ', freqEveryOther: 'એક દિવસ છોડીને', freqMWF: 'સોમ, બુધ, શુક્ર', freqCustom: 'કસ્ટમ દિવસો',
+      selectDays: 'દિવસ પસંદ કરો',
+      startDate: 'શરૂ કરવાની તારીખ', startTime: 'શરૂ કરવાનો સમય',
+      duration: 'અવધિ',
+      durOngoing: 'ચાલુ (કોઈ સમાપ્તિ તારીખ નહીં)', durWeeks: 'કેટલાક અઠવાડિયા', durMonths: 'કેટલાક મહિના',
+      durEndDate: 'ચોક્કસ તારીખ સુધી', durBottle: 'દવા ખૂટે ત્યાં સુધી',
+      endDate: 'સમાપ્તિ તારીખ',
+      notes: 'નોંધ (ઐચ્છિક)', notesPlaceholder: 'ખોરાક સાથે, વગેરે',
+      priority: 'પ્રાધાન્ય', priorityCritical: 'જરૂરી', priorityOptional: 'ઐચ્છિક',
+      cancel: 'રદ કરો', save: 'સાચવો', stop: 'દવા બંધ કરો', alarmNone: 'કોઈ એલાર્મ નહીં', remove: 'કાઢો'
+    },
+    asNeededModal: {
+      addTitle: 'જ્યારે જરૂર હોય ત્યારે લીધેલ દવા નોંધો', editTitle: 'જ્યારે જરૂર હોય ત્યારે લીધેલ દવા સંપાદિત કરો',
+      name: 'દવાનું નામ', namePlaceholder: 'દા.ત.: પેરાસીટામોલ, આઇબ્રૂફેન',
+      dosage: 'માત્રા', dosagePlaceholder: 'દા.ત.: 1 ગોળી, 5mg',
+      timeTaken: 'લેવાનો સમય',
+      notes: 'નોંધ (ઐચ્છિક)', notesPlaceholder: 'કારણ: માથાનો દુખાવો, દર્દ, વગેરે',
+      cancel: 'રદ કરો', log: 'દવા નોંધો'
+    },
+    settings: {
+      profile: 'પ્રોફાઇલ', timeAlarms: 'દવાનો સમય અને એલાર્મ',
+      enableAlarms: 'એલાર્મ સક્ષમ કરો',
+      enableAlarmsDesc: 'દવાનો સમય થાય ત્યારે અવાજ વગાડો (ઍપ ખુલ્લી હોવી જોઈએ)',
+      timeCol: 'સમય', alarmSoundCol: 'એલાર્મ અવાજ',
+      saveTimeAlarms: 'સમય અને એલાર્મ સૅટિંગ સાચવો',
+      alsoTrack: 'આ પણ ટ્રૅક કરો',
+      appointments: 'મુલાકાત', appointmentsDesc: 'ડોક્ટર મુલાકાત, સારવાર અને તબીબી એપોઇંટ ટ્રૅક કરો',
+      healthMetrics: 'સ્વાસ્થ્ય માપ', healthMetricsDesc: 'BP, વજન, પગલાં અને અન્ય આરોગ્ય ડેટા નોંધો',
+      weight: 'વજન', temperature: 'તાપમાન', bloodPressure: 'BP',
+      heartRate: 'HR', bloodSugar: 'blood sugar', steps: 'પગલાં', oxygenation: 'ઑક્સિજન %', sleep: 'ઊંઘ',
+      dataManagement: 'ડેટા વ્યવસ્થાપન',
+      exportData: 'ડેટા નિકાસ', exportDesc: 'backup file તરીકે ડેટા download કરો',
+      importData: 'ડેટા આયાત', importDesc: 'backup file પરથી ડેટા restore કરો',
+      clearData: 'બધો ડેટા કાઢો', clearDesc: 'બધી દવા, records અને appointments કાઢો',
+      language: 'ભાષા',
+      install: 'home screen app તરીકે install કરો', installDesc: 'આ app home screen પર ઉમેરવાની રીત જાણો'
+    },
+    medListModal: {
+      title: 'દવાનું સમયપત્રક', close: 'બંધ કરો', add: '+ દવા ઉમેરો',
+      empty: 'કોઈ દવા નિર્ધારિત નથી.\\nશરૂ કરવા «+ દવા ઉમેરો» ટૅપ કરો.'
+    },
+    appointments: {
+      upcoming: 'આગામી', past: 'ભૂતકાળ', add: '+ મુલાકાત ઉમેરો',
+      noAny: 'હજી સુધી કોઈ મુલાકાત નિર્ધારિત નથી.', noAnyHint: 'પ્રથમ મુલાકાત ઉમેરવા નીચેનું બટન ટૅપ કરો.',
+      noUpcoming: 'કોઈ આગામી મુલાકાત નથી.', noPast: 'કોઈ ભૂતકાળની મુલાકાત નથી.',
+      edit: 'સંપાદિત કરો', delete: 'કાઢો', markComplete: 'સંપૂર્ણ ચિહ્નિત કરો', completed: '✓ સંપૂર્ણ'
+    },
+    apptModal: {
+      addTitle: 'મુલાકાત ઉમેરો', editTitle: 'મુલાકાત સંપાદિત કરો',
+      type: 'પ્રકાર', typeDoctorVisit: 'ડોક્ટર મુલાકાત', typeInfusion: 'ઇન્ફ્યૂઝન',
+      typeLabWork: 'લેબ', typeProcedure: 'પ્રક્રિયા', typeOther: 'અન્ય',
+      titleField: 'શીર્ષક/વર્ણન', titlePlaceholder: 'દા.ત.: ડો. પટેલ સાથે ચેક-અપ',
+      date: 'તારીખ', timeOptional: 'સમય (ઐચ્છિક)',
+      location: 'સ્થળ', locationVirtual: 'ઑનલાઇન (વીડિયો)', locationInPerson: 'સ્વયં ઉપસ્થિત',
+      addressField: 'સરનામું/વિગત', addressVirtualField: 'વીડિયો લિંક/વિગત',
+      addressPlaceholder: 'હોસ્પિટલ નામ, રૂમ નંબર, અથવા વીડિયો લિંક',
+      notes: 'નોંધ (ઐચ્છિક)', notesPlaceholder: 'ઇન્સ્યુરંસ કાર્ડ લો, ઉપવાસ જરૂરી, વગેરે',
+      cancel: 'રદ કરો', save: 'સાચવો'
+    },
+    metrics: {
+      add: '+ ડેટા ઉમેરો', noData: 'હજી કોઈ આરોગ્ય ડેટા નથી.', noDate: 'આ તારીખ માટે કોઈ ડેટા નથી.',
+      prompt: '«+ ડેટા ઉમેરો» ટૅપ કરીને ટ્રૅકિંગ શરૂ કરો.',
+      noMatch: 'વર્તમાન ફિલ્ટર સાથે કોઈ ડેટા મેળ ખાતો નથી.', noMatchHint: 'ફિલ્ટર સૅટિંગ અથવા તારીખ શ્રેણી બદલવાનો પ્રયાસ કરો.',
+      noDataRange: 'આ તારીખ શ્રેણી માટે કોઈ ડેટા મળ્યો નહીં.',
+      edit: 'સંપાદિત કરો', delete: 'કાઢો', notes: 'નોંધ'
+    },
+    logModal: {
+      addTitle: 'ડેટા ઉમેરો', editTitle: 'ડેટા સંપાદિત કરો',
+      datetime: 'તારીખ અને સમય',
+      temperature: 'તાપમાન (°F)', bloodPressure: 'BP', heartRate: 'HR (bpm)',
+      bloodGlucose: 'blood sugar (mg/dL)', weight: 'વજન (lbs)', steps: 'પગલાં',
+      oxygenation: 'ઑક્સિજન (%)', sleep: 'ઊંઘ (કલાક)', notes: 'નોંધ',
+      systolicPlaceholder: 'systolic', diastolicPlaceholder: 'diastolic',
+      cancel: 'રદ કરો', save: 'સાચવો'
+    },
+    weeklyView: { prevWeek: '← ગત સપ્તાહ', nextWeek: 'આવતો સપ્તાહ →', close: 'બંધ કરો', print: 'છાપો' },
+    morningCheck: {
+      title: '⚠️ જરૂરી દવા ચૂકી ગઈ',
+      message: 'ગઈ કાલ {{slot}}ની આ જરૂરી દવાઓ નોંધાઈ ન હતી:',
+      viewYesterday: 'ગઈ કાલની દવા જુઓ', dismiss: 'બંધ કરો'
+    },
+    alarmModal: {
+      title: '💊 દવા લેવાનો સમય થઈ ગયો', message: 'કૃપા કરીને પુષ્ટિ કરો કે તમે આ રિમાઇંડર જોયો.', gotIt: 'ઠીક છે',
+      timeLabel: '{{time}}ની દવા', notificationTitle: 'દવા રિમાઇંડર',
+      notificationBody: '{{time}}ની દવા લેવાનો સમય થઈ ગયો!'
+    },
+    profile: {
+      loading: 'લોડ થઈ રહ્યું છે…', allDataSeparate: 'બધો ડેટા દરેક પ્રોફાઇલ માટે અલગ store છે',
+      shareTitle: 'પ્રોફાઇલ શૅર કરો', shareDesc: 'અન્ય ઉપકરણોને કનેક્ટ થઈને sync કરવા દો',
+      switchJoinTitle: 'પ્રોફાઇલ બદલો અથવા જોડાઓ', switchJoinDesc: 'પ્રોફાઇલ બદલો અથવા shared profile સાથે કનેક્ટ કરો',
+      stopSharing: 'sharing બંધ કરો', disconnect: 'disconnect કરો',
+      connectedDevices: 'connected ઉપકરણ', noDevices: 'હજી કોઈ ઉપકરણ connected નથી',
+      scanCode: 'અન્ય ઉપકરણ વડે આ code scan કરો:', codeLabel: 'Code:',
+      lastSync: 'છેલ્લો sync:', statusLabel: 'Status:', online: '● Online',
+      syncNote: 'બધા ફેરફાર host ઉપકરણ સાથે real-time sync થાય છે',
+      createNew: 'નવી પ્રોફાઇલ બનાવો',
+      synced: 'Synced', sharing: 'Sharing', sharingDesc: 'Connected ઉપકરણ સાથે share થઈ રહ્યું છે',
+      syncedDesc: 'Host ઉપકરણ સાથે real-time sync', reconnecting: 'ફરી connect થઈ રહ્યું છે…',
+      resumingDesc: 'Sharing session ફરી શરૂ થઈ રહ્યો છે…', reconnectingDesc: 'Host ઉપકરણ સાથે ફરી connect થઈ રહ્યું છે…',
+      justNow: 'અત્યારે'
+    },
+    schedule: {
+      daily: 'રોજ', everyOtherDay: 'એક દિવસ છોડીને', mwf: 'સોમ, બુધ, શુક્ર',
+      ongoing: 'ચાલુ', starts: '• {{date}}થી શરૂ',
+      nWeeks: '• {{n}} અઠવાડિયા', nMonths: '• {{n}} મહિના', untilDate: '• {{date}} સુધી', nDoses: '• {{n}} ડોઝ',
+      untilDateParens: '({{date}} સુધી)', everyDay: 'દરરોજ'
+    },
+    days: { sun: 'રવિ', mon: 'સોમ', tue: 'મંગળ', wed: 'બુધ', thu: 'ગુરુ', fri: 'શુક્ર', sat: 'શનિ' },
+    alerts: {
+      requiredFields: 'કૃપા કરીને તમામ જરૂરી ક્ષેત્રો ભરો',
+      selectTime: 'કૃપા કરીને ઓછામાં ઓછો એક સમય પસંદ કરો અથવા ચોક્કસ સમય ઉમેરો',
+      selectStartDate: 'કૃપા કરીને શરૂ કરવાની તારીખ પસંદ કરો',
+      selectDays: 'કૃપા કરીને custom schedule માટે ઓછામાં ઓછો એક દિવસ પસંદ કરો',
+      invalidDuration: 'કૃપા કરીને valid અવધિ નાખો',
+      selectEndDate: 'કૃપા કરીને સમાપ્તિ તારીખ પસંદ કરો',
+      bottleDosesRequired: 'કૃપા કરીને બોટલમાં doses ની સંખ્યા નાખો',
+      deleteMed: 'તમે ખરેખર આ દવા કાઢવા માંગો છો?',
+      stopMed: 'આ દવા બંધ કરો? સમાપ્તિ તારીખ ગઈ કાલે set થશે અને ભવિષ્યની બધી doses delete થશે.',
+      deleteLog: 'તમે ખરેખર આ record કાઢવા માંગો છો?',
+      deleteAppt: 'તમે ખરેખર આ મુલાકાત કાઢવા માંગો છો?',
+      importOverwrite: 'હાલનો બધો ડેટા import ડેટા દ્વારા બદલાશે. તમે આગળ વધવા માંગો છો?',
+      importSuccess: 'ડેટા import સફળ! Page હમણાં reload થશે.',
+      exportSuccess: 'ડેટા export સફળ! iOS પર downloaded file ને લાંબુ દબાવીને «Files માં સાચવો» પસંદ કરો.',
+      clearConfirmMsg: 'તમે ખરેખર બધો ડેટા કાઢવા માંગો છો? આ undo ન થઈ શકે!\\n\\nકાઢવામાં આવશે:\\n• બધી દવા\\n• બધા records\\n• બધી મુલાકાત\\n• બધો આરોગ્ય ડેટા\\n\\nNiche box માં «કાઢો» ટાઈપ કરો.',
+      clearConfirmPrompt: 'કાઢો ટાઈપ કરો:',
+      clearConfirmWord: 'કાઢો',
+      deletionCancelled: 'Delete રદ.',
+      dataCleared: 'બધો ડેટા clear. Page હમણાં reload થશે.',
+      deleteProfile: '«{{name}}» profile delete કરો? બધો ડેટા કાયમ માટે delete થશે.',
+      profileNameRequired: 'કૃપા કરીને profile નામ નાખો',
+      deleteActiveProfile: 'Current profile delete ન થઈ શકે. પહેલા અન્ય profile પર switch કરો.'
+    },
+    toasts: { alarmSaved: 'સમય અને alarm settings સાચવ્યા!' },
+    updateBanner: {
+      title: 'Update ઉપલબ્ધ', message: 'નવું version ({{version}}) ઉપલબ્ધ છે.',
+      updateNow: 'હમણાં update કરો', later: 'પછી'
+    }
+  },
+  am: {
+    tab: { meds: 'መድሃኒት', appointments: 'ቀጠሮ', metrics: 'ጤና' },
+    header: {
+      meds: 'መድሃኒት', appointments: 'ቀጠሮ', metrics: 'ጤና',
+      medSchedule: 'የመድሃኒት ሰዓት', asNeeded: '+ እንደ አስፈላጊነቱ',
+      addAppointment: '+ ቀጠሮ ጨምር', addMetrics: '+ ዳታ ጨምር',
+      weekView: 'የሳምንት እይታ', back: '← ተመለስ', filterMetrics: 'ዳታ አጣራ ▼', print: 'አትም'
+    },
+    timeOfDay: { morning: 'ጠዋት', afternoon: 'ከሰዓት', evening: 'ምሽት', bedtime: 'ከመተኛቴ በፊት', asNeeded: 'እንደ አስፈላጊነቱ' },
+    meds: {
+      empty: 'ዛሬ ምንም መድሃኒት አልተያዘም።', takenAt: 'የተወሰደበት',
+      critical: 'አስፈላጊ', optional: 'አማራጭ', tapToPriority: 'ቅድሚያ ለመቀየር ጠቅ አድርግ'
+    },
+    medModal: {
+      addTitle: 'መድሃኒት ጨምር', editTitle: 'መድሃኒት አርም',
+      name: 'የመድሃኒት ስም', dosage: 'መጠን (ምሳ.፡ «1 ክኒን»፣ «2 ካፕሱል»)',
+      dosagePlaceholder: 'ምሳ.፡ 1 ክኒን',
+      timeOfDay: 'የሚወሰድበት ጊዜ (ሁሉም ተፈፃሚ ምረጥ)',
+      addSpecificTime: '+ ልዩ ሰዓት ጨምር',
+      frequency: 'ስንት ጊዜ?',
+      freqDaily: 'ዕለት ዕለት', freqEveryOther: 'አንድ ቀን おいて', freqMWF: 'ሰ, ረ, አ', freqCustom: 'ብጁ ቀናት',
+      selectDays: 'ቀናት ምረጥ',
+      startDate: 'የጀመርበት ቀን', startTime: 'የጀመርበት ሰዓት',
+      duration: 'ጊዜ',
+      durOngoing: 'ቀጣይ (የሚያበቃ ቀን የለም)', durWeeks: 'ሳምንታት', durMonths: 'ወራት',
+      durEndDate: 'እስከ ልዩ ቀን', durBottle: 'መድሃኒቱ እስኪያልቅ',
+      endDate: 'የሚያበቃ ቀን',
+      notes: 'ማስታወሻ (አማራጭ)', notesPlaceholder: 'ምግብ ጋር፣ ወዘተ',
+      priority: 'ቅድሚያ', priorityCritical: 'አስፈላጊ', priorityOptional: 'አማራጭ',
+      cancel: 'ሰርዝ', save: 'አስቀምጥ', stop: 'መድሃኒት አቁም', alarmNone: 'ምንም ማንቂያ የለም', remove: 'ሰርዝ'
+    },
+    asNeededModal: {
+      addTitle: 'እንደ አስፈላጊነቱ የወሰደውን ሰርድ', editTitle: 'እንደ አስፈላጊነቱ የወሰደውን አርም',
+      name: 'የመድሃኒት ስም', namePlaceholder: 'ምሳ.፡ ፓራሲታሞል፣ አይቡፕሮፈን',
+      dosage: 'መጠን', dosagePlaceholder: 'ምሳ.፡ 1 ክኒን፣ 5mg',
+      timeTaken: 'የወሰደበት ሰዓት',
+      notes: 'ማስታወሻ (አማራጭ)', notesPlaceholder: 'ምክንያት፡ ራስ ምታት፣ ህመም',
+      cancel: 'ሰርዝ', log: 'መድሃኒት ሰርድ'
+    },
+    settings: {
+      profile: 'መገለጫ', timeAlarms: 'የመድሃኒት ሰዓት እና ማንቂያ',
+      enableAlarms: 'ማንቂያ አስቻይ',
+      enableAlarmsDesc: 'የመድሃኒት ሰዓት ሲደርስ ድምፅ ያሰማ (ፕሮግራሙ ክፍት መሆን አለበት)',
+      timeCol: 'ሰዓት', alarmSoundCol: 'የማንቂያ ድምፅ',
+      saveTimeAlarms: 'ሰዓት እና ማንቂያ አስቀምጥ',
+      alsoTrack: 'ደግሞ ክትትል አድርግ',
+      appointments: 'ቀጠሮ', appointmentsDesc: 'የሐኪም ቀጠሮ፣ ህክምና እና ሕክምናዊ ቀጠሮዎችን ክትትል አድርግ',
+      healthMetrics: 'የጤና መለኪያዎች', healthMetricsDesc: 'ህይወት ምልክቶች፣ ክብደት፣ ዕርምጃ እና ሌሎች የጤና ዳታ ሰርድ',
+      weight: 'ክብደት', temperature: 'ሙቀት', bloodPressure: 'የደም ግፊት',
+      heartRate: 'የልብ ምት', bloodSugar: 'ደም ስኳር', steps: 'ዕርምጃ', oxygenation: 'ኦክሲጅን', sleep: 'እንቅልፍ',
+      dataManagement: 'ዳታ አስተዳደር',
+      exportData: 'ዳታ ላክ', exportDesc: 'ሁሉም ዳታ እንደ ምትኬ ፋይል ወርድ',
+      importData: 'ዳታ አምጣ', importDesc: 'ከምትኬ ፋይል ዳታ ወደ ነበረበት መልስ',
+      clearData: 'ሁሉም ዳታ ሰርዝ', clearDesc: 'ሁሉም መድሃኒት፣ ሪኮርድ እና ቀጠሮ ሰርዝ',
+      language: 'ቋንቋ',
+      install: 'እንደ መነሻ ማያ ፕሮግራም ጫን', installDesc: 'ይህን ፕሮግራም ወደ መነሻ ማያ ማከልን ተማር'
+    },
+    medListModal: {
+      title: 'የመድሃኒት ሰዓት', close: 'ዝጋ', add: '+ መድሃኒት ጨምር',
+      empty: 'ምንም መድሃኒት አልተያዘም።\nለመጀመር «+ መድሃኒት ጨምር» ጠቅ አድርግ።'
+    },
+    appointments: {
+      upcoming: 'መጪ', past: 'ያለፈ', add: '+ ቀጠሮ ጨምር',
+      noAny: 'እስካሁን ምንም ቀጠሮ አልተያዘም።', noAnyHint: 'የመጀመሪያ ቀጠሮ ለማከል ከታች ያለውን ቁልፍ ጠቅ አድርግ።',
+      noUpcoming: 'ምንም መጪ ቀጠሮ የለም።', noPast: 'ምንም ያለፈ ቀጠሮ የለም።',
+      edit: 'አርም', delete: 'ሰርዝ', markComplete: 'እንደ ተጠናቀቀ ምልክት አድርግ', completed: '✓ ተጠናቋል'
+    },
+    apptModal: {
+      addTitle: 'ቀጠሮ ጨምር', editTitle: 'ቀጠሮ አርም',
+      type: 'አይነት', typeDoctorVisit: 'የሐኪም ቀጠሮ', typeInfusion: 'ሕክምና ፈሳሽ',
+      typeLabWork: 'የቤተሙከራ ምርምር', typeProcedure: 'ሂደት', typeOther: 'ሌሎች',
+      titleField: 'ርዕስ/ገለጻ', titlePlaceholder: 'ምሳ.፡ ከዶ/ር ገ/ሥ ጋር ክትትል',
+      date: 'ቀን', timeOptional: 'ሰዓት (አማራጭ)',
+      location: 'ቦታ', locationVirtual: 'መስመር ላይ (ቪዲዮ)', locationInPerson: 'ሰው ሆኖ',
+      addressField: 'አድራሻ/ዝርዝር', addressVirtualField: 'ቪዲዮ ሊንክ/ዝርዝር',
+      addressPlaceholder: 'የሆስፒታል ስም፣ ክፍል ቁጥር ወይም ቪዲዮ ሊንክ',
+      notes: 'ማስታወሻ (አማራጭ)', notesPlaceholder: 'ካርድ አምጣ፣ ሆድ ባዶ ያስፈልጋል፣ ወዘተ',
+      cancel: 'ሰርዝ', save: 'አስቀምጥ'
+    },
+    metrics: {
+      add: '+ ዳታ ጨምር', noData: 'እስካሁን ምንም የጤና ዳታ የለም።', noDate: 'ለዚህ ቀን ዳታ የለም።',
+      prompt: 'ክትትል ለመጀመር «+ ዳታ ጨምር» ጠቅ አድርግ።',
+      noMatch: 'ወቅታዊ ማጣሪያ ጋር የሚዛመድ ዳታ የለም።', noMatchHint: 'የማጣሪያ ቅንብር ወይም ቀን ክልል ለቀይር ሞክር።',
+      noDataRange: 'ለዚህ ቀን ክልል ዳታ አልተገኘም።',
+      edit: 'አርም', delete: 'ሰርዝ', notes: 'ማስታወሻ'
+    },
+    logModal: {
+      addTitle: 'ዳታ ጨምር', editTitle: 'ዳታ አርም',
+      datetime: 'ቀን እና ሰዓት',
+      temperature: 'ሙቀት (°F)', bloodPressure: 'የደም ግፊት', heartRate: 'የልብ ምት (bpm)',
+      bloodGlucose: 'ደም ስኳር (mg/dL)', weight: 'ክብደት (lbs)', steps: 'ዕርምጃ',
+      oxygenation: 'ኦክሲጅን (%)', sleep: 'እንቅልፍ (ሰዓት)', notes: 'ማስታወሻ',
+      systolicPlaceholder: 'ሲስቶሊክ', diastolicPlaceholder: 'ዲያስቶሊክ',
+      cancel: 'ሰርዝ', save: 'አስቀምጥ'
+    },
+    weeklyView: { prevWeek: '← ያለፈ ሳምንት', nextWeek: 'መጪ ሳምንት →', close: 'ዝጋ', print: 'አትም' },
+    morningCheck: {
+      title: '⚠️ አስፈላጊ መድሃኒት ያለፈ',
+      message: 'ትናንት {{slot}} ላይ እነዚህ አስፈላጊ መድሃኒቶች አልተሰዱም:',
+      viewYesterday: 'የትናንት መድሃኒት ይመልከቱ', dismiss: 'ዝጋ'
+    },
+    alarmModal: {
+      title: '💊 የመድሃኒት ሰዓት ደረሰ', message: 'ይህን ማስታወሻ እንዳዩ ያረጋግጡ።', gotIt: 'ጥሩ፣ ገባኝ',
+      timeLabel: 'የ {{time}} መድሃኒት', notificationTitle: 'የመድሃኒት ማስታወሻ',
+      notificationBody: 'የ {{time}} መድሃኒት ሰዓት ደረሰ!'
+    },
+    profile: {
+      loading: 'እየጫነ ነው…', allDataSeparate: 'ሁሉም ዳታ ለእያንዳንዱ መገለጫ የተለየ ነው',
+      shareTitle: 'መገለጫ አጋራ', shareDesc: 'ሌሎች መሳሪያዎች እንዲያመሳስሉ ፍቀድ',
+      switchJoinTitle: 'መገለጫ ቀይር ወይም ተቀላቀል', switchJoinDesc: 'መገለጫ ቀይር ወይም ከተጋራ መገለጫ ጋር ተያያዝ',
+      stopSharing: 'ማጋራት አቁም', disconnect: 'ተቋርጥ',
+      connectedDevices: 'የተያያዙ መሳሪያዎች', noDevices: 'እስካሁን ምንም መሳሪያ አልተያያዘም',
+      scanCode: 'ሌላ መሳሪያ ይህን ኮድ ቅዱ:', codeLabel: 'ኮድ:',
+      lastSync: 'የመጨረሻ ማመሳሰሻ:', statusLabel: 'ሁኔታ:', online: '● ተያይዟል',
+      syncNote: 'ሁሉም ለውጦች ከዋና መሳሪያ ጋር በቀጥታ ያመሳስሉ',
+      createNew: 'አዲስ መገለጫ ፍጠር',
+      synced: 'ተመሳሰለ', sharing: 'እያጋራ ነው', sharingDesc: 'ከተያያዙ መሳሪያዎች ጋር እያጋራ ነው',
+      syncedDesc: 'ከዋና መሳሪያ ጋር በቀጥታ ማመሳሰሻ', reconnecting: 'እንደገና እየተያያዘ ነው…',
+      resumingDesc: 'ማጋራት ቀጥሏል…', reconnectingDesc: 'ከዋና መሳሪያ ጋር እንደገና እየተያያዘ ነው…',
+      justNow: 'አሁን'
+    },
+    schedule: {
+      daily: 'ዕለት ዕለት', everyOtherDay: 'አንድ ቀን ዝለል', mwf: 'ሰኞ፣ ረቡዕ፣ አርብ',
+      ongoing: 'ቀጣይ', starts: '• ይጀምራል {{date}}',
+      nWeeks: '• {{n}} ሳምንት', nMonths: '• {{n}} ወር', untilDate: '• እስከ {{date}}', nDoses: '• {{n}} መጠን',
+      untilDateParens: '(እስከ {{date}})', everyDay: 'ዕለት ዕለት'
+    },
+    days: { sun: 'እሁ', mon: 'ሰኞ', tue: 'ማክ', wed: 'ረቡ', thu: 'ሐሙ', fri: 'አርብ', sat: 'ቅዳ' },
+    alerts: {
+      requiredFields: 'ሁሉም አስፈላጊ መስኮች ይሙሉ',
+      selectTime: 'ቢያንስ አንድ የጊዜ ክፍልፋይ ምረጥ ወይም ልዩ ሰዓት ጨምር',
+      selectStartDate: 'ጀማሪ ቀን ምረጥ',
+      selectDays: 'ለብጁ ቅደም ተከተል ቢያንስ አንድ ቀን ምረጥ',
+      invalidDuration: 'ትክክለኛ ጊዜ አስጣ',
+      selectEndDate: 'ማብቂያ ቀን ምረጥ',
+      bottleDosesRequired: 'በጠርሙስ ውስጥ ያሉ መጠኖች ቁጥር አስጣ',
+      deleteMed: 'ይህን መድሃኒት ልትሰርዝ እርግጠኛ ነህ?',
+      stopMed: 'ይህን መድሃኒት ታቆማለህ? ማብቂያ ቀን ትናንት ይሆናል እና ሁሉም ወደፊት ያሉ መጠኖች ይሰረዛሉ።',
+      deleteLog: 'ይህን ሪኮርድ ልትሰርዝ እርግጠኛ ነህ?',
+      deleteAppt: 'ይህን ቀጠሮ ልትሰርዝ እርግጠኛ ነህ?',
+      importOverwrite: 'ያሉት ሁሉም ዳታ በገቡት ዳታ ይተካሉ። ለቀጠለ እርግጠኛ ነህ?',
+      importSuccess: 'ዳታ ስኬታማ ተጫነ! ገጹ አሁን ዳግም ይጫናል።',
+      exportSuccess: 'ዳታ ስኬታማ ወጣ! iOS ላይ የወረደውን ፋይል ረዘም ብለህ ጫን እና «ወደ ፋይሎች አስቀምጥ» ምረጥ።',
+      clearConfirmMsg: 'ሁሉም ዳታ ልትሰርዝ እርግጠኛ ነህ? ይህ ሊመለስ አይችልም!\n\nሚሰረዙ:\n• ሁሉም መድሃኒቶች\n• ሁሉም ሪኮርዶች\n• ሁሉም ቀጠሮዎች\n• ሁሉም የጤና ዳታ\n\nለማረጋገጥ ከታቸ ሳጥን ውስጥ «ሰርዝ» ተይብ።',
+      clearConfirmPrompt: 'ለማረጋገጥ ሰርዝ ተይብ:',
+      clearConfirmWord: 'ሰርዝ',
+      deletionCancelled: 'መሰረዝ ተሰርዟል።',
+      dataCleared: 'ሁሉም ዳታ ተሰርዟል። ገጹ አሁን ዳግም ይጫናል።',
+      deleteProfile: '«{{name}}» መገለጫ ልትሰርዝ እርግጠኛ ነህ? ሁሉም ዳታ ዘለዓለማዊ ይሰረዛሉ።',
+      profileNameRequired: 'የመገለጫ ስም አስጣ',
+      deleteActiveProfile: 'ወቅታዊ መገለጫ ሊሰረዝ አይቻልም። ቀደም ብሎ ወደ ሌላ መገለጫ ቀይር።'
+    },
+    toasts: { alarmSaved: 'ሰዓት እና ማንቂያ ተቀምጠዋል!' },
+    updateBanner: {
+      title: 'ዝመና አለ', message: 'አዲስ ስሪት ({{version}}) አለ።',
+      updateNow: 'አሁን አዘምን', later: 'በኋላ'
+    }
+  },
+
+  so: {
+    tab: { meds: 'Dawo', appointments: 'Ballanta', metrics: 'Caafimaad' },
+    header: {
+      meds: 'Dawo', appointments: 'Ballanta', metrics: 'Caafimaad',
+      medSchedule: 'Jadwalka Daawada', asNeeded: '+ Marka Loo Baahdo',
+      addAppointment: '+ Kudar Ballanta', addMetrics: '+ Kudar Xogta',
+      weekView: 'Toddobaadka Oo Dhan', back: '← Dib u Noqo', filterMetrics: 'Shaandhe Xogta ▼', print: 'Daabac'
+    },
+    timeOfDay: { morning: 'Subax', afternoon: 'Galabnimo', evening: 'Fiid', bedtime: 'Ka Hor Seexashada', asNeeded: 'Marka Loo Baahdo' },
+    meds: {
+      empty: 'Maanta ma jirto dawo la qorsheeyey.', takenAt: 'La qaatay',
+      critical: 'Lagama Maarmaan', optional: 'Ikhtiyaari', tapToPriority: 'Taab si aad u beddesho mudnaanta'
+    },
+    medModal: {
+      addTitle: 'Dawo Kudar', editTitle: 'Dawo Wax ka Beddel',
+      name: 'Magaca Daawada', dosage: 'Qadarka (mis. «1 kiniin»، «2 capsule»)',
+      dosagePlaceholder: 'Mis.: 1 kiniin',
+      timeOfDay: 'Wakhtiga qaadashada (dooro dhammaan kuwa khuseeya)',
+      addSpecificTime: '+ Kudar Wakhti Gaar Ah',
+      frequency: 'Immisa jeer?',
+      freqDaily: 'Maalin Kasta', freqEveryOther: 'Maalin Laba Jeer', freqMWF: 'Isn, Arb, Jim', freqCustom: 'Maalmaha Gaarka Ah',
+      selectDays: 'Dooro Maalmaha',
+      startDate: 'Taariikhda Bilowga', startTime: 'Wakhtiga Bilowga',
+      duration: 'Muddada',
+      durOngoing: 'Joogto (taariikh dhamaad ma leh)', durWeeks: 'Todobaadyo', durMonths: 'Bilood',
+      durEndDate: 'Ilaa Taariikh Gaar Ah', durBottle: 'Ilaa Daawadu Dhammaato',
+      endDate: 'Taariikhda Dhamaadka',
+      notes: 'Xusuus (ikhtiyaari)', notesPlaceholder: 'Cunto la qaado, iwm',
+      priority: 'Mudnaan', priorityCritical: 'Lagama Maarmaan', priorityOptional: 'Ikhtiyaari',
+      cancel: 'Jooji', save: 'Keydi', stop: 'Daawada Jooji', alarmNone: 'Digniina ma jirto', remove: 'Tirtir'
+    },
+    asNeededModal: {
+      addTitle: 'Dawo Marka Loo Baahdo Diiwaan Geli', editTitle: 'Dawo Marka Loo Baahdo Wax ka Beddel',
+      name: 'Magaca Daawada', namePlaceholder: 'Mis.: Paracetamol, Ibuprofen',
+      dosage: 'Qadarka', dosagePlaceholder: 'Mis.: 1 kiniin, 5mg',
+      timeTaken: 'Wakhtiga La Qaatay',
+      notes: 'Xusuus (ikhtiyaari)', notesPlaceholder: 'Sabab: madax xanuun, xanuun',
+      cancel: 'Jooji', log: 'Dawo Diiwaan Geli'
+    },
+    settings: {
+      profile: 'Astaanta', timeAlarms: 'Wakhtiga Daawada iyo Digniin',
+      enableAlarms: 'Digniin Shid',
+      enableAlarmsDesc: 'Cod dhegaysi marka wakhtiga daawadu soo gaadhdo (app-ka furan ahaan lazim)',
+      timeCol: 'Wakhti', alarmSoundCol: 'Codka Digniinta',
+      saveTimeAlarms: 'Wakhti iyo Digniin Keydi',
+      alsoTrack: 'Sidoo Kale La Socdo',
+      appointments: 'Ballanta', appointmentsDesc: 'Booqashooyinka dhakhtarka, daaweynta iyo ballantaha caafimaad la socdo',
+      healthMetrics: 'Cabbirka Caafimaadka', healthMetricsDesc: 'Calaamadaha noloshada, miisaanka, tallaabooyinka iyo xogta kale diiwaan geli',
+      weight: 'Miisaan', temperature: 'Kulaylka', bloodPressure: 'Cadaadiska Dhiigga',
+      heartRate: 'Garaaca Wadnaha', bloodSugar: 'Sonkorta Dhiigga', steps: 'Tallaabo', oxygenation: 'Oksijiinta Dhiigga', sleep: 'Hurdo',
+      dataManagement: 'Maaraynta Xogta',
+      exportData: 'Xog Dhoofso', exportDesc: 'Dhammaan xogta ka soo deji faylka kaydinta',
+      importData: 'Xog Keeno', importDesc: 'Xogta faylka kaydinta ka soo celso',
+      clearData: 'Dhammaan Xogta Tirtir', clearDesc: 'Dhammaan dawooyinka, diiwaannada iyo ballantaha tirtir',
+      language: 'Luqadda',
+      install: 'U Rakib App ahaan Shaashadda Guriga', installDesc: 'Baro sida app-kan guriga shaashadda lougu daraa'
+    },
+    medListModal: {
+      title: 'Jadwalka Daawada', close: 'Xidh', add: '+ Dawo Kudar',
+      empty: 'Dawo lama qorsheyn.\nTaab «+ Dawo Kudar» si aad u bilowdo.'
+    },
+    appointments: {
+      upcoming: 'Soo Socda', past: 'Hore', add: '+ Ballanta Kudar',
+      noAny: 'Wali ballanta lama qorsheyn.', noAnyHint: 'Taab badhanka hoose si aad u dartid ballantaadii koowaad.',
+      noUpcoming: 'Wax ballanta ah oo soo socda ma jiraan.', noPast: 'Wax ballanta ah oo hore ma jiraan.',
+      edit: 'Wax ka Beddel', delete: 'Tirtir', markComplete: 'U Calaamadee Dhammaatay', completed: '✓ Dhammaatay'
+    },
+    apptModal: {
+      addTitle: 'Ballanta Kudar', editTitle: 'Ballanta Wax ka Beddel',
+      type: 'Nooca', typeDoctorVisit: 'Booqasho Dhakhtar', typeInfusion: 'Daaweyn Lagu Shubaa',
+      typeLabWork: 'Shaqada Muuqaalka', typeProcedure: 'Hawlgal', typeOther: 'Kale',
+      titleField: 'Cinwaanka/Sharaxaadda', titlePlaceholder: 'Mis.: Hubinta Dhakhtar X',
+      date: 'Taariikhda', timeOptional: 'Wakhti (ikhtiyaari)',
+      location: 'Goobta', locationVirtual: 'Onlayn (Fiidiyow)', locationInPerson: 'Jidhkiisa Ahaan',
+      addressField: 'Cinwaanka/Faahfaahinta', addressVirtualField: 'Xiriiriyaha Fiidiyowga/Faahfaahinta',
+      addressPlaceholder: 'Magaca cisbitaalka, lambarka qolka, ama xiriiriyaha fiidiyowga',
+      notes: 'Xusuus (ikhtiyaari)', notesPlaceholder: 'Kaadhka caymiska keen, calool madhan u baahan, iwm',
+      cancel: 'Jooji', save: 'Keydi'
+    },
+    metrics: {
+      add: '+ Xogta Kudar', noData: 'Wali xog caafimaad ma jirto.', noDate: 'Taariikhdan xog ma jirto.',
+      prompt: 'Taab «+ Xogta Kudar» si aad u bilowdo raadraaca.',
+      noMatch: 'Shaandhaha hadda ah xog ku habboon ma jirto.', noMatchHint: 'Isku day beddelida shaandhaha ama muddada taariikhda.',
+      noDataRange: 'Muddadan taariikheed xog lama helin.',
+      edit: 'Wax ka Beddel', delete: 'Tirtir', notes: 'Xusuus'
+    },
+    logModal: {
+      addTitle: 'Xogta Kudar', editTitle: 'Xogta Wax ka Beddel',
+      datetime: 'Taariikhda iyo Wakhtiga',
+      temperature: 'Kulaylka (°F)', bloodPressure: 'Cadaadiska Dhiigga', heartRate: 'Garaaca Wadnaha (bpm)',
+      bloodGlucose: 'Sonkorta Dhiigga (mg/dL)', weight: 'Miisaan (lbs)', steps: 'Tallaabo',
+      oxygenation: 'Oksijiinta (%)', sleep: 'Hurdo (saacadood)', notes: 'Xusuus',
+      systolicPlaceholder: 'Systolic', diastolicPlaceholder: 'Diastolic',
+      cancel: 'Jooji', save: 'Keydi'
+    },
+    weeklyView: { prevWeek: '← Todobaadkii Hore', nextWeek: 'Todobaadka Xiga →', close: 'Xidh', print: 'Daabac' },
+    morningCheck: {
+      title: '⚠️ Dawo Muhiim Ah Laga Tegay',
+      message: 'Shalay {{slot}} dawooyinkan muhiimka ah lama diiwaan gelinin:',
+      viewYesterday: 'Dawooyinkii Shalay Arag', dismiss: 'Xidh'
+    },
+    alarmModal: {
+      title: '💊 Wakhtiga Daawada Wuu Yimid', message: 'Fadlan xaqiiji inaad aragtay xusuusta.', gotIt: 'Waad Fahmay',
+      timeLabel: 'Daawada {{time}}', notificationTitle: 'Xusuusta Daawada',
+      notificationBody: 'Wakhtiga daawada {{time}} wuu yimid!'
+    },
+    profile: {
+      loading: 'Waa la rarayo…', allDataSeparate: 'Dhammaan xogtu si gaar ah u kaydsan tahay astaanta kasta',
+      shareTitle: 'Astaanta La Wadaag', shareDesc: 'U oggolow qalabka kale inay xiriiraan si ay u isku dheellitiraan',
+      switchJoinTitle: 'U Wareeg ama Ku Biir Astaanta', switchJoinDesc: 'Astaanta u wareeg ama astaanta wadaagta ah la xiriir',
+      stopSharing: 'Wadaagga Joji', disconnect: 'La Gooyso',
+      connectedDevices: 'Qalab Xiriiran', noDevices: 'Wali qalabna lama xiriirin',
+      scanCode: 'Koodhkaan qalab kale la scan garee:', codeLabel: 'Koodh:',
+      lastSync: 'Isku Dheellitirkii Ugu Dambeeyay:', statusLabel: 'Xaaladda:', online: '● Onlayn',
+      syncNote: 'Dhammaan isbedelada si toos ah ayaa loogu isku dheellitiraa qalabka martida',
+      createNew: 'Astaanta Cusub Samee',
+      synced: 'La Isku Dheellitiran', sharing: 'Waa La Wadaagayaa', sharingDesc: 'Qalabka xiriirsan ayaa la wadaagayaa',
+      syncedDesc: 'Si toos ah ayaa loogu isku dheellitiraa qalabka martida', reconnecting: 'Dib u Xiriiraya…',
+      resumingDesc: 'Fasalka wadaagga ayaa dib u bilowday…', reconnectingDesc: 'Dib ugu xiriiraya qalabka martida…',
+      justNow: 'Hadda'
+    },
+    schedule: {
+      daily: 'Maalin Kasta', everyOtherDay: 'Maalin Kasta Oo Kale', mwf: 'Isn, Arb, Jim',
+      ongoing: 'Joogto', starts: '• Bilowday {{date}}',
+      nWeeks: '• {{n}} Todobaad', nMonths: '• {{n}} Bil', untilDate: '• Ilaa {{date}}', nDoses: '• {{n}} Qaddar',
+      untilDateParens: '(ilaa {{date}})', everyDay: 'Maalin Kasta'
+    },
+    days: { sun: 'Axd', mon: 'Isn', tue: 'Sal', wed: 'Arb', thu: 'Kha', fri: 'Jim', sat: 'Sab' },
+    alerts: {
+      requiredFields: 'Fadlan buuxi dhammaan goobaha lagama maarmaanka ah',
+      selectTime: 'Fadlan dooro ugu yaraan hal wakhti ama kudar wakhti gaar ah',
+      selectStartDate: 'Fadlan dooro taariikhda bilowga',
+      selectDays: 'Fadlan dooro ugu yaraan hal maalin jadwalka gaarka ah',
+      invalidDuration: 'Fadlan geli muddo sax ah',
+      selectEndDate: 'Fadlan dooro taariikhda dhamaadka',
+      bottleDosesRequired: 'Fadlan geli tirada qadarka ku jira dhalooyinka',
+      deleteMed: 'Ma hubtaa inaad tirtirayso daawadan?',
+      stopMed: 'Daawadan jooji? Taariikhda dhamaadku waxay noqon doontaa shalay, dhammaan qadarka mustaqbalku waa la tirtirayaa.',
+      deleteLog: 'Ma hubtaa inaad tirtirayso diiwaankaan?',
+      deleteAppt: 'Ma hubtaa inaad tirtirayso ballantaan?',
+      importOverwrite: 'Dhammaan xogta hadda jirta waxaa bedeli doona xogta la keenay. Ma rabtaa inaad sii waddo?',
+      importSuccess: 'Xogta si guul leh ayaa loo keenay! Boggu wuxuu hadda dib u raranaayaa.',
+      exportSuccess: 'Xogta si guul leh ayaa loo dhoofiyay! iOS-ka ayaa laga yaabaa inaad taaban tahay faylka la soo dejiyay oo aad doorato «Fayl ku Keydi».',
+      clearConfirmMsg: 'Ma hubtaa inaad tirtirayso dhammaan xogta? Tani ma noqon karto!\n\nWaa la tirtirayaa:\n• Dhammaan dawooyinka\n• Dhammaan diiwaannada\n• Dhammaan ballantaha\n• Dhammaan xogta caafimaadka\n\nQaab-dhismeedka hoose «tirtir» ku qor si aad u xaqiijiso.',
+      clearConfirmPrompt: 'Xaqiijinta u qor tirtir:',
+      clearConfirmWord: 'tirtir',
+      deletionCancelled: 'Tirtirku waa la joojiyay.',
+      dataCleared: 'Dhammaan xogta waa la tirtiray. Boggu wuxuu hadda dib u raranaayaa.',
+      deleteProfile: 'Ma hubtaa inaad tirtirayso astaanta «{{name}}»? Dhammaan xogta astaantaas waa la tirtirayaa si joogto ah.',
+      profileNameRequired: 'Fadlan geli magaca astaanta',
+      deleteActiveProfile: 'Astaanta hadda la isticmaalayo ma tirtiri kartid. Fadlan astaanta kale u wareeg marka hore.'
+    },
+    toasts: { alarmSaved: 'Wakhti iyo digniintu way keydsatay!' },
+    updateBanner: {
+      title: 'Cusboonaysiinta Waa La Heli Karaa', message: 'Nooca cusub ({{version}}) waa la heli karaa.',
+      updateNow: 'Hadda Cusboonaysii', later: 'Dambe'
+    }
+  },
+  bn: {
+    tab: { meds: 'ওষুধ', appointments: 'অ্যাপয়েন্টমেন্ট', metrics: 'স্বাস্থ্য' },
+    header: {
+      meds: 'ওষুধ', appointments: 'অ্যাপয়েন্টমেন্ট', metrics: 'স্বাস্থ্য',
+      medSchedule: 'ওষুধের সময়সূচি', asNeeded: '+ প্রয়োজন হলে',
+      addAppointment: '+ অ্যাপয়েন্টমেন্ট যোগ করুন', addMetrics: '+ ডেটা যোগ করুন',
+      weekView: 'সাপ্তাহিক দেখুন', back: '← ফিরে যান', filterMetrics: 'ফিল্টার ▼', print: 'প্রিন্ট'
+    },
+    timeOfDay: { morning: 'সকাল', afternoon: 'দুপুর', evening: 'সন্ধ্যা', bedtime: 'ঘুমানোর আগে', asNeeded: 'প্রয়োজনে' },
+    meds: {
+      empty: 'আজকের জন্য কোনো ওষুধ নির্ধারিত নেই।', takenAt: 'নেওয়া হয়েছে',
+      critical: 'অপরিহার্য', optional: 'ঐচ্ছিক', tapToPriority: 'অগ্রাধিকার পরিবর্তনে ট্যাপ করুন'
+    },
+    medModal: {
+      addTitle: 'ওষুধ যোগ করুন', editTitle: 'ওষুধ সম্পাদনা করুন',
+      name: 'ওষুধের নাম', dosage: 'মাত্রা (যেমন: «১টি ট্যাবলেট»، «২ ক্যাপসুল»)',
+      dosagePlaceholder: 'যেমন: ১টি ট্যাবলেট',
+      timeOfDay: 'কখন নেবেন (সব প্রযোজ্য সময় বেছে নিন)',
+      addSpecificTime: '+ নির্দিষ্ট সময় যোগ করুন',
+      frequency: 'কত ঘন ঘন?',
+      freqDaily: 'প্রতিদিন', freqEveryOther: 'এক দিন পর পর', freqMWF: 'সোম, বুধ, শুক্র', freqCustom: 'নির্দিষ্ট দিন',
+      selectDays: 'দিন বেছে নিন',
+      startDate: 'শুরুর তারিখ', startTime: 'শুরুর সময়',
+      duration: 'মেয়াদ',
+      durOngoing: 'চলমান (শেষ তারিখ নেই)', durWeeks: 'সপ্তাহ', durMonths: 'মাস',
+      durEndDate: 'নির্দিষ্ট তারিখ পর্যন্ত', durBottle: 'বোতল শেষ হলে',
+      endDate: 'শেষের তারিখ',
+      notes: 'নোট (ঐচ্ছিক)', notesPlaceholder: 'খাবারের সাথে নিন, ইত্যাদি',
+      priority: 'অগ্রাধিকার', priorityCritical: 'অপরিহার্য', priorityOptional: 'ঐচ্ছিক',
+      cancel: 'বাতিল', save: 'সংরক্ষণ', stop: 'ওষুধ বন্ধ করুন', alarmNone: 'কোনো অ্যালার্ম নেই', remove: 'সরান'
+    },
+    asNeededModal: {
+      addTitle: 'প্রয়োজনে নেওয়া ওষুধ লগ করুন', editTitle: 'প্রয়োজনে নেওয়া ওষুধ সম্পাদনা করুন',
+      name: 'ওষুধের নাম', namePlaceholder: 'যেমন: প্যারাসিটামল, আইবুপ্রোফেন',
+      dosage: 'মাত্রা', dosagePlaceholder: 'যেমন: ১ ট্যাবলেট, ৫mg',
+      timeTaken: 'কখন নিয়েছেন',
+      notes: 'নোট (ঐচ্ছিক)', notesPlaceholder: 'কারণ: মাথাব্যথা, ব্যথা, ইত্যাদি',
+      cancel: 'বাতিল', log: 'ওষুধ লগ করুন'
+    },
+    settings: {
+      profile: 'প্রোফাইল', timeAlarms: 'ওষুধের সময় ও অ্যালার্ম',
+      enableAlarms: 'অ্যালার্ম সক্রিয় করুন',
+      enableAlarmsDesc: 'ওষুধের সময় হলে শব্দ বাজান (অ্যাপ খোলা থাকতে হবে)',
+      timeCol: 'সময়', alarmSoundCol: 'অ্যালার্মের শব্দ',
+      saveTimeAlarms: 'সময় ও অ্যালার্ম সেটিং সংরক্ষণ করুন',
+      alsoTrack: 'আরও ট্র্যাক করুন',
+      appointments: 'অ্যাপয়েন্টমেন্ট', appointmentsDesc: 'ডাক্তারের ভিজিট, চিকিৎসা এবং মেডিকেল অ্যাপয়েন্টমেন্ট ট্র্যাক করুন',
+      healthMetrics: 'স্বাস্থ্য পরিমাপ', healthMetricsDesc: 'রক্তচাপ, ওজন, পদক্ষেপ এবং অন্যান্য স্বাস্থ্য ডেটা লগ করুন',
+      weight: 'ওজন', temperature: 'তাপমাত্রা', bloodPressure: 'রক্তচাপ',
+      heartRate: 'হৃদস্পন্দন', bloodSugar: 'রক্তের শর্করা', steps: 'পদক্ষেপ', oxygenation: 'অক্সিজেন %', sleep: 'ঘুম',
+      dataManagement: 'ডেটা ব্যবস্থাপনা',
+      exportData: 'ডেটা রপ্তানি', exportDesc: 'ব্যাকআপ ফাইল হিসেবে সব ডেটা ডাউনলোড করুন',
+      importData: 'ডেটা আমদানি', importDesc: 'ব্যাকআপ ফাইল থেকে ডেটা পুনরুদ্ধার করুন',
+      clearData: 'সব ডেটা মুছুন', clearDesc: 'সব ওষুধ, রেকর্ড এবং অ্যাপয়েন্টমেন্ট মুছুন',
+      language: 'ভাষা',
+      install: 'হোম স্ক্রিনে অ্যাপ হিসেবে ইনস্টল করুন', installDesc: 'এই অ্যাপ হোম স্ক্রিনে যোগ করার উপায় জানুন'
+    },
+    medListModal: {
+      title: 'ওষুধের সময়সূচি', close: 'বন্ধ করুন', add: '+ ওষুধ যোগ করুন',
+      empty: 'কোনো ওষুধ নির্ধারিত নেই।\nশুরু করতে «+ ওষুধ যোগ করুন» ট্যাপ করুন।'
+    },
+    appointments: {
+      upcoming: 'আসন্ন', past: 'অতীত', add: '+ অ্যাপয়েন্টমেন্ট যোগ করুন',
+      noAny: 'এখনো কোনো অ্যাপয়েন্টমেন্ট নির্ধারিত নেই।', noAnyHint: 'প্রথম অ্যাপয়েন্টমেন্ট যোগ করতে নিচের বোতাম ট্যাপ করুন।',
+      noUpcoming: 'কোনো আসন্ন অ্যাপয়েন্টমেন্ট নেই।', noPast: 'কোনো পূর্ববর্তী অ্যাপয়েন্টমেন্ট নেই।',
+      edit: 'সম্পাদনা', delete: 'মুছুন', markComplete: 'সম্পন্ন চিহ্নিত করুন', completed: '✓ সম্পন্ন'
+    },
+    apptModal: {
+      addTitle: 'অ্যাপয়েন্টমেন্ট যোগ করুন', editTitle: 'অ্যাপয়েন্টমেন্ট সম্পাদনা করুন',
+      type: 'ধরন', typeDoctorVisit: 'ডাক্তারের ভিজিট', typeInfusion: 'ইনফিউশন',
+      typeLabWork: 'ল্যাব পরীক্ষা', typeProcedure: 'প্রক্রিয়া', typeOther: 'অন্যান্য',
+      titleField: 'শিরোনাম/বিবরণ', titlePlaceholder: 'যেমন: ডা. রহমানের সাথে চেক-আপ',
+      date: 'তারিখ', timeOptional: 'সময় (ঐচ্ছিক)',
+      location: 'স্থান', locationVirtual: 'অনলাইন (ভিডিও)', locationInPerson: 'সশরীরে',
+      addressField: 'ঠিকানা/বিবরণ', addressVirtualField: 'ভিডিও লিংক/বিবরণ',
+      addressPlaceholder: 'হাসপাতালের নাম, রুম নম্বর, বা ভিডিও লিংক',
+      notes: 'নোট (ঐচ্ছিক)', notesPlaceholder: 'বীমা কার্ড নিন, উপবাস প্রয়োজন, ইত্যাদি',
+      cancel: 'বাতিল', save: 'সংরক্ষণ'
+    },
+    metrics: {
+      add: '+ ডেটা যোগ করুন', noData: 'এখনো কোনো স্বাস্থ্য ডেটা নেই।', noDate: 'এই তারিখে কোনো ডেটা নেই।',
+      prompt: '«+ ডেটা যোগ করুন» ট্যাপ করে ট্র্যাকিং শুরু করুন।',
+      noMatch: 'বর্তমান ফিল্টারের সাথে কোনো ডেটা মেলে না।', noMatchHint: 'ফিল্টার সেটিং বা তারিখের পরিসর পরিবর্তন করুন।',
+      noDataRange: 'এই তারিখের পরিসরে কোনো ডেটা পাওয়া যায়নি।',
+      edit: 'সম্পাদনা', delete: 'মুছুন', notes: 'নোট'
+    },
+    logModal: {
+      addTitle: 'ডেটা যোগ করুন', editTitle: 'ডেটা সম্পাদনা করুন',
+      datetime: 'তারিখ ও সময়',
+      temperature: 'তাপমাত্রা (°F)', bloodPressure: 'রক্তচাপ', heartRate: 'হৃদস্পন্দন (bpm)',
+      bloodGlucose: 'রক্তের শর্করা (mg/dL)', weight: 'ওজন (lbs)', steps: 'পদক্ষেপ',
+      oxygenation: 'অক্সিজেন (%)', sleep: 'ঘুম (ঘণ্টা)', notes: 'নোট',
+      systolicPlaceholder: 'সিস্টোলিক', diastolicPlaceholder: 'ডায়াস্টোলিক',
+      cancel: 'বাতিল', save: 'সংরক্ষণ'
+    },
+    weeklyView: { prevWeek: '← গত সপ্তাহ', nextWeek: 'পরের সপ্তাহ →', close: 'বন্ধ করুন', print: 'প্রিন্ট' },
+    morningCheck: {
+      title: '⚠️ গুরুত্বপূর্ণ ওষুধ মিস হয়েছে',
+      message: 'গতকাল {{slot}}-এর এই গুরুত্বপূর্ণ ওষুধগুলো লগ করা হয়নি:',
+      viewYesterday: 'গতকালের ওষুধ দেখুন', dismiss: 'বন্ধ করুন'
+    },
+    alarmModal: {
+      title: '💊 ওষুধ নেওয়ার সময় হয়েছে', message: 'অনুগ্রহ করে নিশ্চিত করুন যে আপনি এই রিমাইন্ডার দেখেছেন।', gotIt: 'বুঝেছি',
+      timeLabel: '{{time}}-এর ওষুধ', notificationTitle: 'ওষুধের রিমাইন্ডার',
+      notificationBody: '{{time}}-এর ওষুধ নেওয়ার সময় হয়েছে!'
+    },
+    profile: {
+      loading: 'লোড হচ্ছে…', allDataSeparate: 'প্রতিটি প্রোফাইলের ডেটা আলাদাভাবে সংরক্ষিত',
+      shareTitle: 'প্রোফাইল শেয়ার করুন', shareDesc: 'অন্য ডিভাইসকে সংযুক্ত ও সিঙ্ক করতে দিন',
+      switchJoinTitle: 'প্রোফাইল পরিবর্তন বা যোগ দিন', switchJoinDesc: 'প্রোফাইল পরিবর্তন করুন বা শেয়ার করা প্রোফাইলে সংযুক্ত হন',
+      stopSharing: 'শেয়ারিং বন্ধ করুন', disconnect: 'সংযোগ বিচ্ছিন্ন করুন',
+      connectedDevices: 'সংযুক্ত ডিভাইস', noDevices: 'এখনো কোনো ডিভাইস সংযুক্ত নেই',
+      scanCode: 'অন্য ডিভাইস দিয়ে এই কোড স্ক্যান করুন:', codeLabel: 'কোড:',
+      lastSync: 'শেষ সিঙ্ক:', statusLabel: 'অবস্থা:', online: '● অনলাইন',
+      syncNote: 'সব পরিবর্তন হোস্ট ডিভাইসের সাথে রিয়েল-টাইমে সিঙ্ক হয়',
+      createNew: 'নতুন প্রোফাইল তৈরি করুন',
+      synced: 'সিঙ্ক হয়েছে', sharing: 'শেয়ার হচ্ছে', sharingDesc: 'সংযুক্ত ডিভাইসের সাথে শেয়ার হচ্ছে',
+      syncedDesc: 'হোস্ট ডিভাইসের সাথে রিয়েল-টাইম সিঙ্ক', reconnecting: 'পুনরায় সংযুক্ত হচ্ছে…',
+      resumingDesc: 'শেয়ারিং সেশন পুনরায় শুরু হচ্ছে…', reconnectingDesc: 'হোস্ট ডিভাইসের সাথে পুনরায় সংযুক্ত হচ্ছে…',
+      justNow: 'এখনই'
+    },
+    schedule: {
+      daily: 'প্রতিদিন', everyOtherDay: 'একদিন পরপর', mwf: 'সোম, বুধ, শুক্র',
+      ongoing: 'চলমান', starts: '• {{date}} থেকে শুরু',
+      nWeeks: '• {{n}} সপ্তাহ', nMonths: '• {{n}} মাস', untilDate: '• {{date}} পর্যন্ত', nDoses: '• {{n}} ডোজ',
+      untilDateParens: '({{date}} পর্যন্ত)', everyDay: 'প্রতিদিন'
+    },
+    days: { sun: 'রবি', mon: 'সোম', tue: 'মঙ্গ', wed: 'বুধ', thu: 'বৃহ', fri: 'শুক্র', sat: 'শনি' },
+    alerts: {
+      requiredFields: 'অনুগ্রহ করে সব প্রয়োজনীয় ক্ষেত্র পূরণ করুন',
+      selectTime: 'অনুগ্রহ করে কমপক্ষে একটি সময় বেছে নিন বা নির্দিষ্ট সময় যোগ করুন',
+      selectStartDate: 'অনুগ্রহ করে শুরুর তারিখ বেছে নিন',
+      selectDays: 'কাস্টম সময়সূচির জন্য অনুগ্রহ করে কমপক্ষে একটি দিন বেছে নিন',
+      invalidDuration: 'অনুগ্রহ করে বৈধ মেয়াদ দিন',
+      selectEndDate: 'অনুগ্রহ করে শেষের তারিখ বেছে নিন',
+      bottleDosesRequired: 'অনুগ্রহ করে বোতলে ডোজের সংখ্যা দিন',
+      deleteMed: 'আপনি কি সত্যিই এই ওষুধটি মুছতে চান?',
+      stopMed: 'এই ওষুধ বন্ধ করবেন? শেষের তারিখ গতকালে সেট হবে এবং ভবিষ্যতের সব ডোজ মুছে যাবে।',
+      deleteLog: 'আপনি কি সত্যিই এই রেকর্ডটি মুছতে চান?',
+      deleteAppt: 'আপনি কি সত্যিই এই অ্যাপয়েন্টমেন্টটি মুছতে চান?',
+      importOverwrite: 'বর্তমান সব ডেটা আমদানি করা ডেটা দিয়ে প্রতিস্থাপিত হবে। এগিয়ে যেতে চান?',
+      importSuccess: 'ডেটা সফলভাবে আমদানি হয়েছে! পেজ এখন রিলোড হবে।',
+      exportSuccess: 'ডেটা সফলভাবে রপ্তানি হয়েছে! iOS-এ ডাউনলোড করা ফাইলে লং-প্রেস করে «ফাইলে সংরক্ষণ» বেছে নিন।',
+      clearConfirmMsg: 'আপনি কি সত্যিই সব ডেটা মুছতে চান? এটি পূর্বাবস্থায় ফেরানো যাবে না!\n\nমুছে যাবে:\n• সব ওষুধ\n• সব রেকর্ড\n• সব অ্যাপয়েন্টমেন্ট\n• সব স্বাস্থ্য ডেটা\n\nনিশ্চিত করতে নিচের বাক্সে «মুছুন» টাইপ করুন।',
+      clearConfirmPrompt: 'মুছুন টাইপ করুন:',
+      clearConfirmWord: 'মুছুন',
+      deletionCancelled: 'মোছা বাতিল হয়েছে।',
+      dataCleared: 'সব ডেটা মুছে গেছে। পেজ এখন রিলোড হবে।',
+      deleteProfile: '«{{name}}» প্রোফাইল মুছবেন? সেই প্রোফাইলের সব ডেটা স্থায়ীভাবে মুছে যাবে।',
+      profileNameRequired: 'অনুগ্রহ করে প্রোফাইলের নাম দিন',
+      deleteActiveProfile: 'বর্তমান প্রোফাইল মুছা যাবে না। আগে অন্য প্রোফাইলে যান।'
+    },
+    toasts: { alarmSaved: 'সময় ও অ্যালার্ম সেটিং সংরক্ষিত হয়েছে!' },
+    updateBanner: {
+      title: 'আপডেট পাওয়া গেছে', message: 'নতুন ভার্সন ({{version}}) পাওয়া গেছে।',
+      updateNow: 'এখন আপডেট করুন', later: 'পরে'
+    }
+  },
+
+  ur: {
+    tab: { meds: 'ادویات', appointments: 'ملاقاتیں', metrics: 'صحت' },
+    header: {
+      meds: 'ادویات', appointments: 'ملاقاتیں', metrics: 'صحت',
+      medSchedule: 'ادویات کا شیڈول', asNeeded: '+ ضرورت پر',
+      addAppointment: '+ ملاقات شامل کریں', addMetrics: '+ ڈیٹا شامل کریں',
+      weekView: 'ہفتہ وار نظارہ', back: '← واپس', filterMetrics: 'فلٹر ▼', print: 'پرنٹ'
+    },
+    timeOfDay: { morning: 'صبح', afternoon: 'دوپہر', evening: 'شام', bedtime: 'سونے سے پہلے', asNeeded: 'ضرورت پر' },
+    meds: {
+      empty: 'آج کے لیے کوئی دوا مقرر نہیں ہے۔', takenAt: 'لی گئی',
+      critical: 'ضروری', optional: 'اختیاری', tapToPriority: 'ترجیح تبدیل کرنے کے لیے ٹیپ کریں'
+    },
+    medModal: {
+      addTitle: 'دوا شامل کریں', editTitle: 'دوا میں ترمیم کریں',
+      name: 'دوا کا نام', dosage: 'خوراک (مثلاً: «1 گولی»، «2 کیپسول»)',
+      dosagePlaceholder: 'مثلاً: 1 گولی',
+      timeOfDay: 'کب لیں (تمام متعلقہ اوقات منتخب کریں)',
+      addSpecificTime: '+ مخصوص وقت شامل کریں',
+      frequency: 'کتنی بار؟',
+      freqDaily: 'روزانہ', freqEveryOther: 'ایک دن چھوڑ کر', freqMWF: 'پیر، بدھ، جمعہ', freqCustom: 'مخصوص دن',
+      selectDays: 'دن منتخب کریں',
+      startDate: 'شروع کی تاریخ', startTime: 'شروع کا وقت',
+      duration: 'مدت',
+      durOngoing: 'مسلسل (کوئی اختتامی تاریخ نہیں)', durWeeks: 'ہفتے', durMonths: 'مہینے',
+      durEndDate: 'مخصوص تاریخ تک', durBottle: 'بوتل ختم ہونے تک',
+      endDate: 'اختتامی تاریخ',
+      notes: 'نوٹ (اختیاری)', notesPlaceholder: 'کھانے کے ساتھ لیں، وغیرہ',
+      priority: 'ترجیح', priorityCritical: 'ضروری', priorityOptional: 'اختیاری',
+      cancel: 'منسوخ', save: 'محفوظ کریں', stop: 'دوا بند کریں', alarmNone: 'کوئی الارم نہیں', remove: 'ہٹائیں'
+    },
+    asNeededModal: {
+      addTitle: 'ضرورت پر لی گئی دوا ریکارڈ کریں', editTitle: 'ضرورت پر لی گئی دوا میں ترمیم کریں',
+      name: 'دوا کا نام', namePlaceholder: 'مثلاً: پیراسیٹامول، آئیبوپروفین',
+      dosage: 'خوراک', dosagePlaceholder: 'مثلاً: 1 گولی، 5mg',
+      timeTaken: 'لینے کا وقت',
+      notes: 'نوٹ (اختیاری)', notesPlaceholder: 'وجہ: سردرد، درد، وغیرہ',
+      cancel: 'منسوخ', log: 'دوا ریکارڈ کریں'
+    },
+    settings: {
+      profile: 'پروفائل', timeAlarms: 'ادویات کے اوقات اور الارم',
+      enableAlarms: 'الارم فعال کریں',
+      enableAlarmsDesc: 'دوا کا وقت ہونے پر آواز بجائیں (ایپ کھلی ہونی چاہیے)',
+      timeCol: 'وقت', alarmSoundCol: 'الارم کی آواز',
+      saveTimeAlarms: 'اوقات اور الارم کی ترتیبات محفوظ کریں',
+      alsoTrack: 'یہ بھی ٹریک کریں',
+      appointments: 'ملاقاتیں', appointmentsDesc: 'ڈاکٹر کے دورے، علاج اور طبی ملاقاتیں ٹریک کریں',
+      healthMetrics: 'صحت کی پیمائش', healthMetricsDesc: 'بلڈ پریشر، وزن، قدم اور دیگر صحت ڈیٹا ریکارڈ کریں',
+      weight: 'وزن', temperature: 'درجہ حرارت', bloodPressure: 'بلڈ پریشر',
+      heartRate: 'دل کی دھڑکن', bloodSugar: 'بلڈ شوگر', steps: 'قدم', oxygenation: 'آکسیجن %', sleep: 'نیند',
+      dataManagement: 'ڈیٹا مینجمنٹ',
+      exportData: 'ڈیٹا برآمد کریں', exportDesc: 'بیک اپ فائل کے طور پر تمام ڈیٹا ڈاؤن لوڈ کریں',
+      importData: 'ڈیٹا درآمد کریں', importDesc: 'بیک اپ فائل سے ڈیٹا بحال کریں',
+      clearData: 'تمام ڈیٹا حذف کریں', clearDesc: 'تمام ادویات، ریکارڈز اور ملاقاتیں حذف کریں',
+      language: 'زبان',
+      install: 'ہوم اسکرین پر ایپ کے طور پر انسٹال کریں', installDesc: 'اس ایپ کو ہوم اسکرین پر شامل کرنے کا طریقہ جانیں'
+    },
+    medListModal: {
+      title: 'ادویات کا شیڈول', close: 'بند کریں', add: '+ دوا شامل کریں',
+      empty: 'کوئی دوا مقرر نہیں ہے۔\nشروع کرنے کے لیے «+ دوا شامل کریں» ٹیپ کریں۔'
+    },
+    appointments: {
+      upcoming: 'آنے والی', past: 'گزری ہوئی', add: '+ ملاقات شامل کریں',
+      noAny: 'ابھی تک کوئی ملاقات مقرر نہیں ہے۔', noAnyHint: 'پہلی ملاقات شامل کرنے کے لیے نیچے کا بٹن ٹیپ کریں۔',
+      noUpcoming: 'کوئی آنے والی ملاقات نہیں ہے۔', noPast: 'کوئی گزری ہوئی ملاقات نہیں ہے۔',
+      edit: 'ترمیم', delete: 'حذف', markComplete: 'مکمل نشان لگائیں', completed: '✓ مکمل'
+    },
+    apptModal: {
+      addTitle: 'ملاقات شامل کریں', editTitle: 'ملاقات میں ترمیم کریں',
+      type: 'قسم', typeDoctorVisit: 'ڈاکٹر کا دورہ', typeInfusion: 'انفیوژن',
+      typeLabWork: 'لیب ٹیسٹ', typeProcedure: 'طریقہ کار', typeOther: 'دیگر',
+      titleField: 'عنوان/تفصیل', titlePlaceholder: 'مثلاً: ڈاکٹر احمد کے ساتھ چیک اپ',
+      date: 'تاریخ', timeOptional: 'وقت (اختیاری)',
+      location: 'جگہ', locationVirtual: 'آن لائن (ویڈیو)', locationInPerson: 'بالمشافہ',
+      addressField: 'پتہ/تفصیل', addressVirtualField: 'ویڈیو لنک/تفصیل',
+      addressPlaceholder: 'ہسپتال کا نام، کمرہ نمبر، یا ویڈیو لنک',
+      notes: 'نوٹ (اختیاری)', notesPlaceholder: 'بیمہ کارڈ لائیں، روزہ ضروری ہے، وغیرہ',
+      cancel: 'منسوخ', save: 'محفوظ کریں'
+    },
+    metrics: {
+      add: '+ ڈیٹا شامل کریں', noData: 'ابھی تک کوئی صحت ڈیٹا نہیں ہے۔', noDate: 'اس تاریخ کے لیے کوئی ڈیٹا نہیں ہے۔',
+      prompt: '«+ ڈیٹا شامل کریں» ٹیپ کرکے ٹریکنگ شروع کریں۔',
+      noMatch: 'موجودہ فلٹر کے ساتھ کوئی ڈیٹا مماثل نہیں ہے۔', noMatchHint: 'فلٹر کی ترتیبات یا تاریخ کی حد تبدیل کرنے کی کوشش کریں۔',
+      noDataRange: 'اس تاریخ کی حد کے لیے کوئی ڈیٹا نہیں ملا۔',
+      edit: 'ترمیم', delete: 'حذف', notes: 'نوٹ'
+    },
+    logModal: {
+      addTitle: 'ڈیٹا شامل کریں', editTitle: 'ڈیٹا میں ترمیم کریں',
+      datetime: 'تاریخ اور وقت',
+      temperature: 'درجہ حرارت (°F)', bloodPressure: 'بلڈ پریشر', heartRate: 'دل کی دھڑکن (bpm)',
+      bloodGlucose: 'بلڈ شوگر (mg/dL)', weight: 'وزن (lbs)', steps: 'قدم',
+      oxygenation: 'آکسیجن (%)', sleep: 'نیند (گھنٹے)', notes: 'نوٹ',
+      systolicPlaceholder: 'سیسٹولک', diastolicPlaceholder: 'ڈایاسٹولک',
+      cancel: 'منسوخ', save: 'محفوظ کریں'
+    },
+    weeklyView: { prevWeek: '← گزشتہ ہفتہ', nextWeek: 'اگلا ہفتہ →', close: 'بند کریں', print: 'پرنٹ' },
+    morningCheck: {
+      title: '⚠️ ضروری دوا چھوٹ گئی',
+      message: 'کل {{slot}} کی یہ ضروری ادویات ریکارڈ نہیں ہوئیں:',
+      viewYesterday: 'کل کی ادویات دیکھیں', dismiss: 'بند کریں'
+    },
+    alarmModal: {
+      title: '💊 دوا لینے کا وقت آ گیا', message: 'براہ کرم تصدیق کریں کہ آپ نے یہ یاددہانی دیکھ لی ہے۔', gotIt: 'سمجھ گیا',
+      timeLabel: '{{time}} کی دوا', notificationTitle: 'دوا کی یاددہانی',
+      notificationBody: '{{time}} کی دوا لینے کا وقت آ گیا!'
+    },
+    profile: {
+      loading: 'لوڈ ہو رہا ہے…', allDataSeparate: 'تمام ڈیٹا ہر پروفائل کے لیے الگ ذخیرہ کیا گیا ہے',
+      shareTitle: 'پروفائل شیئر کریں', shareDesc: 'دوسرے آلات کو جوڑنے اور مطابقت پذیر کرنے کی اجازت دیں',
+      switchJoinTitle: 'پروفائل تبدیل کریں یا شامل ہوں', switchJoinDesc: 'پروفائل تبدیل کریں یا مشترکہ پروفائل سے جڑیں',
+      stopSharing: 'شیئرنگ بند کریں', disconnect: 'منقطع کریں',
+      connectedDevices: 'منسلک آلات', noDevices: 'ابھی تک کوئی آلہ منسلک نہیں ہے',
+      scanCode: 'کسی دوسرے آلے سے یہ کوڈ اسکین کریں:', codeLabel: 'کوڈ:',
+      lastSync: 'آخری مطابقت:', statusLabel: 'حالت:', online: '● آن لائن',
+      syncNote: 'تمام تبدیلیاں میزبان آلے کے ساتھ ریئل ٹائم میں مطابقت پذیر ہوتی ہیں',
+      createNew: 'نئی پروفائل بنائیں',
+      synced: 'مطابقت پذیر', sharing: 'شیئر ہو رہا ہے', sharingDesc: 'منسلک آلات کے ساتھ شیئر ہو رہا ہے',
+      syncedDesc: 'میزبان آلے کے ساتھ ریئل ٹائم مطابقت', reconnecting: 'دوبارہ جوڑ رہا ہے…',
+      resumingDesc: 'شیئرنگ سیشن دوبارہ شروع ہو رہا ہے…', reconnectingDesc: 'میزبان آلے سے دوبارہ جوڑ رہا ہے…',
+      justNow: 'ابھی'
+    },
+    schedule: {
+      daily: 'روزانہ', everyOtherDay: 'ایک دن چھوڑ کر', mwf: 'پیر، بدھ، جمعہ',
+      ongoing: 'جاری', starts: '• {{date}} سے شروع',
+      nWeeks: '• {{n}} ہفتے', nMonths: '• {{n}} مہینے', untilDate: '• {{date}} تک', nDoses: '• {{n}} خوراک',
+      untilDateParens: '({{date}} تک)', everyDay: 'ہر روز'
+    },
+    days: { sun: 'اتوار', mon: 'پیر', tue: 'منگل', wed: 'بدھ', thu: 'جمعرات', fri: 'جمعہ', sat: 'ہفتہ' },
+    alerts: {
+      requiredFields: 'براہ کرم تمام ضروری خانے پُر کریں',
+      selectTime: 'براہ کرم کم از کم ایک وقت منتخب کریں یا مخصوص وقت شامل کریں',
+      selectStartDate: 'براہ کرم شروع کی تاریخ منتخب کریں',
+      selectDays: 'براہ کرم کسٹم شیڈول کے لیے کم از کم ایک دن منتخب کریں',
+      invalidDuration: 'براہ کرم درست مدت درج کریں',
+      selectEndDate: 'براہ کرم اختتامی تاریخ منتخب کریں',
+      bottleDosesRequired: 'براہ کرم بوتل میں خوراکوں کی تعداد درج کریں',
+      deleteMed: 'کیا آپ واقعی یہ دوا حذف کرنا چاہتے ہیں؟',
+      stopMed: 'یہ دوا بند کریں؟ اختتامی تاریخ کل مقرر ہو جائے گی اور مستقبل کی تمام خوراکیں حذف ہو جائیں گی۔',
+      deleteLog: 'کیا آپ واقعی یہ ریکارڈ حذف کرنا چاہتے ہیں؟',
+      deleteAppt: 'کیا آپ واقعی یہ ملاقات حذف کرنا چاہتے ہیں؟',
+      importOverwrite: 'موجودہ تمام ڈیٹا درآمد شدہ ڈیٹا سے بدل دیا جائے گا۔ کیا آپ جاری رکھنا چاہتے ہیں؟',
+      importSuccess: 'ڈیٹا کامیابی سے درآمد ہو گیا! صفحہ ابھی ری لوڈ ہوگا۔',
+      exportSuccess: 'ڈیٹا کامیابی سے برآمد ہو گیا! iOS پر ڈاؤن لوڈ کی گئی فائل کو دیر تک دبائیں اور «فائل میں محفوظ کریں» منتخب کریں۔',
+      clearConfirmMsg: 'کیا آپ واقعی تمام ڈیٹا حذف کرنا چاہتے ہیں؟ یہ واپس نہیں کیا جا سکتا!\n\nحذف ہوگا:\n• تمام ادویات\n• تمام ریکارڈز\n• تمام ملاقاتیں\n• تمام صحت ڈیٹا\n\nتصدیق کے لیے نیچے «حذف» ٹائپ کریں۔',
+      clearConfirmPrompt: 'حذف ٹائپ کریں:',
+      clearConfirmWord: 'حذف',
+      deletionCancelled: 'حذف منسوخ کر دیا گیا۔',
+      dataCleared: 'تمام ڈیٹا حذف ہو گیا۔ صفحہ ابھی ری لوڈ ہوگا۔',
+      deleteProfile: '«{{name}}» پروفائل حذف کریں؟ اس پروفائل کا تمام ڈیٹا مستقل طور پر حذف ہو جائے گا۔',
+      profileNameRequired: 'براہ کرم پروفائل کا نام درج کریں',
+      deleteActiveProfile: 'موجودہ پروفائل کو حذف نہیں کیا جا سکتا۔ پہلے کسی دوسری پروفائل پر جائیں۔'
+    },
+    toasts: { alarmSaved: 'اوقات اور الارم ترتیبات محفوظ ہو گئیں!' },
+    updateBanner: {
+      title: 'اپڈیٹ دستیاب ہے', message: 'نئی ورژن ({{version}}) دستیاب ہے۔',
+      updateNow: 'ابھی اپڈیٹ کریں', later: 'بعد میں'
+    }
+  },
+
+  id: {
+    tab: { meds: 'Obat', appointments: 'Jadwal', metrics: 'Kesehatan' },
+    header: {
+      meds: 'Obat', appointments: 'Jadwal', metrics: 'Kesehatan',
+      medSchedule: 'Jadwal Obat', asNeeded: '+ Bila Perlu',
+      addAppointment: '+ Tambah Jadwal', addMetrics: '+ Tambah Data',
+      weekView: 'Tampilan Mingguan', back: '← Kembali', filterMetrics: 'Filter ▼', print: 'Cetak'
+    },
+    timeOfDay: { morning: 'Pagi', afternoon: 'Siang', evening: 'Sore', bedtime: 'Sebelum Tidur', asNeeded: 'Bila Perlu' },
+    meds: {
+      empty: 'Tidak ada obat yang dijadwalkan hari ini.', takenAt: 'Diminum pukul',
+      critical: 'Wajib', optional: 'Opsional', tapToPriority: 'Ketuk untuk mengubah prioritas'
+    },
+    medModal: {
+      addTitle: 'Tambah Obat', editTitle: 'Edit Obat',
+      name: 'Nama Obat', dosage: 'Dosis (mis. «1 tablet», «2 kapsul»)',
+      dosagePlaceholder: 'Mis.: 1 tablet',
+      timeOfDay: 'Waktu minum (pilih semua yang berlaku)',
+      addSpecificTime: '+ Tambah Waktu Tertentu',
+      frequency: 'Seberapa sering?',
+      freqDaily: 'Setiap Hari', freqEveryOther: 'Selang Sehari', freqMWF: 'Sen, Rab, Jum', freqCustom: 'Hari Tertentu',
+      selectDays: 'Pilih Hari',
+      startDate: 'Tanggal Mulai', startTime: 'Waktu Mulai',
+      duration: 'Durasi',
+      durOngoing: 'Berkelanjutan (tidak ada tanggal akhir)', durWeeks: 'Minggu', durMonths: 'Bulan',
+      durEndDate: 'Hingga Tanggal Tertentu', durBottle: 'Hingga Obat Habis',
+      endDate: 'Tanggal Akhir',
+      notes: 'Catatan (opsional)', notesPlaceholder: 'Diminum bersama makanan, dsb.',
+      priority: 'Prioritas', priorityCritical: 'Wajib', priorityOptional: 'Opsional',
+      cancel: 'Batal', save: 'Simpan', stop: 'Hentikan Obat', alarmNone: 'Tanpa alarm', remove: 'Hapus'
+    },
+    asNeededModal: {
+      addTitle: 'Catat Obat Bila Perlu', editTitle: 'Edit Obat Bila Perlu',
+      name: 'Nama Obat', namePlaceholder: 'Mis.: Paracetamol, Ibuprofen',
+      dosage: 'Dosis', dosagePlaceholder: 'Mis.: 1 tablet, 5mg',
+      timeTaken: 'Waktu Diminum',
+      notes: 'Catatan (opsional)', notesPlaceholder: 'Alasan: sakit kepala, nyeri, dsb.',
+      cancel: 'Batal', log: 'Catat Obat'
+    },
+    settings: {
+      profile: 'Profil', timeAlarms: 'Waktu & Alarm Obat',
+      enableAlarms: 'Aktifkan Alarm',
+      enableAlarmsDesc: 'Mainkan suara saat waktu obat tiba (aplikasi harus terbuka)',
+      timeCol: 'Waktu', alarmSoundCol: 'Suara Alarm',
+      saveTimeAlarms: 'Simpan Pengaturan Waktu & Alarm',
+      alsoTrack: 'Lacak Juga',
+      appointments: 'Jadwal', appointmentsDesc: 'Lacak kunjungan dokter, perawatan, dan janji medis',
+      healthMetrics: 'Metrik Kesehatan', healthMetricsDesc: 'Catat tekanan darah, berat badan, langkah, dan data kesehatan lainnya',
+      weight: 'Berat Badan', temperature: 'Suhu', bloodPressure: 'Tekanan Darah',
+      heartRate: 'Detak Jantung', bloodSugar: 'Gula Darah', steps: 'Langkah', oxygenation: 'Oksigen %', sleep: 'Tidur',
+      dataManagement: 'Manajemen Data',
+      exportData: 'Ekspor Data', exportDesc: 'Unduh semua data sebagai file cadangan',
+      importData: 'Impor Data', importDesc: 'Pulihkan data dari file cadangan',
+      clearData: 'Hapus Semua Data', clearDesc: 'Hapus semua obat, catatan, dan jadwal',
+      language: 'Bahasa',
+      install: 'Pasang sebagai Aplikasi di Layar Utama', installDesc: 'Pelajari cara menambahkan aplikasi ini ke layar utama'
+    },
+    medListModal: {
+      title: 'Jadwal Obat', close: 'Tutup', add: '+ Tambah Obat',
+      empty: 'Belum ada obat yang dijadwalkan.\nKetuk «+ Tambah Obat» untuk memulai.'
+    },
+    appointments: {
+      upcoming: 'Mendatang', past: 'Lalu', add: '+ Tambah Jadwal',
+      noAny: 'Belum ada jadwal yang ditetapkan.', noAnyHint: 'Ketuk tombol di bawah untuk menambahkan jadwal pertama.',
+      noUpcoming: 'Tidak ada jadwal mendatang.', noPast: 'Tidak ada jadwal yang lalu.',
+      edit: 'Edit', delete: 'Hapus', markComplete: 'Tandai Selesai', completed: '✓ Selesai'
+    },
+    apptModal: {
+      addTitle: 'Tambah Jadwal', editTitle: 'Edit Jadwal',
+      type: 'Jenis', typeDoctorVisit: 'Kunjungan Dokter', typeInfusion: 'Infus',
+      typeLabWork: 'Tes Lab', typeProcedure: 'Prosedur', typeOther: 'Lainnya',
+      titleField: 'Judul/Deskripsi', titlePlaceholder: 'Mis.: Pemeriksaan dengan Dr. Sari',
+      date: 'Tanggal', timeOptional: 'Waktu (opsional)',
+      location: 'Lokasi', locationVirtual: 'Online (Video)', locationInPerson: 'Langsung',
+      addressField: 'Alamat/Detail', addressVirtualField: 'Tautan Video/Detail',
+      addressPlaceholder: 'Nama rumah sakit, nomor ruangan, atau tautan video',
+      notes: 'Catatan (opsional)', notesPlaceholder: 'Bawa kartu asuransi, puasa diperlukan, dsb.',
+      cancel: 'Batal', save: 'Simpan'
+    },
+    metrics: {
+      add: '+ Tambah Data', noData: 'Belum ada data kesehatan.', noDate: 'Tidak ada data untuk tanggal ini.',
+      prompt: 'Ketuk «+ Tambah Data» untuk memulai pelacakan.',
+      noMatch: 'Tidak ada data yang cocok dengan filter saat ini.', noMatchHint: 'Coba ubah pengaturan filter atau rentang tanggal.',
+      noDataRange: 'Tidak ada data untuk rentang tanggal ini.',
+      edit: 'Edit', delete: 'Hapus', notes: 'Catatan'
+    },
+    logModal: {
+      addTitle: 'Tambah Data', editTitle: 'Edit Data',
+      datetime: 'Tanggal & Waktu',
+      temperature: 'Suhu (°F)', bloodPressure: 'Tekanan Darah', heartRate: 'Detak Jantung (bpm)',
+      bloodGlucose: 'Gula Darah (mg/dL)', weight: 'Berat Badan (lbs)', steps: 'Langkah',
+      oxygenation: 'Oksigen (%)', sleep: 'Tidur (jam)', notes: 'Catatan',
+      systolicPlaceholder: 'sistolik', diastolicPlaceholder: 'diastolik',
+      cancel: 'Batal', save: 'Simpan'
+    },
+    weeklyView: { prevWeek: '← Minggu Lalu', nextWeek: 'Minggu Depan →', close: 'Tutup', print: 'Cetak' },
+    morningCheck: {
+      title: '⚠️ Obat Penting Terlewat',
+      message: 'Obat penting {{slot}} kemarin ini belum dicatat:',
+      viewYesterday: 'Lihat Obat Kemarin', dismiss: 'Tutup'
+    },
+    alarmModal: {
+      title: '💊 Waktunya Minum Obat', message: 'Harap konfirmasi bahwa Anda telah melihat pengingat ini.', gotIt: 'Mengerti',
+      timeLabel: 'Obat pukul {{time}}', notificationTitle: 'Pengingat Obat',
+      notificationBody: 'Waktunya minum obat pukul {{time}}!'
+    },
+    profile: {
+      loading: 'Memuat…', allDataSeparate: 'Semua data disimpan terpisah untuk setiap profil',
+      shareTitle: 'Bagikan Profil', shareDesc: 'Izinkan perangkat lain terhubung dan sinkron',
+      switchJoinTitle: 'Ganti atau Bergabung dengan Profil', switchJoinDesc: 'Ganti profil atau hubungkan ke profil bersama',
+      stopSharing: 'Hentikan Berbagi', disconnect: 'Putuskan',
+      connectedDevices: 'Perangkat Terhubung', noDevices: 'Belum ada perangkat yang terhubung',
+      scanCode: 'Pindai kode ini dengan perangkat lain:', codeLabel: 'Kode:',
+      lastSync: 'Sinkron Terakhir:', statusLabel: 'Status:', online: '● Online',
+      syncNote: 'Semua perubahan disinkronkan secara real-time dengan perangkat host',
+      createNew: 'Buat Profil Baru',
+      synced: 'Tersinkron', sharing: 'Berbagi', sharingDesc: 'Berbagi dengan perangkat yang terhubung',
+      syncedDesc: 'Sinkron real-time dengan perangkat host', reconnecting: 'Menghubungkan kembali…',
+      resumingDesc: 'Sesi berbagi dilanjutkan…', reconnectingDesc: 'Menghubungkan kembali ke perangkat host…',
+      justNow: 'Baru saja'
+    },
+    schedule: {
+      daily: 'Setiap Hari', everyOtherDay: 'Selang Sehari', mwf: 'Sen, Rab, Jum',
+      ongoing: 'Berkelanjutan', starts: '• Mulai {{date}}',
+      nWeeks: '• {{n}} minggu', nMonths: '• {{n}} bulan', untilDate: '• Hingga {{date}}', nDoses: '• {{n}} dosis',
+      untilDateParens: '(hingga {{date}})', everyDay: 'Setiap hari'
+    },
+    days: { sun: 'Min', mon: 'Sen', tue: 'Sel', wed: 'Rab', thu: 'Kam', fri: 'Jum', sat: 'Sab' },
+    alerts: {
+      requiredFields: 'Harap isi semua kolom yang wajib diisi',
+      selectTime: 'Harap pilih setidaknya satu waktu atau tambahkan waktu tertentu',
+      selectStartDate: 'Harap pilih tanggal mulai',
+      selectDays: 'Harap pilih setidaknya satu hari untuk jadwal khusus',
+      invalidDuration: 'Harap masukkan durasi yang valid',
+      selectEndDate: 'Harap pilih tanggal akhir',
+      bottleDosesRequired: 'Harap masukkan jumlah dosis dalam botol',
+      deleteMed: 'Apakah Anda yakin ingin menghapus obat ini?',
+      stopMed: 'Hentikan obat ini? Tanggal akhir akan diatur ke kemarin, dan semua dosis mendatang akan dihapus.',
+      deleteLog: 'Apakah Anda yakin ingin menghapus catatan ini?',
+      deleteAppt: 'Apakah Anda yakin ingin menghapus jadwal ini?',
+      importOverwrite: 'Semua data saat ini akan digantikan oleh data yang diimpor. Ingin melanjutkan?',
+      importSuccess: 'Data berhasil diimpor! Halaman akan dimuat ulang sekarang.',
+      exportSuccess: 'Data berhasil diekspor! Di iOS, tekan lama file yang diunduh dan pilih «Simpan ke File».',
+      clearConfirmMsg: 'Apakah Anda yakin ingin menghapus semua data? Ini tidak bisa dibatalkan!\n\nYang akan dihapus:\n• Semua obat\n• Semua catatan\n• Semua jadwal\n• Semua data kesehatan\n\nKetik «hapus» di kotak di bawah untuk mengonfirmasi.',
+      clearConfirmPrompt: 'Ketik hapus:',
+      clearConfirmWord: 'hapus',
+      deletionCancelled: 'Penghapusan dibatalkan.',
+      dataCleared: 'Semua data dihapus. Halaman akan dimuat ulang sekarang.',
+      deleteProfile: 'Hapus profil «{{name}}»? Semua data profil itu akan dihapus secara permanen.',
+      profileNameRequired: 'Harap masukkan nama profil',
+      deleteActiveProfile: 'Profil yang sedang aktif tidak bisa dihapus. Ganti ke profil lain terlebih dahulu.'
+    },
+    toasts: { alarmSaved: 'Pengaturan waktu dan alarm disimpan!' },
+    updateBanner: {
+      title: 'Pembaruan Tersedia', message: 'Versi baru ({{version}}) tersedia.',
+      updateNow: 'Perbarui Sekarang', later: 'Nanti'
+    }
+  },
+
+  sw: {
+    tab: { meds: 'Dawa', appointments: 'Miadi', metrics: 'Afya' },
+    header: {
+      meds: 'Dawa', appointments: 'Miadi', metrics: 'Afya',
+      medSchedule: 'Ratiba ya Dawa', asNeeded: '+ Inapohitajika',
+      addAppointment: '+ Ongeza Miadi', addMetrics: '+ Ongeza Data',
+      weekView: 'Mtazamo wa Wiki', back: '← Rudi', filterMetrics: 'Chuja ▼', print: 'Chapisha'
+    },
+    timeOfDay: { morning: 'Asubuhi', afternoon: 'Mchana', evening: 'Jioni', bedtime: 'Kabla ya Kulala', asNeeded: 'Inapohitajika' },
+    meds: {
+      empty: 'Hakuna dawa iliyopangwa leo.', takenAt: 'Ilichukuliwa',
+      critical: 'Muhimu Sana', optional: 'Hiari', tapToPriority: 'Gonga kubadilisha kipaumbele'
+    },
+    medModal: {
+      addTitle: 'Ongeza Dawa', editTitle: 'Hariri Dawa',
+      name: 'Jina la Dawa', dosage: 'Kipimo (mfano: «kidonge 1», «kapsuli 2»)',
+      dosagePlaceholder: 'Mfano: kidonge 1',
+      timeOfDay: 'Wakati wa kuchukua (chagua yote yanayohusika)',
+      addSpecificTime: '+ Ongeza Wakati Maalum',
+      frequency: 'Mara ngapi?',
+      freqDaily: 'Kila Siku', freqEveryOther: 'Siku Mbadala', freqMWF: 'Jtt, Jtn, Iju', freqCustom: 'Siku Maalum',
+      selectDays: 'Chagua Siku',
+      startDate: 'Tarehe ya Kuanza', startTime: 'Wakati wa Kuanza',
+      duration: 'Muda',
+      durOngoing: 'Inaendelea (hakuna tarehe ya mwisho)', durWeeks: 'Wiki', durMonths: 'Miezi',
+      durEndDate: 'Hadi Tarehe Maalum', durBottle: 'Hadi Dawa Iishe',
+      endDate: 'Tarehe ya Mwisho',
+      notes: 'Maelezo (hiari)', notesPlaceholder: 'Chukulia na chakula, n.k.',
+      priority: 'Kipaumbele', priorityCritical: 'Muhimu Sana', priorityOptional: 'Hiari',
+      cancel: 'Ghairi', save: 'Hifadhi', stop: 'Simamisha Dawa', alarmNone: 'Hakuna kengele', remove: 'Ondoa'
+    },
+    asNeededModal: {
+      addTitle: 'Rekodi Dawa Inayohitajika', editTitle: 'Hariri Dawa Inayohitajika',
+      name: 'Jina la Dawa', namePlaceholder: 'Mfano: Paracetamol, Ibuprofen',
+      dosage: 'Kipimo', dosagePlaceholder: 'Mfano: kidonge 1, 5mg',
+      timeTaken: 'Wakati Ilichukuliwa',
+      notes: 'Maelezo (hiari)', notesPlaceholder: 'Sababu: maumivu ya kichwa, maumivu, n.k.',
+      cancel: 'Ghairi', log: 'Rekodi Dawa'
+    },
+    settings: {
+      profile: 'Wasifu', timeAlarms: 'Nyakati za Dawa na Kengele',
+      enableAlarms: 'Wezesha Kengele',
+      enableAlarmsDesc: 'Piga sauti wakati wa dawa unafika (programu lazima iwe wazi)',
+      timeCol: 'Wakati', alarmSoundCol: 'Sauti ya Kengele',
+      saveTimeAlarms: 'Hifadhi Mipangilio ya Wakati na Kengele',
+      alsoTrack: 'Fuatilia Pia',
+      appointments: 'Miadi', appointmentsDesc: 'Fuatilia ziara za daktari, matibabu na miadi ya matibabu',
+      healthMetrics: 'Vipimo vya Afya', healthMetricsDesc: 'Rekodi shinikizo la damu, uzito, hatua na data nyingine za afya',
+      weight: 'Uzito', temperature: 'Joto', bloodPressure: 'Shinikizo la Damu',
+      heartRate: 'Mapigo ya Moyo', bloodSugar: 'Sukari ya Damu', steps: 'Hatua', oxygenation: 'Oksijeni %', sleep: 'Usingizi',
+      dataManagement: 'Usimamizi wa Data',
+      exportData: 'Hamisha Data', exportDesc: 'Pakua data yote kama faili la nakala rudufu',
+      importData: 'Ingiza Data', importDesc: 'Rejesha data kutoka kwa faili la nakala rudufu',
+      clearData: 'Futa Data Yote', clearDesc: 'Futa dawa zote, rekodi na miadi',
+      language: 'Lugha',
+      install: 'Sakinisha kama Programu kwenye Skrini ya Nyumbani', installDesc: 'Jifunze jinsi ya kuongeza programu hii kwenye skrini ya nyumbani'
+    },
+    medListModal: {
+      title: 'Ratiba ya Dawa', close: 'Funga', add: '+ Ongeza Dawa',
+      empty: 'Hakuna dawa iliyopangwa.\nGonga «+ Ongeza Dawa» kuanza.'
+    },
+    appointments: {
+      upcoming: 'Inayokuja', past: 'Iliyopita', add: '+ Ongeza Miadi',
+      noAny: 'Bado hakuna miadi iliyopangwa.', noAnyHint: 'Gonga kitufe hapa chini kuongeza miadi yako ya kwanza.',
+      noUpcoming: 'Hakuna miadi inayokuja.', noPast: 'Hakuna miadi iliyopita.',
+      edit: 'Hariri', delete: 'Futa', markComplete: 'Weka Alama Imekamilika', completed: '✓ Imekamilika'
+    },
+    apptModal: {
+      addTitle: 'Ongeza Miadi', editTitle: 'Hariri Miadi',
+      type: 'Aina', typeDoctorVisit: 'Ziara ya Daktari', typeInfusion: 'Infusion',
+      typeLabWork: 'Kazi ya Maabara', typeProcedure: 'Utaratibu', typeOther: 'Nyingine',
+      titleField: 'Kichwa/Maelezo', titlePlaceholder: 'Mfano: Ukaguzi na Dkt. Amani',
+      date: 'Tarehe', timeOptional: 'Wakati (hiari)',
+      location: 'Mahali', locationVirtual: 'Mtandaoni (Video)', locationInPerson: 'Ana kwa Ana',
+      addressField: 'Anwani/Maelezo', addressVirtualField: 'Kiungo cha Video/Maelezo',
+      addressPlaceholder: 'Jina la hospitali, nambari ya chumba, au kiungo cha video',
+      notes: 'Maelezo (hiari)', notesPlaceholder: 'Lete kadi ya bima, kufunga kunahitajika, n.k.',
+      cancel: 'Ghairi', save: 'Hifadhi'
+    },
+    metrics: {
+      add: '+ Ongeza Data', noData: 'Bado hakuna data ya afya.', noDate: 'Hakuna data kwa tarehe hii.',
+      prompt: 'Gonga «+ Ongeza Data» kuanza kufuatilia.',
+      noMatch: 'Hakuna data inayolingana na kichujio cha sasa.', noMatchHint: 'Jaribu kubadilisha mipangilio ya kichujio au masafa ya tarehe.',
+      noDataRange: 'Hakuna data iliyopatikana kwa masafa haya ya tarehe.',
+      edit: 'Hariri', delete: 'Futa', notes: 'Maelezo'
+    },
+    logModal: {
+      addTitle: 'Ongeza Data', editTitle: 'Hariri Data',
+      datetime: 'Tarehe na Wakati',
+      temperature: 'Joto (°F)', bloodPressure: 'Shinikizo la Damu', heartRate: 'Mapigo ya Moyo (bpm)',
+      bloodGlucose: 'Sukari ya Damu (mg/dL)', weight: 'Uzito (lbs)', steps: 'Hatua',
+      oxygenation: 'Oksijeni (%)', sleep: 'Usingizi (masaa)', notes: 'Maelezo',
+      systolicPlaceholder: 'sistolik', diastolicPlaceholder: 'diastolik',
+      cancel: 'Ghairi', save: 'Hifadhi'
+    },
+    weeklyView: { prevWeek: '← Wiki Iliyopita', nextWeek: 'Wiki Ijayo →', close: 'Funga', print: 'Chapisha' },
+    morningCheck: {
+      title: '⚠️ Dawa Muhimu Imekosekana',
+      message: 'Dawa hizi muhimu za {{slot}} jana hazikurekodiwa:',
+      viewYesterday: 'Tazama Dawa za Jana', dismiss: 'Funga'
+    },
+    alarmModal: {
+      title: '💊 Wakati wa Dawa Umefika', message: 'Tafadhali thibitisha kuwa umeona ukumbusho huu.', gotIt: 'Nimeelewa',
+      timeLabel: 'Dawa ya {{time}}', notificationTitle: 'Ukumbusho wa Dawa',
+      notificationBody: 'Wakati wa dawa ya {{time}} umefika!'
+    },
+    profile: {
+      loading: 'Inapakia…', allDataSeparate: 'Data yote imehifadhiwa tofauti kwa kila wasifu',
+      shareTitle: 'Shiriki Wasifu', shareDesc: 'Ruhusu vifaa vingine kuunganika na kusawazisha',
+      switchJoinTitle: 'Badilisha au Jiunge na Wasifu', switchJoinDesc: 'Badilisha wasifu au unganika na wasifu ulioshirikiwa',
+      stopSharing: 'Simamisha Kushiriki', disconnect: 'Kata Muunganiko',
+      connectedDevices: 'Vifaa Vilivyounganika', noDevices: 'Bado hakuna kifaa kilichounganika',
+      scanCode: 'Skani msimbo huu kwa kifaa kingine:', codeLabel: 'Msimbo:',
+      lastSync: 'Usawazishaji wa Mwisho:', statusLabel: 'Hali:', online: '● Mtandaoni',
+      syncNote: 'Mabadiliko yote yanasawazishwa kwa wakati halisi na kifaa cha mwenyeji',
+      createNew: 'Unda Wasifu Mpya',
+      synced: 'Imesawazishwa', sharing: 'Inashirikiwa', sharingDesc: 'Inashirikiwa na vifaa vilivyounganika',
+      syncedDesc: 'Usawazishaji wa wakati halisi na kifaa cha mwenyeji', reconnecting: 'Inaunganika tena…',
+      resumingDesc: 'Kipindi cha kushiriki kinaendelea…', reconnectingDesc: 'Inaunganika tena na kifaa cha mwenyeji…',
+      justNow: 'Sasa hivi'
+    },
+    schedule: {
+      daily: 'Kila Siku', everyOtherDay: 'Siku Mbadala', mwf: 'Jtt, Jtn, Iju',
+      ongoing: 'Inaendelea', starts: '• Inaanza {{date}}',
+      nWeeks: '• wiki {{n}}', nMonths: '• miezi {{n}}', untilDate: '• Hadi {{date}}', nDoses: '• dozi {{n}}',
+      untilDateParens: '(hadi {{date}})', everyDay: 'Kila siku'
+    },
+    days: { sun: 'Jpi', mon: 'Jtt', tue: 'Jnn', wed: 'Jtn', thu: 'Alh', fri: 'Iju', sat: 'Jms' },
+    alerts: {
+      requiredFields: 'Tafadhali jaza sehemu zote zinazohitajika',
+      selectTime: 'Tafadhali chagua angalau wakati mmoja au ongeza wakati maalum',
+      selectStartDate: 'Tafadhali chagua tarehe ya kuanza',
+      selectDays: 'Tafadhali chagua angalau siku moja kwa ratiba maalum',
+      invalidDuration: 'Tafadhali ingiza muda halali',
+      selectEndDate: 'Tafadhali chagua tarehe ya mwisho',
+      bottleDosesRequired: 'Tafadhali ingiza idadi ya dozi kwenye chupa',
+      deleteMed: 'Je, una uhakika unataka kufuta dawa hii?',
+      stopMed: 'Simamisha dawa hii? Tarehe ya mwisho itawekwa jana, na dozi zote za siku zijazo zitafutwa.',
+      deleteLog: 'Je, una uhakika unataka kufuta rekodi hii?',
+      deleteAppt: 'Je, una uhakika unataka kufuta miadi hii?',
+      importOverwrite: 'Data yote ya sasa itabadilishwa na data iliyoingizwa. Unataka kuendelea?',
+      importSuccess: 'Data iliingizwa kwa mafanikio! Ukurasa utapakia upya sasa.',
+      exportSuccess: 'Data ilihamishwa kwa mafanikio! Kwenye iOS, bonyeza kwa muda mrefu faili lililoshushwa na uchague «Hifadhi kwenye Faili».',
+      clearConfirmMsg: 'Je, una uhakika unataka kufuta data yote? Hii haiwezi kutenduliwa!\n\nItafutwa:\n• Dawa zote\n• Rekodi zote\n• Miadi yote\n• Data yote ya afya\n\nAndika «futa» katika kisanduku hapa chini kuthibitisha.',
+      clearConfirmPrompt: 'Andika futa:',
+      clearConfirmWord: 'futa',
+      deletionCancelled: 'Kufuta kumeghairiwa.',
+      dataCleared: 'Data yote imefutwa. Ukurasa utapakia upya sasa.',
+      deleteProfile: 'Futa wasifu wa «{{name}}»? Data yote ya wasifu huo itafutwa kabisa.',
+      profileNameRequired: 'Tafadhali ingiza jina la wasifu',
+      deleteActiveProfile: 'Wasifu unaotumika hauwezi kufutwa. Kwanza badilisha kwenda wasifu mwingine.'
+    },
+    toasts: { alarmSaved: 'Mipangilio ya wakati na kengele imehifadhiwa!' },
+    updateBanner: {
+      title: 'Sasisho Linapatikana', message: 'Toleo jipya ({{version}}) linapatikana.',
+      updateNow: 'Sasisha Sasa', later: 'Baadaye'
+    }
+  },
+
+  tr: {
+    tab: { meds: 'İlaçlar', appointments: 'Randevular', metrics: 'Sağlık' },
+    header: {
+      meds: 'İlaçlar', appointments: 'Randevular', metrics: 'Sağlık',
+      medSchedule: 'İlaç Programı', asNeeded: '+ Gerektiğinde',
+      addAppointment: '+ Randevu Ekle', addMetrics: '+ Veri Ekle',
+      weekView: 'Haftalık Görünüm', back: '← Geri', filterMetrics: 'Filtrele ▼', print: 'Yazdır'
+    },
+    timeOfDay: { morning: 'Sabah', afternoon: 'Öğleden Sonra', evening: 'Akşam', bedtime: 'Yatmadan Önce', asNeeded: 'Gerektiğinde' },
+    meds: {
+      empty: 'Bugün için planlanmış ilaç yok.', takenAt: 'Alındı',
+      critical: 'Zorunlu', optional: 'İsteğe Bağlı', tapToPriority: 'Önceliği değiştirmek için dokun'
+    },
+    medModal: {
+      addTitle: 'İlaç Ekle', editTitle: 'İlacı Düzenle',
+      name: 'İlaç Adı', dosage: 'Doz (örn. «1 tablet», «2 kapsül»)',
+      dosagePlaceholder: 'Örn.: 1 tablet',
+      timeOfDay: 'Ne zaman alınacak (tüm geçerli zamanları seçin)',
+      addSpecificTime: '+ Belirli Zaman Ekle',
+      frequency: 'Ne sıklıkla?',
+      freqDaily: 'Her Gün', freqEveryOther: 'Günaşırı', freqMWF: 'Pzt, Çar, Cum', freqCustom: 'Belirli Günler',
+      selectDays: 'Günleri Seç',
+      startDate: 'Başlangıç Tarihi', startTime: 'Başlangıç Saati',
+      duration: 'Süre',
+      durOngoing: 'Süresiz (bitiş tarihi yok)', durWeeks: 'Hafta', durMonths: 'Ay',
+      durEndDate: 'Belirli Bir Tarihe Kadar', durBottle: 'Şişe Bitene Kadar',
+      endDate: 'Bitiş Tarihi',
+      notes: 'Not (isteğe bağlı)', notesPlaceholder: 'Yemekle alın, vb.',
+      priority: 'Öncelik', priorityCritical: 'Zorunlu', priorityOptional: 'İsteğe Bağlı',
+      cancel: 'İptal', save: 'Kaydet', stop: 'İlacı Durdur', alarmNone: 'Alarm yok', remove: 'Kaldır'
+    },
+    asNeededModal: {
+      addTitle: 'Gerektiğinde Alınan İlacı Kaydet', editTitle: 'Gerektiğinde Alınan İlacı Düzenle',
+      name: 'İlaç Adı', namePlaceholder: 'Örn.: Parasetamol, İbuprofen',
+      dosage: 'Doz', dosagePlaceholder: 'Örn.: 1 tablet, 5mg',
+      timeTaken: 'Alım Saati',
+      notes: 'Not (isteğe bağlı)', notesPlaceholder: 'Sebep: baş ağrısı, ağrı, vb.',
+      cancel: 'İptal', log: 'İlacı Kaydet'
+    },
+    settings: {
+      profile: 'Profil', timeAlarms: 'İlaç Saatleri ve Alarmlar',
+      enableAlarms: 'Alarmları Etkinleştir',
+      enableAlarmsDesc: 'İlaç saati geldiğinde ses çal (uygulama açık olmalı)',
+      timeCol: 'Saat', alarmSoundCol: 'Alarm Sesi',
+      saveTimeAlarms: 'Saat ve Alarm Ayarlarını Kaydet',
+      alsoTrack: 'Bunları da Takip Et',
+      appointments: 'Randevular', appointmentsDesc: 'Doktor ziyaretlerini, tedavileri ve tıbbi randevuları takip edin',
+      healthMetrics: 'Sağlık Ölçümleri', healthMetricsDesc: 'Tansiyon, kilo, adım ve diğer sağlık verilerini kaydedin',
+      weight: 'Kilo', temperature: 'Sıcaklık', bloodPressure: 'Tansiyon',
+      heartRate: 'Nabız', bloodSugar: 'Kan Şekeri', steps: 'Adım', oxygenation: 'Oksijen %', sleep: 'Uyku',
+      dataManagement: 'Veri Yönetimi',
+      exportData: 'Veriyi Dışa Aktar', exportDesc: 'Tüm veriyi yedek dosyası olarak indir',
+      importData: 'Veriyi İçe Aktar', importDesc: 'Yedek dosyasından veriyi geri yükle',
+      clearData: 'Tüm Veriyi Sil', clearDesc: 'Tüm ilaçları, kayıtları ve randevuları sil',
+      language: 'Dil',
+      install: 'Ana Ekrana Uygulama Olarak Yükle', installDesc: 'Bu uygulamayı ana ekrana nasıl ekleyeceğinizi öğrenin'
+    },
+    medListModal: {
+      title: 'İlaç Programı', close: 'Kapat', add: '+ İlaç Ekle',
+      empty: 'Planlanmış ilaç yok.\nBaşlamak için «+ İlaç Ekle» seçeneğine dokun.'
+    },
+    appointments: {
+      upcoming: 'Yaklaşan', past: 'Geçmiş', add: '+ Randevu Ekle',
+      noAny: 'Henüz planlanmış randevu yok.', noAnyHint: 'İlk randevuyu eklemek için aşağıdaki düğmeye dokun.',
+      noUpcoming: 'Yaklaşan randevu yok.', noPast: 'Geçmiş randevu yok.',
+      edit: 'Düzenle', delete: 'Sil', markComplete: 'Tamamlandı İşaretle', completed: '✓ Tamamlandı'
+    },
+    apptModal: {
+      addTitle: 'Randevu Ekle', editTitle: 'Randevuyu Düzenle',
+      type: 'Tür', typeDoctorVisit: 'Doktor Ziyareti', typeInfusion: 'İnfüzyon',
+      typeLabWork: 'Laboratuvar', typeProcedure: 'Prosedür', typeOther: 'Diğer',
+      titleField: 'Başlık/Açıklama', titlePlaceholder: 'Örn.: Dr. Yılmaz ile kontrol',
+      date: 'Tarih', timeOptional: 'Saat (isteğe bağlı)',
+      location: 'Konum', locationVirtual: 'Çevrimiçi (Video)', locationInPerson: 'Yüz Yüze',
+      addressField: 'Adres/Ayrıntılar', addressVirtualField: 'Video Bağlantısı/Ayrıntılar',
+      addressPlaceholder: 'Hastane adı, oda numarası veya video bağlantısı',
+      notes: 'Not (isteğe bağlı)', notesPlaceholder: 'Sigorta kartı getir, aç kalma gerekebilir, vb.',
+      cancel: 'İptal', save: 'Kaydet'
+    },
+    metrics: {
+      add: '+ Veri Ekle', noData: 'Henüz sağlık verisi yok.', noDate: 'Bu tarih için veri yok.',
+      prompt: 'Takibi başlatmak için «+ Veri Ekle» seçeneğine dokun.',
+      noMatch: 'Mevcut filtreyle eşleşen veri yok.', noMatchHint: 'Filtre ayarlarını veya tarih aralığını değiştirmeyi deneyin.',
+      noDataRange: 'Bu tarih aralığı için veri bulunamadı.',
+      edit: 'Düzenle', delete: 'Sil', notes: 'Not'
+    },
+    logModal: {
+      addTitle: 'Veri Ekle', editTitle: 'Veriyi Düzenle',
+      datetime: 'Tarih ve Saat',
+      temperature: 'Sıcaklık (°F)', bloodPressure: 'Tansiyon', heartRate: 'Nabız (bpm)',
+      bloodGlucose: 'Kan Şekeri (mg/dL)', weight: 'Kilo (lbs)', steps: 'Adım',
+      oxygenation: 'Oksijen (%)', sleep: 'Uyku (saat)', notes: 'Not',
+      systolicPlaceholder: 'sistolik', diastolicPlaceholder: 'diastolik',
+      cancel: 'İptal', save: 'Kaydet'
+    },
+    weeklyView: { prevWeek: '← Geçen Hafta', nextWeek: 'Gelecek Hafta →', close: 'Kapat', print: 'Yazdır' },
+    morningCheck: {
+      title: '⚠️ Önemli İlaç Kaçırıldı',
+      message: 'Dün {{slot}} bu önemli ilaçlar kaydedilmedi:',
+      viewYesterday: 'Dünün İlaçlarını Gör', dismiss: 'Kapat'
+    },
+    alarmModal: {
+      title: '💊 İlaç Alma Zamanı Geldi', message: 'Lütfen bu hatırlatıcıyı gördüğünüzü onaylayın.', gotIt: 'Anladım',
+      timeLabel: '{{time}} ilacı', notificationTitle: 'İlaç Hatırlatıcısı',
+      notificationBody: '{{time}} ilacı alma zamanı geldi!'
+    },
+    profile: {
+      loading: 'Yükleniyor…', allDataSeparate: 'Tüm veriler her profil için ayrı olarak saklanır',
+      shareTitle: 'Profili Paylaş', shareDesc: 'Diğer cihazların bağlanmasına ve senkronize olmasına izin ver',
+      switchJoinTitle: 'Profil Değiştir veya Katıl', switchJoinDesc: 'Profil değiştirin veya paylaşılan profile bağlanın',
+      stopSharing: 'Paylaşımı Durdur', disconnect: 'Bağlantıyı Kes',
+      connectedDevices: 'Bağlı Cihazlar', noDevices: 'Henüz bağlı cihaz yok',
+      scanCode: 'Bu kodu başka bir cihazla tara:', codeLabel: 'Kod:',
+      lastSync: 'Son Senkronizasyon:', statusLabel: 'Durum:', online: '● Çevrimiçi',
+      syncNote: 'Tüm değişiklikler ana cihazla gerçek zamanlı olarak senkronize edilir',
+      createNew: 'Yeni Profil Oluştur',
+      synced: 'Senkronize', sharing: 'Paylaşılıyor', sharingDesc: 'Bağlı cihazlarla paylaşılıyor',
+      syncedDesc: 'Ana cihazla gerçek zamanlı senkronizasyon', reconnecting: 'Yeniden bağlanıyor…',
+      resumingDesc: 'Paylaşım oturumu devam ettiriliyor…', reconnectingDesc: 'Ana cihaza yeniden bağlanıyor…',
+      justNow: 'Şimdi'
+    },
+    schedule: {
+      daily: 'Her Gün', everyOtherDay: 'Günaşırı', mwf: 'Pzt, Çar, Cum',
+      ongoing: 'Süresiz', starts: '• {{date}} tarihinde başlıyor',
+      nWeeks: '• {{n}} hafta', nMonths: '• {{n}} ay', untilDate: '• {{date}} tarihine kadar', nDoses: '• {{n}} doz',
+      untilDateParens: '({{date}} tarihine kadar)', everyDay: 'Her gün'
+    },
+    days: { sun: 'Paz', mon: 'Pzt', tue: 'Sal', wed: 'Çar', thu: 'Per', fri: 'Cum', sat: 'Cmt' },
+    alerts: {
+      requiredFields: 'Lütfen tüm gerekli alanları doldurun',
+      selectTime: 'Lütfen en az bir zaman seçin veya belirli bir zaman ekleyin',
+      selectStartDate: 'Lütfen başlangıç tarihi seçin',
+      selectDays: 'Özel program için lütfen en az bir gün seçin',
+      invalidDuration: 'Lütfen geçerli bir süre girin',
+      selectEndDate: 'Lütfen bitiş tarihi seçin',
+      bottleDosesRequired: 'Lütfen şişedeki doz sayısını girin',
+      deleteMed: 'Bu ilacı silmek istediğinizden emin misiniz?',
+      stopMed: 'Bu ilacı durdurun? Bitiş tarihi dün olarak ayarlanacak ve gelecekteki tüm dozlar silinecek.',
+      deleteLog: 'Bu kaydı silmek istediğinizden emin misiniz?',
+      deleteAppt: 'Bu randevuyu silmek istediğinizden emin misiniz?',
+      importOverwrite: 'Mevcut tüm veriler içe aktarılan verilerle değiştirilecek. Devam etmek istiyor musunuz?',
+      importSuccess: 'Veriler başarıyla içe aktarıldı! Sayfa şimdi yeniden yüklenecek.',
+      exportSuccess: 'Veriler başarıyla dışa aktarıldı! iOS\'ta indirilen dosyaya uzun basın ve «Dosyalara Kaydet» seçeneğini seçin.',
+      clearConfirmMsg: 'Tüm verileri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz!\n\nSilinecekler:\n• Tüm ilaçlar\n• Tüm kayıtlar\n• Tüm randevular\n• Tüm sağlık verileri\n\nOnaylamak için aşağıdaki kutuya «sil» yazın.',
+      clearConfirmPrompt: 'sil yazın:',
+      clearConfirmWord: 'sil',
+      deletionCancelled: 'Silme işlemi iptal edildi.',
+      dataCleared: 'Tüm veriler silindi. Sayfa şimdi yeniden yüklenecek.',
+      deleteProfile: '«{{name}}» profilini sil? O profile ait tüm veriler kalıcı olarak silinecek.',
+      profileNameRequired: 'Lütfen profil adını girin',
+      deleteActiveProfile: 'Etkin profil silinemiyor. Önce başka bir profile geçin.'
+    },
+    toasts: { alarmSaved: 'Saat ve alarm ayarları kaydedildi!' },
+    updateBanner: {
+      title: 'Güncelleme Mevcut', message: 'Yeni sürüm ({{version}}) mevcut.',
+      updateNow: 'Şimdi Güncelle', later: 'Daha Sonra'
+    }
+  }
+,
+
+  om: {
+    tab: { meds: 'Qoricha', appointments: 'Beellama', metrics: 'Fayyaa' },
+    header: {
+      meds: 'Qoricha', appointments: 'Beellama', metrics: 'Fayyaa',
+      medSchedule: 'Sagantaa Qoricha', asNeeded: '+ Yeroo Barbaachisaa',
+      addAppointment: '+ Beellama Dabali', addMetrics: '+ Deetaa Dabali',
+      weekView: 'Torban Guutuu', back: '← Duubatti', filterMetrics: 'Calleessi ▼', print: 'Maxxansi'
+    },
+    timeOfDay: { morning: 'Ganama', afternoon: 'Guyyaa', evening: 'Galgala', bedtime: 'Ciisuu Dursa', asNeeded: 'Yeroo Barbaachisaa' },
+    meds: {
+      empty: 'Har\'a qoricha karoorfame hin jiru.', takenAt: 'Fudhatame',
+      critical: 'Murteessaa', optional: 'Dirqamaa Miti', tapToPriority: 'Dursa jijjiiruuf tuqi'
+    },
+    medModal: {
+      addTitle: 'Qoricha Dabali', editTitle: 'Qoricha Gulaali',
+      name: 'Maqaa Qoricha', dosage: 'Hamma (fkn: «1 kinii», «2 kapsul»)',
+      dosagePlaceholder: 'Fkn: 1 kinii',
+      timeOfDay: 'Yoom fudhachuu (kan hunda filadhu)',
+      addSpecificTime: '+ Yeroo Addaa Dabali',
+      frequency: 'Yeroo meeqa?',
+      freqDaily: 'Guyyaa Guyyaa', freqEveryOther: 'Guyyaa Guyyaan', freqMWF: 'Wix, Rob, Jim', freqCustom: 'Guyyaa Filame',
+      selectDays: 'Guyyoota Filadhu',
+      startDate: 'Guyyaa Jalqabaa', startTime: 'Yeroo Jalqabaa',
+      duration: 'Dheerina',
+      durOngoing: 'Itti fufaa (guyyaa xumuraa hin qabne)', durWeeks: 'Torban', durMonths: 'Ji\'a',
+      durEndDate: 'Hanga Guyyaa Addaatti', durBottle: 'Hanga Qoriichi Fixamutti',
+      endDate: 'Guyyaa Xumuraa',
+      notes: 'Yaadannoo (dirqamaa miti)', notesPlaceholder: 'Nyaata waliin fudhadhu, kkf',
+      priority: 'Dursa', priorityCritical: 'Murteessaa', priorityOptional: 'Dirqamaa Miti',
+      cancel: 'Haqi', save: 'Qusadhu', stop: 'Qoricha Dhaabi', alarmNone: 'Beekkamtii hin jiru', remove: 'Haquu'
+    },
+    asNeededModal: {
+      addTitle: 'Qoricha Yeroo Barbaachisaa Galmeessi', editTitle: 'Qoricha Yeroo Barbaachisaa Gulaali',
+      name: 'Maqaa Qoricha', namePlaceholder: 'Fkn: Paracetamol, Ibuprofen',
+      dosage: 'Hamma', dosagePlaceholder: 'Fkn: 1 kinii, 5mg',
+      timeTaken: 'Yeroo Fudhatame',
+      notes: 'Yaadannoo (dirqamaa miti)', notesPlaceholder: 'Sababni: mataan dhukkubu, dhukkubbii, kkf',
+      cancel: 'Haqi', log: 'Qoricha Galmeessi'
+    },
+    settings: {
+      profile: 'Profaayilii', timeAlarms: 'Yeroo Qoricha fi Beekkamtii',
+      enableAlarms: 'Beekkamtii Dandamadhu',
+      enableAlarmsDesc: 'Yeroo qoricha dhufuu sagalee dhageessisi (app banaa ta\'uu qaba)',
+      timeCol: 'Yeroo', alarmSoundCol: 'Sagalee Beekkamtii',
+      saveTimeAlarms: 'Yeroo fi Beekkamtii Qusadhu',
+      alsoTrack: 'Kana Illee Hordofi',
+      appointments: 'Beellama', appointmentsDesc: 'Dokitara daawwachuu, yaalii fi beellamoota fayyaa hordofi',
+      healthMetrics: 'Safartuuwwan Fayyaa', healthMetricsDesc: 'BP, ulfaatina, tarkaanfii fi deetaa fayyaa biraa galmeessi',
+      weight: 'Ulfaatina', temperature: 'Ho\'a', bloodPressure: 'BP',
+      heartRate: 'Rukuttaa Onnee', bloodSugar: 'Sukkaara Dhiigaa', steps: 'Tarkaanfii', oxygenation: 'Oksiijinii %', sleep: 'Hirriba',
+      dataManagement: 'Bulchiinsa Deetaa',
+      exportData: 'Deetaa Ergii', exportDesc: 'Deetaa hunda akka faayilii kayyoo buusi',
+      importData: 'Deetaa Galchi', importDesc: 'Deetaa faayilii kayyoo irraa deebisi',
+      clearData: 'Deetaa Hunda Haqi', clearDesc: 'Qorichawwan, galmeewwan fi beellamoota hunda haqi',
+      language: 'Afaan',
+      install: 'App Akka Home Screen tti Galchi', installDesc: 'App kana screen mana irratti dabaluu baradi'
+    },
+    medListModal: {
+      title: 'Sagantaa Qoricha', close: 'Cufii', add: '+ Qoricha Dabali',
+      empty: 'Qoricha karoorfame hin jiru.\n«+ Qoricha Dabali» tuqii jalqabuuf.'
+    },
+    appointments: {
+      upcoming: 'Dhufaa', past: 'Darbe', add: '+ Beellama Dabali',
+      noAny: 'Ammaaf beellama karoorfame hin jiru.', noAnyHint: 'Beellama jalqabaa dabaluuf batanii gadi tuqi.',
+      noUpcoming: 'Beellama dhufaa hin jiru.', noPast: 'Beellama darbe hin jiru.',
+      edit: 'Gulaali', delete: 'Haqi', markComplete: 'Xumurame Mallattessi', completed: '✓ Xumurame'
+    },
+    apptModal: {
+      addTitle: 'Beellama Dabali', editTitle: 'Beellama Gulaali',
+      type: 'Gosa', typeDoctorVisit: 'Dokitara Daawwachuu', typeInfusion: 'Infuuzhenii',
+      typeLabWork: 'Qorannoo Lab', typeProcedure: 'Tarsiimoo', typeOther: 'Kan Biraa',
+      titleField: 'Mata-duree/Ibsa', titlePlaceholder: 'Fkn: Dkt. Leencoo waliin ilaalcha',
+      date: 'Guyyaa', timeOptional: 'Yeroo (dirqamaa miti)',
+      location: 'Bakka', locationVirtual: 'Intarneetii (Viidiyoo)', locationInPerson: 'Argaggee',
+      addressField: 'Teessoo/Ibsa', addressVirtualField: 'Link Viidiyoo/Ibsa',
+      addressPlaceholder: 'Maqaa hospitaala, lakk. kutaa, ykn link viidiyoo',
+      notes: 'Yaadannoo (dirqamaa miti)', notesPlaceholder: 'Kaardii inshoraansii fidi, soomuu barbaachisa, kkf',
+      cancel: 'Haqi', save: 'Qusadhu'
+    },
+    metrics: {
+      add: '+ Deetaa Dabali', noData: 'Ammaaf deetaa fayyaa hin jiru.', noDate: 'Guyyaa kanaaf deetaa hin jiru.',
+      prompt: '«+ Deetaa Dabali» tuqii hordoffii jalqabuuf.',
+      noMatch: 'Calleessa ammaa waliin deetaa walsimu hin jiru.', noMatchHint: 'Teessuma calleessa ykn daangaa guyyaa jijjiiruu yaalii.',
+      noDataRange: 'Daangaa guyyaa kanaaaf deetaa argame hin jiru.',
+      edit: 'Gulaali', delete: 'Haqi', notes: 'Yaadannoo'
+    },
+    logModal: {
+      addTitle: 'Deetaa Dabali', editTitle: 'Deetaa Gulaali',
+      datetime: 'Guyyaa fi Yeroo',
+      temperature: 'Ho\'a (°F)', bloodPressure: 'BP', heartRate: 'Rukuttaa Onnee (bpm)',
+      bloodGlucose: 'Sukkaara Dhiigaa (mg/dL)', weight: 'Ulfaatina (lbs)', steps: 'Tarkaanfii',
+      oxygenation: 'Oksiijinii (%)', sleep: 'Hirriba (sa\'aatii)', notes: 'Yaadannoo',
+      systolicPlaceholder: 'ol', diastolicPlaceholder: 'gadi',
+      cancel: 'Haqi', save: 'Qusadhu'
+    },
+    weeklyView: { prevWeek: '← Torban Darbe', nextWeek: 'Torban Dhufaa →', close: 'Cufii', print: 'Maxxansi' },
+    morningCheck: {
+      title: '⚠️ Qoricha Barbaachisaa Dhabame',
+      message: 'Kaleessa {{slot}} qorichawwan barbaachisoo kanneen hin galmoofne:',
+      viewYesterday: 'Qoricha Kaleessaa Ilaali', dismiss: 'Cufii'
+    },
+    alarmModal: {
+      title: '💊 Yeroo Qoricha Fudhachuu Gahee', message: 'Yaadachiisa kana argatte mirkaneessi.', gotIt: 'Galeera',
+      timeLabel: 'Qoricha {{time}}', notificationTitle: 'Yaadachiisa Qoricha',
+      notificationBody: 'Yeroo qoricha {{time}} fudhachuu gahee!'
+    },
+    profile: {
+      loading: 'Fe\'ii jira…', allDataSeparate: 'Deetaan hundi profaayilii hunda adda adda qabama',
+      shareTitle: 'Profaayilii Qoodi', shareDesc: 'Meeshaalee biraa akka walqunnamanii sync godhaniif hayyami',
+      switchJoinTitle: 'Profaayilii Jijjiiri ykn Makami', switchJoinDesc: 'Profaayilii jijjiiri ykn profaayilii qoodamaa waliin walqunnamii',
+      stopSharing: 'Qooduu Dhaabi', disconnect: 'Walqunnamii Citi',
+      connectedDevices: 'Meeshalee Walqunnamaa', noDevices: 'Ammaaf meeshaan walqunname hin jiru',
+      scanCode: 'Koodii kana meeshaa biraatiin scan godhi:', codeLabel: 'Koodii:',
+      lastSync: 'Sync Dhumaa:', statusLabel: 'Haala:', online: '● Online',
+      syncNote: 'Jijjiirraan hundi meeshaa host waliin yeroo dhugaa sync ta\'a',
+      createNew: 'Profaayilii Haaraa Uumi',
+      synced: 'Sync Ta\'e', sharing: 'Qoodamaa Jira', sharingDesc: 'Meeshalee walqunnamaa waliin qoodamaa jira',
+      syncedDesc: 'Meeshaa host waliin sync yeroo dhugaa', reconnecting: 'Irra deebi\'ii walqunnamaa jira…',
+      resumingDesc: 'Marii qooduu irra deebi\'ii jalqabamaa jira…', reconnectingDesc: 'Meeshaa host waliin irra deebi\'ii walqunnamaa jira…',
+      justNow: 'Amma'
+    },
+    schedule: {
+      daily: 'Guyyaa Guyyaa', everyOtherDay: 'Guyyaa Guyyaan', mwf: 'Wix, Rob, Jim',
+      ongoing: 'Itti Fufaa', starts: '• {{date}} irraa jalqaba',
+      nWeeks: '• torban {{n}}', nMonths: '• ji\'a {{n}}', untilDate: '• Hanga {{date}}', nDoses: '• hamma {{n}}',
+      untilDateParens: '(hanga {{date}})', everyDay: 'Guyyaa guyyaa'
+    },
+    days: { sun: 'Dil', mon: 'Wix', tue: 'Qib', wed: 'Rob', thu: 'Kam', fri: 'Jim', sat: 'San' },
+    alerts: {
+      requiredFields: 'Maaloo dirreewwan barbaachisoo hunda guuti',
+      selectTime: 'Maaloo yeroo tokko yoo xiqqaate filadhu ykn yeroo addaa dabali',
+      selectStartDate: 'Maaloo guyyaa jalqabaa filadhu',
+      selectDays: 'Maaloo sagantaa addaaf guyyaa tokko yoo xiqqaate filadhu',
+      invalidDuration: 'Maaloo dheerina sirrii galchi',
+      selectEndDate: 'Maaloo guyyaa xumuraa filadhu',
+      bottleDosesRequired: 'Maaloo lakkoofsa hamma boottii keessa jiru galchi',
+      deleteMed: 'Dhuguma qoricha kana haquu barbaaddaa?',
+      stopMed: 'Qoricha kana dhaabi? Guyyaan xumuraa kaleessa ta\'a, hammaawwan fuula dura hundi ni haqama.',
+      deleteLog: 'Dhuguma galmeessa kana haquu barbaaddaa?',
+      deleteAppt: 'Dhuguma beellama kana haquu barbaaddaa?',
+      importOverwrite: 'Deetaan ammaa jiru hundi deetaa galchameen bakka buufama. Itti fufuuf fedhii qabdaa?',
+      importSuccess: 'Deetaan milkaa\'inaan galame! Fuulli amma irra deebi\'ee fe\'ama.',
+      exportSuccess: 'Deetaan milkaa\'inaan ergame! iOS irratti faayilii buufame dheersinaan dhiibi «Files keessatti qusadhu» filadhu.',
+      clearConfirmMsg: 'Dhuguma deetaa hunda haquu barbaaddaa? Kun deebi\'uu hin danda\'u!\n\nHaqama:\n• Qorichawwan hundi\n• Galmeewwan hundi\n• Beellamoota hundi\n• Deetaa fayyaa hundi\n\nMirkaneessuuf sanduqa gadi «haqi» jedhi.',
+      clearConfirmPrompt: 'haqi jedhi:',
+      clearConfirmWord: 'haqi',
+      deletionCancelled: 'Haquun haqame.',
+      dataCleared: 'Deetaan hundi haqame. Fuulli amma irra deebi\'ee fe\'ama.',
+      deleteProfile: 'Profaayilii «{{name}}» haquuf? Deetaan profaayilii sanaa hundi ni haqama.',
+      profileNameRequired: 'Maaloo maqaa profaayilii galchi',
+      deleteActiveProfile: 'Profaayilii amma fayyadamaa jiru haquu hin dandeessu. Dursaa profaayilii biraa jijjiiri.'
+    },
+    toasts: { alarmSaved: 'Yeroo fi beekkamtii qusatame!' },
+    updateBanner: {
+      title: 'Haaromsi Jira', message: 'Vershiniin haaraan ({{version}}) jira.',
+      updateNow: 'Amma Haaromsi', later: 'Booda'
+    }
+  },
+
+  ceb: {
+    tab: { meds: 'Tambal', appointments: 'Tinudlo', metrics: 'Kahimsog' },
+    header: {
+      meds: 'Tambal', appointments: 'Tinudlo', metrics: 'Kahimsog',
+      medSchedule: 'Iskedyul sa Tambal', asNeeded: '+ Kung Gikinahanglan',
+      addAppointment: '+ Idugang Tinudlo', addMetrics: '+ Idugang Data',
+      weekView: 'Tanan-tanan sa Semana', back: '← Balik', filterMetrics: 'Salain ▼', print: 'I-print'
+    },
+    timeOfDay: { morning: 'Buntag', afternoon: 'Udto', evening: 'Gabii', bedtime: 'Sa Dili Pa Matulog', asNeeded: 'Kung Gikinahanglan' },
+    meds: {
+      empty: 'Walay tambal nga naplaano karong adlawa.', takenAt: 'Gikuha',
+      critical: 'Kinahanglanon', optional: 'Opsyonal', tapToPriority: 'I-tap aron usbon ang priyoridad'
+    },
+    medModal: {
+      addTitle: 'Idugang ang Tambal', editTitle: 'I-edit ang Tambal',
+      name: 'Ngalan sa Tambal', dosage: 'Dosis (pnb: «1 tableta», «2 kapsula»)',
+      dosagePlaceholder: 'Pnb: 1 tableta',
+      timeOfDay: 'Kanus-a kuhaon (pilia tanan nga angay)',
+      addSpecificTime: '+ Idugang Piho nga Oras',
+      frequency: 'Pila ka beses?',
+      freqDaily: 'Matag Adlaw', freqEveryOther: 'Sa Luyo-luyo nga Adlaw', freqMWF: 'Lun, Miy, Biy', freqCustom: 'Piho nga mga Adlaw',
+      selectDays: 'Pilia ang mga Adlaw',
+      startDate: 'Petsa sa Pagsugod', startTime: 'Oras sa Pagsugod',
+      duration: 'Tagal',
+      durOngoing: 'Padayon (walay katapusan)', durWeeks: 'mga Semana', durMonths: 'mga Buwan',
+      durEndDate: 'Hangtod sa Piho nga Petsa', durBottle: 'Hangtod Mawad-an ang Tambal',
+      endDate: 'Petsa sa Katapusan',
+      notes: 'Mga Sulat (opsyonal)', notesPlaceholder: 'Kuhaon uban ang pagkaon, ug uban pa',
+      priority: 'Priyoridad', priorityCritical: 'Kinahanglanon', priorityOptional: 'Opsyonal',
+      cancel: 'Kansela', save: 'I-save', stop: 'Ihunong ang Tambal', alarmNone: 'Walay alarma', remove: 'Kuhaa'
+    },
+    asNeededModal: {
+      addTitle: 'I-log ang Tambal Kung Gikinahanglan', editTitle: 'I-edit ang Tambal Kung Gikinahanglan',
+      name: 'Ngalan sa Tambal', namePlaceholder: 'Pnb: Paracetamol, Ibuprofen',
+      dosage: 'Dosis', dosagePlaceholder: 'Pnb: 1 tableta, 5mg',
+      timeTaken: 'Oras nga Gikuha',
+      notes: 'Mga Sulat (opsyonal)', notesPlaceholder: 'Rason: sakit sa ulo, kasakit, ug uban pa',
+      cancel: 'Kansela', log: 'I-log ang Tambal'
+    },
+    settings: {
+      profile: 'Profil', timeAlarms: 'Oras sa Tambal ug mga Alarma',
+      enableAlarms: 'I-enable ang mga Alarma',
+      enableAlarmsDesc: 'Magpatunog kung moabot na ang oras sa tambal (kinahanglan nga bukas ang app)',
+      timeCol: 'Oras', alarmSoundCol: 'Tunog sa Alarma',
+      saveTimeAlarms: 'I-save ang mga Setting sa Oras ug Alarma',
+      alsoTrack: 'I-track Usab Kini',
+      appointments: 'Tinudlo', appointmentsDesc: 'I-track ang mga bisita sa doktor, pagtambal, ug medikal nga tinudlo',
+      healthMetrics: 'Mga Sukod sa Kahimsog', healthMetricsDesc: 'I-log ang BP, timbang, mga lakang, ug ubang datos sa kahimsog',
+      weight: 'Timbang', temperature: 'Temperatura', bloodPressure: 'BP',
+      heartRate: 'Rate sa Kasingkasing', bloodSugar: 'Asukar sa Dugo', steps: 'mga Lakang', oxygenation: 'Oksiheno %', sleep: 'Pagtulog',
+      dataManagement: 'Pagdumala sa Data',
+      exportData: 'I-export ang Data', exportDesc: 'I-download ang tanan nga datos isip backup file',
+      importData: 'I-import ang Data', importDesc: 'I-restore ang datos gikan sa backup file',
+      clearData: 'Tangtangon ang Tanan nga Data', clearDesc: 'Tangtangon ang tanan nga tambal, rekord, ug tinudlo',
+      language: 'Lengguwahe',
+      install: 'I-install isip App sa Home Screen', installDesc: 'Hibal-i kung unsaon pagdugang niini nga app sa home screen'
+    },
+    medListModal: {
+      title: 'Iskedyul sa Tambal', close: 'Isira', add: '+ Idugang ang Tambal',
+      empty: 'Walay naplanong tambal.\nI-tap ang «+ Idugang ang Tambal» aron magsugod.'
+    },
+    appointments: {
+      upcoming: 'Umaabot', past: 'Nakalabay', add: '+ Idugang ang Tinudlo',
+      noAny: 'Wala pay naplanong tinudlo.', noAnyHint: 'I-tap ang buton sa ubos aron idugang ang imong una nga tinudlo.',
+      noUpcoming: 'Walay umaabot nga tinudlo.', noPast: 'Walay nakalagpas nga tinudlo.',
+      edit: 'I-edit', delete: 'Kuhaa', markComplete: 'Markahi nga Kompleto', completed: '✓ Kompleto'
+    },
+    apptModal: {
+      addTitle: 'Idugang ang Tinudlo', editTitle: 'I-edit ang Tinudlo',
+      type: 'Klase', typeDoctorVisit: 'Bisita sa Doktor', typeInfusion: 'Infusyon',
+      typeLabWork: 'Lab nga Trabaho', typeProcedure: 'Prosedyur', typeOther: 'Uban Pa',
+      titleField: 'Titulo/Deskripsyon', titlePlaceholder: 'Pnb: Check-up kauban ni Dr. Santos',
+      date: 'Petsa', timeOptional: 'Oras (opsyonal)',
+      location: 'Lokasyon', locationVirtual: 'Online (Video)', locationInPerson: 'Personal',
+      addressField: 'Adres/mga Detalye', addressVirtualField: 'Link sa Video/mga Detalye',
+      addressPlaceholder: 'Ngalan sa ospital, numero sa kwarto, o link sa video',
+      notes: 'Mga Sulat (opsyonal)', notesPlaceholder: 'Dad-a ang insurance card, kinahanglan nga nag-amaw, ug uban pa',
+      cancel: 'Kansela', save: 'I-save'
+    },
+    metrics: {
+      add: '+ Idugang ang Data', noData: 'Wala pay datos sa kahimsog.', noDate: 'Walay datos alang niini nga petsa.',
+      prompt: 'I-tap ang «+ Idugang ang Data» aron magsugod sa pag-track.',
+      noMatch: 'Walay datos nga katugma sa kasamtangang salain.', noMatchHint: 'Sulayi ang pagbag-o sa mga setting sa salain o hanay sa petsa.',
+      noDataRange: 'Walay datos nga nakit-an alang niini nga hanay sa petsa.',
+      edit: 'I-edit', delete: 'Kuhaa', notes: 'mga Sulat'
+    },
+    logModal: {
+      addTitle: 'Idugang ang Data', editTitle: 'I-edit ang Data',
+      datetime: 'Petsa ug Oras',
+      temperature: 'Temperatura (°F)', bloodPressure: 'BP', heartRate: 'Rate sa Kasingkasing (bpm)',
+      bloodGlucose: 'Asukar sa Dugo (mg/dL)', weight: 'Timbang (lbs)', steps: 'mga Lakang',
+      oxygenation: 'Oksiheno (%)', sleep: 'Pagtulog (oras)', notes: 'mga Sulat',
+      systolicPlaceholder: 'sistoliko', diastolicPlaceholder: 'diastoliko',
+      cancel: 'Kansela', save: 'I-save'
+    },
+    weeklyView: { prevWeek: '← Miaging Semana', nextWeek: 'Sunod nga Semana →', close: 'Isira', print: 'I-print' },
+    morningCheck: {
+      title: '⚠️ Nakalimtan ang Importanteng Tambal',
+      message: 'Kining mga importanteng tambal sa {{slot}} kagabii wala na-log:',
+      viewYesterday: 'Tan-awa ang Tambal Kagabii', dismiss: 'Isira'
+    },
+    alarmModal: {
+      title: '💊 Oras Na sa Tambal', message: 'Palihog kumpirmaha nga nakita mo kining pahinumdom.', gotIt: 'Nakasabot',
+      timeLabel: 'Tambal sa {{time}}', notificationTitle: 'Pahinumdom sa Tambal',
+      notificationBody: 'Oras na sa tambal sa {{time}}!'
+    },
+    profile: {
+      loading: 'Nagkarga…', allDataSeparate: 'Ang tanan nga datos gitipig nga lain-lain alang sa matag profil',
+      shareTitle: 'Ipaambit ang Profil', shareDesc: 'Tugoti ang ubang device nga kumonekta ug mag-sync',
+      switchJoinTitle: 'Usba o Apil sa Profil', switchJoinDesc: 'Usba ang profil o kumonekta sa shared nga profil',
+      stopSharing: 'Hunonga ang Pagpaambit', disconnect: 'Idiskonekta',
+      connectedDevices: 'Mga Konektadong Device', noDevices: 'Wala pay konektadong device',
+      scanCode: 'I-scan kini nga code gamit ang laing device:', codeLabel: 'Code:',
+      lastSync: 'Katapusan nga Sync:', statusLabel: 'Status:', online: '● Online',
+      syncNote: 'Ang tanan nga pagbag-o gi-sync sa real-time sa host device',
+      createNew: 'Maghimo og Bag-ong Profil',
+      synced: 'Na-sync', sharing: 'Gipaambit', sharingDesc: 'Gipaambit sa mga konektadong device',
+      syncedDesc: 'Real-time sync sa host device', reconnecting: 'Nagkonekta pag-usab…',
+      resumingDesc: 'Ang sharing session gipadayon…', reconnectingDesc: 'Nagkonekta pag-usab sa host device…',
+      justNow: 'Karon lang'
+    },
+    schedule: {
+      daily: 'Matag Adlaw', everyOtherDay: 'Sa Luyo-luyo nga Adlaw', mwf: 'Lun, Miy, Biy',
+      ongoing: 'Padayon', starts: '• Magsugod {{date}}',
+      nWeeks: '• {{n}} semana', nMonths: '• {{n}} buwan', untilDate: '• Hangtod {{date}}', nDoses: '• {{n}} dosis',
+      untilDateParens: '(hangtod {{date}})', everyDay: 'Matag adlaw'
+    },
+    days: { sun: 'Dom', mon: 'Lun', tue: 'Mar', wed: 'Miy', thu: 'Huw', fri: 'Biy', sat: 'Sab' },
+    alerts: {
+      requiredFields: 'Palihog pun-on ang tanan nga kinahanglang field',
+      selectTime: 'Palihog pilia ang labing menos usa ka oras o idugang ang piho nga oras',
+      selectStartDate: 'Palihog pilia ang petsa sa pagsugod',
+      selectDays: 'Palihog pilia ang labing menos usa ka adlaw alang sa custom nga iskedyul',
+      invalidDuration: 'Palihog isulod ang balido nga tagal',
+      selectEndDate: 'Palihog pilia ang petsa sa katapusan',
+      bottleDosesRequired: 'Palihog isulod ang gidaghanon sa dosis sa bote',
+      deleteMed: 'Sigurado ka bang gusto mong tangtangon kini nga tambal?',
+      stopMed: 'Hunongon kini nga tambal? Ang petsa sa katapusan ibutang sa kagabii, ug tanang umaabot nga dosis tangtangon.',
+      deleteLog: 'Sigurado ka bang gusto mong tangtangon kini nga rekord?',
+      deleteAppt: 'Sigurado ka bang gusto mong tangtangon kini nga tinudlo?',
+      importOverwrite: 'Ang tanang kasamtangang datos pulihan sa gi-import nga datos. Gusto mo bang magpadayon?',
+      importSuccess: 'Ang datos malampusong na-import! Ang pahina i-reload na karon.',
+      exportSuccess: 'Ang datos malampusong na-export! Sa iOS, dugay nga i-press ang na-download nga file ug pilia ang «I-save sa Files».',
+      clearConfirmMsg: 'Sigurado ka bang gusto mong tangtangon ang tanan nga datos? Dili kini mabawi!\n\nTangtangon:\n• Tanan nga tambal\n• Tanan nga rekord\n• Tanan nga tinudlo\n• Tanan nga datos sa kahimsog\n\nI-type ang «kuhaa» sa kahon sa ubos aron ma-confirm.',
+      clearConfirmPrompt: 'I-type ang kuhaa:',
+      clearConfirmWord: 'kuhaa',
+      deletionCancelled: 'Ang pagtangtang gipalong.',
+      dataCleared: 'Tanan nga datos natangtang na. Ang pahina i-reload na karon.',
+      deleteProfile: 'Tangtangon ang profil nga «{{name}}»? Tanan nga datos niadtong profil permanenteng tangtangon.',
+      profileNameRequired: 'Palihog isulod ang ngalan sa profil',
+      deleteActiveProfile: 'Ang kasamtangang profil dili matangtang. Usba una sa laing profil.'
+    },
+    toasts: { alarmSaved: 'Mga setting sa oras ug alarma na-save!' },
+    updateBanner: {
+      title: 'May Update', message: 'Bag-ong version ({{version}}) anaa na.',
+      updateNow: 'I-update Karon', later: 'Unya'
+    }
+  },
+
+  pl: {
+    tab: { meds: 'Leki', appointments: 'Wizyty', metrics: 'Zdrowie' },
+    header: {
+      meds: 'Leki', appointments: 'Wizyty', metrics: 'Zdrowie',
+      medSchedule: 'Harmonogram Leków', asNeeded: '+ W Razie Potrzeby',
+      addAppointment: '+ Dodaj Wizytę', addMetrics: '+ Dodaj Dane',
+      weekView: 'Widok Tygodniowy', back: '← Wstecz', filterMetrics: 'Filtruj ▼', print: 'Drukuj'
+    },
+    timeOfDay: { morning: 'Rano', afternoon: 'Południe', evening: 'Wieczór', bedtime: 'Przed Snem', asNeeded: 'W Razie Potrzeby' },
+    meds: {
+      empty: 'Brak zaplanowanych leków na dziś.', takenAt: 'Przyjęty o',
+      critical: 'Niezbędny', optional: 'Opcjonalny', tapToPriority: 'Dotknij, aby zmienić priorytet'
+    },
+    medModal: {
+      addTitle: 'Dodaj Lek', editTitle: 'Edytuj Lek',
+      name: 'Nazwa Leku', dosage: 'Dawka (np. «1 tabletka», «2 kapsułki»)',
+      dosagePlaceholder: 'Np.: 1 tabletka',
+      timeOfDay: 'Kiedy przyjmować (zaznacz wszystkie odpowiednie)',
+      addSpecificTime: '+ Dodaj Określoną Godzinę',
+      frequency: 'Jak często?',
+      freqDaily: 'Codziennie', freqEveryOther: 'Co Drugi Dzień', freqMWF: 'Pon, Śr, Pt', freqCustom: 'Wybrane Dni',
+      selectDays: 'Wybierz Dni',
+      startDate: 'Data Rozpoczęcia', startTime: 'Godzina Rozpoczęcia',
+      duration: 'Czas Trwania',
+      durOngoing: 'Bezterminowo (bez daty zakończenia)', durWeeks: 'Tygodnie', durMonths: 'Miesiące',
+      durEndDate: 'Do Określonej Daty', durBottle: 'Do Wyczerpania Zapasów',
+      endDate: 'Data Zakończenia',
+      notes: 'Notatki (opcjonalnie)', notesPlaceholder: 'Przyjmować z jedzeniem, itp.',
+      priority: 'Priorytet', priorityCritical: 'Niezbędny', priorityOptional: 'Opcjonalny',
+      cancel: 'Anuluj', save: 'Zapisz', stop: 'Zatrzymaj Lek', alarmNone: 'Brak alarmu', remove: 'Usuń'
+    },
+    asNeededModal: {
+      addTitle: 'Zarejestruj Lek Doraźny', editTitle: 'Edytuj Lek Doraźny',
+      name: 'Nazwa Leku', namePlaceholder: 'Np.: Paracetamol, Ibuprofen',
+      dosage: 'Dawka', dosagePlaceholder: 'Np.: 1 tabletka, 5mg',
+      timeTaken: 'Godzina Przyjęcia',
+      notes: 'Notatki (opcjonalnie)', notesPlaceholder: 'Powód: ból głowy, ból, itp.',
+      cancel: 'Anuluj', log: 'Zarejestruj Lek'
+    },
+    settings: {
+      profile: 'Profil', timeAlarms: 'Godziny Leków i Alarmy',
+      enableAlarms: 'Włącz Alarmy',
+      enableAlarmsDesc: 'Odtwarzaj dźwięk o godzinie leku (aplikacja musi być otwarta)',
+      timeCol: 'Godzina', alarmSoundCol: 'Dźwięk Alarmu',
+      saveTimeAlarms: 'Zapisz Ustawienia Godzin i Alarmów',
+      alsoTrack: 'Śledź Także',
+      appointments: 'Wizyty', appointmentsDesc: 'Śledź wizyty u lekarza, leczenie i terminy medyczne',
+      healthMetrics: 'Wskaźniki Zdrowotne', healthMetricsDesc: 'Rejestruj ciśnienie krwi, wagę, kroki i inne dane zdrowotne',
+      weight: 'Waga', temperature: 'Temperatura', bloodPressure: 'Ciśnienie Krwi',
+      heartRate: 'Tętno', bloodSugar: 'Cukier we Krwi', steps: 'Kroki', oxygenation: 'Nasycenie O₂ %', sleep: 'Sen',
+      dataManagement: 'Zarządzanie Danymi',
+      exportData: 'Eksportuj Dane', exportDesc: 'Pobierz wszystkie dane jako plik kopii zapasowej',
+      importData: 'Importuj Dane', importDesc: 'Przywróć dane z pliku kopii zapasowej',
+      clearData: 'Usuń Wszystkie Dane', clearDesc: 'Usuń wszystkie leki, rekordy i wizyty',
+      language: 'Język',
+      install: 'Zainstaluj jako Aplikację na Ekranie Głównym', installDesc: 'Dowiedz się, jak dodać tę aplikację do ekranu głównego'
+    },
+    medListModal: {
+      title: 'Harmonogram Leków', close: 'Zamknij', add: '+ Dodaj Lek',
+      empty: 'Brak zaplanowanych leków.\nDotknij «+ Dodaj Lek», aby rozpocząć.'
+    },
+    appointments: {
+      upcoming: 'Nadchodzące', past: 'Minione', add: '+ Dodaj Wizytę',
+      noAny: 'Brak zaplanowanych wizyt.', noAnyHint: 'Dotknij przycisku poniżej, aby dodać pierwszą wizytę.',
+      noUpcoming: 'Brak nadchodzących wizyt.', noPast: 'Brak minionych wizyt.',
+      edit: 'Edytuj', delete: 'Usuń', markComplete: 'Oznacz jako Zakończone', completed: '✓ Zakończone'
+    },
+    apptModal: {
+      addTitle: 'Dodaj Wizytę', editTitle: 'Edytuj Wizytę',
+      type: 'Typ', typeDoctorVisit: 'Wizyta u Lekarza', typeInfusion: 'Wlew',
+      typeLabWork: 'Badania Laboratoryjne', typeProcedure: 'Zabieg', typeOther: 'Inne',
+      titleField: 'Tytuł/Opis', titlePlaceholder: 'Np.: Kontrola u dr. Kowalskiego',
+      date: 'Data', timeOptional: 'Godzina (opcjonalnie)',
+      location: 'Miejsce', locationVirtual: 'Online (Wideo)', locationInPerson: 'Osobiście',
+      addressField: 'Adres/Szczegóły', addressVirtualField: 'Link Wideo/Szczegóły',
+      addressPlaceholder: 'Nazwa szpitala, numer sali lub link do rozmowy wideo',
+      notes: 'Notatki (opcjonalnie)', notesPlaceholder: 'Zabrać kartę ubezpieczenia, wymagane bycie na czczo, itp.',
+      cancel: 'Anuluj', save: 'Zapisz'
+    },
+    metrics: {
+      add: '+ Dodaj Dane', noData: 'Brak danych zdrowotnych.', noDate: 'Brak danych dla tej daty.',
+      prompt: 'Dotknij «+ Dodaj Dane», aby rozpocząć śledzenie.',
+      noMatch: 'Brak danych pasujących do bieżącego filtra.', noMatchHint: 'Spróbuj zmienić ustawienia filtra lub zakres dat.',
+      noDataRange: 'Nie znaleziono danych dla tego zakresu dat.',
+      edit: 'Edytuj', delete: 'Usuń', notes: 'Notatki'
+    },
+    logModal: {
+      addTitle: 'Dodaj Dane', editTitle: 'Edytuj Dane',
+      datetime: 'Data i Godzina',
+      temperature: 'Temperatura (°F)', bloodPressure: 'Ciśnienie Krwi', heartRate: 'Tętno (bpm)',
+      bloodGlucose: 'Cukier we Krwi (mg/dL)', weight: 'Waga (kg)', steps: 'Kroki',
+      oxygenation: 'Nasycenie O₂ (%)', sleep: 'Sen (godziny)', notes: 'Notatki',
+      systolicPlaceholder: 'skurczowe', diastolicPlaceholder: 'rozkurczowe',
+      cancel: 'Anuluj', save: 'Zapisz'
+    },
+    weeklyView: { prevWeek: '← Poprzedni Tydzień', nextWeek: 'Następny Tydzień →', close: 'Zamknij', print: 'Drukuj' },
+    morningCheck: {
+      title: '⚠️ Pominięto Ważny Lek',
+      message: 'Te ważne leki z {{slot}} wczoraj nie zostały zarejestrowane:',
+      viewYesterday: 'Zobacz Leki z Wczoraj', dismiss: 'Zamknij'
+    },
+    alarmModal: {
+      title: '💊 Czas na Lek', message: 'Potwierdź, że widzisz to przypomnienie.', gotIt: 'Rozumiem',
+      timeLabel: 'Lek o {{time}}', notificationTitle: 'Przypomnienie o Leku',
+      notificationBody: 'Czas na lek o {{time}}!'
+    },
+    profile: {
+      loading: 'Ładowanie…', allDataSeparate: 'Wszystkie dane są przechowywane osobno dla każdego profilu',
+      shareTitle: 'Udostępnij Profil', shareDesc: 'Pozwól innym urządzeniom połączyć się i synchronizować',
+      switchJoinTitle: 'Zmień lub Dołącz do Profilu', switchJoinDesc: 'Zmień profil lub połącz się z udostępnionym profilem',
+      stopSharing: 'Zatrzymaj Udostępnianie', disconnect: 'Rozłącz',
+      connectedDevices: 'Połączone Urządzenia', noDevices: 'Brak połączonych urządzeń',
+      scanCode: 'Zeskanuj ten kod innym urządzeniem:', codeLabel: 'Kod:',
+      lastSync: 'Ostatnia Synchronizacja:', statusLabel: 'Status:', online: '● Online',
+      syncNote: 'Wszystkie zmiany są synchronizowane w czasie rzeczywistym z urządzeniem hosta',
+      createNew: 'Utwórz Nowy Profil',
+      synced: 'Zsynchronizowano', sharing: 'Udostępnianie', sharingDesc: 'Udostępnianie z połączonymi urządzeniami',
+      syncedDesc: 'Synchronizacja w czasie rzeczywistym z urządzeniem hosta', reconnecting: 'Ponowne łączenie…',
+      resumingDesc: 'Wznawianie sesji udostępniania…', reconnectingDesc: 'Ponowne łączenie z urządzeniem hosta…',
+      justNow: 'Przed chwilą'
+    },
+    schedule: {
+      daily: 'Codziennie', everyOtherDay: 'Co Drugi Dzień', mwf: 'Pon, Śr, Pt',
+      ongoing: 'Bezterminowo', starts: '• Rozpoczyna się {{date}}',
+      nWeeks: '• {{n}} tygodnie', nMonths: '• {{n}} miesiące', untilDate: '• Do {{date}}', nDoses: '• {{n}} dawki',
+      untilDateParens: '(do {{date}})', everyDay: 'Codziennie'
+    },
+    days: { sun: 'Nd', mon: 'Pn', tue: 'Wt', wed: 'Śr', thu: 'Cz', fri: 'Pt', sat: 'Sb' },
+    alerts: {
+      requiredFields: 'Wypełnij wszystkie wymagane pola',
+      selectTime: 'Wybierz co najmniej jedną godzinę lub dodaj określoną godzinę',
+      selectStartDate: 'Wybierz datę rozpoczęcia',
+      selectDays: 'Wybierz co najmniej jeden dzień dla niestandardowego harmonogramu',
+      invalidDuration: 'Wprowadź prawidłowy czas trwania',
+      selectEndDate: 'Wybierz datę zakończenia',
+      bottleDosesRequired: 'Wprowadź liczbę dawek w opakowaniu',
+      deleteMed: 'Czy na pewno chcesz usunąć ten lek?',
+      stopMed: 'Zatrzymać ten lek? Data zakończenia zostanie ustawiona na wczoraj, a wszystkie przyszłe dawki zostaną usunięte.',
+      deleteLog: 'Czy na pewno chcesz usunąć ten rekord?',
+      deleteAppt: 'Czy na pewno chcesz usunąć tę wizytę?',
+      importOverwrite: 'Wszystkie bieżące dane zostaną zastąpione importowanymi. Czy chcesz kontynuować?',
+      importSuccess: 'Dane zostały pomyślnie zaimportowane! Strona zostanie teraz przeładowana.',
+      exportSuccess: 'Dane zostały pomyślnie wyeksportowane! Na iOS naciśnij i przytrzymaj pobrany plik i wybierz «Zapisz w Plikach».',
+      clearConfirmMsg: 'Czy na pewno chcesz usunąć wszystkie dane? Tej operacji nie można cofnąć!\n\nZostaną usunięte:\n• Wszystkie leki\n• Wszystkie rekordy\n• Wszystkie wizyty\n• Wszystkie dane zdrowotne\n\nWpisz «usuń» w polu poniżej, aby potwierdzić.',
+      clearConfirmPrompt: 'Wpisz usuń:',
+      clearConfirmWord: 'usuń',
+      deletionCancelled: 'Usuwanie anulowane.',
+      dataCleared: 'Wszystkie dane zostały usunięte. Strona zostanie teraz przeładowana.',
+      deleteProfile: 'Usunąć profil «{{name}}»? Wszystkie dane tego profilu zostaną trwale usunięte.',
+      profileNameRequired: 'Wprowadź nazwę profilu',
+      deleteActiveProfile: 'Nie można usunąć aktywnego profilu. Najpierw przełącz się na inny profil.'
+    },
+    toasts: { alarmSaved: 'Ustawienia godzin i alarmów zostały zapisane!' },
+    updateBanner: {
+      title: 'Dostępna Aktualizacja', message: 'Dostępna jest nowa wersja ({{version}}).',
+      updateNow: 'Aktualizuj Teraz', later: 'Później'
+    }
+  },
+
+  ha: {
+    tab: { meds: 'Magani', appointments: 'Alƙawari', metrics: 'Lafiya' },
+    header: {
+      meds: 'Magani', appointments: 'Alƙawari', metrics: 'Lafiya',
+      medSchedule: 'Jadawalin Magani', asNeeded: '+ Idan Ya Cancanta',
+      addAppointment: '+ Ƙara Alƙawari', addMetrics: '+ Ƙara Bayani',
+      weekView: 'Dukan Mako', back: '← Koma', filterMetrics: 'Tace ▼', print: 'Buga'
+    },
+    timeOfDay: { morning: 'Safe', afternoon: 'Rana', evening: 'Yamma', bedtime: 'Kafin Barci', asNeeded: 'Idan Ya Cancanta' },
+    meds: {
+      empty: 'Babu magani da aka shirya a yau.', takenAt: 'An Ɗauka',
+      critical: 'Wajibi', optional: 'Zaɓi', tapToPriority: 'Taɓa don canza fifiko'
+    },
+    medModal: {
+      addTitle: 'Ƙara Magani', editTitle: 'Gyara Magani',
+      name: 'Sunan Magani', dosage: 'Adadin Magani (msl: «kwaya 1», «kapsul 2»)',
+      dosagePlaceholder: 'Msl: kwaya 1',
+      timeOfDay: 'Yaushe za a ɗauka (zaɓi duka masu dacewa)',
+      addSpecificTime: '+ Ƙara Takamaiman Lokaci',
+      frequency: 'Sau nawa?',
+      freqDaily: 'Kowace Rana', freqEveryOther: 'Rana-rana', freqMWF: 'Lit, Lar, Jum', freqCustom: 'Zaɓaɓɓun Kwanaki',
+      selectDays: 'Zaɓi Kwanaki',
+      startDate: 'Ranar Farawa', startTime: 'Lokacin Farawa',
+      duration: 'Tsawon Lokaci',
+      durOngoing: 'Ci gaba (babu ranar ƙarewa)', durWeeks: 'Makonni', durMonths: 'Watanni',
+      durEndDate: 'Har Takamaiman Rana', durBottle: 'Har Magani Ya Ƙare',
+      endDate: 'Ranar Ƙarewa',
+      notes: 'Bayani (zaɓi)', notesPlaceholder: 'Ɗauka tare da abinci, dkk',
+      priority: 'Fifiko', priorityCritical: 'Wajibi', priorityOptional: 'Zaɓi',
+      cancel: 'Soke', save: 'Adana', stop: 'Dakatar da Magani', alarmNone: 'Babu faɗakarwa', remove: 'Cire'
+    },
+    asNeededModal: {
+      addTitle: 'Yi Rikodin Magani na Buƙata', editTitle: 'Gyara Magani na Buƙata',
+      name: 'Sunan Magani', namePlaceholder: 'Msl: Paracetamol, Ibuprofen',
+      dosage: 'Adadin Magani', dosagePlaceholder: 'Msl: kwaya 1, 5mg',
+      timeTaken: 'Lokacin da Aka Ɗauka',
+      notes: 'Bayani (zaɓi)', notesPlaceholder: 'Dalilin: ciwon kai, zafi, dkk',
+      cancel: 'Soke', log: 'Yi Rikodin Magani'
+    },
+    settings: {
+      profile: 'Bayanin Kai', timeAlarms: 'Lokacin Magani da Faɗakarwa',
+      enableAlarms: 'Kunna Faɗakarwa',
+      enableAlarmsDesc: 'Buga sauti lokacin magani ya yi (app dole ya kasance a buɗe)',
+      timeCol: 'Lokaci', alarmSoundCol: 'Sauti na Faɗakarwa',
+      saveTimeAlarms: 'Adana Saitunan Lokaci da Faɗakarwa',
+      alsoTrack: 'Bi Waɗannan Ma',
+      appointments: 'Alƙawari', appointmentsDesc: 'Bi ziyarar likita, magani da alƙawaran lafiya',
+      healthMetrics: 'Ma\'aunin Lafiya', healthMetricsDesc: 'Yi rikodin BP, nauyi, matakai da sauran bayanan lafiya',
+      weight: 'Nauyi', temperature: 'Zafi', bloodPressure: 'Matsin Jini',
+      heartRate: 'Bugawar Zuciya', bloodSugar: 'Sukari a Jini', steps: 'Matakai', oxygenation: 'Oksijin %', sleep: 'Barci',
+      dataManagement: 'Sarrafa Bayani',
+      exportData: 'Fitar da Bayani', exportDesc: 'Sauke dukan bayanan a matsayin fayil ɗin ajiya',
+      importData: 'Shigar da Bayani', importDesc: 'Maido da bayani daga fayil ɗin ajiya',
+      clearData: 'Share Dukan Bayani', clearDesc: 'Share dukan magunguna, rikodi da alƙawari',
+      language: 'Harshe',
+      install: 'Girka a Matsayin App a Babban Allon', installDesc: 'Koyi yadda ake ƙara wannan app zuwa babban allon'
+    },
+    medListModal: {
+      title: 'Jadawalin Magani', close: 'Rufe', add: '+ Ƙara Magani',
+      empty: 'Babu magani da aka shirya.\nTaɓa «+ Ƙara Magani» don fara.'
+    },
+    appointments: {
+      upcoming: 'Masu Zuwa', past: 'Da Suka Wuce', add: '+ Ƙara Alƙawari',
+      noAny: 'Babu alƙawarin da aka shirya tukuna.', noAnyHint: 'Taɓa maɓallin da ke ƙasa don ƙara alƙawarin farko.',
+      noUpcoming: 'Babu alƙawarin da ke zuwa.', noPast: 'Babu alƙawarin da ya wuce.',
+      edit: 'Gyara', delete: 'Share', markComplete: 'Alama a Matsayin Cika', completed: '✓ Cika'
+    },
+    apptModal: {
+      addTitle: 'Ƙara Alƙawari', editTitle: 'Gyara Alƙawari',
+      type: 'Nau\'i', typeDoctorVisit: 'Ziyarar Likita', typeInfusion: 'Allurar Jini',
+      typeLabWork: 'Gwajin Lab', typeProcedure: 'Aikin Likita', typeOther: 'Wani',
+      titleField: 'Take/Bayani', titlePlaceholder: 'Msl: Duba tare da Dr. Musa',
+      date: 'Kwanan Wata', timeOptional: 'Lokaci (zaɓi)',
+      location: 'Wuri', locationVirtual: 'Kan layi (Bidiyo)', locationInPerson: 'Kai tsaye',
+      addressField: 'Adireshi/Cikakken Bayani', addressVirtualField: 'Haɗin Bidiyo/Cikakken Bayani',
+      addressPlaceholder: 'Sunan asibiti, lambar ɗaki, ko haɗin bidiyo',
+      notes: 'Bayani (zaɓi)', notesPlaceholder: 'Kawo katin inshora, azumi ya zama dole, dkk',
+      cancel: 'Soke', save: 'Adana'
+    },
+    metrics: {
+      add: '+ Ƙara Bayani', noData: 'Babu bayanan lafiya tukuna.', noDate: 'Babu bayani ga wannan kwanan wata.',
+      prompt: 'Taɓa «+ Ƙara Bayani» don fara bin diddigin.',
+      noMatch: 'Babu bayani da ya dace da tacewa ta yanzu.', noMatchHint: 'Gwada canza saitunan tace ko kewayon kwanan wata.',
+      noDataRange: 'Ba a sami bayani ga wannan kewayon kwanan wata ba.',
+      edit: 'Gyara', delete: 'Share', notes: 'Bayani'
+    },
+    logModal: {
+      addTitle: 'Ƙara Bayani', editTitle: 'Gyara Bayani',
+      datetime: 'Kwanan Wata da Lokaci',
+      temperature: 'Zafi (°F)', bloodPressure: 'Matsin Jini', heartRate: 'Bugawar Zuciya (bpm)',
+      bloodGlucose: 'Sukari a Jini (mg/dL)', weight: 'Nauyi (lbs)', steps: 'Matakai',
+      oxygenation: 'Oksijin (%)', sleep: 'Barci (sa\'o\'i)', notes: 'Bayani',
+      systolicPlaceholder: 'systolic', diastolicPlaceholder: 'diastolic',
+      cancel: 'Soke', save: 'Adana'
+    },
+    weeklyView: { prevWeek: '← Makon da Ya Wuce', nextWeek: 'Makon Mai Zuwa →', close: 'Rufe', print: 'Buga' },
+    morningCheck: {
+      title: '⚠️ An Rasa Muhimman Magani',
+      message: 'Waɗannan muhimman magunguna na {{slot}} jiya ba a yi rikodin su ba:',
+      viewYesterday: 'Duba Magunguna na Jiya', dismiss: 'Rufe'
+    },
+    alarmModal: {
+      title: '💊 Lokacin Magani Ya Yi', message: 'Don Allah tabbatar da cewa ka ga wannan tunatarwa.', gotIt: 'Na Fahimta',
+      timeLabel: 'Magani na {{time}}', notificationTitle: 'Tunatarwar Magani',
+      notificationBody: 'Lokacin magani na {{time}} ya yi!'
+    },
+    profile: {
+      loading: 'Ana lodawa…', allDataSeparate: 'Dukan bayanan an adana su daban don kowane bayanin kai',
+      shareTitle: 'Raba Bayanin Kai', shareDesc: 'Ba na’urori masu zuwa damar haɗawa da sync',
+      switchJoinTitle: 'Canza ko Shiga Bayanin Kai', switchJoinDesc: 'Canza bayanin kai ko haɗa da bayanin kai na raba',
+      stopSharing: 'Dakatar da Raba', disconnect: 'Yanke Haɗi',
+      connectedDevices: 'Na\'urori Masu Haɗi', noDevices: 'Babu na\'urar da ke da haɗi tukuna',
+      scanCode: 'Duba wannan lambar ta amfani da wata na\'ura:', codeLabel: 'Lambar:',
+      lastSync: 'Sync na Ƙarshe:', statusLabel: 'Yanayi:', online: '● Kan layi',
+      syncNote: 'Dukan canje-canje ana sync su a ainihin lokaci tare da na\'urar mai masaukin baki',
+      createNew: 'Ƙirƙiri Sabon Bayanin Kai',
+      synced: 'An Sync', sharing: 'Ana Raba', sharingDesc: 'Ana raba tare da na\'urori masu haɗi',
+      syncedDesc: 'Sync na ainihin lokaci tare da na\'urar mai masaukin baki', reconnecting: 'Ana sake haɗawa…',
+      resumingDesc: 'Ana sake fara zaman raba…', reconnectingDesc: 'Ana sake haɗawa da na\'urar mai masaukin baki…',
+      justNow: 'Yanzu'
+    },
+    schedule: {
+      daily: 'Kowace Rana', everyOtherDay: 'Rana-rana', mwf: 'Lit, Lar, Jum',
+      ongoing: 'Ci Gaba', starts: '• Yana farawa {{date}}',
+      nWeeks: '• makonni {{n}}', nMonths: '• watanni {{n}}', untilDate: '• Har {{date}}', nDoses: '• allurai {{n}}',
+      untilDateParens: '(har {{date}})', everyDay: 'Kowace rana'
+    },
+    days: { sun: 'Lhd', mon: 'Lit', tue: 'Tal', wed: 'Lar', thu: 'Alh', fri: 'Jum', sat: 'Ass' },
+    alerts: {
+      requiredFields: 'Don Allah cika dukan filayen da ake buƙata',
+      selectTime: 'Don Allah zaɓi aƙalla lokaci ɗaya ko ƙara takamaiman lokaci',
+      selectStartDate: 'Don Allah zaɓi ranar farawa',
+      selectDays: 'Don Allah zaɓi aƙalla kwana ɗaya don jadawalin musamman',
+      invalidDuration: 'Don Allah shigar da tsawon lokaci mai inganci',
+      selectEndDate: 'Don Allah zaɓi ranar ƙarewa',
+      bottleDosesRequired: 'Don Allah shigar da adadin kwayoyi a cikin kwalba',
+      deleteMed: 'Kana tabbatar cewa kana son share wannan magani?',
+      stopMed: 'Dakatar da wannan magani? Za a saita ranar ƙarewa zuwa jiya, kuma dukan allurai masu zuwa za a share su.',
+      deleteLog: 'Kana tabbatar cewa kana son share wannan rikodi?',
+      deleteAppt: 'Kana tabbatar cewa kana son share wannan alƙawari?',
+      importOverwrite: 'Dukan bayanan yanzu za a maye gurbinsu da bayanan da aka shigo da su. Kana son ci gaba?',
+      importSuccess: 'An shigo da bayanan cikin nasara! Za a sake loda shafin yanzu.',
+      exportSuccess: 'An fitar da bayanan cikin nasara! A kan iOS, danna fayil ɗin da aka sauke na dogon lokaci ka zaɓi «Adana zuwa Files».',
+      clearConfirmMsg: 'Kana tabbatar cewa kana son share dukan bayanan? Ba za a iya mayar da wannan ba!\n\nZa a share:\n• Dukan magunguna\n• Dukan rikodi\n• Dukan alƙawari\n• Dukan bayanan lafiya\n\nBuga «goge» a cikin akwatin da ke ƙasa don tabbatarwa.',
+      clearConfirmPrompt: 'Buga goge:',
+      clearConfirmWord: 'goge',
+      deletionCancelled: 'An soke sharewa.',
+      dataCleared: 'An share dukan bayanan. Za a sake loda shafin yanzu.',
+      deleteProfile: 'Share bayanin kai «{{name}}»? Dukan bayanan wannan bayanin kai za a share su har abada.',
+      profileNameRequired: 'Don Allah shigar da sunan bayanin kai',
+      deleteActiveProfile: 'Ba za a iya share bayanin kai da ake amfani da shi a yanzu ba. Da farko sauya zuwa wani bayanin kai.'
+    },
+    toasts: { alarmSaved: 'An adana saitunan lokaci da faɗakarwa!' },
+    updateBanner: {
+      title: 'Akwai Sabuntawa', message: 'Sabon sigar ({{version}}) yana samuwa.',
+      updateNow: 'Sabunta Yanzu', later: 'Daga Baya'
+    }
+  }
+,
+
+  uk: {
+    tab: { meds: 'Ліки', appointments: 'Записи', metrics: 'Здоров’я' },
+    header: {
+      meds: 'Ліки', appointments: 'Записи', metrics: 'Здоров’я',
+      medSchedule: 'Розклад Ліків', asNeeded: '+ За Потребою',
+      addAppointment: '+ Додати Запис', addMetrics: '+ Додати Дані',
+      weekView: 'Тижневий Вигляд', back: '← Назад', filterMetrics: 'Фільтр ▼', print: 'Друк'
+    },
+    timeOfDay: { morning: 'Ранок', afternoon: 'День', evening: 'Вечір', bedtime: 'Перед Сном', asNeeded: 'За Потребою' },
+    meds: {
+      empty: 'На сьогодні ліків не заплановано.', takenAt: 'Прийнято о',
+      critical: 'Обов’язковий', optional: 'Необов’язковий', tapToPriority: 'Торкніться, щоб змінити пріоритет'
+    },
+    medModal: {
+      addTitle: 'Додати Ліки', editTitle: 'Редагувати Ліки',
+      name: 'Назва Ліків', dosage: 'Доза (напр.: «1 таблетка», «2 капсули»)',
+      dosagePlaceholder: 'Напр.: 1 таблетка',
+      timeOfDay: 'Коли приймати (оберіть усі відповідні)',
+      addSpecificTime: '+ Додати Конкретний Час',
+      frequency: 'Як часто?',
+      freqDaily: 'Щодня', freqEveryOther: 'Через День', freqMWF: 'Пн, Ср, Пт', freqCustom: 'Обрані Дні',
+      selectDays: 'Обрати Дні',
+      startDate: 'Дата Початку', startTime: 'Час Початку',
+      duration: 'Тривалість',
+      durOngoing: 'Безстроково (без дати закінчення)', durWeeks: 'Тижні', durMonths: 'Місяці',
+      durEndDate: 'До Конкретної Дати', durBottle: 'До Закінчення Упаковки',
+      endDate: 'Дата Закінчення',
+      notes: 'Нотатки (необов’язково)', notesPlaceholder: 'Приймати з їжею тощо',
+      priority: 'Пріоритет', priorityCritical: 'Обов’язковий', priorityOptional: 'Необов’язковий',
+      cancel: 'Скасувати', save: 'Зберегти', stop: 'Зупинити Ліки', alarmNone: 'Без будильника', remove: 'Видалити'
+    },
+    asNeededModal: {
+      addTitle: 'Записати Ліки За Потребою', editTitle: 'Редагувати Ліки За Потребою',
+      name: 'Назва Ліків', namePlaceholder: 'Напр.: Парацетамол, Ібупрофен',
+      dosage: 'Доза', dosagePlaceholder: 'Напр.: 1 таблетка, 5мг',
+      timeTaken: 'Час Прийому',
+      notes: 'Нотатки (необов’язково)', notesPlaceholder: 'Причина: головний біль, біль тощо',
+      cancel: 'Скасувати', log: 'Записати Ліки'
+    },
+    settings: {
+      profile: 'Профіль', timeAlarms: 'Час Прийому Ліків та Будильники',
+      enableAlarms: 'Увімкнути Будильники',
+      enableAlarmsDesc: 'Відтворювати звук у час прийому ліків (застосунок має бути відкритий)',
+      timeCol: 'Час', alarmSoundCol: 'Звук Будильника',
+      saveTimeAlarms: 'Зберегти Налаштування Часу та Будильників',
+      alsoTrack: 'Також Відстежувати',
+      appointments: 'Записи', appointmentsDesc: 'Відстежуйте відвідування лікарів, лікування та медичні записи',
+      healthMetrics: 'Показники Здоров’я', healthMetricsDesc: 'Записуйте тиск, вагу, кроки та інші показники здоров’я',
+      weight: 'Вага', temperature: 'Температура', bloodPressure: 'Тиск',
+      heartRate: 'Пульс', bloodSugar: 'Цукор у Крові', steps: 'Кроки', oxygenation: 'Насичення О₂ %', sleep: 'Сон',
+      dataManagement: 'Управління Даними',
+      exportData: 'Експортувати Дані', exportDesc: 'Завантажити всі дані як резервну копію',
+      importData: 'Імпортувати Дані', importDesc: 'Відновити дані з резервної копії',
+      clearData: 'Видалити Всі Дані', clearDesc: 'Видалити всі ліки, записи та візити',
+      language: 'Мова',
+      install: 'Встановити як Застосунок на Головний Екран', installDesc: 'Дізнайтеся, як додати цей застосунок на головний екран'
+    },
+    medListModal: {
+      title: 'Розклад Ліків', close: 'Закрити', add: '+ Додати Ліки',
+      empty: 'Ліків не заплановано.\nТоркніться «+ Додати Ліки», щоб почати.'
+    },
+    appointments: {
+      upcoming: 'Майбутні', past: 'Минулі', add: '+ Додати Запис',
+      noAny: 'Записів ще не заплановано.', noAnyHint: 'Торкніться кнопки нижче, щоб додати перший запис.',
+      noUpcoming: 'Майбутніх записів немає.', noPast: 'Минулих записів немає.',
+      edit: 'Редагувати', delete: 'Видалити', markComplete: 'Позначити як Виконане', completed: '✓ Виконано'
+    },
+    apptModal: {
+      addTitle: 'Додати Запис', editTitle: 'Редагувати Запис',
+      type: 'Тип', typeDoctorVisit: 'Відвідування Лікаря', typeInfusion: 'Інфузія',
+      typeLabWork: 'Лабораторні Аналізи', typeProcedure: 'Процедура', typeOther: 'Інше',
+      titleField: 'Назва/Опис', titlePlaceholder: 'Напр.: Огляд у лікаря Петренко',
+      date: 'Дата', timeOptional: 'Час (необов’язково)',
+      location: 'Місце', locationVirtual: 'Онлайн (Відео)', locationInPerson: 'Особисто',
+      addressField: 'Адреса/Деталі', addressVirtualField: 'Посилання на Відео/Деталі',
+      addressPlaceholder: 'Назва лікарні, номер кабінету або відеопосилання',
+      notes: 'Нотатки (необов’язково)', notesPlaceholder: 'Взяти страховий поліс, потрібне натщесерце тощо',
+      cancel: 'Скасувати', save: 'Зберегти'
+    },
+    metrics: {
+      add: '+ Додати Дані', noData: 'Даних про здоров’я ще немає.', noDate: 'Немає даних за цю дату.',
+      prompt: 'Торкніться «+ Додати Дані», щоб почати відстеження.',
+      noMatch: 'Немає даних, що відповідають поточному фільтру.', noMatchHint: 'Спробуйте змінити параметри фільтру або діапазон дат.',
+      noDataRange: 'Даних за вказаний діапазон дат не знайдено.',
+      edit: 'Редагувати', delete: 'Видалити', notes: 'Нотатки'
+    },
+    logModal: {
+      addTitle: 'Додати Дані', editTitle: 'Редагувати Дані',
+      datetime: 'Дата та Час',
+      temperature: 'Температура (°F)', bloodPressure: 'Тиск', heartRate: 'Пульс (уд/хв)',
+      bloodGlucose: 'Цукор у Крові (мг/дл)', weight: 'Вага (кг)', steps: 'Кроки',
+      oxygenation: 'Насичення О₂ (%)', sleep: 'Сон (год)', notes: 'Нотатки',
+      systolicPlaceholder: 'систолічний', diastolicPlaceholder: 'діастолічний',
+      cancel: 'Скасувати', save: 'Зберегти'
+    },
+    weeklyView: { prevWeek: '← Попередній Тиждень', nextWeek: 'Наступний Тиждень →', close: 'Закрити', print: 'Друк' },
+    morningCheck: {
+      title: '⚠️ Пропущено Важливі Ліки',
+      message: 'Ці важливі ліки зі {{slot}} вчора не були записані:',
+      viewYesterday: 'Переглянути Ліки за Вчора', dismiss: 'Закрити'
+    },
+    alarmModal: {
+      title: '💊 Час Приймати Ліки', message: 'Підтвердіть, що ви бачите це нагадування.', gotIt: 'Зрозуміло',
+      timeLabel: 'Ліки о {{time}}', notificationTitle: 'Нагадування про Ліки',
+      notificationBody: 'Час приймати ліки о {{time}}!'
+    },
+    profile: {
+      loading: 'Завантаження…', allDataSeparate: 'Усі дані зберігаються окремо для кожного профілю',
+      shareTitle: 'Поділитися Профілем', shareDesc: 'Дозволити іншим пристроям підключатися та синхронізуватися',
+      switchJoinTitle: 'Змінити або Приєднатися до Профілю', switchJoinDesc: 'Змінити профіль або підключитися до спільного профілю',
+      stopSharing: 'Зупинити Спільний Доступ', disconnect: 'Відключитися',
+      connectedDevices: 'Підключені Пристрої', noDevices: 'Підключених пристроїв ще немає',
+      scanCode: 'Скануйте цей код іншим пристроєм:', codeLabel: 'Код:',
+      lastSync: 'Остання Синхронізація:', statusLabel: 'Статус:', online: '● Онлайн',
+      syncNote: 'Усі зміни синхронізуються в режимі реального часу з хост-пристроєм',
+      createNew: 'Створити Новий Профіль',
+      synced: 'Синхронізовано', sharing: 'Спільний Доступ', sharingDesc: 'Спільний доступ із підключеними пристроями',
+      syncedDesc: 'Синхронізація в реальному часі з хост-пристроєм', reconnecting: 'Перепідключення…',
+      resumingDesc: 'Відновлення сеансу спільного доступу…', reconnectingDesc: 'Перепідключення до хост-пристрою…',
+      justNow: 'Щойно'
+    },
+    schedule: {
+      daily: 'Щодня', everyOtherDay: 'Через День', mwf: 'Пн, Ср, Пт',
+      ongoing: 'Безстроково', starts: '• Починається {{date}}',
+      nWeeks: '• {{n}} тижні', nMonths: '• {{n}} місяці', untilDate: '• До {{date}}', nDoses: '• {{n}} дози',
+      untilDateParens: '(до {{date}})', everyDay: 'Щодня'
+    },
+    days: { sun: 'Нд', mon: 'Пн', tue: 'Вт', wed: 'Ср', thu: 'Чт', fri: 'Пт', sat: 'Сб' },
+    alerts: {
+      requiredFields: 'Будь ласка, заповніть усі обов’язкові поля',
+      selectTime: 'Будь ласка, оберіть принаймні один час або додайте конкретний час',
+      selectStartDate: 'Будь ласка, оберіть дату початку',
+      selectDays: 'Будь ласка, оберіть принаймні один день для індивідуального розкладу',
+      invalidDuration: 'Будь ласка, введіть коректну тривалість',
+      selectEndDate: 'Будь ласка, оберіть дату закінчення',
+      bottleDosesRequired: 'Будь ласка, введіть кількість доз в упаковці',
+      deleteMed: 'Ви справді хочете видалити ці ліки?',
+      stopMed: 'Зупинити ці ліки? Датою закінчення стане вчора, усі майбутні дози будуть видалені.',
+      deleteLog: 'Ви справді хочете видалити цей запис?',
+      deleteAppt: 'Ви справді хочете видалити цей візит?',
+      importOverwrite: 'Усі поточні дані буде замінено імпортованими. Продовжити?',
+      importSuccess: 'Дані успішно імпортовано! Сторінку буде перезавантажено.',
+      exportSuccess: 'Дані успішно експортовано! На iOS натисніть і утримуйте завантажений файл та виберіть «Зберегти у Файли».',
+      clearConfirmMsg: 'Ви справді хочете видалити всі дані? Цю дію неможливо скасувати!\n\nБуде видалено:\n• Усі ліки\n• Усі записи\n• Усі візити\n• Усі дані про здоров’я\n\nВведіть «видалити» у полі нижче для підтвердження.',
+      clearConfirmPrompt: 'Введіть видалити:',
+      clearConfirmWord: 'видалити',
+      deletionCancelled: 'Видалення скасовано.',
+      dataCleared: 'Усі дані видалено. Сторінку буде перезавантажено.',
+      deleteProfile: 'Видалити профіль «{{name}}»? Усі дані цього профілю буде безповоротно видалено.',
+      profileNameRequired: 'Будь ласка, введіть назву профілю',
+      deleteActiveProfile: 'Неможливо видалити активний профіль. Спочатку перейдіть на інший профіль.'
+    },
+    toasts: { alarmSaved: 'Налаштування часу та будильників збережено!' },
+    updateBanner: {
+      title: 'Доступне Оновлення', message: 'Доступна нова версія ({{version}}).',
+      updateNow: 'Оновити Зараз', later: 'Пізніше'
+    }
+  },
+
+  ne: {
+    tab: { meds: 'औषधि', appointments: 'अपोइन्टमेन्ट', metrics: 'स्वास्थ्य' },
+    header: {
+      meds: 'औषधि', appointments: 'अपोइन्टमेन्ट', metrics: 'स्वास्थ्य',
+      medSchedule: 'औषधि तालिका', asNeeded: '+ आवश्यकता अनुसार',
+      addAppointment: '+ अपोइन्टमेन्ट थप्नुस्', addMetrics: '+ डेटा थप्नुस्',
+      weekView: 'साप्ताहिक दृश्य', back: '← पछाडि', filterMetrics: 'फिल्टर ▼', print: 'प्रिन्ट'
+    },
+    timeOfDay: { morning: 'बिहान', afternoon: 'दिउँसो', evening: 'साँझ', bedtime: 'सुत्नु अघि', asNeeded: 'आवश्यकता अनुसार' },
+    meds: {
+      empty: 'आजका लागि कुनै औषधि तालिकाबद्ध छैन।', takenAt: 'लिइयो',
+      critical: 'अनिवार्य', optional: 'वैकल्पिक', tapToPriority: 'प्राथमिकता परिवर्तन गर्न थिच्नुस्'
+    },
+    medModal: {
+      addTitle: 'औषधि थप्नुस्', editTitle: 'औषधि सम्पादन गर्नुस्',
+      name: 'औषधिको नाम', dosage: 'मात्रा (जस्तै: «१ चक्की», «२ क्याप्सुल»)',
+      dosagePlaceholder: 'जस्तै: १ चक्की',
+      timeOfDay: 'कहिले लिने (सबै लागू हुने छान्नुस्)',
+      addSpecificTime: '+ निश्चित समय थप्नुस्',
+      frequency: 'कति पटक?',
+      freqDaily: 'प्रतिदिन', freqEveryOther: 'एक दिन छोडेर', freqMWF: 'सोम, बुध, शुक्र', freqCustom: 'चुनिएका दिनहरू',
+      selectDays: 'दिनहरू छान्नुस्',
+      startDate: 'सुरु मिति', startTime: 'सुरु समय',
+      duration: 'अवधि',
+      durOngoing: 'जारी (अन्त्य मिति बिना)', durWeeks: 'हप्ता', durMonths: 'महिना',
+      durEndDate: 'निश्चित मितिसम्म', durBottle: 'औषधि सकिएसम्म',
+      endDate: 'अन्त्य मिति',
+      notes: 'टिप्पणी (वैकल्पिक)', notesPlaceholder: 'खानासँगै लिनुस्, आदि',
+      priority: 'प्राथमिकता', priorityCritical: 'अनिवार्य', priorityOptional: 'वैकल्पिक',
+      cancel: 'रद्द गर्नुस्', save: 'बचत गर्नुस्', stop: 'औषधि बन्द गर्नुस्', alarmNone: 'अलार्म छैन', remove: 'हटाउनुस्'
+    },
+    asNeededModal: {
+      addTitle: 'आवश्यकता अनुसार औषधि लग गर्नुस्', editTitle: 'आवश्यकता अनुसार औषधि सम्पादन गर्नुस्',
+      name: 'औषधिको नाम', namePlaceholder: 'जस्तै: प्यारासिटामोल, आइबुप्रोफेन',
+      dosage: 'मात्रा', dosagePlaceholder: 'जस्तै: १ चक्की, ५मिग्रा',
+      timeTaken: 'लिइएको समय',
+      notes: 'टिप्पणी (वैकल्पिक)', notesPlaceholder: 'कारण: टाउको दुखाइ, पीडा, आदि',
+      cancel: 'रद्द गर्नुस्', log: 'औषधि लग गर्नुस्'
+    },
+    settings: {
+      profile: 'प्रोफाइल', timeAlarms: 'औषधि समय र अलार्महरू',
+      enableAlarms: 'अलार्म सक्षम गर्नुस्',
+      enableAlarmsDesc: 'औषधि समयमा आवाज बजाउनुस् (एप खुला हुनुपर्छ)',
+      timeCol: 'समय', alarmSoundCol: 'अलार्म ध्वनि',
+      saveTimeAlarms: 'समय र अलार्म सेटिङ बचत गर्नुस्',
+      alsoTrack: 'यो पनि ट्र्याक गर्नुस्',
+      appointments: 'अपोइन्टमेन्ट', appointmentsDesc: 'डाक्टर भेट, उपचार र स्वास्थ्य अपोइन्टमेन्ट ट्र्याक गर्नुस्',
+      healthMetrics: 'स्वास्थ्य मापदण्ड', healthMetricsDesc: 'रक्तचाप, तौल, कदम र अन्य स्वास्थ्य डेटा लग गर्नुस्',
+      weight: 'तौल', temperature: 'तापमान', bloodPressure: 'रक्तचाप',
+      heartRate: 'हृदय दर', bloodSugar: 'रक्त शर्करा', steps: 'कदम', oxygenation: 'अक्सिजन %', sleep: 'निद्रा',
+      dataManagement: 'डेटा व्यवस्थापन',
+      exportData: 'डेटा निर्यात गर्नुस्', exportDesc: 'सबै डेटा ब्याकअप फाइलको रूपमा डाउनलोड गर्नुस्',
+      importData: 'डेटा आयात गर्नुस्', importDesc: 'ब्याकअप फाइलबाट डेटा पुनर्स्थापना गर्नुस्',
+      clearData: 'सबै डेटा मेटाउनुस्', clearDesc: 'सबै औषधि, रेकर्ड र अपोइन्टमेन्ट मेटाउनुस्',
+      language: 'भाषा',
+      install: 'होम स्क्रिनमा एप स्थापना गर्नुस्', installDesc: 'यो एप होम स्क्रिनमा कसरी थप्ने सिक्नुस्'
+    },
+    medListModal: {
+      title: 'औषधि तालिका', close: 'बन्द गर्नुस्', add: '+ औषधि थप्नुस्',
+      empty: 'कुनै औषधि तालिकाबद्ध छैन।\n«+ औषधि थप्नुस्» थिचेर सुरु गर्नुस्।'
+    },
+    appointments: {
+      upcoming: 'आगामी', past: 'विगत', add: '+ अपोइन्टमेन्ट थप्नुस्',
+      noAny: 'अहिलेसम्म कुनै अपोइन्टमेन्ट तालिकाबद्ध छैन।', noAnyHint: 'पहिलो अपोइन्टमेन्ट थप्न तलको बटन थिच्नुस्।',
+      noUpcoming: 'कुनै आगामी अपोइन्टमेन्ट छैन।', noPast: 'कुनै विगत अपोइन्टमेन्ट छैन।',
+      edit: 'सम्पादन गर्नुस्', delete: 'मेटाउनुस्', markComplete: 'सम्पन्न चिन्ह लगाउनुस्', completed: '✓ सम्पन्न'
+    },
+    apptModal: {
+      addTitle: 'अपोइन्टमेन्ट थप्नुस्', editTitle: 'अपोइन्टमेन्ट सम्पादन गर्नुस्',
+      type: 'प्रकार', typeDoctorVisit: 'डाक्टर भेट', typeInfusion: 'इन्फ्युजन',
+      typeLabWork: 'प्रयोगशाला कार्य', typeProcedure: 'प्रक्रिया', typeOther: 'अन्य',
+      titleField: 'शीर्षक/विवरण', titlePlaceholder: 'जस्तै: डा. शर्मासँग जाँच',
+      date: 'मिति', timeOptional: 'समय (वैकल्पिक)',
+      location: 'स्थान', locationVirtual: 'अनलाइन (भिडियो)', locationInPerson: 'व्यक्तिगत',
+      addressField: 'ठेगाना/विवरण', addressVirtualField: 'भिडियो लिंक/विवरण',
+      addressPlaceholder: 'अस्पतालको नाम, कोठा नम्बर, वा भिडियो लिंक',
+      notes: 'टिप्पणी (वैकल्पिक)', notesPlaceholder: 'बीमा कार्ड ल्याउनुस्, खाली पेटमा हुनुपर्छ, आदि',
+      cancel: 'रद्द गर्नुस्', save: 'बचत गर्नुस्'
+    },
+    metrics: {
+      add: '+ डेटा थप्नुस्', noData: 'अहिलेसम्म कुनै स्वास्थ्य डेटा छैन।', noDate: 'यो मितिका लागि कुनै डेटा छैन।',
+      prompt: 'ट्र्याकिङ सुरु गर्न «+ डेटा थप्नुस्» थिच्नुस्।',
+      noMatch: 'हालको फिल्टरसँग मेल खाने कुनै डेटा छैन।', noMatchHint: 'फिल्टर सेटिङ वा मिति दायरा परिवर्तन गर्ने प्रयास गर्नुस्।',
+      noDataRange: 'यो मिति दायराका लागि कुनै डेटा भेटिएन।',
+      edit: 'सम्पादन गर्नुस्', delete: 'मेटाउनुस्', notes: 'टिप्पणी'
+    },
+    logModal: {
+      addTitle: 'डेटा थप्नुस्', editTitle: 'डेटा सम्पादन गर्नुस्',
+      datetime: 'मिति र समय',
+      temperature: 'तापमान (°F)', bloodPressure: 'रक्तचाप', heartRate: 'हृदय दर (bpm)',
+      bloodGlucose: 'रक्त शर्करा (mg/dL)', weight: 'तौल (kg)', steps: 'कदम',
+      oxygenation: 'अक्सिजन (%)', sleep: 'निद्रा (घन्टा)', notes: 'टिप्पणी',
+      systolicPlaceholder: 'सिस्टोलिक', diastolicPlaceholder: 'डायस्टोलिक',
+      cancel: 'रद्द गर्नुस्', save: 'बचत गर्नुस्'
+    },
+    weeklyView: { prevWeek: '← अघिल्लो हप्ता', nextWeek: 'अर्को हप्ता →', close: 'बन्द गर्नुस्', print: 'प्रिन्ट' },
+    morningCheck: {
+      title: '⚠️ महत्त्वपूर्ण औषधि छुटेको',
+      message: 'हिजो {{slot}} को यी महत्त्वपूर्ण औषधिहरू लग गरिएनन्:',
+      viewYesterday: 'हिजोको औषधि हेर्नुस्', dismiss: 'बन्द गर्नुस्'
+    },
+    alarmModal: {
+      title: '💊 औषधि लिने समय', message: 'यो सम्झनाहरू देख्नुभएको पुष्टि गर्नुस्।', gotIt: 'बुझें',
+      timeLabel: '{{time}} को औषधि', notificationTitle: 'औषधि सम्झनाहरू',
+      notificationBody: '{{time}} को औषधि लिने समय!'
+    },
+    profile: {
+      loading: 'लोड हुँदैछ…', allDataSeparate: 'सबै डेटा प्रत्येक प्रोफाइलका लागि छुट्टाछुट्टै भण्डारण गरिन्छ',
+      shareTitle: 'प्रोफाइल साझा गर्नुस्', shareDesc: 'अन्य उपकरणहरूलाई जडान र सिंक गर्न अनुमति दिनुस्',
+      switchJoinTitle: 'प्रोफाइल परिवर्तन गर्नुस् वा सामेल हुनुस्', switchJoinDesc: 'प्रोफाइल परिवर्तन गर्नुस् वा साझा प्रोफाइलमा जडान गर्नुस्',
+      stopSharing: 'साझेदारी रोक्नुस्', disconnect: 'विच्छेद गर्नुस्',
+      connectedDevices: 'जडान गरिएका उपकरणहरू', noDevices: 'अहिलेसम्म कुनै उपकरण जडान गरिएको छैन',
+      scanCode: 'यो कोड अर्को उपकरणद्वारा स्क्यान गर्नुस्:', codeLabel: 'कोड:',
+      lastSync: 'अन्तिम सिंक:', statusLabel: 'स्थिति:', online: '● अनलाइन',
+      syncNote: 'सबै परिवर्तनहरू होस्ट उपकरणसँग रियल-टाइममा सिंक गरिन्छन्',
+      createNew: 'नयाँ प्रोफाइल बनाउनुस्',
+      synced: 'सिंक भयो', sharing: 'साझा गर्दैछ', sharingDesc: 'जडान गरिएका उपकरणहरूसँग साझा गर्दैछ',
+      syncedDesc: 'होस्ट उपकरणसँग रियल-टाइम सिंक', reconnecting: 'पुनः जडान गर्दैछ…',
+      resumingDesc: 'साझेदारी सत्र पुनः सुरु गर्दैछ…', reconnectingDesc: 'होस्ट उपकरणसँग पुनः जडान गर्दैछ…',
+      justNow: 'अभिजित'
+    },
+    schedule: {
+      daily: 'प्रतिदिन', everyOtherDay: 'एक दिन छोडेर', mwf: 'सोम, बुध, शुक्र',
+      ongoing: 'जारी', starts: '• {{date}} देखि सुरु',
+      nWeeks: '• {{n}} हप्ता', nMonths: '• {{n}} महिना', untilDate: '• {{date}} सम्म', nDoses: '• {{n}} मात्रा',
+      untilDateParens: '({{date}} सम्म)', everyDay: 'प्रतिदिन'
+    },
+    days: { sun: 'आइत', mon: 'सोम', tue: 'मंगल', wed: 'बुध', thu: 'बिही', fri: 'शुक्र', sat: 'शनि' },
+    alerts: {
+      requiredFields: 'कृपया सबै आवश्यक फिल्डहरू भर्नुस्',
+      selectTime: 'कृपया कम्तीमा एक समय छान्नुस् वा निश्चित समय थप्नुस्',
+      selectStartDate: 'कृपया सुरु मिति छान्नुस्',
+      selectDays: 'कृपया कस्टम तालिकाका लागि कम्तीमा एक दिन छान्नुस्',
+      invalidDuration: 'कृपया मान्य अवधि प्रविष्ट गर्नुस्',
+      selectEndDate: 'कृपया अन्त्य मिति छान्नुस्',
+      bottleDosesRequired: 'कृपया बोतलमा मात्राको संख्या प्रविष्ट गर्नुस्',
+      deleteMed: 'के तपाईं साँच्चै यो औषधि मेटाउन चाहनुहुन्छ?',
+      stopMed: 'यो औषधि बन्द गर्ने? अन्त्य मिति हिजो हुनेछ र सबै भविष्यका मात्राहरू मेटाइनेछन्।',
+      deleteLog: 'के तपाईं साँच्चै यो रेकर्ड मेटाउन चाहनुहुन्छ?',
+      deleteAppt: 'के तपाईं साँच्चै यो अपोइन्टमेन्ट मेटाउन चाहनुहुन्छ?',
+      importOverwrite: 'सबै हालको डेटा आयातित डेटाले प्रतिस्थापन गर्नेछ। जारी राख्न चाहनुहुन्छ?',
+      importSuccess: 'डेटा सफलतापूर्वक आयात गरियो! पृष्ठ अब पुनः लोड हुनेछ।',
+      exportSuccess: 'डेटा सफलतापूर्वक निर्यात गरियो! iOS मा डाउनलोड गरिएको फाइललाई लामो समय थिचेर «Files मा सेभ गर्नुस्» छान्नुस्।',
+      clearConfirmMsg: 'के तपाईं साँच्चै सबै डेटा मेटाउन चाहनुहुन्छ? यो क्रिया पूर्ववत् गर्न सकिँदैन!\n\nमेटाइनेछन्:\n• सबै औषधिहरू\n• सबै रेकर्डहरू\n• सबै अपोइन्टमेन्टहरू\n• सबै स्वास्थ्य डेटा\n\nपुष्टि गर्न तलको बक्समा «हटाउनुस्» टाइप गर्नुस्।',
+      clearConfirmPrompt: 'हटाउनुस् टाइप गर्नुस्:',
+      clearConfirmWord: 'हटाउनुस्',
+      deletionCancelled: 'मेटाउने रद्द गरियो।',
+      dataCleared: 'सबै डेटा मेटाइयो। पृष्ठ अब पुनः लोड हुनेछ।',
+      deleteProfile: '«{{name}}» प्रोफाइल मेटाउने? त्यो प्रोफाइलका सबै डेटा स्थायी रूपमा मेटाइनेछन्।',
+      profileNameRequired: 'कृपया प्रोफाइलको नाम प्रविष्ट गर्नुस्',
+      deleteActiveProfile: 'सक्रिय प्रोफाइल मेटाउन सकिँदैन। पहिले अर्को प्रोफाइलमा स्विच गर्नुस्।'
+    },
+    toasts: { alarmSaved: 'समय र अलार्म सेटिङ बचत गरियो!' },
+    updateBanner: {
+      title: 'अपडेट उपलब्ध छ', message: 'नयाँ संस्करण ({{version}}) उपलब्ध छ।',
+      updateNow: 'अहिले अपडेट गर्नुस्', later: 'पछि'
+    }
+  },
+
+  mr: {
+    tab: { meds: 'औषधे', appointments: 'भेटी', metrics: 'आरोग्य' },
+    header: {
+      meds: 'औषधे', appointments: 'भेटी', metrics: 'आरोग्य',
+      medSchedule: 'औषध वेळापत्रक', asNeeded: '+ गरजेनुसार',
+      addAppointment: '+ भेट जोडा', addMetrics: '+ डेटा जोडा',
+      weekView: 'साप्ताहिक दृश्य', back: '← मागे', filterMetrics: 'फिल्टर ▼', print: 'प्रिंट'
+    },
+    timeOfDay: { morning: 'सकाळी', afternoon: 'दुपारी', evening: 'संध्याकाळी', bedtime: 'झोपण्यापूर्वी', asNeeded: 'गरजेनुसार' },
+    meds: {
+      empty: 'आजसाठी कोणतेही औषध नियोजित नाही.', takenAt: 'घेतले',
+      critical: 'आवश्यक', optional: 'पर्यायी', tapToPriority: 'प्राधान्य बदलण्यासाठी टॅप करा'
+    },
+    medModal: {
+      addTitle: 'औषध जोडा', editTitle: 'औषध संपादित करा',
+      name: 'औषधाचे नाव', dosage: 'मात्रा (उदा: «१ गोळी», «२ कॅप्सूल»)',
+      dosagePlaceholder: 'उदा: १ गोळी',
+      timeOfDay: 'कधी घ्यायचे (सर्व लागू पर्याय निवडा)',
+      addSpecificTime: '+ विशिष्ट वेळ जोडा',
+      frequency: 'किती वेळा?',
+      freqDaily: 'दररोज', freqEveryOther: 'एक दिवस आड', freqMWF: 'सोम, बुध, शुक्र', freqCustom: 'निवडलेले दिवस',
+      selectDays: 'दिवस निवडा',
+      startDate: 'सुरुवात तारीख', startTime: 'सुरुवात वेळ',
+      duration: 'कालावधी',
+      durOngoing: 'सुरू (शेवटची तारीख नाही)', durWeeks: 'आठवडे', durMonths: 'महिने',
+      durEndDate: 'विशिष्ट तारखेपर्यंत', durBottle: 'औषध संपेपर्यंत',
+      endDate: 'शेवटची तारीख',
+      notes: 'नोंदी (पर्यायी)', notesPlaceholder: 'जेवणासोबत घ्या, इत्यादी',
+      priority: 'प्राधान्य', priorityCritical: 'आवश्यक', priorityOptional: 'पर्यायी',
+      cancel: 'रद्द करा', save: 'जतन करा', stop: 'औषध थांबवा', alarmNone: 'अलार्म नाही', remove: 'काढा'
+    },
+    asNeededModal: {
+      addTitle: 'गरजेनुसार औषध नोंदवा', editTitle: 'गरजेनुसार औषध संपादित करा',
+      name: 'औषधाचे नाव', namePlaceholder: 'उदा: पॅरासिटामोल, आयबुप्रोफेन',
+      dosage: 'मात्रा', dosagePlaceholder: 'उदा: १ गोळी, ५मिग्रॅ',
+      timeTaken: 'घेतलेली वेळ',
+      notes: 'नोंदी (पर्यायी)', notesPlaceholder: 'कारण: डोकेदुखी, वेदना, इत्यादी',
+      cancel: 'रद्द करा', log: 'औषध नोंदवा'
+    },
+    settings: {
+      profile: 'प्रोफाइल', timeAlarms: 'औषध वेळ आणि अलार्म',
+      enableAlarms: 'अलार्म सक्षम करा',
+      enableAlarmsDesc: 'औषध वेळी आवाज वाजवा (अॅप उघडे असणे आवश्यक)',
+      timeCol: 'वेळ', alarmSoundCol: 'अलार्म आवाज',
+      saveTimeAlarms: 'वेळ आणि अलार्म सेटिंग्ज जतन करा',
+      alsoTrack: 'हे देखील ट्रॅक करा',
+      appointments: 'भेटी', appointmentsDesc: 'डॉक्टर भेटी, उपचार आणि वैद्यकीय भेटी ट्रॅक करा',
+      healthMetrics: 'आरोग्य मापदंड', healthMetricsDesc: 'रक्तदाब, वजन, पावले आणि इतर आरोग्य डेटा नोंदवा',
+      weight: 'वजन', temperature: 'तापमान', bloodPressure: 'रक्तदाब',
+      heartRate: 'हृदय गती', bloodSugar: 'रक्त शर्करा', steps: 'पावले', oxygenation: 'ऑक्सिजन %', sleep: 'झोप',
+      dataManagement: 'डेटा व्यवस्थापन',
+      exportData: 'डेटा निर्यात करा', exportDesc: 'सर्व डेटा बॅकअप फाइल म्हणून डाउनलोड करा',
+      importData: 'डेटा आयात करा', importDesc: 'बॅकअप फाइलमधून डेटा पुनर्संचयित करा',
+      clearData: 'सर्व डेटा साफ करा', clearDesc: 'सर्व औषधे, नोंदी आणि भेटी साफ करा',
+      language: 'भाषा',
+      install: 'होम स्क्रीनवर अॅप म्हणून स्थापित करा', installDesc: 'हे अॅप होम स्क्रीनवर कसे जोडायचे ते शिका'
+    },
+    medListModal: {
+      title: 'औषध वेळापत्रक', close: 'बंद करा', add: '+ औषध जोडा',
+      empty: 'कोणतेही औषध नियोजित नाही.\n«+ औषध जोडा» टॅप करून सुरुवात करा.'
+    },
+    appointments: {
+      upcoming: 'आगामी', past: 'मागील', add: '+ भेट जोडा',
+      noAny: 'अद्याप कोणतीही भेट नियोजित नाही.', noAnyHint: 'पहिली भेट जोडण्यासाठी खालील बटण टॅप करा.',
+      noUpcoming: 'कोणतीही आगामी भेट नाही.', noPast: 'कोणतीही मागील भेट नाही.',
+      edit: 'संपादित करा', delete: 'हटवा', markComplete: 'पूर्ण म्हणून चिन्हांकित करा', completed: '✓ पूर्ण'
+    },
+    apptModal: {
+      addTitle: 'भेट जोडा', editTitle: 'भेट संपादित करा',
+      type: 'प्रकार', typeDoctorVisit: 'डॉक्टर भेट', typeInfusion: 'इन्फ्युजन',
+      typeLabWork: 'प्रयोगशाळा काम', typeProcedure: 'प्रक्रिया', typeOther: 'इतर',
+      titleField: 'शीर्षक/वर्णन', titlePlaceholder: 'उदा: डॉ. पाटीलांसोबत तपासणी',
+      date: 'तारीख', timeOptional: 'वेळ (पर्यायी)',
+      location: 'ठिकाण', locationVirtual: 'ऑनलाइन (व्हिडिओ)', locationInPerson: 'प्रत्यक्ष',
+      addressField: 'पत्ता/तपशील', addressVirtualField: 'व्हिडिओ लिंक/तपशील',
+      addressPlaceholder: 'रुग्णालयाचे नाव, खोली क्रमांक किंवा व्हिडिओ लिंक',
+      notes: 'नोंदी (पर्यायी)', notesPlaceholder: 'विमा कार्ड आणा, उपवास आवश्यक, इत्यादी',
+      cancel: 'रद्द करा', save: 'जतन करा'
+    },
+    metrics: {
+      add: '+ डेटा जोडा', noData: 'अद्याप कोणताही आरोग्य डेटा नाही.', noDate: 'या तारखेसाठी कोणताही डेटा नाही.',
+      prompt: 'ट्रॅकिंग सुरू करण्यासाठी «+ डेटा जोडा» टॅप करा.',
+      noMatch: 'वर्तमान फिल्टरशी जुळणारा कोणताही डेटा नाही.', noMatchHint: 'फिल्टर सेटिंग्ज किंवा तारीख श्रेणी बदलण्याचा प्रयत्न करा.',
+      noDataRange: 'या तारीख श्रेणीसाठी कोणताही डेटा आढळला नाही.',
+      edit: 'संपादित करा', delete: 'हटवा', notes: 'नोंदी'
+    },
+    logModal: {
+      addTitle: 'डेटा जोडा', editTitle: 'डेटा संपादित करा',
+      datetime: 'तारीख आणि वेळ',
+      temperature: 'तापमान (°F)', bloodPressure: 'रक्तदाब', heartRate: 'हृदय गती (bpm)',
+      bloodGlucose: 'रक्त शर्करा (mg/dL)', weight: 'वजन (kg)', steps: 'पावले',
+      oxygenation: 'ऑक्सिजन (%)', sleep: 'झोप (तास)', notes: 'नोंदी',
+      systolicPlaceholder: 'सिस्टोलिक', diastolicPlaceholder: 'डायस्टोलिक',
+      cancel: 'रद्द करा', save: 'जतन करा'
+    },
+    weeklyView: { prevWeek: '← मागील आठवडा', nextWeek: 'पुढील आठवडा →', close: 'बंद करा', print: 'प्रिंट' },
+    morningCheck: {
+      title: '⚠️ महत्त्वाचे औषध चुकले',
+      message: 'काल {{slot}} ची ही महत्त्वाची औषधे नोंदवली गेली नाहीत:',
+      viewYesterday: 'काल चे औषध पहा', dismiss: 'बंद करा'
+    },
+    alarmModal: {
+      title: '💊 औषध घेण्याची वेळ', message: 'हे स्मरण तुम्ही पाहिले आहे याची पुष्टी करा.', gotIt: 'समजले',
+      timeLabel: '{{time}} चे औषध', notificationTitle: 'औषध स्मरण',
+      notificationBody: '{{time}} चे औषध घेण्याची वेळ!'
+    },
+    profile: {
+      loading: 'लोड होत आहे…', allDataSeparate: 'सर्व डेटा प्रत्येक प्रोफाइलसाठी स्वतंत्रपणे संग्रहित केला जातो',
+      shareTitle: 'प्रोफाइल शेअर करा', shareDesc: 'इतर डिव्हाइसेसना कनेक्ट आणि सिंक करण्याची परवानगी द्या',
+      switchJoinTitle: 'प्रोफाइल बदला किंवा सामील व्हा', switchJoinDesc: 'प्रोफाइल बदला किंवा शेअर केलेल्या प्रोफाइलशी कनेक्ट व्हा',
+      stopSharing: 'शेअरिंग थांबवा', disconnect: 'डिस्कनेक्ट करा',
+      connectedDevices: 'कनेक्ट केलेले डिव्हाइसेस', noDevices: 'अद्याप कोणतेही डिव्हाइस कनेक्ट नाही',
+      scanCode: 'हा कोड दुसऱ्या डिव्हाइसने स्कॅन करा:', codeLabel: 'कोड:',
+      lastSync: 'शेवटची सिंक:', statusLabel: 'स्थिती:', online: '● ऑनलाइन',
+      syncNote: 'सर्व बदल होस्ट डिव्हाइससह रिअल-टाइममध्ये सिंक केले जातात',
+      createNew: 'नवीन प्रोफाइल तयार करा',
+      synced: 'सिंक झाले', sharing: 'शेअर करत आहे', sharingDesc: 'कनेक्ट केलेल्या डिव्हाइसेससह शेअर करत आहे',
+      syncedDesc: 'होस्ट डिव्हाइससह रिअल-टाइम सिंक', reconnecting: 'पुन्हा कनेक्ट होत आहे…',
+      resumingDesc: 'शेअरिंग सत्र पुन्हा सुरू होत आहे…', reconnectingDesc: 'होस्ट डिव्हाइसशी पुन्हा कनेक्ट होत आहे…',
+      justNow: 'आत्ता'
+    },
+    schedule: {
+      daily: 'दररोज', everyOtherDay: 'एक दिवस आड', mwf: 'सोम, बुध, शुक्र',
+      ongoing: 'सुरू', starts: '• {{date}} पासून सुरू',
+      nWeeks: '• {{n}} आठवडे', nMonths: '• {{n}} महिने', untilDate: '• {{date}} पर्यंत', nDoses: '• {{n}} मात्रा',
+      untilDateParens: '({{date}} पर्यंत)', everyDay: 'दररोज'
+    },
+    days: { sun: 'रवि', mon: 'सोम', tue: 'मंगळ', wed: 'बुध', thu: 'गुरू', fri: 'शुक्र', sat: 'शनि' },
+    alerts: {
+      requiredFields: 'कृपया सर्व आवश्यक फील्ड भरा',
+      selectTime: 'कृपया किमान एक वेळ निवडा किंवा विशिष्ट वेळ जोडा',
+      selectStartDate: 'कृपया सुरुवात तारीख निवडा',
+      selectDays: 'कृपया कस्टम वेळापत्रकासाठी किमान एक दिवस निवडा',
+      invalidDuration: 'कृपया वैध कालावधी प्रविष्ट करा',
+      selectEndDate: 'कृपया शेवटची तारीख निवडा',
+      bottleDosesRequired: 'कृपया बाटलीतील मात्रांची संख्या प्रविष्ट करा',
+      deleteMed: 'तुम्हाला खरोखर हे औषध हटवायचे आहे का?',
+      stopMed: 'हे औषध थांबवायचे? शेवटची तारीख काल होईल आणि सर्व भविष्यातील मात्रा हटवल्या जातील.',
+      deleteLog: 'तुम्हाला खरोखर ही नोंद हटवायची आहे का?',
+      deleteAppt: 'तुम्हाला खरोखर ही भेट हटवायची आहे का?',
+      importOverwrite: 'सर्व सध्याचा डेटा आयात केलेल्या डेटाने बदलला जाईल. सुरू ठेवायचे का?',
+      importSuccess: 'डेटा यशस्वीरित्या आयात झाला! पृष्ठ आता पुन्हा लोड होईल.',
+      exportSuccess: 'डेटा यशस्वीरित्या निर्यात झाला! iOS वर डाउनलोड केलेली फाइल दीर्घकाळ दाबा आणि «Files मध्ये जतन करा» निवडा.',
+      clearConfirmMsg: 'तुम्हाला खरोखर सर्व डेटा साफ करायचा आहे का? ही क्रिया पूर्ववत करता येत नाही!\n\nहटवले जाईल:\n• सर्व औषधे\n• सर्व नोंदी\n• सर्व भेटी\n• सर्व आरोग्य डेटा\n\nपुष्टी करण्यासाठी खालील बॉक्समध्ये «हटवा» टाइप करा.',
+      clearConfirmPrompt: 'हटवा टाइप करा:',
+      clearConfirmWord: 'हटवा',
+      deletionCancelled: 'हटवणे रद्द केले.',
+      dataCleared: 'सर्व डेटा साफ केला. पृष्ठ आता पुन्हा लोड होईल.',
+      deleteProfile: '«{{name}}» प्रोफाइल हटवायचे? त्या प्रोफाइलचा सर्व डेटा कायमचा हटवला जाईल.',
+      profileNameRequired: 'कृपया प्रोफाइलचे नाव प्रविष्ट करा',
+      deleteActiveProfile: 'सक्रिय प्रोफाइल हटवता येत नाही. प्रथम दुसऱ्या प्रोफाइलवर स्विच करा.'
+    },
+    toasts: { alarmSaved: 'वेळ आणि अलार्म सेटिंग्ज जतन केल्या!' },
+    updateBanner: {
+      title: 'अपडेट उपलब्ध', message: 'नवीन आवृत्ती ({{version}}) उपलब्ध आहे.',
+      updateNow: 'आत्ता अपडेट करा', later: 'नंतर'
+    }
+  }
+,
+
+  ta: {
+    tab: { meds: 'மருந்துகள்', appointments: 'சந்திப்புகள்', metrics: 'உடல்நலம்' },
+    header: {
+      meds: 'மருந்துகள்', appointments: 'சந்திப்புகள்', metrics: 'உடல்நலம்',
+      medSchedule: 'மருந்து அட்டவணை', asNeeded: '+ தேவைப்படும்போது',
+      addAppointment: '+ சந்திப்பு சேர்', addMetrics: '+ தரவு சேர்',
+      weekView: 'வாரக் காட்சி', back: '← பின்', filterMetrics: 'வடிகட்டு ▼', print: 'அச்சிடு'
+    },
+    timeOfDay: { morning: 'காலை', afternoon: 'மதியம்', evening: 'மாலை', bedtime: 'தூக்கத்திற்கு முன்', asNeeded: 'தேவைப்படும்போது' },
+    meds: {
+      empty: 'இன்று எந்த மருந்தும் திட்டமிடப்படவில்லை.', takenAt: 'எடுக்கப்பட்டது',
+      critical: 'இன்றியமையாதது', optional: 'விருப்பத்தேர்வு', tapToPriority: 'முன்னுரிமை மாற்ற தட்டவும்'
+    },
+    medModal: {
+      addTitle: 'மருந்து சேர்', editTitle: 'மருந்து திருத்து',
+      name: 'மருந்தின் பெயர்', dosage: 'அளவு (எ.கா: «1 மாத்திரை», «2 கேப்சூல்»)',
+      dosagePlaceholder: 'எ.கா: 1 மாத்திரை',
+      timeOfDay: 'எப்போது எடுக்க வேண்டும் (பொருந்தும் அனைத்தையும் தேர்ந்தெடு)',
+      addSpecificTime: '+ குறிப்பிட்ட நேரம் சேர்',
+      frequency: 'எத்தனை முறை?',
+      freqDaily: 'தினமும்', freqEveryOther: 'ஒரு நாள் விட்டு', freqMWF: 'திங், புது, வெள்', freqCustom: 'தேர்ந்த நாட்கள்',
+      selectDays: 'நாட்களை தேர்ந்தெடு',
+      startDate: 'தொடக்க தேதி', startTime: 'தொடக்க நேரம்',
+      duration: 'காலம்',
+      durOngoing: 'தொடர்ச்சியாக (முடிவு தேதி இல்லாமல்)', durWeeks: 'வாரங்கள்', durMonths: 'மாதங்கள்',
+      durEndDate: 'குறிப்பிட்ட தேதி வரை', durBottle: 'மருந்து தீரும் வரை',
+      endDate: 'முடிவு தேதி',
+      notes: 'குறிப்புகள் (விருப்பத்தேர்வு)', notesPlaceholder: 'உணவுடன் எடுக்கவும், போன்றவை',
+      priority: 'முன்னுரிமை', priorityCritical: 'இன்றியமையாதது', priorityOptional: 'விருப்பத்தேர்வு',
+      cancel: 'ரத்து செய்', save: 'சேமி', stop: 'மருந்து நிறுத்து', alarmNone: 'அலாரம் இல்லை', remove: 'நீக்கு'
+    },
+    asNeededModal: {
+      addTitle: 'தேவையான மருந்தை பதிவு செய்', editTitle: 'தேவையான மருந்தை திருத்து',
+      name: 'மருந்தின் பெயர்', namePlaceholder: 'எ.கா: பாராசிட்டமால், இபுப்ரோஃபன்',
+      dosage: 'அளவு', dosagePlaceholder: 'எ.கா: 1 மாத்திரை, 5mg',
+      timeTaken: 'எடுத்த நேரம்',
+      notes: 'குறிப்புகள் (விருப்பத்தேர்வு)', notesPlaceholder: 'காரணம்: தலைவலி, வலி, போன்றவை',
+      cancel: 'ரத்து செய்', log: 'மருந்தை பதிவு செய்'
+    },
+    settings: {
+      profile: 'சுயவிவரம்', timeAlarms: 'மருந்து நேரம் & அலாரங்கள்',
+      enableAlarms: 'அலாரங்களை இயக்கு',
+      enableAlarmsDesc: 'மருந்து நேரத்தில் ஒலி ஒலிக்கும் (செயலி திறந்திருக்க வேண்டும்)',
+      timeCol: 'நேரம்', alarmSoundCol: 'அலாரம் ஒலி',
+      saveTimeAlarms: 'நேரம் & அலாரம் அமைப்புகளை சேமி',
+      alsoTrack: 'இதையும் கண்காணி',
+      appointments: 'சந்திப்புகள்', appointmentsDesc: 'மருத்துவர் வருகை, சிகிச்சை & சுகாதார சந்திப்புகளை கண்காணி',
+      healthMetrics: 'உடல்நல அளவீடுகள்', healthMetricsDesc: 'இரத்த அழுத்தம், எடை, படிகள் & பிற உடல்நல தரவுகளை பதிவு செய்',
+      weight: 'எடை', temperature: 'வெப்பநிலை', bloodPressure: 'இரத்த அழுத்தம்',
+      heartRate: 'இதய துடிப்பு', bloodSugar: 'இரத்த சர்க்கரை', steps: 'படிகள்', oxygenation: 'ஆக்சிஜன் %', sleep: 'தூக்கம்',
+      dataManagement: 'தரவு மேலாண்மை',
+      exportData: 'தரவை ஏற்றுமதி செய்', exportDesc: 'அனைத்து தரவையும் காப்புப்பிரதி கோப்பாக பதிவிறக்கு',
+      importData: 'தரவை இறக்குமதி செய்', importDesc: 'காப்புப்பிரதி கோப்பிலிருந்து தரவை மீட்டெடு',
+      clearData: 'அனைத்து தரவையும் அழி', clearDesc: 'அனைத்து மருந்துகள், பதிவுகள் & சந்திப்புகளை அழி',
+      language: 'மொழி',
+      install: 'முகப்பு திரையில் செயலியாக நிறுவு', installDesc: 'இந்த செயலியை முகப்பு திரையில் எவ்வாறு சேர்ப்பது என்பதை அறிக'
+    },
+    medListModal: {
+      title: 'மருந்து அட்டவணை', close: 'மூடு', add: '+ மருந்து சேர்',
+      empty: 'மருந்துகள் திட்டமிடப்படவில்லை.\n«+ மருந்து சேர்» தட்டி தொடங்கவும்.'
+    },
+    appointments: {
+      upcoming: 'வரவிருக்கும்', past: 'கடந்த', add: '+ சந்திப்பு சேர்',
+      noAny: 'இதுவரை சந்திப்புகள் திட்டமிடப்படவில்லை.', noAnyHint: 'முதல் சந்திப்பை சேர்க்க கீழே உள்ள பொத்தானை தட்டவும்.',
+      noUpcoming: 'வரவிருக்கும் சந்திப்புகள் இல்லை.', noPast: 'கடந்த சந்திப்புகள் இல்லை.',
+      edit: 'திருத்து', delete: 'நீக்கு', markComplete: 'முடிந்தது என்று குறி', completed: '✓ முடிந்தது'
+    },
+    apptModal: {
+      addTitle: 'சந்திப்பு சேர்', editTitle: 'சந்திப்பு திருத்து',
+      type: 'வகை', typeDoctorVisit: 'மருத்துவர் வருகை', typeInfusion: 'உட்செலுத்துதல்',
+      typeLabWork: 'ஆய்வக பணி', typeProcedure: 'நடைமுறை', typeOther: 'மற்றவை',
+      titleField: 'தலைப்பு/விளக்கம்', titlePlaceholder: 'எ.கா: டாக்டர் முருகனுடன் சோதனை',
+      date: 'தேதி', timeOptional: 'நேரம் (விருப்பத்தேர்வு)',
+      location: 'இடம்', locationVirtual: 'ஆன்லைன் (வீடியோ)', locationInPerson: 'நேரில்',
+      addressField: 'முகவரி/விவரங்கள்', addressVirtualField: 'வீடியோ இணைப்பு/விவரங்கள்',
+      addressPlaceholder: 'மருத்துவமனை பெயர், அறை எண் அல்லது வீடியோ இணைப்பு',
+      notes: 'குறிப்புகள் (விருப்பத்தேர்வு)', notesPlaceholder: 'காப்பீட்டு அட்டை கொண்டு வாருங்கள், உண்ணா நோன்பு தேவை, போன்றவை',
+      cancel: 'ரத்து செய்', save: 'சேமி'
+    },
+    metrics: {
+      add: '+ தரவு சேர்', noData: 'இதுவரை உடல்நல தரவு இல்லை.', noDate: 'இந்த தேதிக்கு தரவு இல்லை.',
+      prompt: 'கண்காணிப்பை தொடங்க «+ தரவு சேர்» தட்டவும்.',
+      noMatch: 'தற்போதைய வடிகட்டியுடன் பொருந்தும் தரவு இல்லை.', noMatchHint: 'வடிகட்டி அமைப்புகள் அல்லது தேதி வரம்பை மாற்றி பார்க்கவும்.',
+      noDataRange: 'இந்த தேதி வரம்பிற்கு தரவு கிடைக்கவில்லை.',
+      edit: 'திருத்து', delete: 'நீக்கு', notes: 'குறிப்புகள்'
+    },
+    logModal: {
+      addTitle: 'தரவு சேர்', editTitle: 'தரவு திருத்து',
+      datetime: 'தேதி & நேரம்',
+      temperature: 'வெப்பநிலை (°F)', bloodPressure: 'இரத்த அழுத்தம்', heartRate: 'இதய துடிப்பு (bpm)',
+      bloodGlucose: 'இரத்த சர்க்கரை (mg/dL)', weight: 'எடை (kg)', steps: 'படிகள்',
+      oxygenation: 'ஆக்சிஜன் (%)', sleep: 'தூக்கம் (மணி)', notes: 'குறிப்புகள்',
+      systolicPlaceholder: 'சிஸ்டோலிக்', diastolicPlaceholder: 'டயஸ்டோலிக்',
+      cancel: 'ரத்து செய்', save: 'சேமி'
+    },
+    weeklyView: { prevWeek: '← முந்தைய வாரம்', nextWeek: 'அடுத்த வாரம் →', close: 'மூடு', print: 'அச்சிடு' },
+    morningCheck: {
+      title: '⚠️ முக்கிய மருந்து தவறவிட்டது',
+      message: 'நேற்று {{slot}} இந்த முக்கிய மருந்துகள் பதிவு செய்யப்படவில்லை:',
+      viewYesterday: 'நேற்றைய மருந்துகளை பார்', dismiss: 'மூடு'
+    },
+    alarmModal: {
+      title: '💊 மருந்து எடுக்கும் நேரம்', message: 'இந்த நினைவூட்டலை நீங்கள் பார்த்தீர்கள் என்பதை உறுதிப்படுத்தவும்.', gotIt: 'புரிந்தது',
+      timeLabel: '{{time}} மருந்து', notificationTitle: 'மருந்து நினைவூட்டல்',
+      notificationBody: '{{time}} மருந்து எடுக்கும் நேரம்!'
+    },
+    profile: {
+      loading: 'ஏற்றுகிறது…', allDataSeparate: 'அனைத்து தரவும் ஒவ்வொரு சுயவிவரத்திற்கும் தனித்தனியாக சேமிக்கப்படுகிறது',
+      shareTitle: 'சுயவிவரம் பகிர்', shareDesc: 'மற்ற சாதனங்களை இணைத்து ஒத்திசைக்க அனுமதி',
+      switchJoinTitle: 'சுயவிவரம் மாற்று அல்லது சேர்', switchJoinDesc: 'சுயவிவரம் மாற்று அல்லது பகிரப்பட்ட சுயவிவரத்துடன் இணை',
+      stopSharing: 'பகிர்வை நிறுத்து', disconnect: 'இணைப்பு துண்டி',
+      connectedDevices: 'இணைக்கப்பட்ட சாதனங்கள்', noDevices: 'இதுவரை இணைக்கப்பட்ட சாதனங்கள் இல்லை',
+      scanCode: 'இந்த குறியீட்டை மற்றொரு சாதனத்தால் ஸ்கேன் செய்யவும்:', codeLabel: 'குறியீடு:',
+      lastSync: 'கடைசி ஒத்திசைவு:', statusLabel: 'நிலை:', online: '● ஆன்லைன்',
+      syncNote: 'அனைத்து மாற்றங்களும் ஹோஸ்ட் சாதனத்துடன் நிகழ்நேரத்தில் ஒத்திசைக்கப்படுகின்றன',
+      createNew: 'புதிய சுயவிவரம் உருவாக்கு',
+      synced: 'ஒத்திசைந்தது', sharing: 'பகிர்கிறது', sharingDesc: 'இணைக்கப்பட்ட சாதனங்களுடன் பகிர்கிறது',
+      syncedDesc: 'ஹோஸ்ட் சாதனத்துடன் நிகழ்நேர ஒத்திசைவு', reconnecting: 'மீண்டும் இணைக்கிறது…',
+      resumingDesc: 'பகிர்வு அமர்வை மீண்டும் தொடங்குகிறது…', reconnectingDesc: 'ஹோஸ்ட் சாதனத்துடன் மீண்டும் இணைக்கிறது…',
+      justNow: 'இப்போதுதான்'
+    },
+    schedule: {
+      daily: 'தினமும்', everyOtherDay: 'ஒரு நாள் விட்டு', mwf: 'திங், புது, வெள்',
+      ongoing: 'தொடர்ச்சியாக', starts: '• {{date}} முதல் தொடங்கும்',
+      nWeeks: '• {{n}} வாரங்கள்', nMonths: '• {{n}} மாதங்கள்', untilDate: '• {{date}} வரை', nDoses: '• {{n}} அளவுகள்',
+      untilDateParens: '({{date}} வரை)', everyDay: 'தினமும்'
+    },
+    days: { sun: 'ஞா', mon: 'தி', tue: 'செ', wed: 'பு', thu: 'வி', fri: 'வெ', sat: 'ச' },
+    alerts: {
+      requiredFields: 'தயவுசெய்து அனைத்து தேவையான புலங்களையும் நிரப்பவும்',
+      selectTime: 'தயவுசெய்து குறைந்தது ஒரு நேரத்தை தேர்ந்தெடுக்கவும் அல்லது குறிப்பிட்ட நேரம் சேர்க்கவும்',
+      selectStartDate: 'தயவுசெய்து தொடக்க தேதி தேர்ந்தெடுக்கவும்',
+      selectDays: 'தயவுசெய்து தனிப்பயன் அட்டவணைக்கு குறைந்தது ஒரு நாளை தேர்ந்தெடுக்கவும்',
+      invalidDuration: 'தயவுசெய்து சரியான காலத்தை உள்ளிடவும்',
+      selectEndDate: 'தயவுசெய்து முடிவு தேதி தேர்ந்தெடுக்கவும்',
+      bottleDosesRequired: 'தயவுசெய்து பாட்டிலில் உள்ள அளவுகளின் எண்ணிக்கையை உள்ளிடவும்',
+      deleteMed: 'இந்த மருந்தை நீக்க விரும்புகிறீர்களா?',
+      stopMed: 'இந்த மருந்தை நிறுத்தவா? முடிவு தேதி நேற்றாக அமைக்கப்படும், அனைத்து எதிர்கால அளவுகளும் நீக்கப்படும்.',
+      deleteLog: 'இந்த பதிவை நீக்க விரும்புகிறீர்களா?',
+      deleteAppt: 'இந்த சந்திப்பை நீக்க விரும்புகிறீர்களா?',
+      importOverwrite: 'தற்போதைய அனைத்து தரவும் இறக்குமதி செய்யப்பட்ட தரவால் மாற்றப்படும். தொடர விரும்புகிறீர்களா?',
+      importSuccess: 'தரவு வெற்றிகரமாக இறக்குமதி செய்யப்பட்டது! பக்கம் இப்போது மீண்டும் ஏற்றப்படும்.',
+      exportSuccess: 'தரவு வெற்றிகரமாக ஏற்றுமதி செய்யப்பட்டது! iOS இல் பதிவிறக்கிய கோப்பை நீண்ட நேரம் அழுத்தி «கோப்புகளில் சேமி» தேர்வு செய்யவும்.',
+      clearConfirmMsg: 'அனைத்து தரவையும் அழிக்க விரும்புகிறீர்களா? இந்த செயல் மீட்டெடுக்க முடியாதது!\n\nஅழிக்கப்படும்:\n• அனைத்து மருந்துகள்\n• அனைத்து பதிவுகள்\n• அனைத்து சந்திப்புகள்\n• அனைத்து உடல்நல தரவு\n\nஉறுதிப்படுத்த கீழே உள்ள பெட்டியில் «நீக்கு» என்று தட்டச்சு செய்யவும்.',
+      clearConfirmPrompt: 'நீக்கு என்று தட்டச்சு செய்யவும்:',
+      clearConfirmWord: 'நீக்கு',
+      deletionCancelled: 'நீக்குதல் ரத்து செய்யப்பட்டது.',
+      dataCleared: 'அனைத்து தரவும் அழிக்கப்பட்டது. பக்கம் இப்போது மீண்டும் ஏற்றப்படும்.',
+      deleteProfile: '«{{name}}» சுயவிவரத்தை நீக்கவா? அந்த சுயவிவரத்தின் அனைத்து தரவும் நிரந்தரமாக நீக்கப்படும்.',
+      profileNameRequired: 'தயவுசெய்து சுயவிவரத்தின் பெயரை உள்ளிடவும்',
+      deleteActiveProfile: 'செயலில் உள்ள சுயவிவரத்தை நீக்க முடியாது. முதலில் மற்றொரு சுயவிவரத்திற்கு மாறவும்.'
+    },
+    toasts: { alarmSaved: 'நேரம் & அலாரம் அமைப்புகள் சேமிக்கப்பட்டன!' },
+    updateBanner: {
+      title: 'புதுப்பிப்பு உள்ளது', message: 'புதிய பதிப்பு ({{version}}) கிடைக்கிறது.',
+      updateNow: 'இப்போது புதுப்பி', later: 'பிறகு'
+    }
+  },
+
+  te: {
+    tab: { meds: 'మందులు', appointments: 'అపాయింట్మెంట్లు', metrics: 'ఆరోగ్యం' },
+    header: {
+      meds: 'మందులు', appointments: 'అపాయింట్మెంట్లు', metrics: 'ఆరోగ్యం',
+      medSchedule: 'మందుల షెడ్యూల్', asNeeded: '+ అవసరమైనప్పుడు',
+      addAppointment: '+ అపాయింట్మెంట్ జోడించు', addMetrics: '+ డేటా జోడించు',
+      weekView: 'వారపు వీక్షణ', back: '← వెనుకకు', filterMetrics: 'ఫిల్టర్ ▼', print: 'ముద్రించు'
+    },
+    timeOfDay: { morning: 'ఉదయం', afternoon: 'మధ్యాహ్నం', evening: 'సాయంత్రం', bedtime: 'పడుకునే ముందు', asNeeded: 'అవసరమైనప్పుడు' },
+    meds: {
+      empty: 'నేడు మందులు ఏమీ షెడ్యూల్ చేయబడలేదు.', takenAt: 'తీసుకున్నారు',
+      critical: 'తప్పనిసరి', optional: 'ఐచ్ఛికం', tapToPriority: 'ప్రాధాన్యత మార్చడానికి నొక్కండి'
+    },
+    medModal: {
+      addTitle: 'మందు జోడించు', editTitle: 'మందు సవరించు',
+      name: 'మందు పేరు', dosage: 'మోతాదు (ఉదా: «1 మాత్ర», «2 క్యాప్సూల్లు»)',
+      dosagePlaceholder: 'ఉదా: 1 మాత్ర',
+      timeOfDay: 'ఎప్పుడు తీసుకోవాలి (అన్నీ వర్తించేవి ఎంచుకోండి)',
+      addSpecificTime: '+ నిర్దిష్ట సమయం జోడించు',
+      frequency: 'ఎన్నిసార్లు?',
+      freqDaily: 'ప్రతిరోజూ', freqEveryOther: 'ఒక రోజు విడిచి', freqMWF: 'సోమ, బుధ, శుక్ర', freqCustom: 'ఎంచుకున్న రోజులు',
+      selectDays: 'రోజులు ఎంచుకోండి',
+      startDate: 'ప్రారంభ తేదీ', startTime: 'ప్రారంభ సమయం',
+      duration: 'వ్యవధి',
+      durOngoing: 'కొనసాగుతూ (ముగింపు తేదీ లేకుండా)', durWeeks: 'వారాలు', durMonths: 'నెలలు',
+      durEndDate: 'నిర్దిష్ట తేదీ వరకు', durBottle: 'మందు అయిపోయే వరకు',
+      endDate: 'ముగింపు తేదీ',
+      notes: 'గమనికలు (ఐచ్ఛికం)', notesPlaceholder: 'ఆహారంతో తీసుకోండి, మొదలైనవి',
+      priority: 'ప్రాధాన్యత', priorityCritical: 'తప్పనిసరి', priorityOptional: 'ఐచ్ఛికం',
+      cancel: 'రద్దు చేయి', save: 'సేవ్ చేయి', stop: 'మందు ఆపు', alarmNone: 'అలారం లేదు', remove: 'తొలగించు'
+    },
+    asNeededModal: {
+      addTitle: 'అవసరమైన మందు నమోదు చేయి', editTitle: 'అవసరమైన మందు సవరించు',
+      name: 'మందు పేరు', namePlaceholder: 'ఉదా: పారాసిటమాల్, ఐబుప్రోఫెన్',
+      dosage: 'మోతాదు', dosagePlaceholder: 'ఉదా: 1 మాత్ర, 5mg',
+      timeTaken: 'తీసుకున్న సమయం',
+      notes: 'గమనికలు (ఐచ్ఛికం)', notesPlaceholder: 'కారణం: తలనొప్పి, నొప్పి, మొదలైనవి',
+      cancel: 'రద్దు చేయి', log: 'మందు నమోదు చేయి'
+    },
+    settings: {
+      profile: 'ప్రొఫైల్', timeAlarms: 'మందు సమయాలు & అలారాలు',
+      enableAlarms: 'అలారాలు ప్రారంభించు',
+      enableAlarmsDesc: 'మందు సమయానికి శబ్దం వినిపించు (యాప్ తెరిచి ఉండాలి)',
+      timeCol: 'సమయం', alarmSoundCol: 'అలారం శబ్దం',
+      saveTimeAlarms: 'సమయం & అలారం సెట్టింగులు సేవ్ చేయి',
+      alsoTrack: 'ఇవి కూడా ట్రాక్ చేయి',
+      appointments: 'అపాయింట్మెంట్లు', appointmentsDesc: 'డాక్టర్ సందర్శనలు, చికిత్స & ఆరోగ్య అపాయింట్మెంట్లు ట్రాక్ చేయి',
+      healthMetrics: 'ఆరోగ్య కొలమానాలు', healthMetricsDesc: 'బీపీ, బరువు, అడుగులు & ఇతర ఆరోగ్య డేటా నమోదు చేయి',
+      weight: 'బరువు', temperature: 'ఉష్ణోగ్రత', bloodPressure: 'రక్తపోటు',
+      heartRate: 'హృదయ స్పందన', bloodSugar: 'రక్త చక్కెర', steps: 'అడుగులు', oxygenation: 'ఆక్సిజన్ %', sleep: 'నిద్ర',
+      dataManagement: 'డేటా నిర్వహణ',
+      exportData: 'డేటా ఎగుమతి చేయి', exportDesc: 'అన్ని డేటాను బ్యాకప్ ఫైల్‌గా డౌన్‌లోడ్ చేయి',
+      importData: 'డేటా దిగుమతి చేయి', importDesc: 'బ్యాకప్ ఫైల్ నుండి డేటా పునరుద్ధరించు',
+      clearData: 'అన్ని డేటా తొలగించు', clearDesc: 'అన్ని మందులు, రికార్డులు & అపాయింట్మెంట్లు తొలగించు',
+      language: 'భాష',
+      install: 'హోమ్ స్క్రీన్‌లో యాప్‌గా ఇన్‌స్టాల్ చేయి', installDesc: 'ఈ యాప్‌ను హోమ్ స్క్రీన్‌కు ఎలా జోడించాలో తెలుసుకోండి'
+    },
+    medListModal: {
+      title: 'మందుల షెడ్యూల్', close: 'మూసివేయి', add: '+ మందు జోడించు',
+      empty: 'మందులు షెడ్యూల్ చేయబడలేదు.\n«+ మందు జోడించు» నొక్కి ప్రారంభించు.'
+    },
+    appointments: {
+      upcoming: 'రాబోయేవి', past: 'గత', add: '+ అపాయింట్మెంట్ జోడించు',
+      noAny: 'ఇంకా అపాయింట్మెంట్లు షెడ్యూల్ చేయబడలేదు.', noAnyHint: 'మొదటి అపాయింట్మెంట్ జోడించడానికి కింద ఉన్న బటన్ నొక్కండి.',
+      noUpcoming: 'రాబోయే అపాయింట్మెంట్లు లేవు.', noPast: 'గత అపాయింట్మెంట్లు లేవు.',
+      edit: 'సవరించు', delete: 'తొలగించు', markComplete: 'పూర్తైంది అని గుర్తించు', completed: '✓ పూర్తైంది'
+    },
+    apptModal: {
+      addTitle: 'అపాయింట్మెంట్ జోడించు', editTitle: 'అపాయింట్మెంట్ సవరించు',
+      type: 'రకం', typeDoctorVisit: 'డాక్టర్ సందర్శన', typeInfusion: 'ఇన్ఫ్యూజన్',
+      typeLabWork: 'ల్యాబ్ పని', typeProcedure: 'ప్రక్రియ', typeOther: 'ఇతర',
+      titleField: 'శీర్షిక/వివరణ', titlePlaceholder: 'ఉదా: డాక్టర్ రాజుతో తనిఖీ',
+      date: 'తేదీ', timeOptional: 'సమయం (ఐచ్ఛికం)',
+      location: 'స్థానం', locationVirtual: 'ఆన్‌లైన్ (వీడియో)', locationInPerson: 'నేరుగా',
+      addressField: 'చిరునామా/వివరాలు', addressVirtualField: 'వీడియో లింక్/వివరాలు',
+      addressPlaceholder: 'హాస్పిటల్ పేరు, గది నంబర్ లేదా వీడియో లింక్',
+      notes: 'గమనికలు (ఐచ్ఛికం)', notesPlaceholder: 'ఇన్సూరెన్స్ కార్డ్ తీసుకురండి, ఖాళీ కడుపుతో రావాలి, మొదలైనవి',
+      cancel: 'రద్దు చేయి', save: 'సేవ్ చేయి'
+    },
+    metrics: {
+      add: '+ డేటా జోడించు', noData: 'ఇంకా ఆరోగ్య డేటా లేదు.', noDate: 'ఈ తేదీకి డేటా లేదు.',
+      prompt: 'ట్రాకింగ్ ప్రారంభించడానికి «+ డేటా జోడించు» నొక్కండి.',
+      noMatch: 'ప్రస్తుత ఫిల్టర్‌తో సరిపోలే డేటా లేదు.', noMatchHint: 'ఫిల్టర్ సెట్టింగులు లేదా తేదీ పరిధి మార్చి చూడండి.',
+      noDataRange: 'ఈ తేదీ పరిధికి డేటా కనుగొనబడలేదు.',
+      edit: 'సవరించు', delete: 'తొలగించు', notes: 'గమనికలు'
+    },
+    logModal: {
+      addTitle: 'డేటా జోడించు', editTitle: 'డేటా సవరించు',
+      datetime: 'తేదీ & సమయం',
+      temperature: 'ఉష్ణోగ్రత (°F)', bloodPressure: 'రక్తపోటు', heartRate: 'హృదయ స్పందన (bpm)',
+      bloodGlucose: 'రక్త చక్కెర (mg/dL)', weight: 'బరువు (kg)', steps: 'అడుగులు',
+      oxygenation: 'ఆక్సిజన్ (%)', sleep: 'నిద్ర (గంటలు)', notes: 'గమనికలు',
+      systolicPlaceholder: 'సిస్టోలిక్', diastolicPlaceholder: 'డయాస్టోలిక్',
+      cancel: 'రద్దు చేయి', save: 'సేవ్ చేయి'
+    },
+    weeklyView: { prevWeek: '← మునుపటి వారం', nextWeek: 'తదుపరి వారం →', close: 'మూసివేయి', print: 'ముద్రించు' },
+    morningCheck: {
+      title: '⚠️ ముఖ్యమైన మందు మిస్సయింది',
+      message: 'నిన్న {{slot}} ఈ ముఖ్యమైన మందులు నమోదు చేయబడలేదు:',
+      viewYesterday: 'నిన్నటి మందులు చూడు', dismiss: 'మూసివేయి'
+    },
+    alarmModal: {
+      title: '💊 మందు తీసుకునే సమయం', message: 'ఈ రిమైండర్ మీరు చూశారని నిర్ధారించండి.', gotIt: 'అర్థమైంది',
+      timeLabel: '{{time}} మందు', notificationTitle: 'మందు రిమైండర్',
+      notificationBody: '{{time}} మందు తీసుకునే సమయం!'
+    },
+    profile: {
+      loading: 'లోడవుతోంది…', allDataSeparate: 'అన్ని డేటా ప్రతి ప్రొఫైల్‌కు విడిగా నిల్వ చేయబడుతుంది',
+      shareTitle: 'ప్రొఫైల్ షేర్ చేయి', shareDesc: 'ఇతర పరికరాలను కనెక్ట్ చేయడానికి & సమకాలీకరించడానికి అనుమతించు',
+      switchJoinTitle: 'ప్రొఫైల్ మార్చు లేదా చేరు', switchJoinDesc: 'ప్రొఫైల్ మార్చు లేదా షేర్ చేసిన ప్రొఫైల్‌కు కనెక్ట్ అవ్వు',
+      stopSharing: 'షేరింగ్ ఆపు', disconnect: 'డిస్‌కనెక్ట్ చేయి',
+      connectedDevices: 'కనెక్ట్ అయిన పరికరాలు', noDevices: 'ఇంకా కనెక్ట్ అయిన పరికరాలు లేవు',
+      scanCode: 'ఈ కోడ్‌ను మరొక పరికరంతో స్కాన్ చేయండి:', codeLabel: 'కోడ్:',
+      lastSync: 'చివరి సమకాలీకరణ:', statusLabel: 'స్థితి:', online: '● ఆన్‌లైన్',
+      syncNote: 'అన్ని మార్పులు హోస్ట్ పరికరంతో నిజ సమయంలో సమకాలీకరించబడతాయి',
+      createNew: 'కొత్త ప్రొఫైల్ తయారు చేయి',
+      synced: 'సమకాలీకరించబడింది', sharing: 'షేర్ చేస్తోంది', sharingDesc: 'కనెక్ట్ అయిన పరికరాలతో షేర్ చేస్తోంది',
+      syncedDesc: 'హోస్ట్ పరికరంతో నిజ సమయ సమకాలీకరణ', reconnecting: 'మళ్ళీ కనెక్ట్ అవుతోంది…',
+      resumingDesc: 'షేరింగ్ సెషన్ పునఃప్రారంభిస్తోంది…', reconnectingDesc: 'హోస్ట్ పరికరంతో మళ్ళీ కనెక్ట్ అవుతోంది…',
+      justNow: 'ఇప్పుడే'
+    },
+    schedule: {
+      daily: 'ప్రతిరోజూ', everyOtherDay: 'ఒక రోజు విడిచి', mwf: 'సోమ, బుధ, శుక్ర',
+      ongoing: 'కొనసాగుతూ', starts: '• {{date}} నుండి ప్రారంభం',
+      nWeeks: '• {{n}} వారాలు', nMonths: '• {{n}} నెలలు', untilDate: '• {{date}} వరకు', nDoses: '• {{n}} మోతాదులు',
+      untilDateParens: '({{date}} వరకు)', everyDay: 'ప్రతిరోజూ'
+    },
+    days: { sun: 'ఆది', mon: 'సోమ', tue: 'మంగళ', wed: 'బుధ', thu: 'గురు', fri: 'శుక్ర', sat: 'శని' },
+    alerts: {
+      requiredFields: 'దయచేసి అన్ని అవసరమైన ఫీల్డులు పూరించండి',
+      selectTime: 'దయచేసి కనీసం ఒక సమయం ఎంచుకోండి లేదా నిర్దిష్ట సమయం జోడించండి',
+      selectStartDate: 'దయచేసి ప్రారంభ తేదీ ఎంచుకోండి',
+      selectDays: 'దయచేసి కస్టమ్ షెడ్యూల్‌కు కనీసం ఒక రోజు ఎంచుకోండి',
+      invalidDuration: 'దయచేసి సరైన వ్యవధి నమోదు చేయండి',
+      selectEndDate: 'దయచేసి ముగింపు తేదీ ఎంచుకోండి',
+      bottleDosesRequired: 'దయచేసి సీసాలో మోతాదుల సంఖ్య నమోదు చేయండి',
+      deleteMed: 'మీరు నిజంగా ఈ మందు తొలగించాలనుకుంటున్నారా?',
+      stopMed: 'ఈ మందు ఆపాలా? ముగింపు తేదీ నిన్నటికి అమర్చబడుతుంది, అన్ని భవిష్యత్ మోతాదులు తొలగించబడతాయి.',
+      deleteLog: 'మీరు నిజంగా ఈ రికార్డు తొలగించాలనుకుంటున్నారా?',
+      deleteAppt: 'మీరు నిజంగా ఈ అపాయింట్మెంట్ తొలగించాలనుకుంటున్నారా?',
+      importOverwrite: 'ప్రస్తుత అన్ని డేటా దిగుమతి చేసిన డేటాతో భర్తీ చేయబడుతుంది. కొనసాగించాలనుకుంటున్నారా?',
+      importSuccess: 'డేటా విజయవంతంగా దిగుమతి చేయబడింది! పేజీ ఇప్పుడు రీలోడ్ అవుతుంది.',
+      exportSuccess: 'డేటా విజయవంతంగా ఎగుమతి చేయబడింది! iOS లో డౌన్‌లోడ్ చేసిన ఫైల్‌ను చాలా సేపు నొక్కి «ఫైల్స్‌లో సేవ్ చేయి» ఎంచుకోండి.',
+      clearConfirmMsg: 'మీరు నిజంగా అన్ని డేటా తొలగించాలనుకుంటున్నారా? ఈ చర్యను రద్దు చేయలేరు!\n\nతొలగించబడతాయి:\n• అన్ని మందులు\n• అన్ని రికార్డులు\n• అన్ని అపాయింట్మెంట్లు\n• అన్ని ఆరోగ్య డేటా\n\nనిర్ధారించడానికి కింద ఉన్న బాక్స్‌లో «తొలగించు» అని టైప్ చేయండి.',
+      clearConfirmPrompt: 'తొలగించు అని టైప్ చేయండి:',
+      clearConfirmWord: 'తొలగించు',
+      deletionCancelled: 'తొలగింపు రద్దు చేయబడింది.',
+      dataCleared: 'అన్ని డేటా తొలగించబడింది. పేజీ ఇప్పుడు రీలోడ్ అవుతుంది.',
+      deleteProfile: '«{{name}}» ప్రొఫైల్ తొలగించాలా? ఆ ప్రొఫైల్ అన్ని డేటా శాశ్వతంగా తొలగించబడుతుంది.',
+      profileNameRequired: 'దయచేసి ప్రొఫైల్ పేరు నమోదు చేయండి',
+      deleteActiveProfile: 'యాక్టివ్ ప్రొఫైల్‌ను తొలగించలేరు. ముందు మరొక ప్రొఫైల్‌కు మారండి.'
+    },
+    toasts: { alarmSaved: 'సమయం & అలారం సెట్టింగులు సేవ్ చేయబడ్డాయి!' },
+    updateBanner: {
+      title: 'అప్‌డేట్ అందుబాటులో ఉంది', message: 'కొత్త వెర్షన్ ({{version}}) అందుబాటులో ఉంది.',
+      updateNow: 'ఇప్పుడు అప్‌డేట్ చేయి', later: 'తర్వాత'
+    }
+  }
+,
+
+  kn: {
+    tab: { meds: 'ಔಷಧಿಗಳು', appointments: 'ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳು', metrics: 'ಆರೋಗ್ಯ' },
+    header: {
+      meds: 'ಔಷಧಿಗಳು', appointments: 'ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳು', metrics: 'ಆರೋಗ್ಯ',
+      medSchedule: 'ಔಷಧಿ ವೇಳಾಪಟ್ಟಿ', asNeeded: '+ ಅಗತ್ಯವಿದ್ದಾಗ',
+      addAppointment: '+ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಸೇರಿಸಿ', addMetrics: '+ ಡೇಟಾ ಸೇರಿಸಿ',
+      weekView: 'ವಾರದ ನೋಟ', back: '← ಹಿಂದೆ', filterMetrics: 'ಫಿಲ್ಟರ್ ▼', print: 'ಮುದ್ರಿಸಿ'
+    },
+    timeOfDay: { morning: 'ಬೆಳಿಗ್ಗೆ', afternoon: 'ಮಧ್ಯಾಹ್ನ', evening: 'ಸಂಜೆ', bedtime: 'ಮಲಗುವ ಮೊದಲು', asNeeded: 'ಅಗತ್ಯವಿದ್ದಾಗ' },
+    meds: {
+      empty: 'ಇಂದು ಯಾವುದೇ ಔಷಧಿ ನಿಗದಿಯಾಗಿಲ್ಲ.', takenAt: 'ತೆಗೆದುಕೊಳ್ಳಲಾಗಿದೆ',
+      critical: 'ಅಗತ್ಯ', optional: 'ಐಚ್ಛಿಕ', tapToPriority: 'ಆದ್ಯತೆ ಬದಲಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ'
+    },
+    medModal: {
+      addTitle: 'ಔಷಧಿ ಸೇರಿಸಿ', editTitle: 'ಔಷಧಿ ಸಂಪಾದಿಸಿ',
+      name: 'ಔಷಧಿಯ ಹೆಸರು', dosage: 'ಪ್ರಮಾಣ (ಉದಾ: «1 ಮಾತ್ರೆ», «2 ಕ್ಯಾಪ್ಸೂಲ್»)',
+      dosagePlaceholder: 'ಉದಾ: 1 ಮಾತ್ರೆ',
+      timeOfDay: 'ಯಾವಾಗ ತೆಗೆದುಕೊಳ್ಳಬೇಕು (ಎಲ್ಲ ಅನ್ವಯಿಸುವವುಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ)',
+      addSpecificTime: '+ ನಿರ್ದಿಷ್ಟ ಸಮಯ ಸೇರಿಸಿ',
+      frequency: 'ಎಷ್ಟು ಬಾರಿ?',
+      freqDaily: 'ಪ್ರತಿದಿನ', freqEveryOther: 'ಒಂದು ದಿನ ಬಿಟ್ಟು', freqMWF: 'ಸೋಮ, ಬುಧ, ಶುಕ್ರ', freqCustom: 'ಆಯ್ಕೆ ಮಾಡಿದ ದಿನಗಳು',
+      selectDays: 'ದಿನಗಳನ್ನು ಆಯ್ಕೆ ಮಾಡಿ',
+      startDate: 'ಪ್ರಾರಂಭ ದಿನಾಂಕ', startTime: 'ಪ್ರಾರಂಭ ಸಮಯ',
+      duration: 'ಅವಧಿ',
+      durOngoing: 'ಮುಂದುವರಿಯುತ್ತಿದೆ (ಮುಕ್ತಾಯ ದಿನಾಂಕ ಇಲ್ಲದೆ)', durWeeks: 'ವಾರಗಳು', durMonths: 'ತಿಂಗಳುಗಳು',
+      durEndDate: 'ನಿರ್ದಿಷ್ಟ ದಿನಾಂಕದವರೆಗೆ', durBottle: 'ಔಷಧಿ ಮುಗಿಯುವವರೆಗೆ',
+      endDate: 'ಮುಕ್ತಾಯ ದಿನಾಂಕ',
+      notes: 'ಟಿಪ್ಪಣಿಗಳು (ಐಚ್ಛಿಕ)', notesPlaceholder: 'ಆಹಾರದೊಂದಿಗೆ ತೆಗೆದುಕೊಳ್ಳಿ, ಇತ್ಯಾದಿ',
+      priority: 'ಆದ್ಯತೆ', priorityCritical: 'ಅಗತ್ಯ', priorityOptional: 'ಐಚ್ಛಿಕ',
+      cancel: 'ರದ್ದು ಮಾಡಿ', save: 'ಉಳಿಸಿ', stop: 'ಔಷಧಿ ನಿಲ್ಲಿಸಿ', alarmNone: 'ಅಲಾರಂ ಇಲ್ಲ', remove: 'ತೆಗೆದುಹಾಕಿ'
+    },
+    asNeededModal: {
+      addTitle: 'ಅಗತ್ಯ ಔಷಧಿ ದಾಖಲಿಸಿ', editTitle: 'ಅಗತ್ಯ ಔಷಧಿ ಸಂಪಾದಿಸಿ',
+      name: 'ಔಷಧಿಯ ಹೆಸರು', namePlaceholder: 'ಉದಾ: ಪ್ಯಾರಸಿಟಮಾಲ್, ಐಬುಪ್ರೊಫೇನ್',
+      dosage: 'ಪ್ರಮಾಣ', dosagePlaceholder: 'ಉದಾ: 1 ಮಾತ್ರೆ, 5mg',
+      timeTaken: 'ತೆಗೆದುಕೊಂಡ ಸಮಯ',
+      notes: 'ಟಿಪ್ಪಣಿಗಳು (ಐಚ್ಛಿಕ)', notesPlaceholder: 'ಕಾರಣ: ತಲೆನೋವು, ನೋವು, ಇತ್ಯಾದಿ',
+      cancel: 'ರದ್ದು ಮಾಡಿ', log: 'ಔಷಧಿ ದಾಖಲಿಸಿ'
+    },
+    settings: {
+      profile: 'ಪ್ರೊಫೈಲ್', timeAlarms: 'ಔಷಧಿ ಸಮಯ ಮತ್ತು ಅಲಾರಂಗಳು',
+      enableAlarms: 'ಅಲಾರಂಗಳನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ',
+      enableAlarmsDesc: 'ಔಷಧಿ ಸಮಯದಲ್ಲಿ ಶಬ್ದ ಮಾಡಿ (ಅಪ್ಲಿಕೇಶನ್ ತೆರೆದಿರಬೇಕು)',
+      timeCol: 'ಸಮಯ', alarmSoundCol: 'ಅಲಾರಂ ಶಬ್ದ',
+      saveTimeAlarms: 'ಸಮಯ ಮತ್ತು ಅಲಾರಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಉಳಿಸಿ',
+      alsoTrack: 'ಇವುಗಳನ್ನೂ ಟ್ರ್ಯಾಕ್ ಮಾಡಿ',
+      appointments: 'ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳು', appointmentsDesc: 'ವೈದ್ಯರ ಭೇಟಿ, ಚಿಕಿತ್ಸೆ ಮತ್ತು ಆರೋಗ್ಯ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ಟ್ರ್ಯಾಕ್ ಮಾಡಿ',
+      healthMetrics: 'ಆರೋಗ್ಯ ಮಾಪದಂಡಗಳು', healthMetricsDesc: 'ಬಿಪಿ, ತೂಕ, ಹೆಜ್ಜೆಗಳು ಮತ್ತು ಇತರ ಆರೋಗ್ಯ ಡೇಟಾ ದಾಖಲಿಸಿ',
+      weight: 'ತೂಕ', temperature: 'ತಾಪಮಾನ', bloodPressure: 'ರಕ್ತದೊತ್ತಡ',
+      heartRate: 'ಹೃದಯ ಬಡಿತ', bloodSugar: 'ರಕ್ತ ಸಕ್ಕರೆ', steps: 'ಹೆಜ್ಜೆಗಳು', oxygenation: 'ಆಕ್ಸಿಜನ್ %', sleep: 'ನಿದ್ರೆ',
+      dataManagement: 'ಡೇಟಾ ನಿರ್ವಹಣೆ',
+      exportData: 'ಡೇಟಾ ರಫ್ತು ಮಾಡಿ', exportDesc: 'ಎಲ್ಲ ಡೇಟಾವನ್ನು ಬ್ಯಾಕಪ್ ಫೈಲ್ ಆಗಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ',
+      importData: 'ಡೇಟಾ ಆಮದು ಮಾಡಿ', importDesc: 'ಬ್ಯಾಕಪ್ ಫೈಲ್‌ನಿಂದ ಡೇಟಾ ಮರುಸ್ಥಾಪಿಸಿ',
+      clearData: 'ಎಲ್ಲ ಡೇಟಾ ತೆರವು ಮಾಡಿ', clearDesc: 'ಎಲ್ಲ ಔಷಧಿಗಳು, ದಾಖಲೆಗಳು ಮತ್ತು ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ತೆರವು ಮಾಡಿ',
+      language: 'ಭಾಷೆ',
+      install: 'ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿ ಅಪ್ಲಿಕೇಶನ್ ಆಗಿ ಸ್ಥಾಪಿಸಿ', installDesc: 'ಈ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ಗೆ ಹೇಗೆ ಸೇರಿಸುವುದು ಎಂದು ತಿಳಿಯಿರಿ'
+    },
+    medListModal: {
+      title: 'ಔಷಧಿ ವೇಳಾಪಟ್ಟಿ', close: 'ಮುಚ್ಚಿ', add: '+ ಔಷಧಿ ಸೇರಿಸಿ',
+      empty: 'ಯಾವುದೇ ಔಷಧಿ ನಿಗದಿಯಾಗಿಲ್ಲ.\n«+ ಔಷಧಿ ಸೇರಿಸಿ» ಟ್ಯಾಪ್ ಮಾಡಿ ಪ್ರಾರಂಭಿಸಿ.'
+    },
+    appointments: {
+      upcoming: 'ಮುಂಬರುವ', past: 'ಹಿಂದಿನ', add: '+ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಸೇರಿಸಿ',
+      noAny: 'ಇನ್ನೂ ಯಾವುದೇ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ನಿಗದಿಯಾಗಿಲ್ಲ.', noAnyHint: 'ಮೊದಲ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಸೇರಿಸಲು ಕೆಳಗಿನ ಬಟನ್ ಟ್ಯಾಪ್ ಮಾಡಿ.',
+      noUpcoming: 'ಮುಂಬರುವ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ.', noPast: 'ಹಿಂದಿನ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ.',
+      edit: 'ಸಂಪಾದಿಸಿ', delete: 'ಅಳಿಸಿ', markComplete: 'ಪೂರ್ಣಗೊಂಡಿದೆ ಎಂದು ಗುರುತಿಸಿ', completed: '✓ ಪೂರ್ಣಗೊಂಡಿದೆ'
+    },
+    apptModal: {
+      addTitle: 'ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಸೇರಿಸಿ', editTitle: 'ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಸಂಪಾದಿಸಿ',
+      type: 'ವಿಧ', typeDoctorVisit: 'ವೈದ್ಯರ ಭೇಟಿ', typeInfusion: 'ಇನ್‌ಫ್ಯೂಷನ್',
+      typeLabWork: 'ಪ್ರಯೋಗಾಲಯ ಕಾರ್ಯ', typeProcedure: 'ಕಾರ್ಯವಿಧಾನ', typeOther: 'ಇತರ',
+      titleField: 'ಶೀರ್ಷಿಕೆ/ವಿವರಣೆ', titlePlaceholder: 'ಉದಾ: ಡಾ. ಕುಮಾರ್ ಅವರೊಂದಿಗೆ ತಪಾಸಣೆ',
+      date: 'ದಿನಾಂಕ', timeOptional: 'ಸಮಯ (ಐಚ್ಛಿಕ)',
+      location: 'ಸ್ಥಳ', locationVirtual: 'ಆನ್‌ಲೈನ್ (ವಿಡಿಯೊ)', locationInPerson: 'ನೇರವಾಗಿ',
+      addressField: 'ವಿಳಾಸ/ವಿವರಗಳು', addressVirtualField: 'ವಿಡಿಯೊ ಲಿಂಕ್/ವಿವರಗಳು',
+      addressPlaceholder: 'ಆಸ್ಪತ್ರೆ ಹೆಸರು, ಕೊಠಡಿ ಸಂಖ್ಯೆ ಅಥವಾ ವಿಡಿಯೊ ಲಿಂಕ್',
+      notes: 'ಟಿಪ್ಪಣಿಗಳು (ಐಚ್ಛಿಕ)', notesPlaceholder: 'ವಿಮಾ ಕಾರ್ಡ್ ತನ್ನಿ, ಉಪವಾಸ ಅಗತ್ಯ, ಇತ್ಯಾದಿ',
+      cancel: 'ರದ್ದು ಮಾಡಿ', save: 'ಉಳಿಸಿ'
+    },
+    metrics: {
+      add: '+ ಡೇಟಾ ಸೇರಿಸಿ', noData: 'ಇನ್ನೂ ಯಾವುದೇ ಆರೋಗ್ಯ ಡೇಟಾ ಇಲ್ಲ.', noDate: 'ಈ ದಿನಾಂಕಕ್ಕೆ ಡೇಟಾ ಇಲ್ಲ.',
+      prompt: 'ಟ್ರ್ಯಾಕಿಂಗ್ ಪ್ರಾರಂಭಿಸಲು «+ ಡೇಟಾ ಸೇರಿಸಿ» ಟ್ಯಾಪ್ ಮಾಡಿ.',
+      noMatch: 'ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ಡೇಟಾ ಇಲ್ಲ.', noMatchHint: 'ಫಿಲ್ಟರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಅಥವಾ ದಿನಾಂಕ ಶ್ರೇಣಿ ಬದಲಿಸಲು ಪ್ರಯತ್ನಿಸಿ.',
+      noDataRange: 'ಈ ದಿನಾಂಕ ಶ್ರೇಣಿಗೆ ಯಾವುದೇ ಡೇಟಾ ಕಂಡುಬಂದಿಲ್ಲ.',
+      edit: 'ಸಂಪಾದಿಸಿ', delete: 'ಅಳಿಸಿ', notes: 'ಟಿಪ್ಪಣಿಗಳು'
+    },
+    logModal: {
+      addTitle: 'ಡೇಟಾ ಸೇರಿಸಿ', editTitle: 'ಡೇಟಾ ಸಂಪಾದಿಸಿ',
+      datetime: 'ದಿನಾಂಕ ಮತ್ತು ಸಮಯ',
+      temperature: 'ತಾಪಮಾನ (°F)', bloodPressure: 'ರಕ್ತದೊತ್ತಡ', heartRate: 'ಹೃದಯ ಬಡಿತ (bpm)',
+      bloodGlucose: 'ರಕ್ತ ಸಕ್ಕರೆ (mg/dL)', weight: 'ತೂಕ (kg)', steps: 'ಹೆಜ್ಜೆಗಳು',
+      oxygenation: 'ಆಕ್ಸಿಜನ್ (%)', sleep: 'ನಿದ್ರೆ (ಗಂಟೆಗಳು)', notes: 'ಟಿಪ್ಪಣಿಗಳು',
+      systolicPlaceholder: 'ಸಿಸ್ಟೋಲಿಕ್', diastolicPlaceholder: 'ಡಯಾಸ್ಟೋಲಿಕ್',
+      cancel: 'ರದ್ದು ಮಾಡಿ', save: 'ಉಳಿಸಿ'
+    },
+    weeklyView: { prevWeek: '← ಹಿಂದಿನ ವಾರ', nextWeek: 'ಮುಂದಿನ ವಾರ →', close: 'ಮುಚ್ಚಿ', print: 'ಮುದ್ರಿಸಿ' },
+    morningCheck: {
+      title: '⚠️ ಮುಖ್ಯ ಔಷಧಿ ತಪ್ಪಿಸಿಕೊಂಡಿದೆ',
+      message: 'ನಿನ್ನೆ {{slot}} ಈ ಮುಖ್ಯ ಔಷಧಿಗಳನ್ನು ದಾಖಲಿಸಲಾಗಿಲ್ಲ:',
+      viewYesterday: 'ನಿನ್ನೆಯ ಔಷಧಿಗಳನ್ನು ನೋಡಿ', dismiss: 'ಮುಚ್ಚಿ'
+    },
+    alarmModal: {
+      title: '💊 ಔಷಧಿ ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯ', message: 'ಈ ಜ್ಞಾಪನೆ ನೀವು ನೋಡಿದ್ದೀರಿ ಎಂದು ದೃಢಪಡಿಸಿ.', gotIt: 'ಅರ್ಥವಾಯಿತು',
+      timeLabel: '{{time}} ಔಷಧಿ', notificationTitle: 'ಔಷಧಿ ಜ್ಞಾಪನೆ',
+      notificationBody: '{{time}} ಔಷಧಿ ತೆಗೆದುಕೊಳ್ಳುವ ಸಮಯ!'
+    },
+    profile: {
+      loading: 'ಲೋಡ್ ಆಗುತ್ತಿದೆ…', allDataSeparate: 'ಎಲ್ಲ ಡೇಟಾ ಪ್ರತಿ ಪ್ರೊಫೈಲ್‌ಗೆ ಪ್ರತ್ಯೇಕವಾಗಿ ಸಂಗ್ರಹಿಸಲಾಗಿದೆ',
+      shareTitle: 'ಪ್ರೊಫೈಲ್ ಹಂಚಿಕೊಳ್ಳಿ', shareDesc: 'ಇತರ ಸಾಧನಗಳಿಗೆ ಸಂಪರ್ಕಿಸಲು ಮತ್ತು ಸಿಂಕ್ ಮಾಡಲು ಅನುಮತಿ ನೀಡಿ',
+      switchJoinTitle: 'ಪ್ರೊಫೈಲ್ ಬದಲಿಸಿ ಅಥವಾ ಸೇರಿ', switchJoinDesc: 'ಪ್ರೊಫೈಲ್ ಬದಲಿಸಿ ಅಥವಾ ಹಂಚಿದ ಪ್ರೊಫೈಲ್‌ಗೆ ಸಂಪರ್ಕಿಸಿ',
+      stopSharing: 'ಹಂಚಿಕೆ ನಿಲ್ಲಿಸಿ', disconnect: 'ಸಂಪರ್ಕ ತಡೆ',
+      connectedDevices: 'ಸಂಪರ್ಕಿಸಿದ ಸಾಧನಗಳು', noDevices: 'ಇನ್ನೂ ಯಾವುದೇ ಸಾಧನ ಸಂಪರ್ಕಿಸಿಲ್ಲ',
+      scanCode: 'ಈ ಕೋಡ್ ಅನ್ನು ಮತ್ತೊಂದು ಸಾಧನದಿಂದ ಸ್ಕ್ಯಾನ್ ಮಾಡಿ:', codeLabel: 'ಕೋಡ್:',
+      lastSync: 'ಕೊನೆಯ ಸಿಂಕ್:', statusLabel: 'ಸ್ಥಿತಿ:', online: '● ಆನ್‌ಲೈನ್',
+      syncNote: 'ಎಲ್ಲ ಬದಲಾವಣೆಗಳು ಹೋಸ್ಟ್ ಸಾಧನದೊಂದಿಗೆ ನೈಜ-ಸಮಯದಲ್ಲಿ ಸಿಂಕ್ ಆಗುತ್ತವೆ',
+      createNew: 'ಹೊಸ ಪ್ರೊಫೈಲ್ ರಚಿಸಿ',
+      synced: 'ಸಿಂಕ್ ಆಗಿದೆ', sharing: 'ಹಂಚಿಕೊಳ್ಳುತ್ತಿದೆ', sharingDesc: 'ಸಂಪರ್ಕಿಸಿದ ಸಾಧನಗಳೊಂದಿಗೆ ಹಂಚಿಕೊಳ್ಳುತ್ತಿದೆ',
+      syncedDesc: 'ಹೋಸ್ಟ್ ಸಾಧನದೊಂದಿಗೆ ನೈಜ-ಸಮಯ ಸಿಂಕ್', reconnecting: 'ಮರು-ಸಂಪರ್ಕಿಸುತ್ತಿದೆ…',
+      resumingDesc: 'ಹಂಚಿಕೆ ಸೆಷನ್ ಪುನರಾರಂಭಿಸುತ್ತಿದೆ…', reconnectingDesc: 'ಹೋಸ್ಟ್ ಸಾಧನಕ್ಕೆ ಮರು-ಸಂಪರ್ಕಿಸುತ್ತಿದೆ…',
+      justNow: 'ಈಗಷ್ಟೇ'
+    },
+    schedule: {
+      daily: 'ಪ್ರತಿದಿನ', everyOtherDay: 'ಒಂದು ದಿನ ಬಿಟ್ಟು', mwf: 'ಸೋಮ, ಬುಧ, ಶುಕ್ರ',
+      ongoing: 'ಮುಂದುವರಿಯುತ್ತಿದೆ', starts: '• {{date}} ನಿಂದ ಪ್ರಾರಂಭ',
+      nWeeks: '• {{n}} ವಾರಗಳು', nMonths: '• {{n}} ತಿಂಗಳುಗಳು', untilDate: '• {{date}} ವರೆಗೆ', nDoses: '• {{n}} ಪ್ರಮಾಣಗಳು',
+      untilDateParens: '({{date}} ವರೆಗೆ)', everyDay: 'ಪ್ರತಿದಿನ'
+    },
+    days: { sun: 'ಭಾನು', mon: 'ಸೋಮ', tue: 'ಮಂಗಳ', wed: 'ಬುಧ', thu: 'ಗುರು', fri: 'ಶುಕ್ರ', sat: 'ಶನಿ' },
+    alerts: {
+      requiredFields: 'ದಯವಿಟ್ಟು ಎಲ್ಲ ಅಗತ್ಯ ಕ್ಷೇತ್ರಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ',
+      selectTime: 'ದಯವಿಟ್ಟು ಕನಿಷ್ಠ ಒಂದು ಸಮಯ ಆಯ್ಕೆ ಮಾಡಿ ಅಥವಾ ನಿರ್ದಿಷ್ಟ ಸಮಯ ಸೇರಿಸಿ',
+      selectStartDate: 'ದಯವಿಟ್ಟು ಪ್ರಾರಂಭ ದಿನಾಂಕ ಆಯ್ಕೆ ಮಾಡಿ',
+      selectDays: 'ದಯವಿಟ್ಟು ಕಸ್ಟಮ್ ವೇಳಾಪಟ್ಟಿಗೆ ಕನಿಷ್ಠ ಒಂದು ದಿನ ಆಯ್ಕೆ ಮಾಡಿ',
+      invalidDuration: 'ದಯವಿಟ್ಟು ಸರಿಯಾದ ಅವಧಿ ನಮೂದಿಸಿ',
+      selectEndDate: 'ದಯವಿಟ್ಟು ಮುಕ್ತಾಯ ದಿನಾಂಕ ಆಯ್ಕೆ ಮಾಡಿ',
+      bottleDosesRequired: 'ದಯವಿಟ್ಟು ಬಾಟಲಿಯಲ್ಲಿರುವ ಪ್ರಮಾಣಗಳ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ',
+      deleteMed: 'ನೀವು ನಿಜವಾಗಿಯೂ ಈ ಔಷಧಿ ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ?',
+      stopMed: 'ಈ ಔಷಧಿ ನಿಲ್ಲಿಸಲೇ? ಮುಕ್ತಾಯ ದಿನಾಂಕ ನಿನ್ನೆಗೆ ಸೆಟ್ ಆಗುತ್ತದೆ, ಎಲ್ಲ ಭವಿಷ್ಯದ ಪ್ರಮಾಣಗಳು ಅಳಿಸಲ್ಪಡುತ್ತವೆ.',
+      deleteLog: 'ನೀವು ನಿಜವಾಗಿಯೂ ಈ ದಾಖಲೆ ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ?',
+      deleteAppt: 'ನೀವು ನಿಜವಾಗಿಯೂ ಈ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ?',
+      importOverwrite: 'ಎಲ್ಲ ಪ್ರಸ್ತುತ ಡೇಟಾ ಆಮದು ಮಾಡಿದ ಡೇಟಾದಿಂದ ಬದಲಾಯಿಸಲ್ಪಡುತ್ತದೆ. ಮುಂದುವರಿಯಲು ಬಯಸುತ್ತೀರಾ?',
+      importSuccess: 'ಡೇಟಾ ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ! ಪುಟ ಈಗ ಮರು-ಲೋಡ್ ಆಗುತ್ತದೆ.',
+      exportSuccess: 'ಡೇಟಾ ಯಶಸ್ವಿಯಾಗಿ ರಫ್ತು ಮಾಡಲಾಗಿದೆ! iOS ನಲ್ಲಿ ಡೌನ್‌ಲೋಡ್ ಮಾಡಿದ ಫೈಲ್ ಅನ್ನು ದೀರ್ಘವಾಗಿ ಒತ್ತಿ «Files ನಲ್ಲಿ ಉಳಿಸಿ» ಆಯ್ಕೆ ಮಾಡಿ.',
+      clearConfirmMsg: 'ನೀವು ನಿಜವಾಗಿಯೂ ಎಲ್ಲ ಡೇಟಾ ಅಳಿಸಲು ಬಯಸುತ್ತೀರಾ? ಈ ಕ್ರಿಯೆ ರದ್ದುಪಡಿಸಲಾಗದು!\n\nಅಳಿಸಲ್ಪಡುತ್ತದೆ:\n• ಎಲ್ಲ ಔಷಧಿಗಳು\n• ಎಲ್ಲ ದಾಖಲೆಗಳು\n• ಎಲ್ಲ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳು\n• ಎಲ್ಲ ಆರೋಗ್ಯ ಡೇಟಾ\n\nದೃಢಪಡಿಸಲು ಕೆಳಗಿನ ಬಾಕ್ಸ್‌ನಲ್ಲಿ «ಅಳಿಸಿ» ಎಂದು ಟೈಪ್ ಮಾಡಿ.',
+      clearConfirmPrompt: 'ಅಳಿಸಿ ಎಂದು ಟೈಪ್ ಮಾಡಿ:',
+      clearConfirmWord: 'ಅಳಿಸಿ',
+      deletionCancelled: 'ಅಳಿಸುವಿಕೆ ರದ್ದಾಯಿತು.',
+      dataCleared: 'ಎಲ್ಲ ಡೇಟಾ ತೆರವಾಗಿದೆ. ಪುಟ ಈಗ ಮರು-ಲೋಡ್ ಆಗುತ್ತದೆ.',
+      deleteProfile: '«{{name}}» ಪ್ರೊಫೈಲ್ ಅಳಿಸಲೇ? ಆ ಪ್ರೊಫೈಲ್‌ನ ಎಲ್ಲ ಡೇಟಾ ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಲ್ಪಡುತ್ತದೆ.',
+      profileNameRequired: 'ದಯವಿಟ್ಟು ಪ್ರೊಫೈಲ್ ಹೆಸರು ನಮೂದಿಸಿ',
+      deleteActiveProfile: 'ಸಕ್ರಿಯ ಪ್ರೊಫೈಲ್ ಅಳಿಸಲಾಗದು. ಮೊದಲು ಮತ್ತೊಂದು ಪ್ರೊಫೈಲ್‌ಗೆ ಬದಲಿಸಿ.'
+    },
+    toasts: { alarmSaved: 'ಸಮಯ ಮತ್ತು ಅಲಾರಂ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಉಳಿಸಲಾಗಿದೆ!' },
+    updateBanner: {
+      title: 'ಅಪ್‌ಡೇಟ್ ಲಭ್ಯವಿದೆ', message: 'ಹೊಸ ಆವೃತ್ತಿ ({{version}}) ಲಭ್ಯವಿದೆ.',
+      updateNow: 'ಈಗ ಅಪ್‌ಡೇಟ್ ಮಾಡಿ', later: 'ನಂತರ'
+    }
+  },
+
+  ml: {
+    tab: { meds: 'മരുന്നുകൾ', appointments: 'അപ്പോയ്‌ന്റ്‌മെന്റുകൾ', metrics: 'ആരോഗ്യം' },
+    header: {
+      meds: 'മരുന്നുകൾ', appointments: 'അപ്പോയ്‌ന്റ്‌മെന്റുകൾ', metrics: 'ആരോഗ്യം',
+      medSchedule: 'മരുന്ന് ഷെഡ്യൂൾ', asNeeded: '+ ആവശ്യമുള്ളപ്പോൾ',
+      addAppointment: '+ അപ്പോയ്‌ന്റ്‌മെന്റ് ചേർക്കുക', addMetrics: '+ ഡേറ്റ ചേർക്കുക',
+      weekView: 'ആഴ്ചക്കാഴ്ച', back: '← തിരിച്ച്', filterMetrics: 'ഫിൽറ്റർ ▼', print: 'പ്രിന്റ് ചെയ്യുക'
+    },
+    timeOfDay: { morning: 'രാവിലെ', afternoon: 'ഉച്ചയ്ക്ക്', evening: 'വൈകുന്നേരം', bedtime: 'ഉറങ്ങുന്നതിനു മുൻപ്', asNeeded: 'ആവശ്യമുള്ളപ്പോൾ' },
+    meds: {
+      empty: 'ഇന്ന് ഒരു മരുന്നും ഷെഡ്യൂൾ ചെയ്തിട്ടില്ല.', takenAt: 'കഴിച്ചു',
+      critical: 'അത്യാവശ്യം', optional: 'ഐച്ഛികം', tapToPriority: 'മുൻഗണന മാറ്റാൻ ടാപ്പ് ചെയ്യുക'
+    },
+    medModal: {
+      addTitle: 'മരുന്ന് ചേർക്കുക', editTitle: 'മരുന്ന് എഡിറ്റ് ചെയ്യുക',
+      name: 'മരുന്നിന്റെ പേര്', dosage: 'ഡോസ് (ഉദാ: «1 ഗുളിക», «2 ക്യാപ്‌സ്യൂൾ»)',
+      dosagePlaceholder: 'ഉദാ: 1 ഗുളിക',
+      timeOfDay: 'എപ്പോൾ കഴിക്കണം (ബാധകമായ എല്ലാം തിരഞ്ഞെടുക്കുക)',
+      addSpecificTime: '+ നിർദ്ദിഷ്ട സമയം ചേർക്കുക',
+      frequency: 'എത്ര തവണ?',
+      freqDaily: 'ദിവസവും', freqEveryOther: 'ഒരു ദിവസം ഒഴിച്ച്', freqMWF: 'തി, ബു, വെ', freqCustom: 'തിരഞ്ഞെടുത്ത ദിവസങ്ങൾ',
+      selectDays: 'ദിവസങ്ങൾ തിരഞ്ഞെടുക്കുക',
+      startDate: 'ആരംഭ തീയതി', startTime: 'ആരംഭ സമയം',
+      duration: 'ദൈർഘ്യം',
+      durOngoing: 'തുടർച്ചയായി (അവസാന തീയതി ഇല്ലാതെ)', durWeeks: 'ആഴ്ചകൾ', durMonths: 'മാസങ്ങൾ',
+      durEndDate: 'ഒരു നിർദ്ദിഷ്ട തീയതി വരെ', durBottle: 'മരുന്ന് തീരുന്നത് വരെ',
+      endDate: 'അവസാന തീയതി',
+      notes: 'കുറിപ്പുകൾ (ഐച്ഛികം)', notesPlaceholder: 'ഭക്ഷണത്തോടൊപ്പം കഴിക്കുക, മുതലായവ',
+      priority: 'മുൻഗണന', priorityCritical: 'അത്യാവശ്യം', priorityOptional: 'ഐച്ഛികം',
+      cancel: 'റദ്ദാക്കുക', save: 'സൂക്ഷിക്കുക', stop: 'മരുന്ന് നിർത്തുക', alarmNone: 'അലാറം ഇല്ല', remove: 'നീക്കം ചെയ്യുക'
+    },
+    asNeededModal: {
+      addTitle: 'ആവശ്യമുള്ള മരുന്ന് രേഖപ്പെടുത്തുക', editTitle: 'ആവശ്യമുള്ള മരുന്ന് എഡിറ്റ് ചെയ്യുക',
+      name: 'മരുന്നിന്റെ പേര്', namePlaceholder: 'ഉദാ: പാരസിറ്റമോൾ, ഐബുപ്രോഫൻ',
+      dosage: 'ഡോസ്', dosagePlaceholder: 'ഉദാ: 1 ഗുളിക, 5mg',
+      timeTaken: 'കഴിച്ച സമയം',
+      notes: 'കുറിപ്പുകൾ (ഐച്ഛികം)', notesPlaceholder: 'കാരണം: തലവേദന, വേദന, മുതലായവ',
+      cancel: 'റദ്ദാക്കുക', log: 'മരുന്ന് രേഖപ്പെടുത്തുക'
+    },
+    settings: {
+      profile: 'പ്രൊഫൈൽ', timeAlarms: 'മരുന്ന് സമയവും അലാറങ്ങളും',
+      enableAlarms: 'അലാറങ്ങൾ പ്രവർത്തനക്ഷമമാക്കുക',
+      enableAlarmsDesc: 'മരുന്ന് സമയത്ത് ശബ്ദം ഉണ്ടാക്കുക (ആപ്പ് തുറന്നിരിക്കണം)',
+      timeCol: 'സമയം', alarmSoundCol: 'അലാറം ശബ്ദം',
+      saveTimeAlarms: 'സമയവും അലാറം ക്രമീകരണങ്ങളും സൂക്ഷിക്കുക',
+      alsoTrack: 'ഇവയും ട്രാക്ക് ചെയ്യുക',
+      appointments: 'അപ്പോയ്‌ന്റ്‌മെന്റുകൾ', appointmentsDesc: 'ഡോക്ടർ സന്ദർശനങ്ങൾ, ചികിത്സ, ആരോഗ്യ അപ്പോയ്‌ന്റ്‌മെന്റുകൾ ട്രാക്ക് ചെയ്യുക',
+      healthMetrics: 'ആരോഗ്യ മെട്രിക്കുകൾ', healthMetricsDesc: 'ബിപി, ഭാരം, ചുവടുകൾ, മറ്റ് ആരോഗ്യ ഡേറ്റ രേഖപ്പെടുത്തുക',
+      weight: 'ഭാരം', temperature: 'താപനില', bloodPressure: 'രക്തസമ്മർദ്ദം',
+      heartRate: 'ഹൃദയ സ്പന്ദനം', bloodSugar: 'രക്ത ഷുഗർ', steps: 'ചുവടുകൾ', oxygenation: 'ഓക്‌സിജൻ %', sleep: 'ഉറക്കം',
+      dataManagement: 'ഡേറ്റ മാനേജ്‌മെന്റ്',
+      exportData: 'ഡേറ്റ എക്‌സ്‌പോർട്ട് ചെയ്യുക', exportDesc: 'എല്ലാ ഡേറ്റയും ബാക്കപ്പ് ഫയലായി ഡൗൺലോഡ് ചെയ്യുക',
+      importData: 'ഡേറ്റ ഇംപോർട്ട് ചെയ്യുക', importDesc: 'ബാക്കപ്പ് ഫയലിൽ നിന്ന് ഡേറ്റ പുനഃസ്ഥാപിക്കുക',
+      clearData: 'എല്ലാ ഡേറ്റയും മായ്ക്കുക', clearDesc: 'എല്ലാ മരുന്നുകൾ, രേഖകൾ, അപ്പോയ്‌ന്റ്‌മെന്റുകൾ മായ്ക്കുക',
+      language: 'ഭാഷ',
+      install: 'ഹോം സ്ക്രീനിൽ ആപ്പ് ആയി ഇൻസ്റ്റാൾ ചെയ്യുക', installDesc: 'ഈ ആപ്പ് ഹോം സ്ക്രീനിൽ എങ്ങനെ ചേർക്കാം എന്ന് അറിയുക'
+    },
+    medListModal: {
+      title: 'മരുന്ന് ഷെഡ്യൂൾ', close: 'അടയ്ക്കുക', add: '+ മരുന്ന് ചേർക്കുക',
+      empty: 'മരുന്നുകൾ ഷെഡ്യൂൾ ചെയ്തിട്ടില്ല.\n«+ മരുന്ന് ചേർക്കുക» ടാപ്പ് ചെയ്ത് ആരംഭിക്കുക.'
+    },
+    appointments: {
+      upcoming: 'വരാനിരിക്കുന്നത്', past: 'കഴിഞ്ഞത്', add: '+ അപ്പോയ്‌ന്റ്‌മെന്റ് ചേർക്കുക',
+      noAny: 'ഇതുവരെ അപ്പോയ്‌ന്റ്‌മെന്റുകൾ ഷെഡ്യൂൾ ചെയ്തിട്ടില്ല.', noAnyHint: 'ആദ്യ അപ്പോയ്‌ന്റ്‌മെന്റ് ചേർക്കാൻ താഴെ ഉള്ള ബട്ടൺ ടാപ്പ് ചെയ്യുക.',
+      noUpcoming: 'വരാനിരിക്കുന്ന അപ്പോയ്‌ന്റ്‌മെന്റുകൾ ഇല്ല.', noPast: 'കഴിഞ്ഞ അപ്പോയ്‌ന്റ്‌മെന്റുകൾ ഇല്ല.',
+      edit: 'എഡിറ്റ് ചെയ്യുക', delete: 'ഇല്ലാതാക്കുക', markComplete: 'പൂർത്തിയായതായി അടയാളപ്പെടുത്തുക', completed: '✓ പൂർത്തിയായി'
+    },
+    apptModal: {
+      addTitle: 'അപ്പോയ്‌ന്റ്‌മെന്റ് ചേർക്കുക', editTitle: 'അപ്പോയ്‌ന്റ്‌മെന്റ് എഡിറ്റ് ചെയ്യുക',
+      type: 'തരം', typeDoctorVisit: 'ഡോക്ടർ സന്ദർശനം', typeInfusion: 'ഇൻഫ്യൂഷൻ',
+      typeLabWork: 'ലാബ് ജോലി', typeProcedure: 'നടപടിക്രമം', typeOther: 'മറ്റുള്ളവ',
+      titleField: 'തലക്കെട്ട്/വിവരണം', titlePlaceholder: 'ഉദാ: ഡോ. നായരുമൊത്ത് പരിശോധന',
+      date: 'തീയതി', timeOptional: 'സമയം (ഐച്ഛികം)',
+      location: 'സ്ഥലം', locationVirtual: 'ഓൺലൈൻ (വീഡിയോ)', locationInPerson: 'നേരിട്ട്',
+      addressField: 'വിലാസം/വിശദാംശങ്ങൾ', addressVirtualField: 'വീഡിയോ ലിങ്ക്/വിശദാംശങ്ങൾ',
+      addressPlaceholder: 'ആശുപത്രി പേര്, മുറി നമ്പർ, അല്ലെങ്കിൽ വീഡിയോ ലിങ്ക്',
+      notes: 'കുറിപ്പുകൾ (ഐച്ഛികം)', notesPlaceholder: 'ഇൻഷുറൻസ് കാർഡ് കൊണ്ടുവരുക, ഉപവാസം ആവശ്യമാണ്, മുതലായവ',
+      cancel: 'റദ്ദാക്കുക', save: 'സൂക്ഷിക്കുക'
+    },
+    metrics: {
+      add: '+ ഡേറ്റ ചേർക്കുക', noData: 'ഇതുവരെ ആരോഗ്യ ഡേറ്റ ഇല്ല.', noDate: 'ഈ തീയതിക്ക് ഡേറ്റ ഇല്ല.',
+      prompt: 'ട്രാക്കിംഗ് ആരംഭിക്കാൻ «+ ഡേറ്റ ചേർക്കുക» ടാപ്പ് ചെയ്യുക.',
+      noMatch: 'നിലവിലെ ഫിൽറ്ററുമായി പൊരുത്തപ്പെടുന്ന ഡേറ്റ ഇല്ല.', noMatchHint: 'ഫിൽറ്റർ ക്രമീകരണങ്ങൾ അല്ലെങ്കിൽ തീയതി ശ്രേണി മാറ്റി നോക്കുക.',
+      noDataRange: 'ഈ തീയതി ശ്രേണിക്ക് ഡേറ്റ കണ്ടെത്തിയില്ല.',
+      edit: 'എഡിറ്റ് ചെയ്യുക', delete: 'ഇല്ലാതാക്കുക', notes: 'കുറിപ്പുകൾ'
+    },
+    logModal: {
+      addTitle: 'ഡേറ്റ ചേർക്കുക', editTitle: 'ഡേറ്റ എഡിറ്റ് ചെയ്യുക',
+      datetime: 'തീയതിയും സമയവും',
+      temperature: 'താപനില (°F)', bloodPressure: 'രക്തസമ്മർദ്ദം', heartRate: 'ഹൃദയ സ്പന്ദനം (bpm)',
+      bloodGlucose: 'രക്ത ഷുഗർ (mg/dL)', weight: 'ഭാരം (kg)', steps: 'ചുവടുകൾ',
+      oxygenation: 'ഓക്‌സിജൻ (%)', sleep: 'ഉറക്കം (മണിക്കൂർ)', notes: 'കുറിപ്പുകൾ',
+      systolicPlaceholder: 'സിസ്റ്റോളിക്', diastolicPlaceholder: 'ഡയസ്റ്റോളിക്',
+      cancel: 'റദ്ദാക്കുക', save: 'സൂക്ഷിക്കുക'
+    },
+    weeklyView: { prevWeek: '← കഴിഞ്ഞ ആഴ്ച', nextWeek: 'അടുത്ത ആഴ്ച →', close: 'അടയ്ക്കുക', print: 'പ്രിന്റ് ചെയ്യുക' },
+    morningCheck: {
+      title: '⚠️ പ്രധാന മരുന്ന് നഷ്ടപ്പെട്ടു',
+      message: 'ഇന്നലെ {{slot}} ഈ പ്രധാന മരുന്നുകൾ രേഖപ്പെടുത്തിയില്ല:',
+      viewYesterday: 'ഇന്നലത്തെ മരുന്നുകൾ കാണുക', dismiss: 'അടയ്ക്കുക'
+    },
+    alarmModal: {
+      title: '💊 മരുന്ന് കഴിക്കേണ്ട സമയം', message: 'ഈ ഓർമ്മപ്പെടുത്തൽ നിങ്ങൾ കണ്ടുവെന്ന് സ്ഥിരീകരിക്കുക.', gotIt: 'മനസ്സിലായി',
+      timeLabel: '{{time}} മരുന്ന്', notificationTitle: 'മരുന്ന് ഓർമ്മപ്പെടുത്തൽ',
+      notificationBody: '{{time}} മരുന്ന് കഴിക്കേണ്ട സമയം!'
+    },
+    profile: {
+      loading: 'ലോഡ് ചെയ്യുന്നു…', allDataSeparate: 'എല്ലാ ഡേറ്റയും ഓരോ പ്രൊഫൈലിനും പ്രത്യേകമായി സൂക്ഷിക്കുന്നു',
+      shareTitle: 'പ്രൊഫൈൽ പങ്കിടുക', shareDesc: 'മറ്റ് ഉപകരണങ്ങൾക്ക് കണക്ട് ചെയ്യാനും സിങ്ക് ചെയ്യാനും അനുവദിക്കുക',
+      switchJoinTitle: 'പ്രൊഫൈൽ മാറ്റുക അല്ലെങ്കിൽ ചേരുക', switchJoinDesc: 'പ്രൊഫൈൽ മാറ്റുക അല്ലെങ്കിൽ ഒരു പങ്കിട്ട പ്രൊഫൈലിലേക്ക് കണക്ട് ആകുക',
+      stopSharing: 'പങ്കിടൽ നിർത്തുക', disconnect: 'ഡിസ്‌കണക്ട് ചെയ്യുക',
+      connectedDevices: 'കണക്ട് ചെയ്ത ഉപകരണങ്ങൾ', noDevices: 'ഇതുവരെ ഉപകരണങ്ങൾ കണക്ട് ചെയ്തിട്ടില്ല',
+      scanCode: 'ഈ കോഡ് മറ്റൊരു ഉപകരണം ഉപയോഗിച്ച് സ്കാൻ ചെയ്യുക:', codeLabel: 'കോഡ്:',
+      lastSync: 'അവസാന സിങ്ക്:', statusLabel: 'നില:', online: '● ഓൺലൈൻ',
+      syncNote: 'എല്ലാ മാറ്റങ്ങളും ഹോസ്റ്റ് ഉപകരണവുമായി തത്സമയം സിങ്ക് ചെയ്യുന്നു',
+      createNew: 'പുതിയ പ്രൊഫൈൽ ഉണ്ടാക്കുക',
+      synced: 'സിങ്ക് ചെയ്തു', sharing: 'പങ്കിടുന്നു', sharingDesc: 'കണക്ട് ചെയ്ത ഉപകരണങ്ങളുമായി പങ്കിടുന്നു',
+      syncedDesc: 'ഹോസ്റ്റ് ഉപകരണവുമായി തത്സമയ സിങ്ക്', reconnecting: 'വീണ്ടും കണക്ട് ചെയ്യുന്നു…',
+      resumingDesc: 'പങ്കിടൽ സെഷൻ പുനരാരംഭിക്കുന്നു…', reconnectingDesc: 'ഹോസ്റ്റ് ഉപകരണവുമായി വീണ്ടും കണക്ട് ചെയ്യുന്നു…',
+      justNow: 'ഇപ്പോൾ'
+    },
+    schedule: {
+      daily: 'ദിവസവും', everyOtherDay: 'ഒരു ദിവസം ഒഴിച്ച്', mwf: 'തി, ബു, വെ',
+      ongoing: 'തുടർന്ന്', starts: '• {{date}} മുതൽ ആരംഭം',
+      nWeeks: '• {{n}} ആഴ്ചകൾ', nMonths: '• {{n}} മാസങ്ങൾ', untilDate: '• {{date}} വരെ', nDoses: '• {{n}} ഡോസ്',
+      untilDateParens: '({{date}} വരെ)', everyDay: 'ദിവസവും'
+    },
+    days: { sun: 'ഞാ', mon: 'തി', tue: 'ചൊ', wed: 'ബുധ', thu: 'വ്യാ', fri: 'വെ', sat: 'ശനി' },
+    alerts: {
+      requiredFields: 'ദയവായി എല്ലാ ആവശ്യമുള്ള ഫീൽഡുകളും പൂരിപ്പിക്കുക',
+      selectTime: 'ദയവായി കുറഞ്ഞത് ഒരു സമയം തിരഞ്ഞെടുക്കുക അല്ലെങ്കിൽ നിർദ്ദിഷ്ട സമയം ചേർക്കുക',
+      selectStartDate: 'ദയവായി ആരംഭ തീയതി തിരഞ്ഞെടുക്കുക',
+      selectDays: 'ദയവായി കസ്റ്റം ഷെഡ്യൂളിന് കുറഞ്ഞത് ഒരു ദിവസം തിരഞ്ഞെടുക്കുക',
+      invalidDuration: 'ദയവായി ശരിയായ ദൈർഘ്യം നൽകുക',
+      selectEndDate: 'ദയവായി അവസാന തീയതി തിരഞ്ഞെടുക്കുക',
+      bottleDosesRequired: 'ദയവായി കുപ്പിയിലെ ഡോസുകളുടെ എണ്ണം നൽകുക',
+      deleteMed: 'ഈ മരുന്ന് ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ?',
+      stopMed: 'ഈ മരുന്ന് നിർത്തണമോ? അവസാന തീയതി ഇന്നലത്തേതായിരിക്കും, ഭാവിയിലെ എല്ലാ ഡോസുകളും ഇല്ലാതാകും.',
+      deleteLog: 'ഈ രേഖ ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ?',
+      deleteAppt: 'ഈ അപ്പോയ്‌ന്റ്‌മെന്റ് ഇല്ലാതാക്കണമെന്ന് ഉറപ്പാണോ?',
+      importOverwrite: 'നിലവിലുള്ള എല്ലാ ഡേറ്റയും ഇറക്കുമതി ചെയ്ത ഡേറ്റ കൊണ്ട് മാറ്റിസ്ഥാപിക്കും. തുടരണമോ?',
+      importSuccess: 'ഡേറ്റ വിജയകരമായി ഇറക്കുമതി ചെയ്തു! പേജ് ഇപ്പോൾ വീണ്ടും ലോഡ് ആകും.',
+      exportSuccess: 'ഡേറ്റ വിജയകരമായി കയറ്റുമതി ചെയ്തു! iOS-ൽ ഡൗൺലോഡ് ചെയ്ത ഫയൽ ദീർഘനേരം അമർത്തി «Files-ൽ സൂക്ഷിക്കുക» തിരഞ്ഞെടുക്കുക.',
+      clearConfirmMsg: 'എല്ലാ ഡേറ്റയും മായ്‌ക്കണമെന്ന് ഉറപ്പാണോ? ഈ നടപടി പഴയ നിലയിലാക്കാനാകില്ല!\n\nഇല്ലാതാകും:\n• എല്ലാ മരുന്നുകൾ\n• എല്ലാ രേഖകൾ\n• എല്ലാ അപ്പോയ്‌ന്റ്‌മെന്റുകൾ\n• എല്ലാ ആരോഗ്യ ഡേറ്റ\n\nസ്ഥിരീകരിക്കാൻ താഴെ ഉള്ള ബോക്‌സിൽ «നീക്കുക» എന്ന് ടൈപ്പ് ചെയ്യുക.',
+      clearConfirmPrompt: 'നീക്കുക എന്ന് ടൈപ്പ് ചെയ്യുക:',
+      clearConfirmWord: 'നീക്കുക',
+      deletionCancelled: 'ഇല്ലാതാക്കൽ റദ്ദാക്കി.',
+      dataCleared: 'എല്ലാ ഡേറ്റയും മായ്‌ച്ചു. പേജ് ഇപ്പോൾ വീണ്ടും ലോഡ് ആകും.',
+      deleteProfile: '«{{name}}» പ്രൊഫൈൽ ഇല്ലാതാക്കണമോ? ആ പ്രൊഫൈലിന്റെ എല്ലാ ഡേറ്റയും ശാശ്വതമായി ഇല്ലാതാകും.',
+      profileNameRequired: 'ദയവായി പ്രൊഫൈൽ പേര് നൽകുക',
+      deleteActiveProfile: 'സജീവ പ്രൊഫൈൽ ഇല്ലാതാക്കാൻ കഴിയില്ല. ആദ്യം മറ്റൊരു പ്രൊഫൈലിലേക്ക് മാറുക.'
+    },
+    toasts: { alarmSaved: 'സമയവും അലാറം ക്രമീകരണങ്ങളും സൂക്ഷിച്ചു!' },
+    updateBanner: {
+      title: 'അപ്‌ഡേറ്റ് ലഭ്യമാണ്', message: 'പുതിയ പതിപ്പ് ({{version}}) ലഭ്യമാണ്.',
+      updateNow: 'ഇപ്പോൾ അപ്‌ഡേറ്റ് ചെയ്യുക', later: 'പിന്നീട്'
+    }
+  }
+,
+
+  my: {
+    tab: { meds: 'ဆေးဝါး', appointments: 'ချိန်းဆိုမှု', metrics: 'ကျန်းမာရေး' },
+    header: {
+      meds: 'ဆေးဝါး', appointments: 'ချိန်းဆိုမှု', metrics: 'ကျန်းမာရေး',
+      medSchedule: 'ဆေးသောက်ချိန်ဇယား', asNeeded: '+ လိုအပ်သည့်အခါ',
+      addAppointment: '+ ချိန်းဆိုမှု ထည့်ရန်', addMetrics: '+ ဒေတာ ထည့်ရန်',
+      weekView: 'တစ်ပတ်မြင်ကွင်း', back: '← နောက်သို့', filterMetrics: 'စစ်ထုတ်ရန် ▼', print: 'ပုံနှိပ်ရန်'
+    },
+    timeOfDay: { morning: 'နံနက်', afternoon: 'မွန်းတည့်', evening: 'ညနေ', bedtime: 'အိပ်မောက်မချင်းမီ', asNeeded: 'လိုအပ်သည့်အခါ' },
+    meds: {
+      empty: 'ယနေ့အတွက် ဆေးဝါးများ စီစဉ်မထားပါ။', takenAt: 'သောက်ပြီး',
+      critical: 'မဖြစ်မနေ', optional: 'ရွေးချယ်နိုင်သော', tapToPriority: 'ဦးစားပေးအဆင့် ပြောင်းရန် နှိပ်ပါ'
+    },
+    medModal: {
+      addTitle: 'ဆေး ထည့်ရန်', editTitle: 'ဆေး ပြင်ဆင်ရန်',
+      name: 'ဆေးအမည်', dosage: 'အဆေးပမာဏ (ဥပမာ: «၁ လုံး», «၂ ကပ်ဆူး»)',
+      dosagePlaceholder: 'ဥပမာ: ၁ လုံး',
+      timeOfDay: 'ဘယ်အချိန် သောက်မလဲ (သင့်လျော်သမျှ ရွေးပါ)',
+      addSpecificTime: '+ တိကျသော အချိန် ထည့်ရန်',
+      frequency: 'မည်မျှ မကြာမကြာ?',
+      freqDaily: 'နေ့တိုင်း', freqEveryOther: 'တစ်ရက်ခြား', freqMWF: 'တနင်, ဗုဒ်, သာ', freqCustom: 'ရွေးထားသော ရက်များ',
+      selectDays: 'ရက်များ ရွေးပါ',
+      startDate: 'စတင်သည့်ရက်', startTime: 'စတင်သည့်အချိန်',
+      duration: 'ကြာချိန်',
+      durOngoing: 'ဆက်လက်ဆောင်ရွက် (ပြီးဆုံးမည့်ရက် မရှိ)', durWeeks: 'အပတ်', durMonths: 'လ',
+      durEndDate: 'သတ်မှတ်ရက်အထိ', durBottle: 'ဆေးကုန်သည်အထိ',
+      endDate: 'ပြီးဆုံးသည့်ရက်',
+      notes: 'မှတ်စု (ရွေးချယ်နိုင်)', notesPlaceholder: 'အစာနှင့်တကွ သောက်ရန်၊ စသည်',
+      priority: 'ဦးစားပေး', priorityCritical: 'မဖြစ်မနေ', priorityOptional: 'ရွေးချယ်နိုင်သော',
+      cancel: 'ပယ်ဖျက်ရန်', save: 'သိမ်းဆည်းရန်', stop: 'ဆေး ရပ်တန့်ရန်', alarmNone: 'နှိုးစက် မလိုပါ', remove: 'ဖယ်ထုတ်ရန်'
+    },
+    asNeededModal: {
+      addTitle: 'လိုအပ်သောဆေး မှတ်တမ်းတင်ရန်', editTitle: 'လိုအပ်သောဆေး ပြင်ဆင်ရန်',
+      name: 'ဆေးအမည်', namePlaceholder: 'ဥပမာ: ပါရာစီတမောလ်၊ အိုင်ဘူပရိုဖင်',
+      dosage: 'အဆေးပမာဏ', dosagePlaceholder: 'ဥပမာ: ၁ လုံး၊ 5mg',
+      timeTaken: 'သောက်ချိန်',
+      notes: 'မှတ်စု (ရွေးချယ်နိုင်)', notesPlaceholder: 'အကြောင်းရင်း: ခေါင်းကိုက်ခြင်း၊ နာကျင်ခြင်း၊ စသည်',
+      cancel: 'ပယ်ဖျက်ရန်', log: 'ဆေး မှတ်တမ်းတင်ရန်'
+    },
+    settings: {
+      profile: 'ပရိုဖိုင်', timeAlarms: 'ဆေးသောက်ချိန် နှင့် နှိုးစက်များ',
+      enableAlarms: 'နှိုးစက်များ ဖွင့်ရန်',
+      enableAlarmsDesc: 'ဆေးသောက်ချိန်ရောက်သောအခါ အသံမြည်ရန် (အက်ပ် ဖွင့်ထားရမည်)',
+      timeCol: 'အချိန်', alarmSoundCol: 'နှိုးစက်အသံ',
+      saveTimeAlarms: 'အချိန်နှင့် နှိုးစက် ဆက်တင်များ သိမ်းဆည်းရန်',
+      alsoTrack: 'ဤသည်ကိုလည်း ခြေရာခံရန်',
+      appointments: 'ချိန်းဆိုမှု', appointmentsDesc: 'ဆရာဝန်ကြည့်ရန်၊ ကုသမှု နှင့် ကျန်းမာရေး ချိန်းဆိုမှုများ ခြေရာခံရန်',
+      healthMetrics: 'ကျန်းမာရေး တိုင်းတာမှုများ', healthMetricsDesc: 'သွေးပေါင်ချိန်၊ အလေးချိန်၊ လမ်းလျှောက်မှု နှင့် ကျန်းမာရေးဒေတာများ မှတ်တမ်းတင်ရန်',
+      weight: 'အလေးချိန်', temperature: 'အပူချိန်', bloodPressure: 'သွေးပေါင်ချိန်',
+      heartRate: 'နှလုံးခုတ်နှုန်း', bloodSugar: 'သွေးတွင်းသကြားဓာတ်', steps: 'လမ်းလျှောက်မှု', oxygenation: 'အောက်စီဂျင် %', sleep: 'အိပ်ချိန်',
+      dataManagement: 'ဒေတာ စီမံခန့်ခွဲမှု',
+      exportData: 'ဒေတာ ထုတ်ယူရန်', exportDesc: 'ဒေတာအားလုံးကို အရန်သိမ်းဖိုင်အဖြစ် ဒေါင်းလုဒ်လုပ်ရန်',
+      importData: 'ဒေတာ တင်သွင်းရန်', importDesc: 'အရန်သိမ်းဖိုင်မှ ဒေတာ ပြန်လည်ရယူရန်',
+      clearData: 'ဒေတာအားလုံး ဖျက်ရန်', clearDesc: 'ဆေးဝါးများ၊ မှတ်တမ်းများ နှင့် ချိန်းဆိုမှုများ အားလုံး ဖျက်ရန်',
+      language: 'ဘာသာစကား',
+      install: 'မူလဖန်သားပြင်တွင် အက်ပ်အဖြစ် တပ်ဆင်ရန်', installDesc: 'ဤအက်ပ်ကို မူလဖန်သားပြင်တွင် မည်သို့ ထည့်ရမည်ကို သိရှိရန်'
+    },
+    medListModal: {
+      title: 'ဆေးသောက်ချိန်ဇယား', close: 'ပိတ်ရန်', add: '+ ဆေး ထည့်ရန်',
+      empty: 'ဆေးဝါးများ စီစဉ်မထားပါ။\n«+ ဆေး ထည့်ရန်» နှိပ်၍ စတင်ပါ။'
+    },
+    appointments: {
+      upcoming: 'လာမည့်', past: 'ပြီးခဲ့သော', add: '+ ချိန်းဆိုမှု ထည့်ရန်',
+      noAny: 'ချိန်းဆိုမှုများ မစီစဉ်ရသေးပါ။', noAnyHint: 'ပထမဆုံးချိန်းဆိုမှု ထည့်ရန် အောက်ခြေခလုတ် နှိပ်ပါ။',
+      noUpcoming: 'လာမည့် ချိန်းဆိုမှုများ မရှိပါ။', noPast: 'ပြီးခဲ့သော ချိန်းဆိုမှုများ မရှိပါ။',
+      edit: 'ပြင်ဆင်ရန်', delete: 'ဖျက်ရန်', markComplete: 'ပြီးစီးသည်ဟု မှတ်သားရန်', completed: '✓ ပြီးစီးပြီ'
+    },
+    apptModal: {
+      addTitle: 'ချိန်းဆိုမှု ထည့်ရန်', editTitle: 'ချိန်းဆိုမှု ပြင်ဆင်ရန်',
+      type: 'အမျိုးအစား', typeDoctorVisit: 'ဆရာဝန်နှင့် ကြည့်ခြင်း', typeInfusion: 'ဆေးရည် ထိုးခြင်း',
+      typeLabWork: 'ဓာတ်ခွဲမှု', typeProcedure: 'ဆေးကုသမှု', typeOther: 'အခြား',
+      titleField: 'ခေါင်းစဉ်/ဖော်ပြချက်', titlePlaceholder: 'ဥပမာ: ဒေါက်တာမောင်မောင်နှင့် စစ်ဆေးခြင်း',
+      date: 'ရက်စွဲ', timeOptional: 'အချိန် (ရွေးချယ်နိုင်)',
+      location: 'နေရာ', locationVirtual: 'အွန်လိုင်း (ဗီဒီယို)', locationInPerson: 'တိုက်ရိုက်',
+      addressField: 'လိပ်စာ/အသေးစိတ်', addressVirtualField: 'ဗီဒီယိုလင့်/အသေးစိတ်',
+      addressPlaceholder: 'ဆေးရုံအမည်၊ အခန်းနံပါတ် သို့ ဗီဒီယိုလင့်',
+      notes: 'မှတ်စု (ရွေးချယ်နိုင်)', notesPlaceholder: 'ကျန်းမာရေးအာမခံကတ် ယူလာရန်၊ အစာရှောင်ရန်လိုအပ်သည်၊ စသည်',
+      cancel: 'ပယ်ဖျက်ရန်', save: 'သိမ်းဆည်းရန်'
+    },
+    metrics: {
+      add: '+ ဒေတာ ထည့်ရန်', noData: 'ကျန်းမာရေးဒေတာ မရှိသေးပါ။', noDate: 'ဤရက်စွဲအတွက် ဒေတာ မရှိပါ။',
+      prompt: 'ခြေရာခံမှု စတင်ရန် «+ ဒေတာ ထည့်ရန်» နှိပ်ပါ။',
+      noMatch: 'လက်ရှိစစ်ထုတ်မှုနှင့် ကိုက်ညီသော ဒေတာ မရှိပါ။', noMatchHint: 'စစ်ထုတ်မှု ဆက်တင်များ သို့မဟုတ် ရက်အပိုင်းအခြား ပြောင်းကြည့်ပါ။',
+      noDataRange: 'ဤရက်အပိုင်းအခြားအတွက် ဒေတာ မတွေ့ပါ။',
+      edit: 'ပြင်ဆင်ရန်', delete: 'ဖျက်ရန်', notes: 'မှတ်စု'
+    },
+    logModal: {
+      addTitle: 'ဒေတာ ထည့်ရန်', editTitle: 'ဒေတာ ပြင်ဆင်ရန်',
+      datetime: 'ရက်စွဲနှင့် အချိန်',
+      temperature: 'အပူချိန် (°F)', bloodPressure: 'သွေးပေါင်ချိန်', heartRate: 'နှလုံးခုတ်နှုန်း (bpm)',
+      bloodGlucose: 'သွေးတွင်းသကြားဓာတ် (mg/dL)', weight: 'အလေးချိန် (ပေါင်)', steps: 'လမ်းလျှောက်မှု',
+      oxygenation: 'အောက်စီဂျင် (%)', sleep: 'အိပ်ချိန် (နာရီ)', notes: 'မှတ်စု',
+      systolicPlaceholder: 'systolic', diastolicPlaceholder: 'diastolic',
+      cancel: 'ပယ်ဖျက်ရန်', save: 'သိမ်းဆည်းရန်'
+    },
+    weeklyView: { prevWeek: '← ယခင်အပတ်', nextWeek: 'နောက်အပတ် →', close: 'ပိတ်ရန်', print: 'ပုံနှိပ်ရန်' },
+    morningCheck: {
+      title: '⚠️ အရေးကြီးသောဆေး လွဲချော်ခဲ့သည်',
+      message: 'မနေ့က {{slot}} ဤအရေးကြီးသောဆေးများ မှတ်တမ်းမတင်ရသေးပါ:',
+      viewYesterday: 'မနေ့က ဆေးများ ကြည့်ရန်', dismiss: 'ပိတ်ရန်'
+    },
+    alarmModal: {
+      title: '💊 ဆေးသောက်ချိန် ရောက်ပြီ', message: 'ဤသတိပေးချက်ကို မြင်ကြောင်း အတည်ပြုပါ။', gotIt: 'နားလည်ပြီ',
+      timeLabel: '{{time}} ဆေး', notificationTitle: 'ဆေးသောက်ရမည် သတိပေးချက်',
+      notificationBody: '{{time}} ဆေးသောက်ချိန် ရောက်ပြီ!'
+    },
+    profile: {
+      loading: 'ဖွင့်နေသည်…', allDataSeparate: 'ဒေတာအားလုံးကို ပရိုဖိုင်တစ်ခုချင်းစီအတွက် သီးခြားသိမ်းဆည်းသည်',
+      shareTitle: 'ပရိုဖိုင် မျှဝေရန်', shareDesc: 'အခြားစက်ပစ္စည်းများ ချိတ်ဆက်ကာ ထပ်တူပြုနိုင်ရန် ခွင့်ပြုရန်',
+      switchJoinTitle: 'ပရိုဖိုင် ပြောင်းရန် သို့မဟုတ် ဝင်ရောက်ရန်', switchJoinDesc: 'ပရိုဖိုင် ပြောင်းရန် သို့မဟုတ် မျှဝေထားသော ပရိုဖိုင်သို့ ချိတ်ဆက်ရန်',
+      stopSharing: 'မျှဝေမှု ရပ်တန့်ရန်', disconnect: 'ချိတ်ဆက်မှု ဖြတ်တောက်ရန်',
+      connectedDevices: 'ချိတ်ဆက်ထားသော စက်ပစ္စည်းများ', noDevices: 'မည်သည့်စက်ပစ္စည်းမျှ ချိတ်ဆက်မထားသေးပါ',
+      scanCode: 'ဤကုဒ်ကို အခြားစက်ပစ္စည်းဖြင့် စကင်ဖတ်ပါ:', codeLabel: 'ကုဒ်:',
+      lastSync: 'နောက်ဆုံး ထပ်တူပြုမှု:', statusLabel: 'အခြေအနေ:', online: '● အွန်လိုင်း',
+      syncNote: 'ပြောင်းလဲမှုများ အားလုံးကို host စက်ပစ္စည်းနှင့် အချိန်နှင့်တပြေးညီ ထပ်တူပြုသည်',
+      createNew: 'ပရိုဖိုင်အသစ် ဖန်တီးရန်',
+      synced: 'ထပ်တူပြုပြီး', sharing: 'မျှဝေနေသည်', sharingDesc: 'ချိတ်ဆက်ထားသော စက်ပစ္စည်းများနှင့် မျှဝေနေသည်',
+      syncedDesc: 'host စက်ပစ္စည်းနှင့် အချိန်နှင့်တပြေးညီ ထပ်တူပြုမှု', reconnecting: 'ပြန်လည်ချိတ်ဆက်နေသည်…',
+      resumingDesc: 'မျှဝေမှုစက်ရှင် ပြန်လည်စတင်နေသည်…', reconnectingDesc: 'host စက်ပစ္စည်းနှင့် ပြန်လည်ချိတ်ဆက်နေသည်…',
+      justNow: 'ယခုမှပဲ'
+    },
+    schedule: {
+      daily: 'နေ့တိုင်း', everyOtherDay: 'တစ်ရက်ခြား', mwf: 'တနင်, ဗုဒ်, သာ',
+      ongoing: 'ဆက်လက်ဆောင်ရွက်', starts: '• {{date}} မှ စတင်သည်',
+      nWeeks: '• {{n}} အပတ်', nMonths: '• {{n}} လ', untilDate: '• {{date}} အထိ', nDoses: '• {{n}} ခါ',
+      untilDateParens: '({{date}} အထိ)', everyDay: 'နေ့တိုင်း'
+    },
+    days: { sun: 'တနင်', mon: 'တလာ', tue: 'အင်', wed: 'ဗုဒ်', thu: 'ကြာ', fri: 'သာ', sat: 'စနေ' },
+    alerts: {
+      requiredFields: 'လိုအပ်သည့် ကွက်လပ်များ အားလုံး ဖြည့်ပါ',
+      selectTime: 'အချိန်တစ်ခုမျှ ရွေးပါ သို့မဟုတ် တိကျသော အချိန် ထည့်ပါ',
+      selectStartDate: 'စတင်သည့်ရက် ရွေးပါ',
+      selectDays: 'စိတ်ကြိုက်ဇယားအတွက် ရက်တစ်ရက်မျှ ရွေးပါ',
+      invalidDuration: 'မှန်ကန်သော ကြာချိန် ဖြည့်ပါ',
+      selectEndDate: 'ပြီးဆုံးသည့်ရက် ရွေးပါ',
+      bottleDosesRequired: 'ဘူးထဲ ဆေးအလုံးရေ ဖြည့်ပါ',
+      deleteMed: 'ဤဆေးကို ဖျက်မည်မှာ သေချာပါသလား?',
+      stopMed: 'ဤဆေး ရပ်တန့်မည်လား? ပြီးဆုံးသည့်ရက်ကို မနေ့ကသို့ သတ်မှတ်မည်၊ နောင်ဆေးအချိန်များ ဖျက်မည်။',
+      deleteLog: 'ဤမှတ်တမ်းကို ဖျက်မည်မှာ သေချာပါသလား?',
+      deleteAppt: 'ဤချိန်းဆိုမှုကို ဖျက်မည်မှာ သေချာပါသလား?',
+      importOverwrite: 'လက်ရှိဒေတာအားလုံးကို တင်သွင်းသောဒေတာဖြင့် အစားထိုးမည်။ ဆက်လက်မည်လား?',
+      importSuccess: 'ဒေတာ အောင်မြင်စွာ တင်သွင်းပြီး! စာမျက်နှာ ယခု ပြန်လည်ဖွင့်မည်။',
+      exportSuccess: 'ဒေတာ အောင်မြင်စွာ ထုတ်ယူပြီး! iOS တွင် ဒေါင်းလုဒ်ဖိုင်ကို ဖိထားပြီး «Files တွင် သိမ်းဆည်းရန်» ရွေးပါ။',
+      clearConfirmMsg: 'ဒေတာအားလုံး ဖျက်မည်မှာ သေချာပါသလား? ဤလုပ်ဆောင်ချက် ပြန်ဖျက်မရပါ!\n\nဖျက်မည်:\n• ဆေးဝါးအားလုံး\n• မှတ်တမ်းအားလုံး\n• ချိန်းဆိုမှုအားလုံး\n• ကျန်းမာရေးဒေတာ အားလုံး\n\nအတည်ပြုရန် အောက်ပါ ကွက်တွင် «ဖျက်ပါ» ရိုက်ထည့်ပါ။',
+      clearConfirmPrompt: 'ဖျက်ပါ ရိုက်ထည့်ပါ:',
+      clearConfirmWord: 'ဖျက်ပါ',
+      deletionCancelled: 'ဖျက်ခြင်း ပယ်ဖျက်လိုက်သည်။',
+      dataCleared: 'ဒေတာအားလုံး ဖျက်ပြီး။ စာမျက်နှာ ယခု ပြန်လည်ဖွင့်မည်။',
+      deleteProfile: '«{{name}}» ပရိုဖိုင် ဖျက်မည်လား? ထိုပရိုဖိုင်၏ ဒေတာအားလုံး အမြဲတမ်း ဖျက်မည်။',
+      profileNameRequired: 'ပရိုဖိုင်အမည် ဖြည့်ပါ',
+      deleteActiveProfile: 'လက်ရှိသုံးနေသော ပရိုဖိုင်ကို ဖျက်မရပါ။ အရင် ပရိုဖိုင်တခြားသို့ ပြောင်းပါ။'
+    },
+    toasts: { alarmSaved: 'အချိန်နှင့် နှိုးစက် ဆက်တင်များ သိမ်းဆည်းပြီး!' },
+    updateBanner: {
+      title: 'အပ်ဒိတ် ရှိသည်', message: 'ဗားရှင်းသစ် ({{version}}) ရရှိနိုင်သည်။',
+      updateNow: 'ယခု အပ်ဒိတ်လုပ်ရန်', later: 'နောက်မှ'
+    }
+  }
+
+};

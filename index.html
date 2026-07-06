@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Meds">
-    <meta name="app-version" content="1.2.3">
+    <meta name="app-version" content="1.3.0">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
@@ -21,15 +21,18 @@
 
     <!-- QR Code generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <!-- Translations -->
+    <script src="translations.js"></script>
 </head>
 <body>
     <div class="container">
         <!-- Navigation Tabs -->
         <div class="tabs">
             <button class="tab-button settings-button" data-tab="settings">⚙️</button>
-            <button class="tab-button active" data-tab="medications">Meds</button>
-            <button class="tab-button" data-tab="appointments">Appointments</button>
-            <button class="tab-button" data-tab="log">Metrics</button>
+            <button class="tab-button active" data-tab="medications" data-i18n="tab.meds">Meds</button>
+            <button class="tab-button" data-tab="appointments" data-i18n="tab.appointments">Appointments</button>
+            <button class="tab-button" data-tab="log" data-i18n="tab.metrics">Metrics</button>
         </div>
 
         <header>
@@ -79,7 +82,7 @@
         <!-- Settings Section -->
         <div class="tab-content" id="settingsTab">
             <div class="settings-section">
-                <h3 class="settings-section-title">Profile</h3>
+                <h3 class="settings-section-title" data-i18n="settings.profile">Profile</h3>
 
                 <!-- Profile Info Card -->
                 <div class="profile-card">
@@ -91,7 +94,7 @@
                                 <span id="profileSyncStatus">Synced</span>
                             </div>
                         </div>
-                        <div class="profile-desc" id="activeProfileDesc">All data is stored separately per profile</div>
+                        <div class="profile-desc" id="activeProfileDesc" data-i18n="profile.allDataSeparate">All data is stored separately per profile</div>
                     </div>
 
                     <!-- Profile Actions -->
@@ -101,16 +104,16 @@
                             <button class="profile-action-button" id="shareProfileButton">
                                 <span class="profile-action-icon">📡</span>
                                 <div class="profile-action-content">
-                                    <div class="profile-action-title">Share Profile</div>
-                                    <div class="profile-action-desc">Let others connect to sync</div>
+                                    <div class="profile-action-title" data-i18n="profile.shareTitle">Share Profile</div>
+                                    <div class="profile-action-desc" data-i18n="profile.shareDesc">Let others connect to sync</div>
                                 </div>
                             </button>
 
                             <button class="profile-action-button" id="switchOrJoinButton">
                                 <span class="profile-action-icon">🔄</span>
                                 <div class="profile-action-content">
-                                    <div class="profile-action-title">Switch or Join Profile</div>
-                                    <div class="profile-action-desc">Change profile or connect to shared</div>
+                                    <div class="profile-action-title" data-i18n="profile.switchJoinTitle">Switch or Join Profile</div>
+                                    <div class="profile-action-desc" data-i18n="profile.switchJoinDesc">Change profile or connect to shared</div>
                                 </div>
                             </button>
                         </div>
@@ -118,14 +121,14 @@
                         <!-- Show when sharing (host) -->
                         <div id="sharingProfileState" style="display: none;">
                             <div class="sharing-content">
-                                <p class="sharing-instructions">Scan this code with another device:</p>
+                                <p class="sharing-instructions" data-i18n="profile.scanCode">Scan this code with another device:</p>
                                 <div id="syncQRCode" class="sync-qr-canvas"></div>
                                 <p class="sync-code-text">Code: <strong id="syncRoomCode">Loading...</strong></p>
 
                                 <div class="connected-devices-section">
-                                    <h4 class="connected-devices-title">Connected Devices</h4>
+                                    <h4 class="connected-devices-title" data-i18n="profile.connectedDevices">Connected Devices</h4>
                                     <div id="connectedDevicesList" class="connected-devices-list">
-                                        <div class="no-devices-yet">No devices connected yet</div>
+                                        <div class="no-devices-yet" data-i18n="profile.noDevices">No devices connected yet</div>
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +136,7 @@
                             <button class="profile-action-button danger" id="stopSharingButton">
                                 <span class="profile-action-icon">⏹</span>
                                 <div class="profile-action-content">
-                                    <div class="profile-action-title">Stop Sharing</div>
+                                    <div class="profile-action-title" data-i18n="profile.stopSharing">Stop Sharing</div>
                                 </div>
                             </button>
                         </div>
@@ -157,7 +160,7 @@
                             <button class="profile-action-button danger" id="disconnectButton">
                                 <span class="profile-action-icon">🔌</span>
                                 <div class="profile-action-content">
-                                    <div class="profile-action-title">Disconnect</div>
+                                    <div class="profile-action-title" data-i18n="profile.disconnect">Disconnect</div>
                                 </div>
                             </button>
                         </div>
@@ -166,27 +169,27 @@
             </div>
 
             <div class="settings-section">
-                <h3 class="settings-section-title">Time of Day & Alarms</h3>
+                <h3 class="settings-section-title" data-i18n="settings.timeAlarms">Time of Day & Alarms</h3>
 
                 <div class="settings-option" style="margin-bottom: 15px;">
                     <input type="checkbox" id="enableAlarms">
                     <label for="enableAlarms" style="cursor: pointer;">
-                        <span class="settings-option-label">Enable Alarms</span>
-                        <span class="settings-option-desc">Play sounds when medications are due (app must be open)</span>
+                        <span class="settings-option-label" data-i18n="settings.enableAlarms">Enable Alarms</span>
+                        <span class="settings-option-desc" data-i18n="settings.enableAlarmsDesc">Play sounds when medications are due (app must be open)</span>
                     </label>
                 </div>
 
                 <div class="time-alarm-table">
                     <div class="time-alarm-header">
                         <div class="time-alarm-col-label"></div>
-                        <div class="time-alarm-col-time">Time</div>
-                        <div class="time-alarm-col-alarm">Alarm Sound</div>
+                        <div class="time-alarm-col-time" data-i18n="settings.timeCol">Time</div>
+                        <div class="time-alarm-col-alarm" data-i18n="settings.alarmSoundCol">Alarm Sound</div>
                         <div class="time-alarm-col-test"></div>
                     </div>
 
                     <!-- Morning -->
                     <div class="time-alarm-row">
-                        <div class="time-alarm-col-label">Morning</div>
+                        <div class="time-alarm-col-label" data-i18n="timeOfDay.morning">Morning</div>
                         <div class="time-alarm-col-time">
                             <input type="time" id="timeMorning" class="time-input-compact">
                         </div>
@@ -212,7 +215,7 @@
 
                     <!-- Afternoon -->
                     <div class="time-alarm-row">
-                        <div class="time-alarm-col-label">Afternoon</div>
+                        <div class="time-alarm-col-label" data-i18n="timeOfDay.afternoon">Afternoon</div>
                         <div class="time-alarm-col-time">
                             <input type="time" id="timeAfternoon" class="time-input-compact">
                         </div>
@@ -238,7 +241,7 @@
 
                     <!-- Evening -->
                     <div class="time-alarm-row">
-                        <div class="time-alarm-col-label">Evening</div>
+                        <div class="time-alarm-col-label" data-i18n="timeOfDay.evening">Evening</div>
                         <div class="time-alarm-col-time">
                             <input type="time" id="timeEvening" class="time-input-compact">
                         </div>
@@ -264,7 +267,7 @@
 
                     <!-- Bedtime -->
                     <div class="time-alarm-row">
-                        <div class="time-alarm-col-label">Bedtime</div>
+                        <div class="time-alarm-col-label" data-i18n="timeOfDay.bedtime">Bedtime</div>
                         <div class="time-alarm-col-time">
                             <input type="time" id="timeBedtime" class="time-input-compact">
                         </div>
@@ -288,20 +291,23 @@
                         </div>
                     </div>
                 </div>
+                <div style="margin-top: 16px;">
+                    <button type="button" class="save-button" id="saveTimeAlarmSettingsBtn" data-i18n="settings.saveTimeAlarms">Save Time of Day &amp; Alarm Settings</button>
+                </div>
             </div>
 
             <div class="settings-section">
-                <h3 class="settings-section-title">Also Track</h3>
+                <h3 class="settings-section-title" data-i18n="settings.alsoTrack">Also Track</h3>
                 <div class="settings-options">
                     <label class="settings-option">
                         <input type="checkbox" id="trackAppointments">
-                        <span class="settings-option-label">Appointments</span>
-                        <span class="settings-option-desc">Track doctor visits, procedures, and medical appointments</span>
+                        <span class="settings-option-label" data-i18n="settings.appointments">Appointments</span>
+                        <span class="settings-option-desc" data-i18n="settings.appointmentsDesc">Track doctor visits, procedures, and medical appointments</span>
                     </label>
                     <label class="settings-option">
                         <input type="checkbox" id="trackMetrics" checked>
-                        <span class="settings-option-label">Health Metrics</span>
-                        <span class="settings-option-desc">Log vital signs, weight, steps, and other health data</span>
+                        <span class="settings-option-label" data-i18n="settings.healthMetrics">Health Metrics</span>
+                        <span class="settings-option-desc" data-i18n="settings.healthMetricsDesc">Log vital signs, weight, steps, and other health data</span>
                     </label>
                 </div>
 
@@ -309,68 +315,129 @@
                 <div class="settings-sub-options" id="metricsSubOptions">
                     <div class="settings-sub-option">
                         <input type="checkbox" id="metricWeight" checked>
-                        <label for="metricWeight">Weight</label>
+                        <label for="metricWeight" data-i18n="settings.weight">Weight</label>
                     </div>
                     <div class="settings-sub-option">
                         <input type="checkbox" id="metricTemperature" checked>
-                        <label for="metricTemperature">Temperature</label>
+                        <label for="metricTemperature" data-i18n="settings.temperature">Temperature</label>
                     </div>
                     <div class="settings-sub-option">
                         <input type="checkbox" id="metricBloodPressure" checked>
-                        <label for="metricBloodPressure">Blood Pressure</label>
+                        <label for="metricBloodPressure" data-i18n="settings.bloodPressure">Blood Pressure</label>
                     </div>
                     <div class="settings-sub-option">
                         <input type="checkbox" id="metricHeartRate" checked>
-                        <label for="metricHeartRate">Heart Rate</label>
+                        <label for="metricHeartRate" data-i18n="settings.heartRate">Heart Rate</label>
                     </div>
                     <div class="settings-sub-option">
                         <input type="checkbox" id="metricBloodSugar" checked>
-                        <label for="metricBloodSugar">Blood Sugar</label>
+                        <label for="metricBloodSugar" data-i18n="settings.bloodSugar">Blood Sugar</label>
                     </div>
                     <div class="settings-sub-option">
                         <input type="checkbox" id="metricSteps" checked>
-                        <label for="metricSteps">Steps</label>
+                        <label for="metricSteps" data-i18n="settings.steps">Steps</label>
+                    </div>
+                    <div class="settings-sub-option">
+                        <input type="checkbox" id="metricOxygenation" checked>
+                        <label for="metricOxygenation" data-i18n="settings.oxygenation">Oxygenation</label>
+                    </div>
+                    <div class="settings-sub-option">
+                        <input type="checkbox" id="metricSleep" checked>
+                        <label for="metricSleep" data-i18n="settings.sleep">Sleep</label>
                     </div>
                 </div>
             </div>
 
             <div class="settings-section">
-                <h3 class="settings-section-title">Data Management</h3>
+                <h3 class="settings-section-title" data-i18n="settings.language">Language</h3>
+                <div class="settings-options">
+                    <select id="languageSelect" style="font-size: 1rem; padding: 10px; border-radius: 8px; border: 1px solid #ddd; width: 100%;" onchange="tracker.setLanguage(this.value)">
+                        <option value="om">🌍 Afaan Oromoo</option>
+                        <option value="id">🇮🇩 Bahasa Indonesia</option>
+                        <option value="ceb">🇵🇭 Cebuano</option>
+                        <option value="de">🇩🇪 Deutsch</option>
+                        <option value="en">🇺🇸 English</option>
+                        <option value="es">🇪🇸 Español</option>
+                        <option value="tl">🇵🇭 Filipino</option>
+                        <option value="fr">🇫🇷 Français</option>
+                        <option value="sm">🇼🇸 Gagana Sāmoa</option>
+                        <option value="ha">🇳🇬 Hausa</option>
+                        <option value="hmn">Hmoob</option>
+                        <option value="ilo">🇵🇭 Ilocano</option>
+                        <option value="sw">🌍 Kiswahili</option>
+                        <option value="ht">🇭🇹 Kreyòl Ayisyen</option>
+                        <option value="pl">🇵🇱 Polski</option>
+                        <option value="pt">🇧🇷 Português</option>
+                        <option value="so">🇸🇴 Soomaali</option>
+                        <option value="vi">🇻🇳 Tiếng Việt</option>
+                        <option value="tr">🇹🇷 Türkçe</option>
+                        <option value="haw">🌺 ʻŌlelo Hawaiʻi</option>
+                        <option value="ru">🇷🇺 Русский</option>
+                        <option value="uk">🇺🇦 Українська</option>
+                        <option value="hy">🇦🇲 Հայերեն</option>
+                        <option value="ur">🇵🇰 اردو</option>
+                        <option value="ar">🇸🇦 العربية</option>
+                        <option value="fa">🇮🇷 فارسی</option>
+                        <option value="ne">🇳🇵 नेपाली</option>
+                        <option value="mr">🇮🇳 मराठी</option>
+                        <option value="hi">🇮🇳 हिन्दी</option>
+                        <option value="bn">🇧🇩 বাংলা</option>
+                        <option value="pa">🇮🇳 ਪੰਜਾਬੀ</option>
+                        <option value="gu">🇮🇳 ગુજરાતી</option>
+                        <option value="ta">🇮🇳 தமிழ்</option>
+                        <option value="te">🇮🇳 తెలుగు</option>
+                        <option value="kn">🇮🇳 ಕನ್ನಡ</option>
+                        <option value="ml">🇮🇳 മലയാളം</option>
+                        <option value="th">🇹🇭 ภาษาไทย</option>
+                        <option value="lo">🇱🇦 ພາສາລາວ</option>
+                        <option value="my">🇲🇲 မြန်မာ</option>
+                        <option value="am">🇪🇹 አማርኛ</option>
+                        <option value="km">🇰🇭 ភាសាខ្មែរ</option>
+                        <option value="zh">🇨🇳 中文</option>
+                        <option value="ja">🇯🇵 日本語</option>
+                        <option value="zh-TW">🇹🇼 繁體中文</option>
+                        <option value="ko">🇰🇷 한국어</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 class="settings-section-title" data-i18n="settings.dataManagement">Data Management</h3>
                 <div class="settings-options">
                     <button class="settings-data-button export-button" id="exportDataButtonSettings">
                         <span class="settings-data-icon">⬇️</span>
                         <div class="settings-data-content">
-                            <div class="settings-data-title">Export Data</div>
-                            <div class="settings-data-desc">Download all your data as a backup file</div>
+                            <div class="settings-data-title" data-i18n="settings.exportData">Export Data</div>
+                            <div class="settings-data-desc" data-i18n="settings.exportDesc">Download all your data as a backup file</div>
                         </div>
                     </button>
 
                     <button class="settings-data-button import-button" id="importDataButtonSettings">
                         <span class="settings-data-icon">⬆️</span>
                         <div class="settings-data-content">
-                            <div class="settings-data-title">Import Data</div>
-                            <div class="settings-data-desc">Restore data from a backup file</div>
+                            <div class="settings-data-title" data-i18n="settings.importData">Import Data</div>
+                            <div class="settings-data-desc" data-i18n="settings.importDesc">Restore data from a backup file</div>
                         </div>
                     </button>
 
                     <button class="settings-data-button clear-button" id="clearDataButtonSettings">
                         <span class="settings-data-icon">🗑️</span>
                         <div class="settings-data-content">
-                            <div class="settings-data-title">Clear All Data</div>
-                            <div class="settings-data-desc">Delete all medications, logs, and appointments</div>
+                            <div class="settings-data-title" data-i18n="settings.clearData">Clear All Data</div>
+                            <div class="settings-data-desc" data-i18n="settings.clearDesc">Delete all medications, logs, and appointments</div>
                         </div>
                     </button>
                 </div>
             </div>
 
             <div class="settings-section" id="iosInstallSection" style="display: none;">
-                <h3 class="settings-section-title">App Installation</h3>
+                <h3 class="settings-section-title" data-i18n="settings.install">App Installation</h3>
                 <div class="settings-options">
                     <button class="settings-data-button" id="showiOSInstallButton" style="border-color: #2196f3;">
                         <span class="settings-data-icon">📱</span>
                         <div class="settings-data-content">
-                            <div class="settings-data-title">Install as Home Screen App</div>
-                            <div class="settings-data-desc">Learn how to add this app to your home screen</div>
+                            <div class="settings-data-title" data-i18n="settings.install">Install as Home Screen App</div>
+                            <div class="settings-data-desc" data-i18n="settings.installDesc">Learn how to add this app to your home screen</div>
                         </div>
                     </button>
                 </div>
@@ -616,6 +683,14 @@
                     <input type="text" id="medNotes" placeholder="With food, etc.">
                 </div>
 
+                <div class="form-group">
+                    <label for="medPriority">Priority</label>
+                    <select id="medPriority">
+                        <option value="critical">Critical</option>
+                        <option value="optional">Optional</option>
+                    </select>
+                </div>
+
                 <div class="form-buttons" id="medFormButtons">
                     <button type="button" class="cancel-button" id="medCancelButton">Cancel</button>
                     <button type="submit" class="save-button">Save</button>
@@ -779,6 +854,22 @@
 
                 <div class="log-metric-group">
                     <label class="log-metric-checkbox">
+                        <input type="checkbox" id="enableOxygenation">
+                        <span>Oxygenation<br>(%)</span>
+                    </label>
+                    <input type="number" id="logOxygenation" step="0.1" min="0" max="100" placeholder="e.g., 98" disabled>
+                </div>
+
+                <div class="log-metric-group">
+                    <label class="log-metric-checkbox">
+                        <input type="checkbox" id="enableSleep">
+                        <span>Sleep<br>(hrs)</span>
+                    </label>
+                    <input type="number" id="logSleep" step="0.5" min="0" placeholder="e.g., 7.5" disabled>
+                </div>
+
+                <div class="log-metric-group">
+                    <label class="log-metric-checkbox">
                         <input type="checkbox" id="enableNotes">
                         <span>Notes</span>
                     </label>
@@ -919,14 +1010,29 @@
     <div class="modal" id="alarmReminderModal">
         <div class="modal-content alarm-reminder-content">
             <div class="alarm-reminder-header">
-                <h2>💊 Time to Take Your Medication</h2>
+                <h2 data-i18n="alarmModal.title">💊 Time to Take Your Medication</h2>
             </div>
             <div class="alarm-reminder-body">
                 <p class="alarm-time-label"></p>
                 <p class="alarm-message">Please acknowledge that you've seen this reminder.</p>
             </div>
             <div class="alarm-reminder-footer">
-                <button type="button" class="alarm-acknowledge-button" onclick="tracker.acknowledgeAlarm()">I've Got It</button>
+                <button type="button" class="alarm-acknowledge-button" onclick="tracker.acknowledgeAlarm()" data-i18n="alarmModal.gotIt">I've Got It</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Morning missed medications check modal -->
+    <div class="modal" id="morningCheckModal" style="display: none;">
+        <div class="modal-content">
+            <div class="morning-check-header">
+                <h2 data-i18n="morningCheck.title">⚠️ Missed Critical Meds</h2>
+                <p class="morning-check-subtext" id="morningCheckSubtext">These critical medications weren't logged for <strong id="morningCheckSlot"></strong> yesterday:</p>
+            </div>
+            <div id="morningCheckList" class="morning-check-list"></div>
+            <div class="morning-check-footer">
+                <button type="button" class="save-button" onclick="tracker.viewYesterdayMeds()" data-i18n="morningCheck.viewYesterday">View Yesterday's Meds</button>
+                <button type="button" class="cancel-button" onclick="tracker.dismissMorningCheck()" data-i18n="morningCheck.dismiss">Dismiss</button>
             </div>
         </div>
     </div>

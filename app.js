@@ -170,7 +170,12 @@ class P2PSync {
                 console.log('Auto-reconnect failed, clearing state');
                 this.clearSyncState();
             } else {
-                alert('Connection error: ' + err.message);
+                // Show user-friendly message instead of raw PeerJS error
+                if (err.type === 'network' || err.message?.includes('server')) {
+                    this.showToast('Connection to sync service lost');
+                } else {
+                    this.showToast('Sharing error: ' + err.type);
+                }
             }
         });
     }
@@ -213,14 +218,18 @@ class P2PSync {
 
         conn.on('close', () => {
             console.log('Peer disconnected:', conn.peer);
+            const deviceName = conn.metadata?.deviceName || 'A device';
             this.connections.delete(conn.peer);
             this.updateConnectedDevices();
+            this.showToast(`${deviceName} disconnected`);
         });
 
         conn.on('error', (err) => {
             console.error('Connection error:', err);
+            const deviceName = conn.metadata?.deviceName || 'A device';
             this.connections.delete(conn.peer);
             this.updateConnectedDevices();
+            this.showToast(`Lost connection to ${deviceName}`);
         });
     }
 
@@ -246,8 +255,16 @@ class P2PSync {
                 console.log('Auto-reconnect failed, clearing state');
                 this.clearSyncState();
                 this.isAutoReconnecting = false;
+                this.showToast('Could not reconnect to host');
             } else {
-                alert('Failed to connect: ' + err.message);
+                // Show user-friendly message
+                if (err.type === 'peer-unavailable') {
+                    this.showToast('Host not found - check the code');
+                } else if (err.type === 'network' || err.message?.includes('server')) {
+                    this.showToast('Connection to sync service lost');
+                } else {
+                    this.showToast('Failed to connect to host');
+                }
             }
         });
     }
@@ -284,11 +301,13 @@ class P2PSync {
 
         conn.on('close', () => {
             console.log('Disconnected from host');
+            this.showToast('Disconnected from host');
             this.disconnect(true); // true = keep sync state for reconnect
         });
 
         conn.on('error', (err) => {
             console.error('Connection error:', err);
+            this.showToast('Lost connection to host');
             this.disconnect(true); // true = keep sync state for reconnect
         });
     }
@@ -569,12 +588,12 @@ class P2PSync {
 
         // Update profile info
         document.getElementById('activeProfileName').textContent = this.tracker.currentProfile?.name || 'Profile';
-        document.getElementById('activeProfileDesc').textContent = 'Sharing with connected devices';
+        document.getElementById('activeProfileDesc').textContent = this.tracker.t('profile.sharingDesc');
 
         // Show sync badge
         const badge = document.getElementById('profileSyncBadge');
         badge.style.display = 'inline-flex';
-        document.getElementById('profileSyncStatus').textContent = 'Sharing';
+        document.getElementById('profileSyncStatus').textContent = this.tracker.t('profile.sharing');
     }
 
     showPeerUI() {
@@ -588,24 +607,24 @@ class P2PSync {
         // Update profile info with host's profile name
         const profileName = this.hostProfileName || 'Shared Profile';
         document.getElementById('activeProfileName').textContent = profileName;
-        document.getElementById('activeProfileDesc').textContent = 'Syncing in real-time with host device';
+        document.getElementById('activeProfileDesc').textContent = this.tracker.t('profile.syncedDesc');
 
         // Show sync badge
         const badge = document.getElementById('profileSyncBadge');
         badge.style.display = 'inline-flex';
-        document.getElementById('profileSyncStatus').textContent = 'Synced';
+        document.getElementById('profileSyncStatus').textContent = this.tracker.t('profile.synced');
     }
 
     showReconnectingUI(isHost) {
         // Show badge with "Reconnecting" status
         const badge = document.getElementById('profileSyncBadge');
         badge.style.display = 'inline-flex';
-        document.getElementById('profileSyncStatus').textContent = 'Reconnecting...';
+        document.getElementById('profileSyncStatus').textContent = this.tracker.t('profile.reconnecting');
 
         // Update description
         document.getElementById('activeProfileDesc').textContent = isHost
-            ? 'Resuming sharing session...'
-            : 'Reconnecting to host device...';
+            ? this.tracker.t('profile.resumingDesc')
+            : this.tracker.t('profile.reconnectingDesc');
     }
 
     showNotSyncingUI() {
@@ -616,7 +635,7 @@ class P2PSync {
 
         // Update profile info
         document.getElementById('activeProfileName').textContent = this.tracker.currentProfile?.name || 'Profile';
-        document.getElementById('activeProfileDesc').textContent = 'All data is stored separately per profile';
+        document.getElementById('activeProfileDesc').textContent = this.tracker.t('profile.allDataSeparate');
 
         // Hide sync badge
         document.getElementById('profileSyncBadge').style.display = 'none';
@@ -649,7 +668,7 @@ class P2PSync {
         const container = document.getElementById('connectedDevicesList');
 
         if (this.connections.size === 0) {
-            container.innerHTML = '<div class="sync-no-devices">No devices connected yet</div>';
+            container.innerHTML = `<div class="sync-no-devices">${this.tracker.t('profile.noDevices')}</div>`;
             return;
         }
 
@@ -670,7 +689,7 @@ class P2PSync {
     updateLastSyncTime() {
         const timeEl = document.getElementById('lastSyncTime');
         if (timeEl) {
-            timeEl.textContent = 'Just now';
+            timeEl.textContent = this.tracker.t('profile.justNow');
         }
     }
 
@@ -692,6 +711,30 @@ class P2PSync {
         }
 
         this.showNotSyncingUI();
+    }
+
+    // Show a brief toast notification
+    showToast(message) {
+        // Remove any existing toast
+        const existingToast = document.querySelector('.sync-toast');
+        if (existingToast) {
+            existingToast.remove();
+        }
+
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.className = 'sync-toast';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        // Trigger animation
+        setTimeout(() => toast.classList.add('show'), 10);
+
+        // Auto-remove after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
     }
 }
 
@@ -767,13 +810,14 @@ class HealthTracker {
     }
 
     initializeApp() {
+        this.language = localStorage.getItem('language') || 'en';
         this.medications = this.loadMedications();
+        this.medications.forEach(med => { if (med.critical === undefined) med.critical = true; });
         this.selectedDate = new Date();
 
-        // Set metricsDateFrom to 2 days ago
-        const twoDaysAgo = new Date();
-        twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-        this.metricsDateFrom = twoDaysAgo;
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        this.metricsDateFrom = sevenDaysAgo;
 
         this.metricsDateTo = new Date();
         this.metricsFilter = {
@@ -783,6 +827,8 @@ class HealthTracker {
             glucose: true,
             weight: true,
             steps: true,
+            oxygenation: true,
+            sleep: true,
             notes: true
         };
         this.dailyLog = this.loadDailyLog(this.getDateString(this.selectedDate));
@@ -813,11 +859,18 @@ class HealthTracker {
         this.attachEventListeners();
         this.initializeAlarmSystem();
         this.applyTrackingPreferences(); // Apply saved tracking preferences
+        this.loadAlarmSettings(); // Restore alarm checkbox and sound selections
         this.checkNewDay();
         this.checkiOSInstallPrompt(); // Check if we should show iOS install instructions
         this.startVersionCheck(); // Check for app updates periodically
         this.checkSyncParameter(); // Check if opened with sync code
         this.tryAutoReconnect(); // Try to auto-reconnect if we were previously syncing
+        this.checkMorningMissedMeds();
+        document.documentElement.lang = this.language;
+        document.documentElement.dir = ['ar', 'fa', 'ur'].includes(this.language) ? 'rtl' : 'ltr';
+        this.applyTranslations();
+        const langSelect = document.getElementById('languageSelect');
+        if (langSelect) langSelect.value = this.language;
     }
 
     // Try to auto-reconnect to previous sync session
@@ -848,12 +901,14 @@ class HealthTracker {
 
             // Small delay to ensure UI is ready
             setTimeout(() => {
-                // Auto-fill the code and open the join modal
+                // Auto-fill the code
                 document.getElementById('syncCode').value = syncCode;
-                this.openJoinSyncModal();
 
-                // Show a helpful message
-                alert(`Ready to connect with code: ${syncCode}\n\nClick "Connect" to join the shared profile.`);
+                // Auto-connect directly
+                this.p2pSync.joinRoom(syncCode);
+
+                // Show connection status
+                alert(`Connecting to shared profile...\n\nYou will receive all data from the host device.`);
             }, 500);
         }
     }
@@ -1024,11 +1079,11 @@ class HealthTracker {
         if (!profile) return;
 
         if (this.currentProfile && this.currentProfile.id === profileId) {
-            alert('Cannot delete the currently active profile. Please switch to another profile first.');
+            alert(this.t('alerts.deleteActiveProfile'));
             return;
         }
 
-        if (confirm(`Are you sure you want to delete the profile "${profile.name}"? This will permanently delete all medications, appointments, and health data for this profile.`)) {
+        if (confirm(this.t('alerts.deleteProfile', { name: profile.name }))) {
             // Delete the single profile data object
             localStorage.removeItem(`profileData_${profileId}`);
 
@@ -1040,7 +1095,7 @@ class HealthTracker {
     }
 
     openProfileFormModal(migrateData = false) {
-        document.getElementById('profileFormTitle').textContent = 'Create New Profile';
+        document.getElementById('profileFormTitle').textContent = this.t('profile.createNew');
         document.getElementById('profileName').value = '';
         document.getElementById('migrateExistingData').checked = false;
 
@@ -1068,7 +1123,7 @@ class HealthTracker {
         const migrateData = document.getElementById('migrateExistingData').checked;
 
         if (!name) {
-            alert('Please enter a profile name');
+            alert(this.t('alerts.profileNameRequired'));
             return;
         }
 
@@ -1248,8 +1303,11 @@ class HealthTracker {
 
         if (wasTaken) {
             this.dailyLog.taken.splice(index, 1);
+            if (this.dailyLog.takenTimes) delete this.dailyLog.takenTimes[displayId];
         } else {
             this.dailyLog.taken.push(displayId);
+            if (!this.dailyLog.takenTimes) this.dailyLog.takenTimes = {};
+            this.dailyLog.takenTimes[displayId] = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
         this.saveDailyLog();
         this.renderMedications();
@@ -1262,6 +1320,14 @@ class HealthTracker {
                 dateStr: this.getDateString(this.selectedDate)
             });
         }
+    }
+
+    toggleCritical(medId) {
+        const med = this.medications.find(m => m.id === medId);
+        if (!med) return;
+        med.critical = med.critical === false ? true : false;
+        this.saveMedications();
+        this.renderMedications();
     }
 
     // Check if medication should be taken on the selected date
@@ -1508,7 +1574,7 @@ class HealthTracker {
         // Add as-needed medications at the end
         const asNeededHtml = this.asNeededLogs.length > 0 ? `
             <div class="time-container">
-                <div class="time-container-header">As-Needed</div>
+                <div class="time-container-header">${this.t('timeOfDay.asNeeded')}</div>
                 <div class="meds-grid">
                     ${this.asNeededLogs.map(log => this.renderAsNeededLog(log)).join('')}
                 </div>
@@ -1519,7 +1585,7 @@ class HealthTracker {
             container.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-state-text">
-                        No medications scheduled for today.
+                        ${this.t('meds.empty')}
                     </div>
                 </div>
             `;
@@ -1538,9 +1604,10 @@ class HealthTracker {
         times.forEach(time => {
             const medsForTime = medications.filter(med => med.time === time);
             if (medsForTime.length > 0) {
+                const timeKey = time.toLowerCase();
                 html += `
                     <div class="time-container">
-                        <div class="time-container-header">${time}</div>
+                        <div class="time-container-header">${this.t('timeOfDay.' + timeKey)}</div>
                         <div class="meds-grid">
                             ${medsForTime.map(med => this.renderMedCard(med)).join('')}
                         </div>
@@ -1554,28 +1621,28 @@ class HealthTracker {
 
     // Get schedule description
     getScheduleDescription(schedule) {
-        if (!schedule) return 'Every day';
+        if (!schedule) return this.t('schedule.everyDay');
 
         let desc = '';
         if (schedule.frequency === 'daily') {
-            desc = 'Every day';
+            desc = this.t('schedule.everyDay');
         } else if (schedule.frequency === 'every-other-day') {
-            desc = 'Every other day';
+            desc = this.t('schedule.everyOtherDay');
         } else if (schedule.frequency === 'mwf') {
-            desc = 'Mon, Wed, Fri';
+            desc = this.t('schedule.mwf');
         } else if (schedule.frequency === 'custom-days' && schedule.days) {
-            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            const selectedDays = schedule.days.map(d => dayNames[d]).join(', ');
+            const dayKeys = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+            const selectedDays = schedule.days.map(d => this.t('days.' + dayKeys[d])).join(', ');
             desc = selectedDays;
         }
 
         if (schedule.endDate) {
             const [year, month, day] = schedule.endDate.split('-').map(Number);
             const endDate = new Date(year, month - 1, day);
-            const formatted = endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-            desc += ` • Until ${formatted}`;
+            const formatted = endDate.toLocaleDateString(this.language === 'es' ? 'es-ES' : 'en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            desc += this.t('schedule.untilDate', { date: formatted });
         } else if (schedule.duration) {
-            desc += ' • Ongoing';
+            desc += ' ' + this.t('schedule.ongoing');
         }
 
         return desc;
@@ -1587,14 +1654,19 @@ class HealthTracker {
         const taken = this.isTaken(displayId);
         const isActiveToday = this.isMedicationActiveToday(med);
 
+        const takenTime = taken && this.dailyLog.takenTimes?.[displayId];
         return `
             <div class="med-card ${taken ? 'taken' : ''} ${!isActiveToday ? 'inactive' : ''}" data-id="${displayId}">
                 <div class="med-checkbox" onclick="tracker.toggleTaken('${displayId}')" ${!isActiveToday ? 'style="opacity: 0.3; pointer-events: none;"' : ''}>
                     ${taken ? '✓' : ''}
                 </div>
                 <div class="med-info">
-                    <div class="med-name">${med.name}</div>
+                    <div class="med-name-row">
+                        <span class="med-name">${med.name}</span>
+                        <button type="button" class="priority-badge ${med.critical !== false ? 'critical' : 'optional'}" onclick="event.stopPropagation(); tracker.toggleCritical('${med.id}')" title="${this.t('meds.tapToPriority')}">${med.critical !== false ? this.t('meds.critical') : this.t('meds.optional')}</button>
+                    </div>
                     <div class="med-dosage">${med.dosage}</div>
+                    ${takenTime ? `<div class="time-taken">${this.t('meds.takenAt')} ${takenTime}</div>` : ''}
                     ${med.notes ? `<div class="med-notes">${med.notes}</div>` : ''}
                 </div>
             </div>
@@ -1805,9 +1877,9 @@ class HealthTracker {
         document.getElementById('apptLocation').addEventListener('change', (e) => {
             const addressLabel = document.querySelector('#apptAddressGroup label');
             if (e.target.value === 'Virtual') {
-                addressLabel.textContent = 'Video Call Link/Details';
+                addressLabel.textContent = this.t('apptModal.addressVirtualField');
             } else {
-                addressLabel.textContent = 'Address/Details';
+                addressLabel.textContent = this.t('apptModal.addressField');
             }
         });
 
@@ -1888,6 +1960,8 @@ class HealthTracker {
             { checkbox: 'enableGlucose', input: 'logGlucose' },
             { checkbox: 'enableWeight', input: 'logWeight' },
             { checkbox: 'enableSteps', input: 'logSteps' },
+            { checkbox: 'enableOxygenation', input: 'logOxygenation' },
+            { checkbox: 'enableSleep', input: 'logSleep' },
             { checkbox: 'enableNotes', input: 'logNotes' }
         ];
 
@@ -1971,6 +2045,11 @@ class HealthTracker {
             });
         });
 
+        // Save Time of Day & Alarm Settings button
+        document.getElementById('saveTimeAlarmSettingsBtn')?.addEventListener('click', () => {
+            this.showToast(this.t('toasts.alarmSaved'));
+        });
+
         // Settings tab - also track checkboxes
         document.getElementById('trackAppointments').addEventListener('change', (e) => {
             this.updateTrackingPreferences('appointments', e.target.checked);
@@ -1982,7 +2061,7 @@ class HealthTracker {
         });
 
         // Settings tab - metric sub-options
-        const metricCheckboxes = ['metricWeight', 'metricTemperature', 'metricBloodPressure', 'metricHeartRate', 'metricBloodSugar', 'metricSteps'];
+        const metricCheckboxes = ['metricWeight', 'metricTemperature', 'metricBloodPressure', 'metricHeartRate', 'metricBloodSugar', 'metricSteps', 'metricOxygenation', 'metricSleep'];
         metricCheckboxes.forEach(id => {
             document.getElementById(id).addEventListener('change', (e) => {
                 this.updateMetricPreference(id.replace('metric', '').toLowerCase(), e.target.checked);
@@ -2044,12 +2123,12 @@ class HealthTracker {
 
         switch(tab) {
             case 'medications':
-                headerTitle.textContent = 'Meds';
+                headerTitle.textContent = this.t('header.meds');
                 // Date picker with week picker button
                 datePickerContainer.innerHTML = `
                     <div style="display: flex; gap: 10px; align-items: center;">
                         <input type="date" id="datePicker" class="date-picker">
-                        <button class="action-button" id="weekPickerButton" style="padding: 12px 20px; white-space: nowrap;">Week View</button>
+                        <button class="action-button" id="weekPickerButton" style="padding: 12px 20px; white-space: nowrap;">${this.t('header.weekView')}</button>
                     </div>
                 `;
                 datePickerContainer.style.display = 'block';
@@ -2068,8 +2147,8 @@ class HealthTracker {
                 document.getElementById('weekPickerButton').addEventListener('click', () => this.openWeeklyViewModal());
 
                 headerActions.innerHTML = `
-                    <button class="action-button" id="addMedButton">Med Schedule</button>
-                    <button class="action-button secondary" id="logAsNeededButton">+ As-Needed</button>
+                    <button class="action-button" id="addMedButton">${this.t('header.medSchedule')}</button>
+                    <button class="action-button secondary" id="logAsNeededButton">${this.t('header.asNeeded')}</button>
                 `;
                 // Re-attach event listeners for medication buttons
                 document.getElementById('addMedButton').addEventListener('click', () => this.openMedListModal());
@@ -2077,17 +2156,17 @@ class HealthTracker {
                 break;
 
             case 'appointments':
-                headerTitle.textContent = 'Appointments';
+                headerTitle.textContent = this.t('header.appointments');
                 datePickerContainer.style.display = 'none';
                 headerActions.innerHTML = `
-                    <button class="action-button" id="addApptHeaderButton">+ Add Appointment</button>
+                    <button class="action-button" id="addApptHeaderButton">${this.t('header.addAppointment')}</button>
                 `;
                 // Re-attach event listener for appointment button
                 document.getElementById('addApptHeaderButton').addEventListener('click', () => this.openApptModal());
                 break;
 
             case 'log':
-                headerTitle.textContent = 'Metrics';
+                headerTitle.textContent = this.t('header.metrics');
                 datePickerContainer.innerHTML = `
                     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                         <input type="date" id="metricsDateFrom" class="date-picker" style="flex: 1; min-width: 150px;">
@@ -2095,14 +2174,14 @@ class HealthTracker {
                         <input type="date" id="metricsDateTo" class="date-picker" style="flex: 1; min-width: 150px;">
                         <div style="position: relative;">
                             <button id="metricsFilterButton" style="padding: 12px 20px; background: white; border: 2px solid #6b7c93; border-radius: 10px; font-size: 1.1rem; font-weight: 600; color: #6b7c93; cursor: pointer; white-space: nowrap;">
-                                Filter Metrics ▼
+                                ${this.t('header.filterMetrics')}
                             </button>
                             <div id="metricsFilterDropdown" style="display: none; position: absolute; top: 100%; right: 0; margin-top: 5px; background: white; border: 2px solid #ddd; border-radius: 10px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; min-width: 200px;">
                                 ${this.generateMetricsFilterOptions()}
                             </div>
                         </div>
                         <button id="metricsPrintButton" style="padding: 12px 20px; background: #6b7c93; border: 2px solid #6b7c93; border-radius: 10px; font-size: 1.1rem; font-weight: 600; color: white; cursor: pointer; white-space: nowrap;">
-                            Print
+                            ${this.t('header.print')}
                         </button>
                     </div>
                 `;
@@ -2145,6 +2224,8 @@ class HealthTracker {
                     { id: 'filterGlucose', key: 'glucose' },
                     { id: 'filterWeight', key: 'weight' },
                     { id: 'filterSteps', key: 'steps' },
+                    { id: 'filterOxygenation', key: 'oxygenation' },
+                    { id: 'filterSleep', key: 'sleep' },
                     { id: 'filterNotes', key: 'notes' }
                 ];
 
@@ -2197,7 +2278,7 @@ class HealthTracker {
                 }
 
                 headerActions.innerHTML = `
-                    <button class="action-button" id="addMetricsHeaderButton">+ Add Metrics</button>
+                    <button class="action-button" id="addMetricsHeaderButton">${this.t('header.addMetrics')}</button>
                 `;
                 // Re-attach event listener for metrics button
                 document.getElementById('addMetricsHeaderButton').addEventListener('click', () => this.openLogModal());
@@ -2213,7 +2294,7 @@ class HealthTracker {
                         <img src="favicon.png" alt="App Icon" class="header-app-icon">
                         <div class="header-app-details">
                             <div class="header-app-name">Meds Tracker</div>
-                            <div class="header-app-version">Version 1.2.3 — January 28, 2026</div>
+                            <div class="header-app-version">Version 1.3.0 — July 5, 2026</div>
                             <div class="header-app-author">by Sid Cooperrider</div>
                         </div>
                     </div>
@@ -2229,21 +2310,27 @@ class HealthTracker {
                 document.getElementById('trackMetrics').checked = prefs.metrics;
 
                 // Sync metric sub-option checkboxes
-                const metricPrefs = JSON.parse(localStorage.getItem('metricPreferences') || '{"weight": true, "temperature": true, "bloodpressure": true, "heartrate": true, "bloodsugar": true, "steps": true}');
+                const metricPrefs = JSON.parse(localStorage.getItem('metricPreferences') || '{"weight": true, "temperature": true, "bloodpressure": true, "heartrate": true, "bloodsugar": true, "steps": true, "oxygenation": true, "sleep": true}');
                 document.getElementById('metricWeight').checked = metricPrefs.weight;
                 document.getElementById('metricTemperature').checked = metricPrefs.temperature;
                 document.getElementById('metricBloodPressure').checked = metricPrefs.bloodpressure;
                 document.getElementById('metricHeartRate').checked = metricPrefs.heartrate;
                 document.getElementById('metricBloodSugar').checked = metricPrefs.bloodsugar;
                 document.getElementById('metricSteps').checked = metricPrefs.steps;
+                document.getElementById('metricOxygenation').checked = metricPrefs.oxygenation !== false;
+                document.getElementById('metricSleep').checked = metricPrefs.sleep !== false;
 
                 // Show/hide metric sub-options based on trackMetrics state
                 this.toggleMetricsSubOptions(prefs.metrics);
 
+                // Sync language dropdown to current setting
+                const langSelect = document.getElementById('languageSelect');
+                if (langSelect) langSelect.value = this.language;
+
                 // Show back button if both tabs are unchecked
                 const bothUnchecked = !prefs.appointments && !prefs.metrics;
                 if (bothUnchecked) {
-                    headerActions.innerHTML = '<button class="action-button" id="backToMedsButton">← Back</button>';
+                    headerActions.innerHTML = `<button class="action-button" id="backToMedsButton">${this.t('header.back')}</button>`;
                     document.getElementById('backToMedsButton').addEventListener('click', () => this.switchTab('medications'));
                 } else {
                     headerActions.innerHTML = '';
@@ -2270,7 +2357,7 @@ class HealthTracker {
         const form = document.getElementById('medForm');
 
         if (medication) {
-            document.getElementById('medModalTitle').textContent = 'Edit Medication';
+            document.getElementById('medModalTitle').textContent = this.t('medModal.editTitle');
             document.getElementById('medName').value = medication.name;
             document.getElementById('medDosage').value = medication.dosage;
             document.getElementById('medNotes').value = medication.notes || '';
@@ -2322,8 +2409,11 @@ class HealthTracker {
             this.editingId = medication.id;
             // Show stop button when editing
             document.getElementById('stopMedButton').style.display = 'block';
+            // Set priority
+            const isCritical = medication.critical !== false;
+            document.getElementById('medPriority').value = isCritical ? 'critical' : 'optional';
         } else {
-            document.getElementById('medModalTitle').textContent = 'Add Medication';
+            document.getElementById('medModalTitle').textContent = this.t('medModal.addTitle');
             form.reset();
             // Reset checkboxes
             document.querySelectorAll('input[name="medTimes"]').forEach(cb => cb.checked = false);
@@ -2339,6 +2429,8 @@ class HealthTracker {
             this.editingId = null;
             // Hide stop button when adding new medication
             document.getElementById('stopMedButton').style.display = 'none';
+            // Default priority to Critical
+            document.getElementById('medPriority').value = 'critical';
         }
 
         modal.classList.add('active');
@@ -2354,7 +2446,7 @@ class HealthTracker {
     stopMedication() {
         if (!this.editingId) return;
 
-        if (confirm('Stop this medication? This will set the end date to yesterday, removing all future doses.')) {
+        if (confirm(this.t('alerts.stopMed'))) {
             const index = this.medications.findIndex(m => m.id === this.editingId);
             if (index > -1) {
                 const med = this.medications[index];
@@ -2525,7 +2617,7 @@ class HealthTracker {
         });
 
         if (activeMeds.length === 0) {
-            container.innerHTML = '<div class="empty-med-list">No medications scheduled.<br>Click "+ Add Medication" to get started.</div>';
+            container.innerHTML = `<div class="empty-med-list">${this.t('medListModal.empty').replace('\n', '<br>')}</div>`;
             return;
         }
 
@@ -2619,6 +2711,7 @@ class HealthTracker {
         const frequency = document.getElementById('medFrequency').value;
         const startDate = document.getElementById('medStartDate').value;
         const durationType = document.getElementById('medDuration').value;
+        const critical = document.getElementById('medPriority').value === 'critical';
 
         // Get selected times
         const selectedTimes = Array.from(document.querySelectorAll('input[name="medTimes"]:checked'))
@@ -2628,17 +2721,17 @@ class HealthTracker {
         const specificTimes = this.getSpecificTimes();
 
         if (!name || !dosage) {
-            alert('Please fill in all required fields');
+            alert(this.t('alerts.requiredFields'));
             return;
         }
 
         if (selectedTimes.length === 0 && specificTimes.length === 0) {
-            alert('Please select at least one time of day or add a specific time');
+            alert(this.t('alerts.selectTime'));
             return;
         }
 
         if (!startDate) {
-            alert('Please select a start date');
+            alert(this.t('alerts.selectStartDate'));
             return;
         }
 
@@ -2662,7 +2755,7 @@ class HealthTracker {
             const selectedDays = Array.from(document.querySelectorAll('input[name="medDays"]:checked'))
                 .map(cb => parseInt(cb.value));
             if (selectedDays.length === 0) {
-                alert('Please select at least one day for custom schedule');
+                alert(this.t('alerts.selectDays'));
                 return;
             }
             schedule.days = selectedDays;
@@ -2672,7 +2765,7 @@ class HealthTracker {
         if (durationType === 'weeks' || durationType === 'months') {
             const durationNumber = parseInt(document.getElementById('medDurationNumber').value);
             if (!durationNumber || durationNumber < 1) {
-                alert('Please enter a valid duration');
+                alert(this.t('alerts.invalidDuration'));
                 return;
             }
             schedule.durationNumber = durationNumber;
@@ -2688,14 +2781,14 @@ class HealthTracker {
         } else if (durationType === 'end-date') {
             const endDate = document.getElementById('medEndDate').value;
             if (!endDate) {
-                alert('Please select an end date');
+                alert(this.t('alerts.selectEndDate'));
                 return;
             }
             schedule.endDate = endDate;
         } else if (durationType === 'bottle-doses') {
             const bottleDoses = parseInt(document.getElementById('medBottleDoses').value);
             if (!bottleDoses || bottleDoses < 1) {
-                alert('Please enter the number of doses in the bottle');
+                alert(this.t('alerts.bottleDosesRequired'));
                 return;
             }
             schedule.bottleDoses = bottleDoses;
@@ -2720,7 +2813,8 @@ class HealthTracker {
                     times: selectedTimes,
                     specificTimes: specificTimes,
                     notes,
-                    schedule
+                    schedule,
+                    critical
                 };
                 updatedMed = this.medications[index];
             }
@@ -2734,7 +2828,8 @@ class HealthTracker {
                 times: selectedTimes,
                 specificTimes: specificTimes,
                 notes,
-                schedule
+                schedule,
+                critical
             };
             this.medications.push(medication);
             updatedMed = medication;
@@ -2762,7 +2857,7 @@ class HealthTracker {
 
     // Delete medication
     deleteMedication(id) {
-        if (confirm('Are you sure you want to delete this medication?')) {
+        if (confirm(this.t('alerts.deleteMed'))) {
             this.medications = this.medications.filter(m => m.id !== id);
             // Also remove from today's log if present
             this.dailyLog.taken = this.dailyLog.taken.filter(takenId => takenId !== id);
@@ -2785,7 +2880,7 @@ class HealthTracker {
 
         if (log) {
             // Editing existing log
-            modalTitle.textContent = 'Edit As-Needed Medication';
+            modalTitle.textContent = this.t('asNeededModal.editTitle');
             document.getElementById('asNeededName').value = log.name;
             document.getElementById('asNeededDosage').value = log.dosage;
             document.getElementById('asNeededTime').value = log.time;
@@ -2793,7 +2888,7 @@ class HealthTracker {
             this.editingAsNeededId = log.id;
         } else {
             // Adding new log
-            modalTitle.textContent = 'Log As-Needed Medication';
+            modalTitle.textContent = this.t('asNeededModal.addTitle');
             form.reset();
 
             // Set current time as default
@@ -2828,7 +2923,7 @@ class HealthTracker {
         const notes = document.getElementById('asNeededNotes').value.trim();
 
         if (!name || !dosage || !time) {
-            alert('Please fill in all required fields');
+            alert(this.t('alerts.requiredFields'));
             return;
         }
 
@@ -2883,7 +2978,7 @@ class HealthTracker {
     }
 
     deleteAsNeededLog(id) {
-        if (confirm('Are you sure you want to delete this log entry?')) {
+        if (confirm(this.t('alerts.deleteLog'))) {
             this.asNeededLogs = this.asNeededLogs.filter(log => log.id !== id);
 
             // Also remove from all logs
@@ -2914,8 +3009,8 @@ class HealthTracker {
             container.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-state-text">
-                        No appointments scheduled yet.<br>
-                        Tap the button below to add your first appointment.
+                        ${this.t('appointments.noAny')}<br>
+                        ${this.t('appointments.noAnyHint')}
                     </div>
                 </div>
             `;
@@ -2940,10 +3035,11 @@ class HealthTracker {
         });
 
         if (sorted.length === 0) {
+            const emptyKey = this.appointmentFilter === 'upcoming' ? 'appointments.noUpcoming' : 'appointments.noPast';
             container.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-state-text">
-                        No ${this.appointmentFilter} appointments.
+                        ${this.t(emptyKey)}
                     </div>
                 </div>
             `;
@@ -2960,9 +3056,10 @@ class HealthTracker {
         const isCompleted = appt.completed;
 
         // Format date and time
+        const locale = this.language === 'es' ? 'es-ES' : 'en-US';
         const dateOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
-        const formattedDate = apptDate.toLocaleDateString('en-US', dateOptions);
-        const formattedTime = apptDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        const formattedDate = apptDate.toLocaleDateString(locale, dateOptions);
+        const formattedTime = apptDate.toLocaleTimeString(locale, { hour: 'numeric', minute: '2-digit' });
 
         // Get type badge class
         const typeClass = appt.type.toLowerCase().replace(' ', '');
@@ -2983,10 +3080,10 @@ class HealthTracker {
                 ${appt.notes ? `<div class="appt-notes">📝 ${appt.notes}</div>` : ''}
                 <div class="appt-actions">
                     <button class="complete-button" onclick="tracker.toggleAppointmentComplete('${appt.id}')">
-                        ${isCompleted ? '✓ Completed' : 'Mark Complete'}
+                        ${isCompleted ? this.t('appointments.completed') : this.t('appointments.markComplete')}
                     </button>
-                    <button class="edit-button" onclick="tracker.editAppointment('${appt.id}')">Edit</button>
-                    <button class="delete-button" onclick="tracker.deleteAppointment('${appt.id}')">Delete</button>
+                    <button class="edit-button" onclick="tracker.editAppointment('${appt.id}')">${this.t('appointments.edit')}</button>
+                    <button class="delete-button" onclick="tracker.deleteAppointment('${appt.id}')">${this.t('appointments.delete')}</button>
                 </div>
             </div>
         `;
@@ -2997,7 +3094,7 @@ class HealthTracker {
         const form = document.getElementById('apptForm');
 
         if (appointment) {
-            document.getElementById('apptModalTitle').textContent = 'Edit Appointment';
+            document.getElementById('apptModalTitle').textContent = this.t('apptModal.editTitle');
             document.getElementById('apptType').value = appointment.type;
             document.getElementById('apptTitle').value = appointment.title;
             document.getElementById('apptDate').value = appointment.date;
@@ -3007,7 +3104,7 @@ class HealthTracker {
             document.getElementById('apptNotes').value = appointment.notes || '';
             this.editingId = appointment.id;
         } else {
-            document.getElementById('apptModalTitle').textContent = 'Add Appointment';
+            document.getElementById('apptModalTitle').textContent = this.t('apptModal.addTitle');
             form.reset();
             this.editingId = null;
         }
@@ -3031,7 +3128,7 @@ class HealthTracker {
         const notes = document.getElementById('apptNotes').value.trim();
 
         if (!title || !date || !time) {
-            alert('Please fill in all required fields');
+            alert(this.t('alerts.requiredFields'));
             return;
         }
 
@@ -3079,7 +3176,7 @@ class HealthTracker {
     }
 
     deleteAppointment(id) {
-        if (confirm('Are you sure you want to delete this appointment?')) {
+        if (confirm(this.t('alerts.deleteAppt'))) {
             this.appointments = this.appointments.filter(a => a.id !== id);
             this.saveAppointments();
             this.renderAppointments();
@@ -3131,8 +3228,8 @@ class HealthTracker {
             const allLogsEmpty = this.logs.length === 0;
             container.innerHTML = `
                 <div class="empty-log">
-                    <p>${allLogsEmpty ? 'No health metrics yet.' : 'No metrics for this date.'}</p>
-                    <p>Click "+ Add Metrics" to start tracking.</p>
+                    <p>${allLogsEmpty ? this.t('metrics.noData') : this.t('metrics.noDate')}</p>
+                    <p>${this.t('metrics.prompt')}</p>
                 </div>
             `;
             return;
@@ -3153,6 +3250,8 @@ class HealthTracker {
                 (log.glucose && this.metricsFilter.glucose) ||
                 (log.weight && this.metricsFilter.weight) ||
                 (log.steps && this.metricsFilter.steps) ||
+                (log.oxygenation && this.metricsFilter.oxygenation) ||
+                (log.sleep && this.metricsFilter.sleep) ||
                 (log.notes && this.metricsFilter.notes);
             return hasVisibleMetric;
         });
@@ -3160,8 +3259,8 @@ class HealthTracker {
         if (visibleLogs.length === 0) {
             container.innerHTML = `
                 <div class="empty-log">
-                    <p>No metrics match the current filter.</p>
-                    <p>Try adjusting your filter settings or date range.</p>
+                    <p>${this.t('metrics.noMatch')}</p>
+                    <p>${this.t('metrics.noMatchHint')}</p>
                 </div>
             `;
             return;
@@ -3171,13 +3270,14 @@ class HealthTracker {
     }
 
     renderLogCard(log) {
+        const locale = this.language === 'es' ? 'es-ES' : 'en-US';
         const date = new Date(log.datetime);
-        const dateStr = date.toLocaleDateString('en-US', {
+        const dateStr = date.toLocaleDateString(locale, {
             month: 'short',
             day: 'numeric',
             year: 'numeric'
         });
-        const timeStr = date.toLocaleTimeString('en-US', {
+        const timeStr = date.toLocaleTimeString(locale, {
             hour: 'numeric',
             minute: '2-digit'
         });
@@ -3185,22 +3285,28 @@ class HealthTracker {
         const metrics = [];
         // Only add metrics that are enabled in the filter
         if (log.temperature && this.metricsFilter.temperature) {
-            metrics.push({ label: 'Temperature', value: log.temperature, unit: '°F' });
+            metrics.push({ label: this.t('logModal.temperature'), value: log.temperature, unit: '' });
         }
         if (log.bpSystolic && log.bpDiastolic && this.metricsFilter.bloodPressure) {
-            metrics.push({ label: 'Blood Pressure', value: `${log.bpSystolic}/${log.bpDiastolic}`, unit: 'mmHg' });
+            metrics.push({ label: this.t('logModal.bloodPressure'), value: `${log.bpSystolic}/${log.bpDiastolic}`, unit: 'mmHg' });
         }
         if (log.heartRate && this.metricsFilter.heartRate) {
-            metrics.push({ label: 'Heart Rate', value: log.heartRate, unit: 'bpm' });
+            metrics.push({ label: this.t('logModal.heartRate'), value: log.heartRate, unit: 'bpm' });
         }
         if (log.glucose && this.metricsFilter.glucose) {
-            metrics.push({ label: 'Blood Glucose', value: log.glucose, unit: 'mg/dL' });
+            metrics.push({ label: this.t('logModal.bloodGlucose'), value: log.glucose, unit: 'mg/dL' });
         }
         if (log.weight && this.metricsFilter.weight) {
-            metrics.push({ label: 'Weight', value: log.weight, unit: 'lbs' });
+            metrics.push({ label: this.t('logModal.weight'), value: log.weight, unit: 'lbs' });
         }
         if (log.steps && this.metricsFilter.steps) {
-            metrics.push({ label: 'Steps', value: log.steps.toLocaleString(), unit: '' });
+            metrics.push({ label: this.t('logModal.steps'), value: log.steps.toLocaleString(), unit: '' });
+        }
+        if (log.oxygenation && this.metricsFilter.oxygenation) {
+            metrics.push({ label: this.t('logModal.oxygenation'), value: log.oxygenation, unit: '%' });
+        }
+        if (log.sleep && this.metricsFilter.sleep) {
+            metrics.push({ label: this.t('logModal.sleep'), value: log.sleep, unit: 'hrs' });
         }
 
         return `
@@ -3208,8 +3314,8 @@ class HealthTracker {
                 <div class="log-card-header">
                     <div class="log-datetime">${dateStr} at ${timeStr}</div>
                     <div class="log-actions">
-                        <button class="log-edit-button" onclick="tracker.editLog('${log.id}')">Edit</button>
-                        <button class="log-delete-button" onclick="tracker.deleteLog('${log.id}')">Delete</button>
+                        <button class="log-edit-button" onclick="tracker.editLog('${log.id}')">${this.t('metrics.edit')}</button>
+                        <button class="log-delete-button" onclick="tracker.deleteLog('${log.id}')">${this.t('metrics.delete')}</button>
                     </div>
                 </div>
                 ${metrics.length > 0 ? `
@@ -3226,7 +3332,7 @@ class HealthTracker {
                 ` : ''}
                 ${log.notes && this.metricsFilter.notes ? `
                     <div class="log-notes-section">
-                        <div class="log-notes-label">Notes</div>
+                        <div class="log-notes-label">${this.t('metrics.notes')}</div>
                         <div class="log-notes-content">${log.notes}</div>
                     </div>
                 ` : ''}
@@ -3242,7 +3348,7 @@ class HealthTracker {
         this.applyMetricVisibility();
 
         if (log) {
-            document.getElementById('logModalTitle').textContent = 'Edit Metrics';
+            document.getElementById('logModalTitle').textContent = this.t('logModal.editTitle');
             document.getElementById('logDateTime').value = log.datetime;
 
             // Set values and enable checkboxes for filled metrics (only if metric is enabled)
@@ -3264,20 +3370,26 @@ class HealthTracker {
             if (this.isMetricEnabled('steps')) {
                 this.setLogMetric('enableSteps', 'logSteps', log.steps);
             }
+            if (this.isMetricEnabled('oxygenation')) {
+                this.setLogMetric('enableOxygenation', 'logOxygenation', log.oxygenation);
+            }
+            if (this.isMetricEnabled('sleep')) {
+                this.setLogMetric('enableSleep', 'logSleep', log.sleep);
+            }
             // Notes are always available
             this.setLogMetric('enableNotes', 'logNotes', log.notes);
 
             this.editingLogId = log.id;
         } else {
-            document.getElementById('logModalTitle').textContent = 'Add Metrics';
+            document.getElementById('logModalTitle').textContent = this.t('logModal.addTitle');
             form.reset();
 
             // Uncheck all checkboxes and disable all inputs
-            ['enableTemperature', 'enableBloodPressure', 'enableHeartRate', 'enableGlucose', 'enableWeight', 'enableSteps', 'enableNotes'].forEach(id => {
+            ['enableTemperature', 'enableBloodPressure', 'enableHeartRate', 'enableGlucose', 'enableWeight', 'enableSteps', 'enableOxygenation', 'enableSleep', 'enableNotes'].forEach(id => {
                 const checkbox = document.getElementById(id);
                 if (checkbox) checkbox.checked = false;
             });
-            ['logTemperature', 'logBPSystolic', 'logBPDiastolic', 'logHeartRate', 'logGlucose', 'logWeight', 'logSteps', 'logNotes'].forEach(id => {
+            ['logTemperature', 'logBPSystolic', 'logBPDiastolic', 'logHeartRate', 'logGlucose', 'logWeight', 'logSteps', 'logOxygenation', 'logSleep', 'logNotes'].forEach(id => {
                 const input = document.getElementById(id);
                 if (input) input.disabled = true;
             });
@@ -3345,6 +3457,12 @@ class HealthTracker {
         const steps = document.getElementById('enableSteps').checked
             ? parseInt(document.getElementById('logSteps').value) || null
             : null;
+        const oxygenation = document.getElementById('enableOxygenation').checked
+            ? parseFloat(document.getElementById('logOxygenation').value) || null
+            : null;
+        const sleep = document.getElementById('enableSleep').checked
+            ? parseFloat(document.getElementById('logSleep').value) || null
+            : null;
         const notes = document.getElementById('enableNotes').checked
             ? document.getElementById('logNotes').value.trim()
             : '';
@@ -3361,6 +3479,8 @@ class HealthTracker {
             document.getElementById('enableGlucose').checked ||
             document.getElementById('enableWeight').checked ||
             document.getElementById('enableSteps').checked ||
+            document.getElementById('enableOxygenation').checked ||
+            document.getElementById('enableSleep').checked ||
             document.getElementById('enableNotes').checked;
 
         if (!hasAnyMetric) {
@@ -3382,6 +3502,8 @@ class HealthTracker {
                     glucose,
                     weight,
                     steps,
+                    oxygenation,
+                    sleep,
                     notes
                 };
 
@@ -3402,6 +3524,8 @@ class HealthTracker {
                 glucose,
                 weight,
                 steps,
+                oxygenation,
+                sleep,
                 notes
             };
             this.logs.push(log);
@@ -3425,7 +3549,7 @@ class HealthTracker {
     }
 
     deleteLog(id) {
-        if (confirm('Are you sure you want to delete this log entry?')) {
+        if (confirm(this.t('alerts.deleteLog'))) {
             this.logs = this.logs.filter(l => l.id !== id);
             this.saveLogs();
             this.renderLogs();
@@ -3494,7 +3618,7 @@ class HealthTracker {
             trackAppointments: localStorage.getItem('trackAppointments') === 'true',
             trackMetrics: localStorage.getItem('trackMetrics') === 'true',
             exportDate: new Date().toISOString(),
-            version: '1.2.3'
+            version: '1.2.8'
         };
 
         const dataStr = JSON.stringify(data, null, 2);
@@ -3536,7 +3660,7 @@ class HealthTracker {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        alert('Data exported successfully! On iOS, you may need to long-press the downloaded file and choose "Save to Files" to keep it.');
+        alert(this.t('alerts.exportSuccess'));
     }
 
     // Import data from JSON file
@@ -3554,9 +3678,7 @@ class HealthTracker {
                 }
 
                 // Confirm with user before overwriting
-                const confirmed = confirm(
-                    'This will replace all current data with the imported data. Are you sure you want to continue?'
-                );
+                const confirmed = confirm(this.t('alerts.importOverwrite'));
 
                 if (!confirmed) {
                     // Reset the file input
@@ -3583,7 +3705,7 @@ class HealthTracker {
                 }
 
                 // Reload the page to refresh all data
-                alert('Data imported successfully! The page will now reload.');
+                alert(this.t('alerts.importSuccess'));
                 location.reload();
             } catch (error) {
                 alert('Error importing data: ' + error.message);
@@ -3668,15 +3790,14 @@ class HealthTracker {
 
     // Clear all data with confirmation
     clearAllData() {
-        const confirmed = confirm(
-            'Are you ABSOLUTELY sure you want to delete ALL data? This cannot be undone!\n\nThis will delete:\n• All medications\n• All medication logs\n• All appointments\n• All health metrics\n\nType "DELETE" in the next prompt to confirm.'
-        );
+        const confirmed = confirm(this.t('alerts.clearConfirmMsg'));
 
         if (!confirmed) return;
 
-        const secondConfirm = prompt('Type DELETE to confirm:');
-        if (secondConfirm !== 'DELETE') {
-            alert('Deletion cancelled.');
+        const deleteWord = this.t('alerts.clearConfirmWord');
+        const secondConfirm = prompt(this.t('alerts.clearConfirmPrompt'));
+        if (secondConfirm !== deleteWord) {
+            alert(this.t('alerts.deletionCancelled'));
             return;
         }
 
@@ -3688,7 +3809,7 @@ class HealthTracker {
         localStorage.removeItem('logs');
         localStorage.removeItem('trackingPreferences');
 
-        alert('All data has been deleted. The page will now reload.');
+        alert(this.t('alerts.dataCleared'));
         location.reload();
     }
 
@@ -3843,14 +3964,14 @@ class HealthTracker {
 
     // Update individual metric preference
     updateMetricPreference(metric, enabled) {
-        const prefs = JSON.parse(localStorage.getItem('metricPreferences') || '{"weight": true, "temperature": true, "bloodpressure": true, "heartrate": true, "bloodsugar": true, "steps": true}');
+        const prefs = JSON.parse(localStorage.getItem('metricPreferences') || '{"weight": true, "temperature": true, "bloodpressure": true, "heartrate": true, "bloodsugar": true, "steps": true, "oxygenation": true, "sleep": true}');
         prefs[metric] = enabled;
         localStorage.setItem('metricPreferences', JSON.stringify(prefs));
     }
 
     // Check if a metric is enabled
     isMetricEnabled(metric) {
-        const prefs = JSON.parse(localStorage.getItem('metricPreferences') || '{"weight": true, "temperature": true, "bloodpressure": true, "heartrate": true, "bloodsugar": true, "steps": true}');
+        const prefs = JSON.parse(localStorage.getItem('metricPreferences') || '{"weight": true, "temperature": true, "bloodpressure": true, "heartrate": true, "bloodsugar": true, "steps": true, "oxygenation": true, "sleep": true}');
         return prefs[metric];
     }
 
@@ -3863,7 +3984,9 @@ class HealthTracker {
             'heartrate': 'enableHeartRate',
             'bloodsugar': 'enableGlucose',
             'weight': 'enableWeight',
-            'steps': 'enableSteps'
+            'steps': 'enableSteps',
+            'oxygenation': 'enableOxygenation',
+            'sleep': 'enableSleep'
         };
 
         Object.entries(metricMap).forEach(([metric, checkboxId]) => {
@@ -3885,7 +4008,9 @@ class HealthTracker {
             { key: 'heartrate', filterId: 'filterHeartRate', label: 'Heart Rate' },
             { key: 'bloodsugar', filterId: 'filterGlucose', label: 'Blood Glucose' },
             { key: 'weight', filterId: 'filterWeight', label: 'Weight' },
-            { key: 'steps', filterId: 'filterSteps', label: 'Steps' }
+            { key: 'steps', filterId: 'filterSteps', label: 'Steps' },
+            { key: 'oxygenation', filterId: 'filterOxygenation', label: 'Oxygenation' },
+            { key: 'sleep', filterId: 'filterSleep', label: 'Sleep' }
         ];
 
         let html = '<div style="margin-bottom: 10px; font-weight: bold; color: #333;">Show Metrics:</div>';
@@ -3944,7 +4069,7 @@ class HealthTracker {
         html += '</div>';
 
         if (filteredLogs.length === 0) {
-            html += '<p style="text-align: center; color: #666; padding: 40px;">No metrics data found for this date range.</p>';
+            html += `<p style="text-align: center; color: #666; padding: 40px;">${this.t('metrics.noDataRange')}</p>`;
         } else {
             filteredLogs.forEach(log => {
                 const logDate = new Date(log.datetime);
@@ -3976,6 +4101,14 @@ class HealthTracker {
 
                 if (this.metricsFilter.steps && log.steps) {
                     metrics.push(`Steps: ${log.steps.toLocaleString()}`);
+                }
+
+                if (this.metricsFilter.oxygenation && log.oxygenation) {
+                    metrics.push(`Oxygenation: ${log.oxygenation}%`);
+                }
+
+                if (this.metricsFilter.sleep && log.sleep) {
+                    metrics.push(`Sleep: ${log.sleep} hrs`);
                 }
 
                 // Show entry if there are metrics OR if there are notes (even with no metrics)
@@ -4364,8 +4497,8 @@ class HealthTracker {
             console.log('Could not play alarm:', err);
             // Fallback: try to show notification if sound fails
             if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification('Medication Reminder', {
-                    body: 'Time to take your medication!',
+                new Notification(this.t('alarmModal.notificationTitle'), {
+                    body: this.t('alarmModal.title'),
                     icon: 'favicon.png'
                 });
             }
@@ -4387,9 +4520,8 @@ class HealthTracker {
         const modal = document.getElementById('alarmReminderModal');
         const timeLabel = modal.querySelector('.alarm-time-label');
 
-        // Capitalize first letter for display
-        const displayTime = timeOfDay.charAt(0).toUpperCase() + timeOfDay.slice(1);
-        timeLabel.textContent = `${displayTime} Medications`;
+        const displayTime = this.t('timeOfDay.' + timeOfDay);
+        timeLabel.textContent = this.t('alarmModal.timeLabel', {time: displayTime});
 
         modal.classList.add('active');
     }
@@ -4481,8 +4613,9 @@ class HealthTracker {
 
                     // Show notification
                     if ('Notification' in window && Notification.permission === 'granted') {
-                        new Notification('Medication Reminder', {
-                            body: `Time for ${timeOfDay} medications!`,
+                        const timeLabel = this.t('timeOfDay.' + timeOfDay);
+                        new Notification(this.t('alarmModal.notificationTitle'), {
+                            body: this.t('alarmModal.notificationBody', {time: timeLabel}),
                             icon: 'favicon.png',
                             requireInteraction: true
                         });
@@ -4508,6 +4641,44 @@ class HealthTracker {
         });
 
         return medsAtTime.length > 0;
+    }
+
+    // ── i18n ──────────────────────────────────────────────────────────────────
+    t(key, vars = {}) {
+        const lang = (typeof TRANSLATIONS !== 'undefined' && TRANSLATIONS[this.language])
+            ? TRANSLATIONS[this.language]
+            : null;
+        const fallback = (typeof TRANSLATIONS !== 'undefined' && TRANSLATIONS['en']) || {};
+        // dot-notation lookup: 'timeOfDay.morning' → obj.timeOfDay.morning
+        const resolve = (obj, k) => k.split('.').reduce((o, p) => o?.[p], obj);
+        let str = resolve(lang, key) ?? resolve(fallback, key) ?? key;
+        Object.entries(vars).forEach(([k, v]) => { str = str.replace(`{{${k}}}`, v); });
+        return str;
+    }
+
+    applyTranslations() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const val = this.t(el.getAttribute('data-i18n'));
+            if (val) el.textContent = val;
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            el.placeholder = this.t(el.getAttribute('data-i18n-placeholder'));
+        });
+        document.querySelectorAll('[data-i18n-title]').forEach(el => {
+            el.title = this.t(el.getAttribute('data-i18n-title'));
+        });
+    }
+
+    setLanguage(lang) {
+        this.language = lang;
+        localStorage.setItem('language', lang);
+        document.documentElement.lang = lang;
+        document.documentElement.dir = ['ar', 'fa', 'ur'].includes(lang) ? 'rtl' : 'ltr';
+        this.applyTranslations();
+        this.updateHeader(this.currentTab);
+        this.renderMedications();
+        this.renderAppointments();
+        this.renderLogs();
     }
 
     // Version Check Methods
@@ -4593,12 +4764,12 @@ class HealthTracker {
         const messageDiv = document.createElement('div');
         messageDiv.style.marginBottom = '10px';
         messageDiv.innerHTML = `
-            <strong>Update Available</strong><br>
-            A new version (${newVersion}) is available.
+            <strong>${this.t('updateBanner.title')}</strong><br>
+            ${this.t('updateBanner.message', {version: newVersion})}
         `;
 
         const updateNowBtn = document.createElement('button');
-        updateNowBtn.textContent = 'Update Now';
+        updateNowBtn.textContent = this.t('updateBanner.updateNow');
         updateNowBtn.style.cssText = `
             background: white;
             color: #6b7c93;
@@ -4615,7 +4786,7 @@ class HealthTracker {
         });
 
         const updateLaterBtn = document.createElement('button');
-        updateLaterBtn.textContent = 'Later';
+        updateLaterBtn.textContent = this.t('updateBanner.later');
         updateLaterBtn.style.cssText = `
             background: transparent;
             color: white;
@@ -4635,6 +4806,73 @@ class HealthTracker {
         updateBanner.appendChild(updateLaterBtn);
 
         document.body.appendChild(updateBanner);
+    }
+
+    checkMorningMissedMeds() {
+        // Show at most once per app session
+        const now = new Date();
+        const yesterday = new Date(now);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yesterdayStr = this.getDateString(yesterday);
+
+        // Expand yesterday's meds and find which are active + critical
+        const savedDate = this.selectedDate;
+        this.selectedDate = yesterday;
+        const expanded = this.expandMedications(yesterday);
+        const activeCritical = expanded.filter(med => this.isMedicationActiveToday(med) && med.critical !== false);
+        this.selectedDate = savedDate;
+
+        if (activeCritical.length === 0) return;
+
+        // Find the last time slot that had critical meds scheduled
+        const timeOrder = ['Morning', 'Afternoon', 'Evening', 'Bedtime'];
+        const slotsWithCritical = timeOrder.filter(slot => activeCritical.some(med => med.time === slot));
+        if (slotsWithCritical.length === 0) return;
+        const lastSlot = slotsWithCritical[slotsWithCritical.length - 1];
+
+        // Check if any critical meds in that last slot were not taken
+        const yesterdayLog = this.loadDailyLog(yesterdayStr);
+        const takenYesterday = yesterdayLog.taken || [];
+        const missed = activeCritical.filter(med => {
+            const displayId = med.displayId || med.id;
+            return med.time === lastSlot && !takenYesterday.includes(displayId);
+        });
+
+        if (missed.length === 0) return;
+
+        this._morningCheckDateStr = yesterdayStr;
+
+        const translatedSlot = this.t('timeOfDay.' + lastSlot.toLowerCase());
+        document.getElementById('morningCheckSubtext').innerHTML = this.t('morningCheck.message', {slot: `<strong>${translatedSlot}</strong>`});
+        const list = document.getElementById('morningCheckList');
+        list.innerHTML = missed.map(med => `
+            <div class="morning-check-item">
+                <span class="morning-check-med-name">${med.name}</span>
+                <span class="morning-check-med-detail">${med.dosage}</span>
+            </div>
+        `).join('');
+
+        const modal = document.getElementById('morningCheckModal');
+        modal.style.display = '';
+        modal.classList.add('active');
+    }
+
+    dismissMorningCheck() {
+        const modal = document.getElementById('morningCheckModal');
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+        this._morningCheckDateStr = null;
+    }
+
+    viewYesterdayMeds() {
+        const yesterdayStr = this._morningCheckDateStr;
+        this.dismissMorningCheck();
+        if (!yesterdayStr) return;
+        this.selectedDate = new Date(yesterdayStr + 'T00:00:00');
+        this.dailyLog = this.loadDailyLog(yesterdayStr);
+        this.asNeededLogs = this.loadAsNeededLogs(yesterdayStr);
+        this.switchTab('medications');
+        this.renderMedications();
     }
 }
 

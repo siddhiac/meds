@@ -251,6 +251,13 @@ h1 {
     margin-bottom: 5px;
 }
 
+.time-taken {
+    font-size: 1.1rem;
+    color: #5a9e6f;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
 .med-notes {
     font-size: 1rem;
     color: #999;
@@ -2892,6 +2899,28 @@ h1 {
     font-style: italic;
 }
 
+/* Toast notification for sync events */
+.sync-toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.sync-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
 .sync-peer-info {
     background: white;
     border-radius: 10px;
@@ -2941,3 +2970,100 @@ h1 {
         max-width: 200px;
     }
 }
+
+/* ── Priority badge on med cards ── */
+.med-name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 2px;
+}
+
+.priority-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    line-height: 1.4;
+    flex-shrink: 0;
+}
+
+.priority-badge.critical {
+    background: #fff0f0;
+    color: #c0392b;
+    border: 1px solid #f5b7b1;
+}
+
+.priority-badge.optional {
+    background: #f0f0f0;
+    color: #888;
+    border: 1px solid #ddd;
+}
+
+/* ── Priority toggle in med modal ── */
+
+/* ── Morning check modal ── */
+.morning-check-header {
+    margin-bottom: 16px;
+}
+
+.morning-check-subtext {
+    font-size: 1rem;
+    color: #555;
+    margin-top: 6px;
+}
+
+.morning-check-list {
+    margin: 16px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.morning-check-item {
+    display: flex;
+    flex-direction: column;
+    background: #fff8f8;
+    border: 1px solid #f5b7b1;
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.morning-check-med-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.morning-check-med-detail {
+    font-size: 0.95rem;
+    color: #888;
+    margin-top: 2px;
+}
+
+.morning-check-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+/* ── RTL support (Arabic, Farsi) ─────────────────────────────────────── */
+[dir="rtl"] body { direction: rtl; }
+[dir="rtl"] .header-actions { flex-direction: row-reverse; }
+[dir="rtl"] .tab-bar { direction: rtl; }
+[dir="rtl"] .med-card-header,
+[dir="rtl"] .med-name-row,
+[dir="rtl"] .appt-actions,
+[dir="rtl"] .log-card-header,
+[dir="rtl"] .log-actions { flex-direction: row-reverse; }
+[dir="rtl"] .priority-badge { margin-left: 0; margin-right: 8px; }
+[dir="rtl"] .settings-row,
+[dir="rtl"] .settings-option { flex-direction: row-reverse; text-align: right; }
+[dir="rtl"] input, [dir="rtl"] select, [dir="rtl"] textarea { text-align: right; }
+[dir="rtl"] .filter-buttons { flex-direction: row-reverse; }
