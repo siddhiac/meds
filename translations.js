@@ -32,6 +32,9 @@ const TRANSLATIONS = {
       durOngoing: 'Ongoing (no end date)', durWeeks: 'For a number of weeks',
       durMonths: 'For a number of months', durEndDate: 'Until a specific date',
       durBottle: 'Until all taken',
+      numOfWeeks: 'Number of weeks',
+      numOfMonths: 'Number of months',
+      bottleDoses: 'Number of doses in bottle',
       endDate: 'End Date',
       notes: 'Notes (optional)', notesPlaceholder: 'With food, etc.',
       priority: 'Priority', priorityCritical: 'Critical', priorityOptional: 'Optional',
@@ -65,6 +68,7 @@ const TRANSLATIONS = {
       importData: 'Import Data', importDesc: 'Restore data from a backup file',
       clearData: 'Clear All Data', clearDesc: 'Delete all medications, logs, and appointments',
       language: 'Language',
+      appearance: 'Appearance',
       install: 'Install as Home Screen App',
       installDesc: 'Learn how to add this app to your home screen'
     },
@@ -76,7 +80,7 @@ const TRANSLATIONS = {
       upcoming: 'Upcoming', past: 'Past', add: '+ Add Appointment',
       noAny: 'No appointments scheduled yet.',
       noAnyHint: 'Tap the button below to add your first appointment.',
-      noUpcoming: 'No upcoming appointments.', noPast: 'No past appointments.',
+      noUpcoming: 'No upcoming appointments.', noPast: 'No past appointments.', at: 'at',
       edit: 'Edit', delete: 'Delete', markComplete: 'Mark Complete', completed: '✓ Completed'
     },
     apptModal: {
@@ -98,7 +102,12 @@ const TRANSLATIONS = {
       noMatch: 'No metrics match the current filter.',
       noMatchHint: 'Try adjusting your filter settings or date range.',
       noDataRange: 'No metrics data found for this date range.',
-      edit: 'Edit', delete: 'Delete', notes: 'Notes'
+      edit: 'Edit', delete: 'Delete', notes: 'Notes',
+      printPreviewTitle: 'Metrics Print Preview',
+      reportTitle: 'Health Metrics Report',
+      showMetrics: 'Show Metrics:',
+      all: 'All',
+      to: 'to'
     },
     logModal: {
       addTitle: 'Add Metrics', editTitle: 'Edit Metrics',
@@ -216,6 +225,9 @@ const TRANSLATIONS = {
       durOngoing: 'Continuo (sin fecha de fin)', durWeeks: 'Por número de semanas',
       durMonths: 'Por número de meses', durEndDate: 'Hasta una fecha específica',
       durBottle: 'Hasta agotar',
+      numOfWeeks: 'Número de semanas',
+      numOfMonths: 'Número de meses',
+      bottleDoses: 'Número de dosis en el frasco',
       endDate: 'Fecha de Fin',
       notes: 'Notas (opcional)', notesPlaceholder: 'Con comida, etc.',
       priority: 'Prioridad', priorityCritical: 'Crítico', priorityOptional: 'Opcional',
@@ -249,6 +261,7 @@ const TRANSLATIONS = {
       importData: 'Importar Datos', importDesc: 'Restaurar datos desde un archivo de respaldo',
       clearData: 'Borrar Todos los Datos', clearDesc: 'Eliminar todos los medicamentos, registros y citas',
       language: 'Idioma',
+      appearance: 'Apariencia',
       install: 'Instalar como App en Pantalla de Inicio',
       installDesc: 'Aprende cómo agregar esta app a tu pantalla de inicio'
     },
@@ -260,7 +273,7 @@ const TRANSLATIONS = {
       upcoming: 'Próximas', past: 'Pasadas', add: '+ Agregar Cita',
       noAny: 'Aún no hay citas programadas.',
       noAnyHint: 'Toca el botón de abajo para agregar tu primera cita.',
-      noUpcoming: 'No hay citas próximas.', noPast: 'No hay citas pasadas.',
+      noUpcoming: 'No hay citas próximas.', noPast: 'No hay citas pasadas.', at: 'a las',
       edit: 'Editar', delete: 'Eliminar', markComplete: 'Marcar Completado', completed: '✓ Completado'
     },
     apptModal: {
@@ -282,7 +295,12 @@ const TRANSLATIONS = {
       noMatch: 'No hay métricas que coincidan con el filtro actual.',
       noMatchHint: 'Intenta ajustar los filtros o el rango de fechas.',
       noDataRange: 'No se encontraron métricas para este rango de fechas.',
-      edit: 'Editar', delete: 'Eliminar', notes: 'Notas'
+      edit: 'Editar', delete: 'Eliminar', notes: 'Notas',
+      printPreviewTitle: 'Vista Previa de Impresión',
+      reportTitle: 'Informe de Métricas de Salud',
+      showMetrics: 'Mostrar Métricas:',
+      all: 'Todos',
+      to: 'a'
     },
     logModal: {
       addTitle: 'Agregar Métricas', editTitle: 'Editar Métricas',
@@ -400,6 +418,9 @@ const TRANSLATIONS = {
       durOngoing: '持续（无结束日期）', durWeeks: '若干周',
       durMonths: '若干月', durEndDate: '到指定日期',
       durBottle: '直到服完',
+      numOfWeeks: '周数',
+      numOfMonths: '月数',
+      bottleDoses: '瓶中剂量数',
       endDate: '结束日期',
       notes: '备注（可选）', notesPlaceholder: '随餐服用等',
       priority: '优先级', priorityCritical: '重要', priorityOptional: '可选',
@@ -433,6 +454,7 @@ const TRANSLATIONS = {
       importData: '导入数据', importDesc: '从备份文件恢复数据',
       clearData: '清除所有数据', clearDesc: '删除所有药物、记录和预约',
       language: '语言',
+      appearance: '外观',
       install: '安装到主屏幕',
       installDesc: '了解如何将此应用添加到主屏幕'
     },
@@ -444,7 +466,7 @@ const TRANSLATIONS = {
       upcoming: '即将到来', past: '已过去', add: '+ 添加预约',
       noAny: '尚未安排预约。',
       noAnyHint: '点击下方按钮添加第一个预约。',
-      noUpcoming: '没有即将到来的预约。', noPast: '没有过去的预约。',
+      noUpcoming: '没有即将到来的预约。', noPast: '没有过去的预约。', at: '于',
       edit: '编辑', delete: '删除', markComplete: '标记完成', completed: '✓ 已完成'
     },
     apptModal: {
@@ -466,7 +488,12 @@ const TRANSLATIONS = {
       noMatch: '没有符合当前筛选条件的数据。',
       noMatchHint: '请尝试调整筛选设置或日期范围。',
       noDataRange: '此日期范围内未找到数据。',
-      edit: '编辑', delete: '删除', notes: '备注'
+      edit: '编辑', delete: '删除', notes: '备注',
+      printPreviewTitle: '打印预览',
+      reportTitle: '健康指标报告',
+      showMetrics: '显示数据:',
+      all: '全部',
+      to: '至'
     },
     logModal: {
       addTitle: '添加数据', editTitle: '编辑数据',
@@ -584,6 +611,9 @@ const TRANSLATIONS = {
       durOngoing: 'Liên Tục (không có ngày kết thúc)', durWeeks: 'Trong số tuần',
       durMonths: 'Trong số tháng', durEndDate: 'Đến một ngày cụ thể',
       durBottle: 'Đến khi uống hết',
+      numOfWeeks: 'Số tuần',
+      numOfMonths: 'Số tháng',
+      bottleDoses: 'Số liều trong chai',
       endDate: 'Ngày Kết Thúc',
       notes: 'Ghi Chú (tùy chọn)', notesPlaceholder: 'Uống cùng bữa ăn, v.v.',
       priority: 'Mức Độ Ưu Tiên', priorityCritical: 'Quan Trọng', priorityOptional: 'Tùy Chọn',
@@ -617,6 +647,7 @@ const TRANSLATIONS = {
       importData: 'Nhập Dữ Liệu', importDesc: 'Khôi phục dữ liệu từ tệp sao lưu',
       clearData: 'Xóa Tất Cả Dữ Liệu', clearDesc: 'Xóa tất cả thuốc, nhật ký và lịch hẹn',
       language: 'Ngôn Ngữ',
+      appearance: 'Giao diện',
       install: 'Cài Đặt Như Ứng Dụng Màn Hình Chính',
       installDesc: 'Tìm hiểu cách thêm ứng dụng này vào màn hình chính'
     },
@@ -628,7 +659,7 @@ const TRANSLATIONS = {
       upcoming: 'Sắp Tới', past: 'Đã Qua', add: '+ Thêm Lịch Hẹn',
       noAny: 'Chưa có lịch hẹn nào.',
       noAnyHint: 'Nhấn nút bên dưới để thêm lịch hẹn đầu tiên.',
-      noUpcoming: 'Không có lịch hẹn sắp tới.', noPast: 'Không có lịch hẹn đã qua.',
+      noUpcoming: 'Không có lịch hẹn sắp tới.', noPast: 'Không có lịch hẹn đã qua.', at: 'lúc',
       edit: 'Sửa', delete: 'Xóa', markComplete: 'Đánh Dấu Hoàn Thành', completed: '✓ Đã Hoàn Thành'
     },
     apptModal: {
@@ -650,7 +681,12 @@ const TRANSLATIONS = {
       noMatch: 'Không có dữ liệu phù hợp với bộ lọc hiện tại.',
       noMatchHint: 'Hãy thử điều chỉnh cài đặt bộ lọc hoặc phạm vi ngày.',
       noDataRange: 'Không tìm thấy dữ liệu cho phạm vi ngày này.',
-      edit: 'Sửa', delete: 'Xóa', notes: 'Ghi Chú'
+      edit: 'Sửa', delete: 'Xóa', notes: 'Ghi Chú',
+      printPreviewTitle: 'Xem trước In',
+      reportTitle: 'Báo cáo Chỉ số Sức khỏe',
+      showMetrics: 'Hiển Thị Số Liệu:',
+      all: 'Tất Cả',
+      to: 'đến'
     },
     logModal: {
       addTitle: 'Thêm Dữ Liệu', editTitle: 'Sửa Dữ Liệu',
@@ -768,6 +804,9 @@ const TRANSLATIONS = {
       durOngoing: 'Patuloy (walang petsa ng katapusan)', durWeeks: 'Para sa ilang linggo',
       durMonths: 'Para sa ilang buwan', durEndDate: 'Hanggang sa isang tiyak na petsa',
       durBottle: 'Hanggang maubos',
+      numOfWeeks: 'Bilang ng linggo',
+      numOfMonths: 'Bilang ng buwan',
+      bottleDoses: 'Bilang ng dosis sa bote',
       endDate: 'Petsa ng Katapusan',
       notes: 'Tala (opsyonal)', notesPlaceholder: 'Kasama ang pagkain, atbp.',
       priority: 'Priyoridad', priorityCritical: 'Mahalaga', priorityOptional: 'Opsyonal',
@@ -801,6 +840,7 @@ const TRANSLATIONS = {
       importData: 'I-import ang Data', importDesc: 'Ibalik ang data mula sa backup file',
       clearData: 'Burahin ang Lahat ng Data', clearDesc: 'Tanggalin ang lahat ng gamot, log, at appointment',
       language: 'Wika',
+      appearance: 'Hitsura',
       install: 'I-install bilang Home Screen App',
       installDesc: 'Alamin kung paano idagdag ang app na ito sa iyong home screen'
     },
@@ -812,7 +852,7 @@ const TRANSLATIONS = {
       upcoming: 'Paparating', past: 'Nakalipas', add: '+ Magdagdag ng Appointment',
       noAny: 'Wala pang naka-iskedyul na appointment.',
       noAnyHint: 'I-tap ang button sa ibaba para magdagdag ng unang appointment.',
-      noUpcoming: 'Walang paparating na appointment.', noPast: 'Walang nakalipas na appointment.',
+      noUpcoming: 'Walang paparating na appointment.', noPast: 'Walang nakalipas na appointment.', at: 'sa',
       edit: 'I-edit', delete: 'Burahin', markComplete: 'Markahan bilang Tapos', completed: '✓ Tapos Na'
     },
     apptModal: {
@@ -834,7 +874,12 @@ const TRANSLATIONS = {
       noMatch: 'Walang datos na tumutugma sa kasalukuyang filter.',
       noMatchHint: 'Subukang ayusin ang mga setting ng filter o hanay ng petsa.',
       noDataRange: 'Walang datos na nahanap para sa hanay ng petsang ito.',
-      edit: 'I-edit', delete: 'Burahin', notes: 'Tala'
+      edit: 'I-edit', delete: 'Burahin', notes: 'Tala',
+      printPreviewTitle: 'Print Preview',
+      reportTitle: 'Ulat ng Kalusugan na Metrics',
+      showMetrics: 'Ipakita ang Datos:',
+      all: 'Lahat',
+      to: 'hanggang'
     },
     logModal: {
       addTitle: 'Magdagdag ng Data', editTitle: 'I-edit ang Data',
@@ -952,6 +997,9 @@ const TRANSLATIONS = {
       durOngoing: '계속 (종료일 없음)', durWeeks: '몇 주 동안',
       durMonths: '몇 달 동안', durEndDate: '특정 날짜까지',
       durBottle: '다 복용할 때까지',
+      numOfWeeks: '주 수',
+      numOfMonths: '개월 수',
+      bottleDoses: '병의 투약 횟수',
       endDate: '종료 날짜',
       notes: '메모 (선택)', notesPlaceholder: '식사와 함께 등',
       priority: '우선순위', priorityCritical: '중요', priorityOptional: '선택',
@@ -985,6 +1033,7 @@ const TRANSLATIONS = {
       importData: '데이터 가져오기', importDesc: '백업 파일에서 데이터 복원',
       clearData: '모든 데이터 삭제', clearDesc: '모든 약, 기록 및 예약 삭제',
       language: '언어',
+      appearance: '외관',
       install: '홈 화면 앱으로 설치',
       installDesc: '이 앱을 홈 화면에 추가하는 방법 알아보기'
     },
@@ -996,7 +1045,7 @@ const TRANSLATIONS = {
       upcoming: '예정', past: '지난', add: '+ 예약 추가',
       noAny: '아직 예약이 없습니다.',
       noAnyHint: '아래 버튼을 탭하여 첫 번째 예약을 추가하세요.',
-      noUpcoming: '예정된 예약이 없습니다.', noPast: '지난 예약이 없습니다.',
+      noUpcoming: '예정된 예약이 없습니다.', noPast: '지난 예약이 없습니다.', at: '오전/오후',
       edit: '수정', delete: '삭제', markComplete: '완료 표시', completed: '✓ 완료'
     },
     apptModal: {
@@ -1018,7 +1067,12 @@ const TRANSLATIONS = {
       noMatch: '현재 필터와 일치하는 데이터가 없습니다.',
       noMatchHint: '필터 설정 또는 날짜 범위를 조정해 보세요.',
       noDataRange: '이 날짜 범위에서 데이터를 찾을 수 없습니다.',
-      edit: '수정', delete: '삭제', notes: '메모'
+      edit: '수정', delete: '삭제', notes: '메모',
+      printPreviewTitle: '인쇄 미리보기',
+      reportTitle: '건강 지표 보고서',
+      showMetrics: '데이터 표시:',
+      all: '전체',
+      to: '~'
     },
     logModal: {
       addTitle: '데이터 추가', editTitle: '데이터 수정',
@@ -1136,6 +1190,9 @@ const TRANSLATIONS = {
       durOngoing: 'Շարունակական (առանց ավարտի)', durWeeks: 'Մի քանի շաբաթ',
       durMonths: 'Մի քանի ամիս', durEndDate: 'Մինչև կոնկրետ ամսաթիվ',
       durBottle: 'Մինչև վերջ ընդունելը',
+      numOfWeeks: 'Շաբաթների քանակ',
+      numOfMonths: 'Ամիսների քանակ',
+      bottleDoses: 'Դոզաների քանակ շշի մեջ',
       endDate: 'Ավարտի Ամսաթիվ',
       notes: 'Նշումներ (կամընտրական)', notesPlaceholder: 'Սննդի հետ և այլն',
       priority: 'Առաջնահերթություն', priorityCritical: 'Կարևոր', priorityOptional: 'Կամընտրական',
@@ -1169,6 +1226,7 @@ const TRANSLATIONS = {
       importData: 'Ներմուծել Տվյալները', importDesc: 'Վերականգնել տվյալները կրկնօրինակ ֆայլից',
       clearData: 'Ջնջել Բոլոր Տվյալները', clearDesc: 'Ջնջել բոլոր դեղերը, գրառումները և ժամադրությունները',
       language: 'Լեզու',
+      appearance: 'Արտաքին տեսք',
       install: 'Տեղադրել Որպես Հիմնական Էկրանի Հավելված',
       installDesc: 'Իմացեք, թե ինչպես ավելացնել այս հավելվածը հիմնական էկրանին'
     },
@@ -1180,7 +1238,7 @@ const TRANSLATIONS = {
       upcoming: 'Առաջիկա', past: 'Անցյալ', add: '+ Ավելացնել Ժամադրություն',
       noAny: 'Դեռ ժամադրություն չկա։',
       noAnyHint: 'Ներքևի կոճակը սեղմեք՝ առաջին ժամադրությունը ավելացնելու համար։',
-      noUpcoming: 'Առաջիկա ժամադրություն չկա։', noPast: 'Անցյալ ժամադրություն չկա։',
+      noUpcoming: 'Առաջիկա ժամադրություն չկա։', noPast: 'Անցյալ ժամադրություն չկա։', at: '-ին',
       edit: 'Խմբագրել', delete: 'Ջնջել', markComplete: 'Նշել Որպես Ավարտված', completed: '✓ Ավարտված'
     },
     apptModal: {
@@ -1202,7 +1260,12 @@ const TRANSLATIONS = {
       noMatch: 'Ոչ մի տվյալ չի համապատասխանում ֆիլտրին։',
       noMatchHint: 'Փորձեք փոխել ֆիլտրի կարգավորումները կամ ամսաթվի տիրույթը։',
       noDataRange: 'Այս ամսաթվի տիրույթի համար տվյալ չի գտնվել։',
-      edit: 'Խմբագրել', delete: 'Ջնջել', notes: 'Նշումներ'
+      edit: 'Խմբագրել', delete: 'Ջնջել', notes: 'Նշումներ',
+      printPreviewTitle: 'Տպման նախադիտում',
+      reportTitle: 'Առողջության ցուցանիշների հաշվետվություն',
+      showMetrics: 'Ցուցադրել ցուցանիշները:',
+      all: 'Բոլորը',
+      to: 'մինչև'
     },
     logModal: {
       addTitle: 'Ավելացնել Տվյալ', editTitle: 'Խմբագրել Տվյալ',
@@ -1320,6 +1383,9 @@ const TRANSLATIONS = {
       durOngoing: 'Постоянно (без даты окончания)', durWeeks: 'Несколько недель',
       durMonths: 'Несколько месяцев', durEndDate: 'До определённой даты',
       durBottle: 'Пока не закончится',
+      numOfWeeks: 'Количество недель',
+      numOfMonths: 'Количество месяцев',
+      bottleDoses: 'Количество доз в бутылке',
       endDate: 'Дата Окончания',
       notes: 'Заметки (необязательно)', notesPlaceholder: 'Принимать с едой и т.д.',
       priority: 'Приоритет', priorityCritical: 'Важное', priorityOptional: 'Необязательное',
@@ -1353,6 +1419,7 @@ const TRANSLATIONS = {
       importData: 'Импортировать Данные', importDesc: 'Восстановить данные из резервной копии',
       clearData: 'Удалить Все Данные', clearDesc: 'Удалить все лекарства, записи и приёмы',
       language: 'Язык',
+      appearance: 'Внешний вид',
       install: 'Установить на Главный Экран',
       installDesc: 'Узнайте, как добавить это приложение на главный экран'
     },
@@ -1364,7 +1431,7 @@ const TRANSLATIONS = {
       upcoming: 'Предстоящие', past: 'Прошедшие', add: '+ Добавить Приём',
       noAny: 'Приёмы пока не запланированы.',
       noAnyHint: 'Нажмите кнопку ниже, чтобы добавить первый приём.',
-      noUpcoming: 'Нет предстоящих приёмов.', noPast: 'Нет прошедших приёмов.',
+      noUpcoming: 'Нет предстоящих приёмов.', noPast: 'Нет прошедших приёмов.', at: 'в',
       edit: 'Изменить', delete: 'Удалить', markComplete: 'Отметить Выполненным', completed: '✓ Выполнено'
     },
     apptModal: {
@@ -1386,7 +1453,12 @@ const TRANSLATIONS = {
       noMatch: 'Нет данных, соответствующих фильтру.',
       noMatchHint: 'Попробуйте изменить фильтр или диапазон дат.',
       noDataRange: 'Данных за указанный период не найдено.',
-      edit: 'Изменить', delete: 'Удалить', notes: 'Заметки'
+      edit: 'Изменить', delete: 'Удалить', notes: 'Заметки',
+      printPreviewTitle: 'Предварительный просмотр',
+      reportTitle: 'Отчёт о показателях здоровья',
+      showMetrics: 'Показать данные:',
+      all: 'Все',
+      to: 'до'
     },
     logModal: {
       addTitle: 'Добавить Данные', editTitle: 'Редактировать Данные',
@@ -1504,6 +1576,9 @@ const TRANSLATIONS = {
       durOngoing: '継続（終了日なし）', durWeeks: '数週間',
       durMonths: '数ヶ月', durEndDate: '特定の日まで',
       durBottle: '飲み終わるまで',
+      numOfWeeks: '週数',
+      numOfMonths: '月数',
+      bottleDoses: 'ボトルの用量数',
       endDate: '終了日',
       notes: 'メモ（任意）', notesPlaceholder: '食事と一緒に等',
       priority: '優先度', priorityCritical: '重要', priorityOptional: '任意',
@@ -1537,6 +1612,7 @@ const TRANSLATIONS = {
       importData: 'データをインポート', importDesc: 'バックアップファイルからデータを復元',
       clearData: 'すべてのデータを削除', clearDesc: 'すべての薬、記録、予約を削除',
       language: '言語',
+      appearance: '外観',
       install: 'ホーム画面にインストール',
       installDesc: 'このアプリをホーム画面に追加する方法を確認'
     },
@@ -1548,7 +1624,7 @@ const TRANSLATIONS = {
       upcoming: '予定', past: '過去', add: '+ 予約を追加',
       noAny: 'まだ予約がありません。',
       noAnyHint: '下のボタンをタップして最初の予約を追加してください。',
-      noUpcoming: '予定の予約はありません。', noPast: '過去の予約はありません。',
+      noUpcoming: '予定の予約はありません。', noPast: '過去の予約はありません。', at: '午前/午後',
       edit: '編集', delete: '削除', markComplete: '完了にする', completed: '✓ 完了'
     },
     apptModal: {
@@ -1570,7 +1646,12 @@ const TRANSLATIONS = {
       noMatch: '現在のフィルターに一致するデータがありません。',
       noMatchHint: 'フィルターの設定または日付範囲を変更してみてください。',
       noDataRange: 'この日付範囲のデータは見つかりませんでした。',
-      edit: '編集', delete: '削除', notes: 'メモ'
+      edit: '編集', delete: '削除', notes: 'メモ',
+      printPreviewTitle: '印刷プレビュー',
+      reportTitle: '健康指標レポート',
+      showMetrics: 'データを表示:',
+      all: 'すべて',
+      to: 'から'
     },
     logModal: {
       addTitle: 'データを追加', editTitle: 'データを編集',
@@ -1688,6 +1769,9 @@ const TRANSLATIONS = {
       durOngoing: 'مستمر (بدون تاريخ انتهاء)', durWeeks: 'لعدة أسابيع',
       durMonths: 'لعدة أشهر', durEndDate: 'حتى تاريخ محدد',
       durBottle: 'حتى نفاد الجرعات',
+      numOfWeeks: 'عدد الأسابيع',
+      numOfMonths: 'عدد الأشهر',
+      bottleDoses: 'عدد الجرعات في الزجاجة',
       endDate: 'تاريخ الانتهاء',
       notes: 'ملاحظات (اختياري)', notesPlaceholder: 'مع الطعام، إلخ.',
       priority: 'الأولوية', priorityCritical: 'ضروري', priorityOptional: 'اختياري',
@@ -1721,6 +1805,7 @@ const TRANSLATIONS = {
       importData: 'استيراد البيانات', importDesc: 'استعادة البيانات من ملف نسخ احتياطي',
       clearData: 'حذف جميع البيانات', clearDesc: 'حذف جميع الأدوية والسجلات والمواعيد',
       language: 'اللغة',
+      appearance: 'المظهر',
       install: 'تثبيت كتطبيق على الشاشة الرئيسية',
       installDesc: 'تعرف على كيفية إضافة هذا التطبيق إلى شاشتك الرئيسية'
     },
@@ -1732,7 +1817,7 @@ const TRANSLATIONS = {
       upcoming: 'القادمة', past: 'الماضية', add: '+ إضافة موعد',
       noAny: 'لا توجد مواعيد مجدولة بعد.',
       noAnyHint: 'اضغط الزر أدناه لإضافة أول موعد.',
-      noUpcoming: 'لا توجد مواعيد قادمة.', noPast: 'لا توجد مواعيد ماضية.',
+      noUpcoming: 'لا توجد مواعيد قادمة.', noPast: 'لا توجد مواعيد ماضية.', at: 'الساعة',
       edit: 'تعديل', delete: 'حذف', markComplete: 'تحديد كمكتمل', completed: '✓ مكتمل'
     },
     apptModal: {
@@ -1754,7 +1839,12 @@ const TRANSLATIONS = {
       noMatch: 'لا توجد بيانات تطابق الفلتر الحالي.',
       noMatchHint: 'حاول تعديل إعدادات الفلتر أو نطاق التاريخ.',
       noDataRange: 'لم يتم العثور على بيانات لنطاق التاريخ هذا.',
-      edit: 'تعديل', delete: 'حذف', notes: 'ملاحظات'
+      edit: 'تعديل', delete: 'حذف', notes: 'ملاحظات',
+      printPreviewTitle: 'معاينة الطباعة',
+      reportTitle: 'تقرير مقاييس الصحة',
+      showMetrics: 'عرض البيانات:',
+      all: 'الكل',
+      to: 'إلى'
     },
     logModal: {
       addTitle: 'إضافة بيانات', editTitle: 'تعديل بيانات',
@@ -1872,6 +1962,9 @@ const TRANSLATIONS = {
       durOngoing: 'مداوم (بدون تاریخ پایان)', durWeeks: 'چند هفته',
       durMonths: 'چند ماه', durEndDate: 'تا تاریخ مشخص',
       durBottle: 'تا تمام شدن داروها',
+      numOfWeeks: 'تعداد هفته‌ها',
+      numOfMonths: 'تعداد ماه‌ها',
+      bottleDoses: 'تعداد دوزها در بطری',
       endDate: 'تاریخ پایان',
       notes: 'یادداشت (اختیاری)', notesPlaceholder: 'همراه با غذا و غیره',
       priority: 'اولویت', priorityCritical: 'ضروری', priorityOptional: 'اختیاری',
@@ -1905,6 +1998,7 @@ const TRANSLATIONS = {
       importData: 'ورودی داده', importDesc: 'بازیابی داده از فایل پشتیبان',
       clearData: 'حذف همه داده‌ها', clearDesc: 'حذف همه داروها، گزارش‌ها و قرار ملاقات‌ها',
       language: 'زبان',
+      appearance: 'ظاهر',
       install: 'نصب به عنوان برنامه صفحه اصلی',
       installDesc: 'یاد بگیرید چگونه این برنامه را به صفحه اصلی اضافه کنید'
     },
@@ -1916,7 +2010,7 @@ const TRANSLATIONS = {
       upcoming: 'آینده', past: 'گذشته', add: '+ افزودن قرار',
       noAny: 'هنوز قرار ملاقاتی برنامه‌ریزی نشده است.',
       noAnyHint: 'روی دکمه زیر ضربه بزنید تا اولین قرار را اضافه کنید.',
-      noUpcoming: 'قرار آینده‌ای وجود ندارد.', noPast: 'قرار گذشته‌ای وجود ندارد.',
+      noUpcoming: 'قرار آینده‌ای وجود ندارد.', noPast: 'قرار گذشته‌ای وجود ندارد.', at: 'ساعت',
       edit: 'ویرایش', delete: 'حذف', markComplete: 'علامت‌گذاری به عنوان انجام شده', completed: '✓ انجام شد'
     },
     apptModal: {
@@ -1938,7 +2032,12 @@ const TRANSLATIONS = {
       noMatch: 'هیچ داده‌ای با فیلتر فعلی مطابقت ندارد.',
       noMatchHint: 'تنظیمات فیلتر یا بازه تاریخ را تغییر دهید.',
       noDataRange: 'داده‌ای برای این بازه تاریخ یافت نشد.',
-      edit: 'ویرایش', delete: 'حذف', notes: 'یادداشت'
+      edit: 'ویرایش', delete: 'حذف', notes: 'یادداشت',
+      printPreviewTitle: 'پیش‌نمایش چاپ',
+      reportTitle: 'گزارش معیارهای بهداشتی',
+      showMetrics: 'نمایش داده‌ها:',
+      all: 'همه',
+      to: 'تا'
     },
     logModal: {
       addTitle: 'افزودن داده', editTitle: 'ویرایش داده',
@@ -2056,6 +2155,9 @@ const TRANSLATIONS = {
       durOngoing: 'जारी (कोई समाप्ति तारीख नहीं)', durWeeks: 'कुछ हफ़्तों के लिए',
       durMonths: 'कुछ महीनों के लिए', durEndDate: 'एक निश्चित तारीख तक',
       durBottle: 'सभी खुराक खत्म होने तक',
+      numOfWeeks: 'सप्ताह की संख्या',
+      numOfMonths: 'महीनों की संख्या',
+      bottleDoses: 'बोतल में खुराक की संख्या',
       endDate: 'समाप्ति तारीख',
       notes: 'नोट्स (वैकल्पिक)', notesPlaceholder: 'खाने के साथ, आदि',
       priority: 'प्राथमिकता', priorityCritical: 'ज़रूरी', priorityOptional: 'वैकल्पिक',
@@ -2089,6 +2191,7 @@ const TRANSLATIONS = {
       importData: 'डेटा आयात करें', importDesc: 'बैकअप फ़ाइल से डेटा पुनर्स्थापित करें',
       clearData: 'सभी डेटा हटाएं', clearDesc: 'सभी दवाएं, रिकॉर्ड और अपॉइंटमेंट हटाएं',
       language: 'भाषा',
+      appearance: 'दिखावट',
       install: 'होम स्क्रीन ऐप के रूप में इंस्टॉल करें',
       installDesc: 'इस ऐप को अपनी होम स्क्रीन पर जोड़ने का तरीका जानें'
     },
@@ -2100,7 +2203,7 @@ const TRANSLATIONS = {
       upcoming: 'आगामी', past: 'पिछले', add: '+ अपॉइंटमेंट जोड़ें',
       noAny: 'अभी तक कोई अपॉइंटमेंट शेड्यूल नहीं है।',
       noAnyHint: 'पहला अपॉइंटमेंट जोड़ने के लिए नीचे का बटन टैप करें।',
-      noUpcoming: 'कोई आगामी अपॉइंटमेंट नहीं।', noPast: 'कोई पिछला अपॉइंटमेंट नहीं।',
+      noUpcoming: 'कोई आगामी अपॉइंटमेंट नहीं।', noPast: 'कोई पिछला अपॉइंटमेंट नहीं।', at: 'को',
       edit: 'संपादित करें', delete: 'हटाएं', markComplete: 'पूर्ण के रूप में चिह्नित करें', completed: '✓ पूर्ण'
     },
     apptModal: {
@@ -2122,7 +2225,12 @@ const TRANSLATIONS = {
       noMatch: 'वर्तमान फ़िल्टर से कोई डेटा मेल नहीं खाता।',
       noMatchHint: 'फ़िल्टर सेटिंग्स या तारीख सीमा बदलने का प्रयास करें।',
       noDataRange: 'इस तारीख सीमा के लिए कोई डेटा नहीं मिला।',
-      edit: 'संपादित करें', delete: 'हटाएं', notes: 'नोट्स'
+      edit: 'संपादित करें', delete: 'हटाएं', notes: 'नोट्स',
+      printPreviewTitle: 'प्रिंट पूर्वावलोकन',
+      reportTitle: 'स्वास्थ्य मेट्रिक्स रिपोर्ट',
+      showMetrics: 'डेटा दिखाएँ:',
+      all: 'सभी',
+      to: 'से'
     },
     logModal: {
       addTitle: 'डेटा जोड़ें', editTitle: 'डेटा संपादित करें',
@@ -2240,6 +2348,9 @@ const TRANSLATIONS = {
       durOngoing: 'ਜਾਰੀ (ਕੋਈ ਸਮਾਪਤੀ ਤਾਰੀਖ਼ ਨਹੀਂ)', durWeeks: 'ਕੁਝ ਹਫ਼ਤਿਆਂ ਲਈ',
       durMonths: 'ਕੁਝ ਮਹੀਨਿਆਂ ਲਈ', durEndDate: 'ਇੱਕ ਖਾਸ ਤਾਰੀਖ਼ ਤੱਕ',
       durBottle: 'ਸਾਰੀਆਂ ਖੁਰਾਕਾਂ ਖਤਮ ਹੋਣ ਤੱਕ',
+      numOfWeeks: 'ਹਫ਼ਤਿਆਂ ਦੀ ਗਿਣਤੀ',
+      numOfMonths: 'ਮਹੀਨਿਆਂ ਦੀ ਗਿਣਤੀ',
+      bottleDoses: 'ਬੋਤਲ ਵਿੱਚ ਖੁਰਾਕਾਂ ਦੀ ਗਿਣਤੀ',
       endDate: 'ਸਮਾਪਤੀ ਤਾਰੀਖ਼',
       notes: 'ਨੋਟਸ (ਵਿਕਲਪਿਕ)', notesPlaceholder: 'ਖਾਣੇ ਨਾਲ, ਆਦਿ',
       priority: 'ਤਰਜੀਹ', priorityCritical: 'ਜ਼ਰੂਰੀ', priorityOptional: 'ਵਿਕਲਪਿਕ',
@@ -2273,6 +2384,7 @@ const TRANSLATIONS = {
       importData: 'ਡੇਟਾ ਆਯਾਤ ਕਰੋ', importDesc: 'ਬੈਕਅੱਪ ਫਾਈਲ ਤੋਂ ਡੇਟਾ ਬਹਾਲ ਕਰੋ',
       clearData: 'ਸਾਰਾ ਡੇਟਾ ਮਿਟਾਓ', clearDesc: 'ਸਾਰੀਆਂ ਦਵਾਈਆਂ, ਰਿਕਾਰਡ ਅਤੇ ਅਪੌਇੰਟਮੈਂਟ ਮਿਟਾਓ',
       language: 'ਭਾਸ਼ਾ',
+      appearance: 'ਦਿੱਖ',
       install: 'ਹੋਮ ਸਕਰੀਨ ਐਪ ਵਜੋਂ ਇੰਸਟਾਲ ਕਰੋ',
       installDesc: 'ਇਸ ਐਪ ਨੂੰ ਆਪਣੀ ਹੋਮ ਸਕਰੀਨ ਤੇ ਕਿਵੇਂ ਜੋੜਨਾ ਹੈ ਇਹ ਜਾਣੋ'
     },
@@ -2284,7 +2396,7 @@ const TRANSLATIONS = {
       upcoming: 'ਆਉਣ ਵਾਲੇ', past: 'ਪਿਛਲੇ', add: '+ ਅਪੌਇੰਟਮੈਂਟ ਜੋੜੋ',
       noAny: 'ਅਜੇ ਕੋਈ ਅਪੌਇੰਟਮੈਂਟ ਤਹਿ ਨਹੀਂ ਹੈ।',
       noAnyHint: 'ਪਹਿਲੀ ਅਪੌਇੰਟਮੈਂਟ ਜੋੜਨ ਲਈ ਹੇਠਾਂ ਦਾ ਬਟਨ ਟੈਪ ਕਰੋ।',
-      noUpcoming: 'ਕੋਈ ਆਉਣ ਵਾਲੀ ਅਪੌਇੰਟਮੈਂਟ ਨਹੀਂ।', noPast: 'ਕੋਈ ਪਿਛਲੀ ਅਪੌਇੰਟਮੈਂਟ ਨਹੀਂ।',
+      noUpcoming: 'ਕੋਈ ਆਉਣ ਵਾਲੀ ਅਪੌਇੰਟਮੈਂਟ ਨਹੀਂ।', noPast: 'ਕੋਈ ਪਿਛਲੀ ਅਪੌਇੰਟਮੈਂਟ ਨਹੀਂ।', at: 'ਨੂੰ',
       edit: 'ਸੰਪਾਦਿਤ ਕਰੋ', delete: 'ਮਿਟਾਓ', markComplete: 'ਪੂਰਾ ਮਾਰਕ ਕਰੋ', completed: '✓ ਪੂਰਾ'
     },
     apptModal: {
@@ -2306,7 +2418,12 @@ const TRANSLATIONS = {
       noMatch: 'ਮੌਜੂਦਾ ਫਿਲਟਰ ਨਾਲ ਕੋਈ ਡੇਟਾ ਮੇਲ ਨਹੀਂ ਖਾਂਦਾ।',
       noMatchHint: 'ਫਿਲਟਰ ਸੈਟਿੰਗਾਂ ਜਾਂ ਤਾਰੀਖ਼ ਸੀਮਾ ਬਦਲਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ।',
       noDataRange: 'ਇਸ ਤਾਰੀਖ਼ ਸੀਮਾ ਲਈ ਕੋਈ ਡੇਟਾ ਨਹੀਂ ਮਿਲਿਆ।',
-      edit: 'ਸੰਪਾਦਿਤ ਕਰੋ', delete: 'ਮਿਟਾਓ', notes: 'ਨੋਟਸ'
+      edit: 'ਸੰਪਾਦਿਤ ਕਰੋ', delete: 'ਮਿਟਾਓ', notes: 'ਨੋਟਸ',
+      printPreviewTitle: 'ਪ੍ਰਿੰਟ ਪ੍ਰੀਵਿਊ',
+      reportTitle: 'ਸਿਹਤ ਮੈਟ੍ਰਿਕਸ ਰਿਪੋਰਟ',
+      showMetrics: 'ਡੇਟਾ ਦਿਖਾਓ:',
+      all: 'ਸਭ',
+      to: 'ਤੱਕ'
     },
     logModal: {
       addTitle: 'ਡੇਟਾ ਜੋੜੋ', editTitle: 'ਡੇਟਾ ਸੰਪਾਦਿਤ ਕਰੋ',
@@ -2424,6 +2541,9 @@ const TRANSLATIONS = {
       durOngoing: 'Continu (sans date de fin)', durWeeks: 'Pendant quelques semaines',
       durMonths: 'Pendant quelques mois', durEndDate: 'Jusqu\'à une date précise',
       durBottle: 'Jusqu\'à épuisement',
+      numOfWeeks: 'Nombre de semaines',
+      numOfMonths: 'Nombre de mois',
+      bottleDoses: 'Nombre de doses dans le flacon',
       endDate: 'Date de fin',
       notes: 'Notes (optionnel)', notesPlaceholder: 'Avec les repas, etc.',
       priority: 'Priorité', priorityCritical: 'Essentiel', priorityOptional: 'Optionnel',
@@ -2457,6 +2577,7 @@ const TRANSLATIONS = {
       importData: 'Importer les données', importDesc: 'Restaurer les données depuis un fichier de sauvegarde',
       clearData: 'Supprimer toutes les données', clearDesc: 'Supprimer tous les médicaments, historiques et rendez-vous',
       language: 'Langue',
+      appearance: 'Apparence',
       install: 'Installer sur l\'écran d\'accueil',
       installDesc: 'Découvrez comment ajouter cette appli à votre écran d\'accueil'
     },
@@ -2468,7 +2589,7 @@ const TRANSLATIONS = {
       upcoming: 'À venir', past: 'Passés', add: '+ Ajouter un rendez-vous',
       noAny: 'Aucun rendez-vous programmé pour l\'instant.',
       noAnyHint: 'Appuyez sur le bouton ci-dessous pour ajouter votre premier rendez-vous.',
-      noUpcoming: 'Aucun rendez-vous à venir.', noPast: 'Aucun rendez-vous passé.',
+      noUpcoming: 'Aucun rendez-vous à venir.', noPast: 'Aucun rendez-vous passé.', at: 'à',
       edit: 'Modifier', delete: 'Supprimer', markComplete: 'Marquer comme terminé', completed: '✓ Terminé'
     },
     apptModal: {
@@ -2490,7 +2611,12 @@ const TRANSLATIONS = {
       noMatch: 'Aucune donnée ne correspond au filtre actuel.',
       noMatchHint: 'Essayez de modifier les paramètres du filtre ou la plage de dates.',
       noDataRange: 'Aucune donnée trouvée pour cette plage de dates.',
-      edit: 'Modifier', delete: 'Supprimer', notes: 'Notes'
+      edit: 'Modifier', delete: 'Supprimer', notes: 'Notes',
+      printPreviewTitle: 'Aperçu d’impression',
+      reportTitle: 'Rapport des métriques de santé',
+      showMetrics: 'Afficher les métriques:',
+      all: 'Tout',
+      to: 'à'
     },
     logModal: {
       addTitle: 'Ajouter des données', editTitle: 'Modifier les données',
@@ -2608,6 +2734,9 @@ const TRANSLATIONS = {
       durOngoing: 'Dauerhaft (kein Enddatum)', durWeeks: 'Für einige Wochen',
       durMonths: 'Für einige Monate', durEndDate: 'Bis zu einem bestimmten Datum',
       durBottle: 'Bis alle Dosen aufgebraucht sind',
+      numOfWeeks: 'Anzahl der Wochen',
+      numOfMonths: 'Anzahl der Monate',
+      bottleDoses: 'Anzahl der Dosen in der Flasche',
       endDate: 'Enddatum',
       notes: 'Hinweise (optional)', notesPlaceholder: 'Mit dem Essen, usw.',
       priority: 'Priorität', priorityCritical: 'Wichtig', priorityOptional: 'Optional',
@@ -2641,6 +2770,7 @@ const TRANSLATIONS = {
       importData: 'Daten importieren', importDesc: 'Daten aus einer Sicherungsdatei wiederherstellen',
       clearData: 'Alle Daten löschen', clearDesc: 'Alle Medikamente, Einnahmen und Termine löschen',
       language: 'Sprache',
+      appearance: 'Aussehen',
       install: 'Als App auf dem Startbildschirm installieren',
       installDesc: 'Erfahren Sie, wie Sie diese App zu Ihrem Startbildschirm hinzufügen'
     },
@@ -2652,7 +2782,7 @@ const TRANSLATIONS = {
       upcoming: 'Bevorstehend', past: 'Vergangen', add: '+ Termin hinzufügen',
       noAny: 'Noch keine Termine geplant.',
       noAnyHint: 'Tippen Sie auf die Schaltfläche unten, um Ihren ersten Termin hinzuzufügen.',
-      noUpcoming: 'Keine bevorstehenden Termine.', noPast: 'Keine vergangenen Termine.',
+      noUpcoming: 'Keine bevorstehenden Termine.', noPast: 'Keine vergangenen Termine.', at: 'um',
       edit: 'Bearbeiten', delete: 'Löschen', markComplete: 'Als erledigt markieren', completed: '✓ Erledigt'
     },
     apptModal: {
@@ -2674,7 +2804,12 @@ const TRANSLATIONS = {
       noMatch: 'Keine Daten stimmen mit dem aktuellen Filter überein.',
       noMatchHint: 'Versuchen Sie, die Filtereinstellungen oder den Datumsbereich zu ändern.',
       noDataRange: 'Für diesen Datumsbereich wurden keine Daten gefunden.',
-      edit: 'Bearbeiten', delete: 'Löschen', notes: 'Hinweise'
+      edit: 'Bearbeiten', delete: 'Löschen', notes: 'Hinweise',
+      printPreviewTitle: 'Druckvorschau',
+      reportTitle: 'Gesundheitsmetriken-Bericht',
+      showMetrics: 'Daten Anzeigen:',
+      all: 'Alle',
+      to: 'bis'
     },
     logModal: {
       addTitle: 'Daten hinzufügen', editTitle: 'Daten bearbeiten',
@@ -2792,6 +2927,9 @@ const TRANSLATIONS = {
       durOngoing: 'Contínuo (sem data de término)', durWeeks: 'Por algumas semanas',
       durMonths: 'Por alguns meses', durEndDate: 'Até uma data específica',
       durBottle: 'Até acabar as doses',
+      numOfWeeks: 'Número de semanas',
+      numOfMonths: 'Número de meses',
+      bottleDoses: 'Número de doses no frasco',
       endDate: 'Data de término',
       notes: 'Observações (opcional)', notesPlaceholder: 'Com alimentação, etc.',
       priority: 'Prioridade', priorityCritical: 'Essencial', priorityOptional: 'Opcional',
@@ -2825,6 +2963,7 @@ const TRANSLATIONS = {
       importData: 'Importar dados', importDesc: 'Restaurar dados a partir de um arquivo de backup',
       clearData: 'Excluir todos os dados', clearDesc: 'Excluir todos os medicamentos, registros e consultas',
       language: 'Idioma',
+      appearance: 'Aparência',
       install: 'Instalar como app na tela inicial',
       installDesc: 'Saiba como adicionar este app à sua tela inicial'
     },
@@ -2836,7 +2975,7 @@ const TRANSLATIONS = {
       upcoming: 'Próximas', past: 'Anteriores', add: '+ Adicionar consulta',
       noAny: 'Nenhuma consulta agendada ainda.',
       noAnyHint: 'Toque no botão abaixo para adicionar sua primeira consulta.',
-      noUpcoming: 'Nenhuma consulta próxima.', noPast: 'Nenhuma consulta anterior.',
+      noUpcoming: 'Nenhuma consulta próxima.', noPast: 'Nenhuma consulta anterior.', at: 'às',
       edit: 'Editar', delete: 'Excluir', markComplete: 'Marcar como concluído', completed: '✓ Concluído'
     },
     apptModal: {
@@ -2858,7 +2997,12 @@ const TRANSLATIONS = {
       noMatch: 'Nenhum dado corresponde ao filtro atual.',
       noMatchHint: 'Tente ajustar as configurações do filtro ou o intervalo de datas.',
       noDataRange: 'Nenhum dado encontrado para este intervalo de datas.',
-      edit: 'Editar', delete: 'Excluir', notes: 'Observações'
+      edit: 'Editar', delete: 'Excluir', notes: 'Observações',
+      printPreviewTitle: 'Pré-visualização de Impressão',
+      reportTitle: 'Relatório de Métricas de Saúde',
+      showMetrics: 'Mostrar Métricas:',
+      all: 'Todos',
+      to: 'até'
     },
     logModal: {
       addTitle: 'Adicionar dados', editTitle: 'Editar dados',
@@ -2976,6 +3120,9 @@ const TRANSLATIONS = {
       durOngoing: 'Agpaypayso (awan ti panungpalan)', durWeeks: 'Para ti Dadduma nga Lawas',
       durMonths: 'Para ti Dadduma nga Bulan', durEndDate: 'Agingga ti Maysa nga Petsa',
       durBottle: 'Agingga Malpas ti Dosis',
+      numOfWeeks: 'Bilang ti lawas',
+      numOfMonths: 'Bilang ti bulan',
+      bottleDoses: 'Bilang ti dosis iti bote',
       endDate: 'Petsa ti Panungpalan',
       notes: 'Nota (opsional)', notesPlaceholder: 'Kaabay ti kanen, etc.',
       priority: 'Prioridad', priorityCritical: 'Importante', priorityOptional: 'Opsional',
@@ -3009,6 +3156,7 @@ const TRANSLATIONS = {
       importData: 'I-import ti Data', importDesc: 'Isubli ti datos manipud backup',
       clearData: 'Buraen ti Amin nga Data', clearDesc: 'Buraen ti amin nga agas, rekord, ken urnos',
       language: 'Lengguahe',
+      appearance: 'Rupa',
       install: 'Iinstalar kas App iti Home Screen',
       installDesc: 'Amuen no kasano ti pagnayon iti app iti home screen'
     },
@@ -3020,7 +3168,7 @@ const TRANSLATIONS = {
       upcoming: 'Madamdama', past: 'Napalabas', add: '+ Agnayon ti Urnos',
       noAny: 'Awan pay nga urnos nga nairehistro.',
       noAnyHint: 'I-tap ti butones iti baba tapno agnayon ti umuna nga urnos.',
-      noUpcoming: 'Awan ti madamdama nga urnos.', noPast: 'Awan ti napalabas nga urnos.',
+      noUpcoming: 'Awan ti madamdama nga urnos.', noPast: 'Awan ti napalabas nga urnos.', at: 'ti',
       edit: 'Balbaliwen', delete: 'Buraen', markComplete: 'Markahan kas Nalpas', completed: '✓ Nalpas'
     },
     apptModal: {
@@ -3042,7 +3190,12 @@ const TRANSLATIONS = {
       noMatch: 'Awan ti datos nga naaramid iti agdama nga piltro.',
       noMatchHint: 'Padasen ti balbaliwen ti piltro wenno saklaw ti petsa.',
       noDataRange: 'Awan ti datos a nabirukan para iti daytoy nga saklaw ti petsa.',
-      edit: 'Balbaliwen', delete: 'Buraen', notes: 'Nota'
+      edit: 'Balbaliwen', delete: 'Buraen', notes: 'Nota',
+      printPreviewTitle: 'Print Preview',
+      reportTitle: 'Reporte ti Health Metrics',
+      showMetrics: 'Ipakita ti Data:',
+      all: 'Amin',
+      to: 'agingga'
     },
     logModal: {
       addTitle: 'Agnayon ti Data', editTitle: 'Balbaliwen ti Data',
@@ -3160,6 +3313,9 @@ const TRANSLATIONS = {
       durOngoing: 'Faaauau (e leai se aso faaiū)', durWeeks: 'Mo Nai Vaiaso',
       durMonths: 'Mo Nai Masina', durEndDate: 'Seia Oʻo i se Aso Faʻapitoa',
       durBottle: 'Seia Uma Uma Toso',
+      numOfWeeks: 'Numera o vaiaso',
+      numOfMonths: 'Numera o masina',
+      bottleDoses: 'Numera o fuafuaga i le fagu',
       endDate: 'Aso Faaiū',
       notes: 'Manatua (filifilia)', notesPlaceholder: 'Faatasi ma meaʻai, etc.',
       priority: 'Tāua', priorityCritical: 'Tāua Tele', priorityOptional: 'Filifilia',
@@ -3193,6 +3349,7 @@ const TRANSLATIONS = {
       importData: 'Aumai Faʻamaumauga', importDesc: 'Toe faafouina faʻamaumauga mai faila sefe',
       clearData: 'Tapeina Uma Faʻamaumauga', clearDesc: 'Tapeina vailaʻau uma, faamaumauga, ma tofiga',
       language: 'Gagana',
+      appearance: 'Foliga',
       install: 'Faʻapipiʻi e Pei o App i le Home Screen',
       installDesc: 'Aʻoaʻoina pe faapefea ona faaopoopo lenei app i lau Home Screen'
     },
@@ -3204,7 +3361,7 @@ const TRANSLATIONS = {
       upcoming: 'Faatalitali', past: 'Ua Mavae', add: '+ Faaopoopo Tofiga',
       noAny: 'Leai ni tofiga ua faatulagaina.',
       noAnyHint: 'Taaʻi le faamau i lalo e faaopoopo lau tofiga muamua.',
-      noUpcoming: 'Leai ni tofiga faatalitali.', noPast: 'Leai ni tofiga ua mavae.',
+      noUpcoming: 'Leai ni tofiga faatalitali.', noPast: 'Leai ni tofiga ua mavae.', at: 'i le',
       edit: 'Suia', delete: 'Tapeina', markComplete: 'Faailoga Ua Maeʻa', completed: '✓ Maeʻa'
     },
     apptModal: {
@@ -3226,7 +3383,12 @@ const TRANSLATIONS = {
       noMatch: 'Leai ni faʻamaumauga e fetaui ma le sieve.',
       noMatchHint: 'Taumafai e suia sieve poʻo le faʻalautele o aso.',
       noDataRange: 'Leai ni faʻamaumauga na maua mo lenei faʻalautele o aso.',
-      edit: 'Suia', delete: 'Tapeina', notes: 'Manatua'
+      edit: 'Suia', delete: 'Tapeina', notes: 'Manatua',
+      printPreviewTitle: 'Lomiga Muamua',
+      reportTitle: 'Lipoti o Fua Atamai o le Soifua Maloloina',
+      showMetrics: 'Fa’aali Fa’amaumauga:',
+      all: 'Uma',
+      to: 'i'
     },
     logModal: {
       addTitle: 'Faaopoopo Faʻamaumauga', editTitle: 'Suia Faʻamaumauga',
@@ -3344,6 +3506,9 @@ const TRANSLATIONS = {
       durOngoing: 'Mau loa (ʻaʻohe lā pau)', durWeeks: 'No kekahi mau pule',
       durMonths: 'No kekahi mau mahina', durEndDate: 'A hiki i ka lā koho',
       durBottle: 'A pau nā lāʻau',
+      numOfWeeks: 'Helu pule',
+      numOfMonths: 'Helu malama',
+      bottleDoses: 'Helu laʻau i ka ʻōmole',
       endDate: 'Lā Hoʻopau',
       notes: 'Memo (koho)', notesPlaceholder: 'Me ka meaʻai, etc.',
       priority: 'Nui koʻikoʻi', priorityCritical: 'Koʻikoʻi', priorityOptional: 'Koho',
@@ -3377,6 +3542,7 @@ const TRANSLATIONS = {
       importData: 'Lawe Mai ʻIke', importDesc: 'Hoʻihoʻi i ka ʻike mai ka faila mālama',
       clearData: 'Holoi i ka ʻIke a Pau', clearDesc: 'Holoi i nā lāʻau, moʻolelo, a me nā hālāwai a pau',
       language: 'ʻŌlelo',
+      appearance: 'ʻAno',
       install: 'Hoʻokomo ma ke ʻano App i ka Home Screen',
       installDesc: 'E aʻo i ke ala e hoʻohui ai i kēia app i kāu Home Screen'
     },
@@ -3388,7 +3554,7 @@ const TRANSLATIONS = {
       upcoming: 'Kūkulu Mai', past: 'Ua Hala', add: '+ Hoʻohui Hālāwai',
       noAny: 'ʻAʻohe hālāwai i hoʻonohonoho ʻia.',
       noAnyHint: 'E paʻi i ka pihi ma lalo e hoʻohui i kāu hālāwai mua.',
-      noUpcoming: 'ʻAʻohe hālāwai kūkulu mai.', noPast: 'ʻAʻohe hālāwai ua hala.',
+      noUpcoming: 'ʻAʻohe hālāwai kūkulu mai.', noPast: 'ʻAʻohe hālāwai ua hala.', at: 'i ka',
       edit: 'Hoʻololi', delete: 'Holoi', markComplete: 'Hōʻailona Hoʻopau', completed: '✓ Pau'
     },
     apptModal: {
@@ -3410,7 +3576,12 @@ const TRANSLATIONS = {
       noMatch: 'ʻAʻohe ʻike e pili ana i ka kāʻili.',
       noMatchHint: 'E hoʻāʻo e hoʻololi i nā koho kāʻili a i ʻole ka loli lā.',
       noDataRange: 'ʻAʻohe ʻike i loaʻa no kēia loli lā.',
-      edit: 'Hoʻololi', delete: 'Holoi', notes: 'Memo'
+      edit: 'Hoʻololi', delete: 'Holoi', notes: 'Memo',
+      printPreviewTitle: 'Nānā Paʻi',
+      reportTitle: 'Hōʻike Anakahi Ola Kino',
+      showMetrics: 'Hōʻike i nā ʻikepili:',
+      all: 'A pau',
+      to: 'a'
     },
     logModal: {
       addTitle: 'Hoʻohui ʻIke', editTitle: 'Hoʻololi ʻIke',
@@ -3528,6 +3699,9 @@ const TRANSLATIONS = {
       durOngoing: 'ต่อเนื่อง (ไม่มีวันสิ้นสุด)', durWeeks: 'หลายสัปดาห์',
       durMonths: 'หลายเดือน', durEndDate: 'จนถึงวันที่กำหนด',
       durBottle: 'จนหมดยา',
+      numOfWeeks: 'จำนวนสัปดาห์',
+      numOfMonths: 'จำนวนเดือน',
+      bottleDoses: 'จำนวนโดสในขวด',
       endDate: 'วันที่สิ้นสุด',
       notes: 'หมายเหตุ (ไม่บังคับ)', notesPlaceholder: 'รับประทานพร้อมอาหาร เป็นต้น',
       priority: 'ความสำคัญ', priorityCritical: 'สำคัญมาก', priorityOptional: 'ไม่บังคับ',
@@ -3561,6 +3735,7 @@ const TRANSLATIONS = {
       importData: 'นำเข้าข้อมูล', importDesc: 'กู้คืนข้อมูลจากไฟล์สำรอง',
       clearData: 'ลบข้อมูลทั้งหมด', clearDesc: 'ลบยา บันทึก และนัดหมายทั้งหมด',
       language: 'ภาษา',
+      appearance: 'ลักษณะ',
       install: 'ติดตั้งเป็นแอปบนหน้าจอหลัก',
       installDesc: 'เรียนรู้วิธีเพิ่มแอปนี้ในหน้าจอหลักของคุณ'
     },
@@ -3572,7 +3747,7 @@ const TRANSLATIONS = {
       upcoming: 'ที่จะมาถึง', past: 'ที่ผ่านมา', add: '+ เพิ่มนัดหมาย',
       noAny: 'ยังไม่มีนัดหมายที่กำหนดไว้',
       noAnyHint: 'แตะปุ่มด้านล่างเพื่อเพิ่มนัดหมายแรก',
-      noUpcoming: 'ไม่มีนัดหมายที่จะมาถึง', noPast: 'ไม่มีนัดหมายที่ผ่านมา',
+      noUpcoming: 'ไม่มีนัดหมายที่จะมาถึง', noPast: 'ไม่มีนัดหมายที่ผ่านมา', at: 'เวลา',
       edit: 'แก้ไข', delete: 'ลบ', markComplete: 'ทำเครื่องหมายว่าเสร็จแล้ว', completed: '✓ เสร็จแล้ว'
     },
     apptModal: {
@@ -3594,7 +3769,12 @@ const TRANSLATIONS = {
       noMatch: 'ไม่มีข้อมูลที่ตรงกับตัวกรองปัจจุบัน',
       noMatchHint: 'ลองเปลี่ยนการตั้งค่าตัวกรองหรือช่วงวันที่',
       noDataRange: 'ไม่พบข้อมูลสำหรับช่วงวันที่นี้',
-      edit: 'แก้ไข', delete: 'ลบ', notes: 'หมายเหตุ'
+      edit: 'แก้ไข', delete: 'ลบ', notes: 'หมายเหตุ',
+      printPreviewTitle: 'ตัวอย่างก่อนพิมพ์',
+      reportTitle: 'รายงานข้อมูลสุขภาพ',
+      showMetrics: 'แสดงข้อมูล:',
+      all: 'ทั้งหมด',
+      to: 'ถึง'
     },
     logModal: {
       addTitle: 'เพิ่มข้อมูล', editTitle: 'แก้ไขข้อมูล',
@@ -3712,6 +3892,9 @@ const TRANSLATIONS = {
       durOngoing: 'ຕໍ່ເນື່ອງ (ບໍ່ມີວັນສິ້ນສຸດ)', durWeeks: 'ຫຼາຍອາທິດ',
       durMonths: 'ຫຼາຍເດືອນ', durEndDate: 'ຈົນຮອດວັນທີ່ກຳນົດ',
       durBottle: 'ຈົນໝົດຢາ',
+      numOfWeeks: 'ຈຳນວນອາທິດ',
+      numOfMonths: 'ຈຳນວນເດືອນ',
+      bottleDoses: 'ຈຳນວນໂດສໃນຂວດ',
       endDate: 'ວັນທີ່ສິ້ນສຸດ',
       notes: 'ບັນທຶກ (ບໍ່ບັງຄັບ)', notesPlaceholder: 'ກິນພ້ອມອາຫານ ເປັນຕົ້ນ',
       priority: 'ຄວາມສຳຄັນ', priorityCritical: 'ສຳຄັນຫຼາຍ', priorityOptional: 'ບໍ່ບັງຄັບ',
@@ -3745,6 +3928,7 @@ const TRANSLATIONS = {
       importData: 'ນຳເຂົ້າຂໍ້ມູນ', importDesc: 'ກູ້ຄືນຂໍ້ມູນຈາກໄຟລ໌ສຳຮອງ',
       clearData: 'ລຶບຂໍ້ມູນທັງໝົດ', clearDesc: 'ລຶບຢາ ບັນທຶກ ແລະ ນັດໝາຍທັງໝົດ',
       language: 'ພາສາ',
+      appearance: 'ລັກສະນະ',
       install: 'ຕິດຕັ້ງເປັນແອັບໜ້າຈໍຫຼັກ',
       installDesc: 'ຮຽນຮູ້ວິທີເພີ່ມແອັບນີ້ໃນໜ້າຈໍຫຼັກຂອງທ່ານ'
     },
@@ -3756,7 +3940,7 @@ const TRANSLATIONS = {
       upcoming: 'ທີ່ຈະມາເຖິງ', past: 'ທີ່ຜ່ານມາ', add: '+ ເພີ່ມນັດໝາຍ',
       noAny: 'ຍັງບໍ່ມີນັດໝາຍທີ່ກຳນົດໄວ້',
       noAnyHint: 'ແຕະປຸ່ມດ້ານລຸ່ມເພື່ອເພີ່ມນັດໝາຍທຳອິດ',
-      noUpcoming: 'ບໍ່ມີນັດໝາຍທີ່ຈະມາເຖິງ', noPast: 'ບໍ່ມີນັດໝາຍທີ່ຜ່ານມາ',
+      noUpcoming: 'ບໍ່ມີນັດໝາຍທີ່ຈະມາເຖິງ', noPast: 'ບໍ່ມີນັດໝາຍທີ່ຜ່ານມາ', at: 'ເວລາ',
       edit: 'ແກ້ໄຂ', delete: 'ລຶບ', markComplete: 'ໝາຍວ່າສຳເລັດ', completed: '✓ ສຳເລັດ'
     },
     apptModal: {
@@ -3778,7 +3962,12 @@ const TRANSLATIONS = {
       noMatch: 'ບໍ່ມີຂໍ້ມູນທີ່ກົງກັບຕົວກອງປັດຈຸບັນ',
       noMatchHint: 'ລອງປ່ຽນການຕັ້ງຄ່າຕົວກອງຫຼືຊ່ວງວັນທີ',
       noDataRange: 'ບໍ່ພົບຂໍ້ມູນສຳລັບຊ່ວງວັນທີນີ້',
-      edit: 'ແກ້ໄຂ', delete: 'ລຶບ', notes: 'ບັນທຶກ'
+      edit: 'ແກ້ໄຂ', delete: 'ລຶບ', notes: 'ບັນທຶກ',
+      printPreviewTitle: 'ເບິ່ງຕົວຢ່າງການພິມ',
+      reportTitle: 'ລາຍງານຂໍ້ມູນສຸຂະພາບ',
+      showMetrics: 'ສະແດງຂໍ້ມູນ:',
+      all: 'ທັງໝົດ',
+      to: 'ຫາ'
     },
     logModal: {
       addTitle: 'ເພີ່ມຂໍ້ມູນ', editTitle: 'ແກ້ໄຂຂໍ້ມູນ',
@@ -3896,6 +4085,9 @@ const TRANSLATIONS = {
       durOngoing: 'Mus Ntxiv (tsis muaj hnub kawg)', durWeeks: 'Ob Peb Lim Tiam',
       durMonths: 'Ob Peb Lub Hlis', durEndDate: 'Txog Hnub Tshwj Xeeb',
       durBottle: 'Txog Thaum Tshuaj Tas',
+      numOfWeeks: 'Tus naj npawb tim lis',
+      numOfMonths: 'Tus naj npawb lub hlis',
+      bottleDoses: 'Tus naj npawb tshuaj hauv taub',
       endDate: 'Hnub Kawg',
       notes: 'Nco Tseg (xaiv tau)', notesPlaceholder: 'Haus nrog zaub mov, thiab lwm yam',
       priority: 'Qib Tseem Ceeb', priorityCritical: 'Tseem Ceeb', priorityOptional: 'Xaiv Tau',
@@ -3929,6 +4121,7 @@ const TRANSLATIONS = {
       importData: 'Coj Los Cov Ntaub Ntawv', importDesc: 'Rov qab cov ntaub ntawv los ntawm cov ntaub ntawv thaub qab',
       clearData: 'Rho Tawm Tag Nrho Cov Ntaub Ntawv', clearDesc: 'Rho tawm txhua tshuaj, ntaub ntawv, thiab caij ntsib',
       language: 'Lus',
+      appearance: 'Tsos',
       install: 'Nruab ua App ntawm Lub Vijtsam Tseem Ceeb',
       installDesc: 'Kawm txog yuav ntxiv app no rau koj lub vijtsam tseem ceeb li cas'
     },
@@ -3940,7 +4133,7 @@ const TRANSLATIONS = {
       upcoming: 'Tab Tom Los', past: 'Dhau Los', add: '+ Ntxiv Caij Ntsib',
       noAny: 'Tsis tau muaj caij ntsib teem tseg.',
       noAnyHint: 'Kov lub pob hauv qab los ntxiv koj thawj caij ntsib.',
-      noUpcoming: 'Tsis muaj caij ntsib tab tom los.', noPast: 'Tsis muaj caij ntsib dhau los.',
+      noUpcoming: 'Tsis muaj caij ntsib tab tom los.', noPast: 'Tsis muaj caij ntsib dhau los.', at: 'thaum',
       edit: 'Kho', delete: 'Rho Tawm', markComplete: 'Kos Ua Tiav', completed: '✓ Ua Tiav'
     },
     apptModal: {
@@ -3962,7 +4155,12 @@ const TRANSLATIONS = {
       noMatch: 'Tsis muaj cov ntaub ntawv haum rau cov lim tam sim no.',
       noMatchHint: 'Sim hloov cov lim qauv los yog lub hnub qhov chaw.',
       noDataRange: 'Tsis pom cov ntaub ntawv rau lub hnub qhov chaw no.',
-      edit: 'Kho', delete: 'Rho Tawm', notes: 'Nco Tseg'
+      edit: 'Kho', delete: 'Rho Tawm', notes: 'Nco Tseg',
+      printPreviewTitle: 'Print Preview',
+      reportTitle: 'Health Metrics Report',
+      showMetrics: 'Qhia Cov Ntaub Ntawv:',
+      all: 'Txhua',
+      to: 'rau'
     },
     logModal: {
       addTitle: 'Ntxiv Cov Ntaub Ntawv', editTitle: 'Kho Cov Ntaub Ntawv',
@@ -4080,6 +4278,9 @@ const TRANSLATIONS = {
       durOngoing: 'បន្ត (គ្មានថ្ងៃបញ្ចប់)', durWeeks: 'រយៈពេលប៉ុន្មានសប្តាហ៍',
       durMonths: 'រយៈពេលប៉ុន្មានខែ', durEndDate: 'រហូតដល់ថ្ងៃជាក់លាក់',
       durBottle: 'រហូតអស់ថ្នាំ',
+      numOfWeeks: 'ចំនួនសប្តាហ៍',
+      numOfMonths: 'ចំនួនខែ',
+      bottleDoses: 'ចំនួនដូសក្នុងដប',
       endDate: 'កាលបរិច្ឆេទបញ្ចប់',
       notes: 'កំណត់ចំណាំ (ស្រេចចិត្ត)', notesPlaceholder: 'ញ៉ាំជាមួយអាហារ ជាដើម',
       priority: 'អាទិភាព', priorityCritical: 'សំខាន់ខ្លាំង', priorityOptional: 'ជម្រើស',
@@ -4113,6 +4314,7 @@ const TRANSLATIONS = {
       importData: 'នាំចូលទិន្នន័យ', importDesc: 'ស្តារទិន្នន័យពីឯកសារបម្រុង',
       clearData: 'លុបទិន្នន័យទាំងអស់', clearDesc: 'លុបថ្នាំ កំណត់ហេតុ និងការណាត់ទាំងអស់',
       language: 'ភាសា',
+      appearance: 'រូបរាង',
       install: 'ដំឡើងជាកម្មវិធីនៅអេក្រង់គេហទំព័រ',
       installDesc: 'រៀនពីរបៀបបន្ថែមកម្មវិធីនេះទៅអេក្រង់គេហទំព័ររបស់អ្នក'
     },
@@ -4124,7 +4326,7 @@ const TRANSLATIONS = {
       upcoming: 'នាពេលខាងមុខ', past: 'កន្លងទៅ', add: '+ បន្ថែមការណាត់',
       noAny: 'មិនទាន់មានការណាត់ណាមួយទេ',
       noAnyHint: 'ចុចប៊ូតុងខាងក្រោមដើម្បីបន្ថែមការណាត់ដំបូងរបស់អ្នក',
-      noUpcoming: 'គ្មានការណាត់នាពេលខាងមុខ', noPast: 'គ្មានការណាត់កន្លងទៅ',
+      noUpcoming: 'គ្មានការណាត់នាពេលខាងមុខ', noPast: 'គ្មានការណាត់កន្លងទៅ', at: 'នៅ',
       edit: 'កែសម្រួល', delete: 'លុប', markComplete: 'សម្គាល់ថាបានបញ្ចប់', completed: '✓ បានបញ្ចប់'
     },
     apptModal: {
@@ -4146,7 +4348,12 @@ const TRANSLATIONS = {
       noMatch: 'គ្មានទិន្នន័យដែលត្រូវនឹងតម្រងបច្ចុប្បន្ន',
       noMatchHint: 'សាកល្បងផ្លាស់ប្តូរការកំណត់តម្រង ឬជ្រូកកាលបរិច្ឆេទ',
       noDataRange: 'រកមិនឃើញទិន្នន័យសម្រាប់ជ្រូកកាលបរិច្ឆេទនេះ',
-      edit: 'កែសម្រួល', delete: 'លុប', notes: 'កំណត់ចំណាំ'
+      edit: 'កែសម្រួល', delete: 'លុប', notes: 'កំណត់ចំណាំ',
+      printPreviewTitle: 'មើលមុនពីការបោះពុម្ព',
+      reportTitle: 'របាយការណ៍ Metrics សុខភាព',
+      showMetrics: 'បង្ហាញទិន្នន័យ:',
+      all: 'ទាំងអស់',
+      to: 'ដល់'
     },
     logModal: {
       addTitle: 'បន្ថែមទិន្នន័យ', editTitle: 'កែសម្រួលទិន្នន័យ',
@@ -4257,6 +4464,9 @@ const TRANSLATIONS = {
       duration: '持續時間',
       durOngoing: '持續（無結束日期）', durWeeks: '幾週', durMonths: '幾個月',
       durEndDate: '至特定日期', durBottle: '直至藥物用完',
+      numOfWeeks: '週數',
+      numOfMonths: '月數',
+      bottleDoses: '瓶中劑量數',
       endDate: '結束日期',
       notes: '備註（選填）', notesPlaceholder: '隨餐服用等',
       priority: '優先順序', priorityCritical: '必要', priorityOptional: '可選',
@@ -4286,6 +4496,7 @@ const TRANSLATIONS = {
       importData: '匯入資料', importDesc: '從備份檔案還原資料',
       clearData: '清除所有資料', clearDesc: '刪除所有藥物、記錄與預約',
       language: '語言',
+      appearance: '外觀',
       install: '安裝為主畫面應用程式', installDesc: '了解如何將此應用程式加入主畫面'
     },
     medListModal: {
@@ -4295,7 +4506,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: '即將到來', past: '過去', add: '+ 新增預約',
       noAny: '尚未安排任何預約。', noAnyHint: '點擊下方按鈕新增第一個預約。',
-      noUpcoming: '無即將到來的預約。', noPast: '無過去的預約。',
+      noUpcoming: '無即將到來的預約。', noPast: '無過去的預約。', at: '於',
       edit: '編輯', delete: '刪除', markComplete: '標記為完成', completed: '✓ 已完成'
     },
     apptModal: {
@@ -4315,7 +4526,12 @@ const TRANSLATIONS = {
       prompt: '點擊「+ 新增資料」開始追蹤。',
       noMatch: '無資料符合目前的篩選條件。', noMatchHint: '請嘗試調整篩選設定或日期範圍。',
       noDataRange: '找不到此日期範圍的資料。',
-      edit: '編輯', delete: '刪除', notes: '備註'
+      edit: '編輯', delete: '刪除', notes: '備註',
+      printPreviewTitle: '列印預覽',
+      reportTitle: '健康指標報告',
+      showMetrics: '顯示數據:',
+      all: '全部',
+      to: '至'
     },
     logModal: {
       addTitle: '新增資料', editTitle: '編輯資料',
@@ -4416,6 +4632,9 @@ const TRANSLATIONS = {
       duration: 'Dire',
       durOngoing: 'Kontinye (san dat fen)', durWeeks: 'Pou Kèk Semèn', durMonths: 'Pou Kèk Mwa',
       durEndDate: 'Jiska yon Dat', durBottle: 'Jouk Medikaman Fini',
+      numOfWeeks: 'Kantite semèn',
+      numOfMonths: 'Kantite mwa',
+      bottleDoses: 'Kantite dòz nan boutèy la',
       endDate: 'Dat Fen',
       notes: 'Nòt (opsyonèl)', notesPlaceholder: 'Avèk manje, elatriye',
       priority: 'Priyorite', priorityCritical: 'Enpòtan', priorityOptional: 'Opsyonèl',
@@ -4445,6 +4664,7 @@ const TRANSLATIONS = {
       importData: 'Enpòte Done', importDesc: 'Restore done depi fichye backup',
       clearData: 'Efase Tout Done', clearDesc: 'Efase tout medikaman, anrejistreman ak randevou',
       language: 'Lang',
+      appearance: 'Aparans',
       install: 'Enstale kòm App sou Ekran Akèy', installDesc: 'Aprann kijan pou ajoute app sa a sou ekran akèy ou'
     },
     medListModal: {
@@ -4454,7 +4674,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'Pwochen', past: 'Pase', add: '+ Ajoute Randevou',
       noAny: 'Pa gen randevou pwograme pou kounye a.', noAnyHint: 'Touche bouton anba a pou ajoute premye randevou ou.',
-      noUpcoming: 'Pa gen randevou pwochen.', noPast: 'Pa gen randevou pase.',
+      noUpcoming: 'Pa gen randevou pwochen.', noPast: 'Pa gen randevou pase.', at: 'a',
       edit: 'Modifye', delete: 'Efase', markComplete: 'Make kòm Fini', completed: '✓ Fini'
     },
     apptModal: {
@@ -4474,7 +4694,12 @@ const TRANSLATIONS = {
       prompt: 'Touche «+ Ajoute Done» pou kòmanse swivi.',
       noMatch: 'Pa gen done ki koresponn ak filtre aktyèl la.', noMatchHint: 'Eseye chanje paramèt filtre oswa peryòd dat.',
       noDataRange: 'Pa jwenn done pou peryòd dat sa a.',
-      edit: 'Modifye', delete: 'Efase', notes: 'Nòt'
+      edit: 'Modifye', delete: 'Efase', notes: 'Nòt',
+      printPreviewTitle: 'Pèvizyon Enpresyon',
+      reportTitle: 'Rapò Metrik Sante',
+      showMetrics: 'Montre Metrik:',
+      all: 'Tout',
+      to: 'a'
     },
     logModal: {
       addTitle: 'Ajoute Done', editTitle: 'Modifye Done',
@@ -4575,6 +4800,9 @@ const TRANSLATIONS = {
       duration: 'અવધિ',
       durOngoing: 'ચાલુ (કોઈ સમાપ્તિ તારીખ નહીં)', durWeeks: 'કેટલાક અઠવાડિયા', durMonths: 'કેટલાક મહિના',
       durEndDate: 'ચોક્કસ તારીખ સુધી', durBottle: 'દવા ખૂટે ત્યાં સુધી',
+      numOfWeeks: 'અઠવાડિયાઓની સંખ્યા',
+      numOfMonths: 'મહિનાઓની સંખ્યા',
+      bottleDoses: 'બોટલમાં ડોઝની સંખ્યા',
       endDate: 'સમાપ્તિ તારીખ',
       notes: 'નોંધ (ઐચ્છિક)', notesPlaceholder: 'ખોરાક સાથે, વગેરે',
       priority: 'પ્રાધાન્ય', priorityCritical: 'જરૂરી', priorityOptional: 'ઐચ્છિક',
@@ -4604,6 +4832,7 @@ const TRANSLATIONS = {
       importData: 'ડેટા આયાત', importDesc: 'backup file પરથી ડેટા restore કરો',
       clearData: 'બધો ડેટા કાઢો', clearDesc: 'બધી દવા, records અને appointments કાઢો',
       language: 'ભાષા',
+      appearance: 'દેખાવ',
       install: 'home screen app તરીકે install કરો', installDesc: 'આ app home screen પર ઉમેરવાની રીત જાણો'
     },
     medListModal: {
@@ -4613,7 +4842,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'આગામી', past: 'ભૂતકાળ', add: '+ મુલાકાત ઉમેરો',
       noAny: 'હજી સુધી કોઈ મુલાકાત નિર્ધારિત નથી.', noAnyHint: 'પ્રથમ મુલાકાત ઉમેરવા નીચેનું બટન ટૅપ કરો.',
-      noUpcoming: 'કોઈ આગામી મુલાકાત નથી.', noPast: 'કોઈ ભૂતકાળની મુલાકાત નથી.',
+      noUpcoming: 'કોઈ આગામી મુલાકાત નથી.', noPast: 'કોઈ ભૂતકાળની મુલાકાત નથી.', at: 'ને',
       edit: 'સંપાદિત કરો', delete: 'કાઢો', markComplete: 'સંપૂર્ણ ચિહ્નિત કરો', completed: '✓ સંપૂર્ણ'
     },
     apptModal: {
@@ -4633,7 +4862,12 @@ const TRANSLATIONS = {
       prompt: '«+ ડેટા ઉમેરો» ટૅપ કરીને ટ્રૅકિંગ શરૂ કરો.',
       noMatch: 'વર્તમાન ફિલ્ટર સાથે કોઈ ડેટા મેળ ખાતો નથી.', noMatchHint: 'ફિલ્ટર સૅટિંગ અથવા તારીખ શ્રેણી બદલવાનો પ્રયાસ કરો.',
       noDataRange: 'આ તારીખ શ્રેણી માટે કોઈ ડેટા મળ્યો નહીં.',
-      edit: 'સંપાદિત કરો', delete: 'કાઢો', notes: 'નોંધ'
+      edit: 'સંપાદિત કરો', delete: 'કાઢો', notes: 'નોંધ',
+      printPreviewTitle: 'પ્રિન્ટ પ્રીવ્યુ',
+      reportTitle: 'સ્વાસ્થ્ય મેટ્રિક્સ અહેવાલ',
+      showMetrics: 'ડેટા બતાવો:',
+      all: 'બધા',
+      to: 'સુધી'
     },
     logModal: {
       addTitle: 'ડેટા ઉમેરો', editTitle: 'ડેટા સંપાદિત કરો',
@@ -4733,6 +4967,9 @@ const TRANSLATIONS = {
       duration: 'ጊዜ',
       durOngoing: 'ቀጣይ (የሚያበቃ ቀን የለም)', durWeeks: 'ሳምንታት', durMonths: 'ወራት',
       durEndDate: 'እስከ ልዩ ቀን', durBottle: 'መድሃኒቱ እስኪያልቅ',
+      numOfWeeks: 'የሳምንቶች ብዛት',
+      numOfMonths: 'የወራቶች ብዛት',
+      bottleDoses: 'በጠርሙሱ ውስጥ ያሉ ጠቅላላ መጠን ብዛት',
       endDate: 'የሚያበቃ ቀን',
       notes: 'ማስታወሻ (አማራጭ)', notesPlaceholder: 'ምግብ ጋር፣ ወዘተ',
       priority: 'ቅድሚያ', priorityCritical: 'አስፈላጊ', priorityOptional: 'አማራጭ',
@@ -4762,6 +4999,7 @@ const TRANSLATIONS = {
       importData: 'ዳታ አምጣ', importDesc: 'ከምትኬ ፋይል ዳታ ወደ ነበረበት መልስ',
       clearData: 'ሁሉም ዳታ ሰርዝ', clearDesc: 'ሁሉም መድሃኒት፣ ሪኮርድ እና ቀጠሮ ሰርዝ',
       language: 'ቋንቋ',
+      appearance: 'መልክ',
       install: 'እንደ መነሻ ማያ ፕሮግራም ጫን', installDesc: 'ይህን ፕሮግራም ወደ መነሻ ማያ ማከልን ተማር'
     },
     medListModal: {
@@ -4771,7 +5009,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'መጪ', past: 'ያለፈ', add: '+ ቀጠሮ ጨምር',
       noAny: 'እስካሁን ምንም ቀጠሮ አልተያዘም።', noAnyHint: 'የመጀመሪያ ቀጠሮ ለማከል ከታች ያለውን ቁልፍ ጠቅ አድርግ።',
-      noUpcoming: 'ምንም መጪ ቀጠሮ የለም።', noPast: 'ምንም ያለፈ ቀጠሮ የለም።',
+      noUpcoming: 'ምንም መጪ ቀጠሮ የለም።', noPast: 'ምንም ያለፈ ቀጠሮ የለም።', at: 'ሰዓት',
       edit: 'አርም', delete: 'ሰርዝ', markComplete: 'እንደ ተጠናቀቀ ምልክት አድርግ', completed: '✓ ተጠናቋል'
     },
     apptModal: {
@@ -4791,7 +5029,12 @@ const TRANSLATIONS = {
       prompt: 'ክትትል ለመጀመር «+ ዳታ ጨምር» ጠቅ አድርግ።',
       noMatch: 'ወቅታዊ ማጣሪያ ጋር የሚዛመድ ዳታ የለም።', noMatchHint: 'የማጣሪያ ቅንብር ወይም ቀን ክልል ለቀይር ሞክር።',
       noDataRange: 'ለዚህ ቀን ክልል ዳታ አልተገኘም።',
-      edit: 'አርም', delete: 'ሰርዝ', notes: 'ማስታወሻ'
+      edit: 'አርም', delete: 'ሰርዝ', notes: 'ማስታወሻ',
+      printPreviewTitle: 'ቅድመ እይታ ማተም',
+      reportTitle: 'የጤና ሜትሪክስ ሪፖርት',
+      showMetrics: 'ዳታ አሳይ:',
+      all: 'ሁሉም',
+      to: 'እስከ'
     },
     logModal: {
       addTitle: 'ዳታ ጨምር', editTitle: 'ዳታ አርም',
@@ -4892,6 +5135,9 @@ const TRANSLATIONS = {
       duration: 'Muddada',
       durOngoing: 'Joogto (taariikh dhamaad ma leh)', durWeeks: 'Todobaadyo', durMonths: 'Bilood',
       durEndDate: 'Ilaa Taariikh Gaar Ah', durBottle: 'Ilaa Daawadu Dhammaato',
+      numOfWeeks: 'Tirada toddobaadyada',
+      numOfMonths: 'Tirada bilaha',
+      bottleDoses: 'Tirada daawada ee dhalooyinka',
       endDate: 'Taariikhda Dhamaadka',
       notes: 'Xusuus (ikhtiyaari)', notesPlaceholder: 'Cunto la qaado, iwm',
       priority: 'Mudnaan', priorityCritical: 'Lagama Maarmaan', priorityOptional: 'Ikhtiyaari',
@@ -4921,6 +5167,7 @@ const TRANSLATIONS = {
       importData: 'Xog Keeno', importDesc: 'Xogta faylka kaydinta ka soo celso',
       clearData: 'Dhammaan Xogta Tirtir', clearDesc: 'Dhammaan dawooyinka, diiwaannada iyo ballantaha tirtir',
       language: 'Luqadda',
+      appearance: 'Muuqaalka',
       install: 'U Rakib App ahaan Shaashadda Guriga', installDesc: 'Baro sida app-kan guriga shaashadda lougu daraa'
     },
     medListModal: {
@@ -4930,7 +5177,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'Soo Socda', past: 'Hore', add: '+ Ballanta Kudar',
       noAny: 'Wali ballanta lama qorsheyn.', noAnyHint: 'Taab badhanka hoose si aad u dartid ballantaadii koowaad.',
-      noUpcoming: 'Wax ballanta ah oo soo socda ma jiraan.', noPast: 'Wax ballanta ah oo hore ma jiraan.',
+      noUpcoming: 'Wax ballanta ah oo soo socda ma jiraan.', noPast: 'Wax ballanta ah oo hore ma jiraan.', at: 'saacadda',
       edit: 'Wax ka Beddel', delete: 'Tirtir', markComplete: 'U Calaamadee Dhammaatay', completed: '✓ Dhammaatay'
     },
     apptModal: {
@@ -4950,7 +5197,12 @@ const TRANSLATIONS = {
       prompt: 'Taab «+ Xogta Kudar» si aad u bilowdo raadraaca.',
       noMatch: 'Shaandhaha hadda ah xog ku habboon ma jirto.', noMatchHint: 'Isku day beddelida shaandhaha ama muddada taariikhda.',
       noDataRange: 'Muddadan taariikheed xog lama helin.',
-      edit: 'Wax ka Beddel', delete: 'Tirtir', notes: 'Xusuus'
+      edit: 'Wax ka Beddel', delete: 'Tirtir', notes: 'Xusuus',
+      printPreviewTitle: 'Daawashada Daabacaadda',
+      reportTitle: 'Warbixinta Cabbirrada Caafimaadka',
+      showMetrics: 'Muuji Cabbirrada:',
+      all: 'Dhammaan',
+      to: 'ilaa'
     },
     logModal: {
       addTitle: 'Xogta Kudar', editTitle: 'Xogta Wax ka Beddel',
@@ -5050,6 +5302,9 @@ const TRANSLATIONS = {
       duration: 'মেয়াদ',
       durOngoing: 'চলমান (শেষ তারিখ নেই)', durWeeks: 'সপ্তাহ', durMonths: 'মাস',
       durEndDate: 'নির্দিষ্ট তারিখ পর্যন্ত', durBottle: 'বোতল শেষ হলে',
+      numOfWeeks: 'সপ্তাহের সংখ্যা',
+      numOfMonths: 'মাসের সংখ্যা',
+      bottleDoses: 'বোতলে ডোজের সংখ্যা',
       endDate: 'শেষের তারিখ',
       notes: 'নোট (ঐচ্ছিক)', notesPlaceholder: 'খাবারের সাথে নিন, ইত্যাদি',
       priority: 'অগ্রাধিকার', priorityCritical: 'অপরিহার্য', priorityOptional: 'ঐচ্ছিক',
@@ -5079,6 +5334,7 @@ const TRANSLATIONS = {
       importData: 'ডেটা আমদানি', importDesc: 'ব্যাকআপ ফাইল থেকে ডেটা পুনরুদ্ধার করুন',
       clearData: 'সব ডেটা মুছুন', clearDesc: 'সব ওষুধ, রেকর্ড এবং অ্যাপয়েন্টমেন্ট মুছুন',
       language: 'ভাষা',
+      appearance: 'চেহারা',
       install: 'হোম স্ক্রিনে অ্যাপ হিসেবে ইনস্টল করুন', installDesc: 'এই অ্যাপ হোম স্ক্রিনে যোগ করার উপায় জানুন'
     },
     medListModal: {
@@ -5088,7 +5344,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'আসন্ন', past: 'অতীত', add: '+ অ্যাপয়েন্টমেন্ট যোগ করুন',
       noAny: 'এখনো কোনো অ্যাপয়েন্টমেন্ট নির্ধারিত নেই।', noAnyHint: 'প্রথম অ্যাপয়েন্টমেন্ট যোগ করতে নিচের বোতাম ট্যাপ করুন।',
-      noUpcoming: 'কোনো আসন্ন অ্যাপয়েন্টমেন্ট নেই।', noPast: 'কোনো পূর্ববর্তী অ্যাপয়েন্টমেন্ট নেই।',
+      noUpcoming: 'কোনো আসন্ন অ্যাপয়েন্টমেন্ট নেই।', noPast: 'কোনো পূর্ববর্তী অ্যাপয়েন্টমেন্ট নেই।', at: 'এ',
       edit: 'সম্পাদনা', delete: 'মুছুন', markComplete: 'সম্পন্ন চিহ্নিত করুন', completed: '✓ সম্পন্ন'
     },
     apptModal: {
@@ -5108,7 +5364,12 @@ const TRANSLATIONS = {
       prompt: '«+ ডেটা যোগ করুন» ট্যাপ করে ট্র্যাকিং শুরু করুন।',
       noMatch: 'বর্তমান ফিল্টারের সাথে কোনো ডেটা মেলে না।', noMatchHint: 'ফিল্টার সেটিং বা তারিখের পরিসর পরিবর্তন করুন।',
       noDataRange: 'এই তারিখের পরিসরে কোনো ডেটা পাওয়া যায়নি।',
-      edit: 'সম্পাদনা', delete: 'মুছুন', notes: 'নোট'
+      edit: 'সম্পাদনা', delete: 'মুছুন', notes: 'নোট',
+      printPreviewTitle: 'প্রিন্ট প্রিভিউ',
+      reportTitle: 'স্বাস্থ্য মেট্রিক্স রিপোর্ট',
+      showMetrics: 'ডেটা দেখান:',
+      all: 'সব',
+      to: 'পর্যন্ত'
     },
     logModal: {
       addTitle: 'ডেটা যোগ করুন', editTitle: 'ডেটা সম্পাদনা করুন',
@@ -5209,6 +5470,9 @@ const TRANSLATIONS = {
       duration: 'مدت',
       durOngoing: 'مسلسل (کوئی اختتامی تاریخ نہیں)', durWeeks: 'ہفتے', durMonths: 'مہینے',
       durEndDate: 'مخصوص تاریخ تک', durBottle: 'بوتل ختم ہونے تک',
+      numOfWeeks: 'ہفتوں کی تعداد',
+      numOfMonths: 'مہینوں کی تعداد',
+      bottleDoses: 'بوتل میں خوراکوں کی تعداد',
       endDate: 'اختتامی تاریخ',
       notes: 'نوٹ (اختیاری)', notesPlaceholder: 'کھانے کے ساتھ لیں، وغیرہ',
       priority: 'ترجیح', priorityCritical: 'ضروری', priorityOptional: 'اختیاری',
@@ -5238,6 +5502,7 @@ const TRANSLATIONS = {
       importData: 'ڈیٹا درآمد کریں', importDesc: 'بیک اپ فائل سے ڈیٹا بحال کریں',
       clearData: 'تمام ڈیٹا حذف کریں', clearDesc: 'تمام ادویات، ریکارڈز اور ملاقاتیں حذف کریں',
       language: 'زبان',
+      appearance: 'ظاہری شکل',
       install: 'ہوم اسکرین پر ایپ کے طور پر انسٹال کریں', installDesc: 'اس ایپ کو ہوم اسکرین پر شامل کرنے کا طریقہ جانیں'
     },
     medListModal: {
@@ -5247,7 +5512,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'آنے والی', past: 'گزری ہوئی', add: '+ ملاقات شامل کریں',
       noAny: 'ابھی تک کوئی ملاقات مقرر نہیں ہے۔', noAnyHint: 'پہلی ملاقات شامل کرنے کے لیے نیچے کا بٹن ٹیپ کریں۔',
-      noUpcoming: 'کوئی آنے والی ملاقات نہیں ہے۔', noPast: 'کوئی گزری ہوئی ملاقات نہیں ہے۔',
+      noUpcoming: 'کوئی آنے والی ملاقات نہیں ہے۔', noPast: 'کوئی گزری ہوئی ملاقات نہیں ہے۔', at: 'بجے',
       edit: 'ترمیم', delete: 'حذف', markComplete: 'مکمل نشان لگائیں', completed: '✓ مکمل'
     },
     apptModal: {
@@ -5267,7 +5532,12 @@ const TRANSLATIONS = {
       prompt: '«+ ڈیٹا شامل کریں» ٹیپ کرکے ٹریکنگ شروع کریں۔',
       noMatch: 'موجودہ فلٹر کے ساتھ کوئی ڈیٹا مماثل نہیں ہے۔', noMatchHint: 'فلٹر کی ترتیبات یا تاریخ کی حد تبدیل کرنے کی کوشش کریں۔',
       noDataRange: 'اس تاریخ کی حد کے لیے کوئی ڈیٹا نہیں ملا۔',
-      edit: 'ترمیم', delete: 'حذف', notes: 'نوٹ'
+      edit: 'ترمیم', delete: 'حذف', notes: 'نوٹ',
+      printPreviewTitle: 'پرنٹ پریویو',
+      reportTitle: 'صحت کے میٹرکس کی رپورٹ',
+      showMetrics: 'ڈیٹا دکھائیں:',
+      all: 'سب',
+      to: 'تک'
     },
     logModal: {
       addTitle: 'ڈیٹا شامل کریں', editTitle: 'ڈیٹا میں ترمیم کریں',
@@ -5368,6 +5638,9 @@ const TRANSLATIONS = {
       duration: 'Durasi',
       durOngoing: 'Berkelanjutan (tidak ada tanggal akhir)', durWeeks: 'Minggu', durMonths: 'Bulan',
       durEndDate: 'Hingga Tanggal Tertentu', durBottle: 'Hingga Obat Habis',
+      numOfWeeks: 'Jumlah minggu',
+      numOfMonths: 'Jumlah bulan',
+      bottleDoses: 'Jumlah dosis dalam botol',
       endDate: 'Tanggal Akhir',
       notes: 'Catatan (opsional)', notesPlaceholder: 'Diminum bersama makanan, dsb.',
       priority: 'Prioritas', priorityCritical: 'Wajib', priorityOptional: 'Opsional',
@@ -5397,6 +5670,7 @@ const TRANSLATIONS = {
       importData: 'Impor Data', importDesc: 'Pulihkan data dari file cadangan',
       clearData: 'Hapus Semua Data', clearDesc: 'Hapus semua obat, catatan, dan jadwal',
       language: 'Bahasa',
+      appearance: 'Tampilan',
       install: 'Pasang sebagai Aplikasi di Layar Utama', installDesc: 'Pelajari cara menambahkan aplikasi ini ke layar utama'
     },
     medListModal: {
@@ -5406,7 +5680,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'Mendatang', past: 'Lalu', add: '+ Tambah Jadwal',
       noAny: 'Belum ada jadwal yang ditetapkan.', noAnyHint: 'Ketuk tombol di bawah untuk menambahkan jadwal pertama.',
-      noUpcoming: 'Tidak ada jadwal mendatang.', noPast: 'Tidak ada jadwal yang lalu.',
+      noUpcoming: 'Tidak ada jadwal mendatang.', noPast: 'Tidak ada jadwal yang lalu.', at: 'pukul',
       edit: 'Edit', delete: 'Hapus', markComplete: 'Tandai Selesai', completed: '✓ Selesai'
     },
     apptModal: {
@@ -5426,7 +5700,12 @@ const TRANSLATIONS = {
       prompt: 'Ketuk «+ Tambah Data» untuk memulai pelacakan.',
       noMatch: 'Tidak ada data yang cocok dengan filter saat ini.', noMatchHint: 'Coba ubah pengaturan filter atau rentang tanggal.',
       noDataRange: 'Tidak ada data untuk rentang tanggal ini.',
-      edit: 'Edit', delete: 'Hapus', notes: 'Catatan'
+      edit: 'Edit', delete: 'Hapus', notes: 'Catatan',
+      printPreviewTitle: 'Pratinjau Cetak',
+      reportTitle: 'Laporan Metrik Kesehatan',
+      showMetrics: 'Tampilkan Data:',
+      all: 'Semua',
+      to: 'sampai'
     },
     logModal: {
       addTitle: 'Tambah Data', editTitle: 'Edit Data',
@@ -5527,6 +5806,9 @@ const TRANSLATIONS = {
       duration: 'Muda',
       durOngoing: 'Inaendelea (hakuna tarehe ya mwisho)', durWeeks: 'Wiki', durMonths: 'Miezi',
       durEndDate: 'Hadi Tarehe Maalum', durBottle: 'Hadi Dawa Iishe',
+      numOfWeeks: 'Idadi ya wiki',
+      numOfMonths: 'Idadi ya miezi',
+      bottleDoses: 'Idadi ya dozi kwenye chupa',
       endDate: 'Tarehe ya Mwisho',
       notes: 'Maelezo (hiari)', notesPlaceholder: 'Chukulia na chakula, n.k.',
       priority: 'Kipaumbele', priorityCritical: 'Muhimu Sana', priorityOptional: 'Hiari',
@@ -5556,6 +5838,7 @@ const TRANSLATIONS = {
       importData: 'Ingiza Data', importDesc: 'Rejesha data kutoka kwa faili la nakala rudufu',
       clearData: 'Futa Data Yote', clearDesc: 'Futa dawa zote, rekodi na miadi',
       language: 'Lugha',
+      appearance: 'Mwonekano',
       install: 'Sakinisha kama Programu kwenye Skrini ya Nyumbani', installDesc: 'Jifunze jinsi ya kuongeza programu hii kwenye skrini ya nyumbani'
     },
     medListModal: {
@@ -5565,7 +5848,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'Inayokuja', past: 'Iliyopita', add: '+ Ongeza Miadi',
       noAny: 'Bado hakuna miadi iliyopangwa.', noAnyHint: 'Gonga kitufe hapa chini kuongeza miadi yako ya kwanza.',
-      noUpcoming: 'Hakuna miadi inayokuja.', noPast: 'Hakuna miadi iliyopita.',
+      noUpcoming: 'Hakuna miadi inayokuja.', noPast: 'Hakuna miadi iliyopita.', at: 'saa',
       edit: 'Hariri', delete: 'Futa', markComplete: 'Weka Alama Imekamilika', completed: '✓ Imekamilika'
     },
     apptModal: {
@@ -5585,7 +5868,12 @@ const TRANSLATIONS = {
       prompt: 'Gonga «+ Ongeza Data» kuanza kufuatilia.',
       noMatch: 'Hakuna data inayolingana na kichujio cha sasa.', noMatchHint: 'Jaribu kubadilisha mipangilio ya kichujio au masafa ya tarehe.',
       noDataRange: 'Hakuna data iliyopatikana kwa masafa haya ya tarehe.',
-      edit: 'Hariri', delete: 'Futa', notes: 'Maelezo'
+      edit: 'Hariri', delete: 'Futa', notes: 'Maelezo',
+      printPreviewTitle: 'Hakiki ya Kuchapisha',
+      reportTitle: 'Ripoti ya Vipimo vya Afya',
+      showMetrics: 'Onyesha Data:',
+      all: 'Zote',
+      to: 'hadi'
     },
     logModal: {
       addTitle: 'Ongeza Data', editTitle: 'Hariri Data',
@@ -5686,6 +5974,9 @@ const TRANSLATIONS = {
       duration: 'Süre',
       durOngoing: 'Süresiz (bitiş tarihi yok)', durWeeks: 'Hafta', durMonths: 'Ay',
       durEndDate: 'Belirli Bir Tarihe Kadar', durBottle: 'Şişe Bitene Kadar',
+      numOfWeeks: 'Hafta sayısı',
+      numOfMonths: 'Ay sayısı',
+      bottleDoses: 'Şişedeki doz sayısı',
       endDate: 'Bitiş Tarihi',
       notes: 'Not (isteğe bağlı)', notesPlaceholder: 'Yemekle alın, vb.',
       priority: 'Öncelik', priorityCritical: 'Zorunlu', priorityOptional: 'İsteğe Bağlı',
@@ -5715,6 +6006,7 @@ const TRANSLATIONS = {
       importData: 'Veriyi İçe Aktar', importDesc: 'Yedek dosyasından veriyi geri yükle',
       clearData: 'Tüm Veriyi Sil', clearDesc: 'Tüm ilaçları, kayıtları ve randevuları sil',
       language: 'Dil',
+      appearance: 'Görünüm',
       install: 'Ana Ekrana Uygulama Olarak Yükle', installDesc: 'Bu uygulamayı ana ekrana nasıl ekleyeceğinizi öğrenin'
     },
     medListModal: {
@@ -5724,7 +6016,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'Yaklaşan', past: 'Geçmiş', add: '+ Randevu Ekle',
       noAny: 'Henüz planlanmış randevu yok.', noAnyHint: 'İlk randevuyu eklemek için aşağıdaki düğmeye dokun.',
-      noUpcoming: 'Yaklaşan randevu yok.', noPast: 'Geçmiş randevu yok.',
+      noUpcoming: 'Yaklaşan randevu yok.', noPast: 'Geçmiş randevu yok.', at: 'saat',
       edit: 'Düzenle', delete: 'Sil', markComplete: 'Tamamlandı İşaretle', completed: '✓ Tamamlandı'
     },
     apptModal: {
@@ -5744,7 +6036,12 @@ const TRANSLATIONS = {
       prompt: 'Takibi başlatmak için «+ Veri Ekle» seçeneğine dokun.',
       noMatch: 'Mevcut filtreyle eşleşen veri yok.', noMatchHint: 'Filtre ayarlarını veya tarih aralığını değiştirmeyi deneyin.',
       noDataRange: 'Bu tarih aralığı için veri bulunamadı.',
-      edit: 'Düzenle', delete: 'Sil', notes: 'Not'
+      edit: 'Düzenle', delete: 'Sil', notes: 'Not',
+      printPreviewTitle: 'Baskı Önizlemesi',
+      reportTitle: 'Sağlık Metrikleri Raporu',
+      showMetrics: 'Veri Göster:',
+      all: 'Tümü',
+      to: 'kadar'
     },
     logModal: {
       addTitle: 'Veri Ekle', editTitle: 'Veriyi Düzenle',
@@ -5846,6 +6143,9 @@ const TRANSLATIONS = {
       duration: 'Dheerina',
       durOngoing: 'Itti fufaa (guyyaa xumuraa hin qabne)', durWeeks: 'Torban', durMonths: 'Ji\'a',
       durEndDate: 'Hanga Guyyaa Addaatti', durBottle: 'Hanga Qoriichi Fixamutti',
+      numOfWeeks: 'Baay’ina torbee',
+      numOfMonths: 'Baay’ina ji’a',
+      bottleDoses: 'Baay’ina dooziiwwan caccabsaa',
       endDate: 'Guyyaa Xumuraa',
       notes: 'Yaadannoo (dirqamaa miti)', notesPlaceholder: 'Nyaata waliin fudhadhu, kkf',
       priority: 'Dursa', priorityCritical: 'Murteessaa', priorityOptional: 'Dirqamaa Miti',
@@ -5875,6 +6175,7 @@ const TRANSLATIONS = {
       importData: 'Deetaa Galchi', importDesc: 'Deetaa faayilii kayyoo irraa deebisi',
       clearData: 'Deetaa Hunda Haqi', clearDesc: 'Qorichawwan, galmeewwan fi beellamoota hunda haqi',
       language: 'Afaan',
+      appearance: 'Mul’ata',
       install: 'App Akka Home Screen tti Galchi', installDesc: 'App kana screen mana irratti dabaluu baradi'
     },
     medListModal: {
@@ -5884,7 +6185,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'Dhufaa', past: 'Darbe', add: '+ Beellama Dabali',
       noAny: 'Ammaaf beellama karoorfame hin jiru.', noAnyHint: 'Beellama jalqabaa dabaluuf batanii gadi tuqi.',
-      noUpcoming: 'Beellama dhufaa hin jiru.', noPast: 'Beellama darbe hin jiru.',
+      noUpcoming: 'Beellama dhufaa hin jiru.', noPast: 'Beellama darbe hin jiru.', at: 'sa',
       edit: 'Gulaali', delete: 'Haqi', markComplete: 'Xumurame Mallattessi', completed: '✓ Xumurame'
     },
     apptModal: {
@@ -5904,7 +6205,12 @@ const TRANSLATIONS = {
       prompt: '«+ Deetaa Dabali» tuqii hordoffii jalqabuuf.',
       noMatch: 'Calleessa ammaa waliin deetaa walsimu hin jiru.', noMatchHint: 'Teessuma calleessa ykn daangaa guyyaa jijjiiruu yaalii.',
       noDataRange: 'Daangaa guyyaa kanaaaf deetaa argame hin jiru.',
-      edit: 'Gulaali', delete: 'Haqi', notes: 'Yaadannoo'
+      edit: 'Gulaali', delete: 'Haqi', notes: 'Yaadannoo',
+      printPreviewTitle: 'Mul’annoo Maxxansuu',
+      reportTitle: 'Gabaasaa Meezhii Fayyaa',
+      showMetrics: 'Daata Agarsiisi:',
+      all: 'Hundi',
+      to: 'hanga'
     },
     logModal: {
       addTitle: 'Deetaa Dabali', editTitle: 'Deetaa Gulaali',
@@ -6005,6 +6311,9 @@ const TRANSLATIONS = {
       duration: 'Tagal',
       durOngoing: 'Padayon (walay katapusan)', durWeeks: 'mga Semana', durMonths: 'mga Buwan',
       durEndDate: 'Hangtod sa Piho nga Petsa', durBottle: 'Hangtod Mawad-an ang Tambal',
+      numOfWeeks: 'Ihap sa mga semana',
+      numOfMonths: 'Ihap sa mga buwan',
+      bottleDoses: 'Ihap sa mga dosis sa bote',
       endDate: 'Petsa sa Katapusan',
       notes: 'Mga Sulat (opsyonal)', notesPlaceholder: 'Kuhaon uban ang pagkaon, ug uban pa',
       priority: 'Priyoridad', priorityCritical: 'Kinahanglanon', priorityOptional: 'Opsyonal',
@@ -6034,6 +6343,7 @@ const TRANSLATIONS = {
       importData: 'I-import ang Data', importDesc: 'I-restore ang datos gikan sa backup file',
       clearData: 'Tangtangon ang Tanan nga Data', clearDesc: 'Tangtangon ang tanan nga tambal, rekord, ug tinudlo',
       language: 'Lengguwahe',
+      appearance: 'Hitsura',
       install: 'I-install isip App sa Home Screen', installDesc: 'Hibal-i kung unsaon pagdugang niini nga app sa home screen'
     },
     medListModal: {
@@ -6043,7 +6353,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'Umaabot', past: 'Nakalabay', add: '+ Idugang ang Tinudlo',
       noAny: 'Wala pay naplanong tinudlo.', noAnyHint: 'I-tap ang buton sa ubos aron idugang ang imong una nga tinudlo.',
-      noUpcoming: 'Walay umaabot nga tinudlo.', noPast: 'Walay nakalagpas nga tinudlo.',
+      noUpcoming: 'Walay umaabot nga tinudlo.', noPast: 'Walay nakalagpas nga tinudlo.', at: 'sa',
       edit: 'I-edit', delete: 'Kuhaa', markComplete: 'Markahi nga Kompleto', completed: '✓ Kompleto'
     },
     apptModal: {
@@ -6063,7 +6373,12 @@ const TRANSLATIONS = {
       prompt: 'I-tap ang «+ Idugang ang Data» aron magsugod sa pag-track.',
       noMatch: 'Walay datos nga katugma sa kasamtangang salain.', noMatchHint: 'Sulayi ang pagbag-o sa mga setting sa salain o hanay sa petsa.',
       noDataRange: 'Walay datos nga nakit-an alang niini nga hanay sa petsa.',
-      edit: 'I-edit', delete: 'Kuhaa', notes: 'mga Sulat'
+      edit: 'I-edit', delete: 'Kuhaa', notes: 'mga Sulat',
+      printPreviewTitle: 'Print Preview',
+      reportTitle: 'Ulat sa Health Metrics',
+      showMetrics: 'Ipakita ang Data:',
+      all: 'Tanan',
+      to: 'hangtod'
     },
     logModal: {
       addTitle: 'Idugang ang Data', editTitle: 'I-edit ang Data',
@@ -6164,6 +6479,9 @@ const TRANSLATIONS = {
       duration: 'Czas Trwania',
       durOngoing: 'Bezterminowo (bez daty zakończenia)', durWeeks: 'Tygodnie', durMonths: 'Miesiące',
       durEndDate: 'Do Określonej Daty', durBottle: 'Do Wyczerpania Zapasów',
+      numOfWeeks: 'Liczba tygodni',
+      numOfMonths: 'Liczba miesięcy',
+      bottleDoses: 'Liczba dawek w butelce',
       endDate: 'Data Zakończenia',
       notes: 'Notatki (opcjonalnie)', notesPlaceholder: 'Przyjmować z jedzeniem, itp.',
       priority: 'Priorytet', priorityCritical: 'Niezbędny', priorityOptional: 'Opcjonalny',
@@ -6193,6 +6511,7 @@ const TRANSLATIONS = {
       importData: 'Importuj Dane', importDesc: 'Przywróć dane z pliku kopii zapasowej',
       clearData: 'Usuń Wszystkie Dane', clearDesc: 'Usuń wszystkie leki, rekordy i wizyty',
       language: 'Język',
+      appearance: 'Wygląd',
       install: 'Zainstaluj jako Aplikację na Ekranie Głównym', installDesc: 'Dowiedz się, jak dodać tę aplikację do ekranu głównego'
     },
     medListModal: {
@@ -6202,7 +6521,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'Nadchodzące', past: 'Minione', add: '+ Dodaj Wizytę',
       noAny: 'Brak zaplanowanych wizyt.', noAnyHint: 'Dotknij przycisku poniżej, aby dodać pierwszą wizytę.',
-      noUpcoming: 'Brak nadchodzących wizyt.', noPast: 'Brak minionych wizyt.',
+      noUpcoming: 'Brak nadchodzących wizyt.', noPast: 'Brak minionych wizyt.', at: 'o',
       edit: 'Edytuj', delete: 'Usuń', markComplete: 'Oznacz jako Zakończone', completed: '✓ Zakończone'
     },
     apptModal: {
@@ -6222,7 +6541,12 @@ const TRANSLATIONS = {
       prompt: 'Dotknij «+ Dodaj Dane», aby rozpocząć śledzenie.',
       noMatch: 'Brak danych pasujących do bieżącego filtra.', noMatchHint: 'Spróbuj zmienić ustawienia filtra lub zakres dat.',
       noDataRange: 'Nie znaleziono danych dla tego zakresu dat.',
-      edit: 'Edytuj', delete: 'Usuń', notes: 'Notatki'
+      edit: 'Edytuj', delete: 'Usuń', notes: 'Notatki',
+      printPreviewTitle: 'Podgląd wydruku',
+      reportTitle: 'Raport metryk zdrowotnych',
+      showMetrics: 'Pokaż dane:',
+      all: 'Wszystkie',
+      to: 'do'
     },
     logModal: {
       addTitle: 'Dodaj Dane', editTitle: 'Edytuj Dane',
@@ -6323,6 +6647,9 @@ const TRANSLATIONS = {
       duration: 'Tsawon Lokaci',
       durOngoing: 'Ci gaba (babu ranar ƙarewa)', durWeeks: 'Makonni', durMonths: 'Watanni',
       durEndDate: 'Har Takamaiman Rana', durBottle: 'Har Magani Ya Ƙare',
+      numOfWeeks: 'Adadin makonni',
+      numOfMonths: 'Adadin watanni',
+      bottleDoses: 'Adadin allurai a cikin kwalba',
       endDate: 'Ranar Ƙarewa',
       notes: 'Bayani (zaɓi)', notesPlaceholder: 'Ɗauka tare da abinci, dkk',
       priority: 'Fifiko', priorityCritical: 'Wajibi', priorityOptional: 'Zaɓi',
@@ -6352,6 +6679,7 @@ const TRANSLATIONS = {
       importData: 'Shigar da Bayani', importDesc: 'Maido da bayani daga fayil ɗin ajiya',
       clearData: 'Share Dukan Bayani', clearDesc: 'Share dukan magunguna, rikodi da alƙawari',
       language: 'Harshe',
+      appearance: 'Bayyana',
       install: 'Girka a Matsayin App a Babban Allon', installDesc: 'Koyi yadda ake ƙara wannan app zuwa babban allon'
     },
     medListModal: {
@@ -6361,7 +6689,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'Masu Zuwa', past: 'Da Suka Wuce', add: '+ Ƙara Alƙawari',
       noAny: 'Babu alƙawarin da aka shirya tukuna.', noAnyHint: 'Taɓa maɓallin da ke ƙasa don ƙara alƙawarin farko.',
-      noUpcoming: 'Babu alƙawarin da ke zuwa.', noPast: 'Babu alƙawarin da ya wuce.',
+      noUpcoming: 'Babu alƙawarin da ke zuwa.', noPast: 'Babu alƙawarin da ya wuce.', at: 'da',
       edit: 'Gyara', delete: 'Share', markComplete: 'Alama a Matsayin Cika', completed: '✓ Cika'
     },
     apptModal: {
@@ -6381,7 +6709,12 @@ const TRANSLATIONS = {
       prompt: 'Taɓa «+ Ƙara Bayani» don fara bin diddigin.',
       noMatch: 'Babu bayani da ya dace da tacewa ta yanzu.', noMatchHint: 'Gwada canza saitunan tace ko kewayon kwanan wata.',
       noDataRange: 'Ba a sami bayani ga wannan kewayon kwanan wata ba.',
-      edit: 'Gyara', delete: 'Share', notes: 'Bayani'
+      edit: 'Gyara', delete: 'Share', notes: 'Bayani',
+      printPreviewTitle: 'Kallon Buga',
+      reportTitle: 'Rahoto na Matakan Lafiya',
+      showMetrics: 'Nuna Bayanan:',
+      all: 'Duk',
+      to: 'zuwa'
     },
     logModal: {
       addTitle: 'Ƙara Bayani', editTitle: 'Gyara Bayani',
@@ -6483,6 +6816,9 @@ const TRANSLATIONS = {
       duration: 'Тривалість',
       durOngoing: 'Безстроково (без дати закінчення)', durWeeks: 'Тижні', durMonths: 'Місяці',
       durEndDate: 'До Конкретної Дати', durBottle: 'До Закінчення Упаковки',
+      numOfWeeks: 'Кількість тижнів',
+      numOfMonths: 'Кількість місяців',
+      bottleDoses: 'Кількість доз у пляшці',
       endDate: 'Дата Закінчення',
       notes: 'Нотатки (необов’язково)', notesPlaceholder: 'Приймати з їжею тощо',
       priority: 'Пріоритет', priorityCritical: 'Обов’язковий', priorityOptional: 'Необов’язковий',
@@ -6512,6 +6848,7 @@ const TRANSLATIONS = {
       importData: 'Імпортувати Дані', importDesc: 'Відновити дані з резервної копії',
       clearData: 'Видалити Всі Дані', clearDesc: 'Видалити всі ліки, записи та візити',
       language: 'Мова',
+      appearance: 'Вигляд',
       install: 'Встановити як Застосунок на Головний Екран', installDesc: 'Дізнайтеся, як додати цей застосунок на головний екран'
     },
     medListModal: {
@@ -6521,7 +6858,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'Майбутні', past: 'Минулі', add: '+ Додати Запис',
       noAny: 'Записів ще не заплановано.', noAnyHint: 'Торкніться кнопки нижче, щоб додати перший запис.',
-      noUpcoming: 'Майбутніх записів немає.', noPast: 'Минулих записів немає.',
+      noUpcoming: 'Майбутніх записів немає.', noPast: 'Минулих записів немає.', at: 'о',
       edit: 'Редагувати', delete: 'Видалити', markComplete: 'Позначити як Виконане', completed: '✓ Виконано'
     },
     apptModal: {
@@ -6541,7 +6878,12 @@ const TRANSLATIONS = {
       prompt: 'Торкніться «+ Додати Дані», щоб почати відстеження.',
       noMatch: 'Немає даних, що відповідають поточному фільтру.', noMatchHint: 'Спробуйте змінити параметри фільтру або діапазон дат.',
       noDataRange: 'Даних за вказаний діапазон дат не знайдено.',
-      edit: 'Редагувати', delete: 'Видалити', notes: 'Нотатки'
+      edit: 'Редагувати', delete: 'Видалити', notes: 'Нотатки',
+      printPreviewTitle: 'Попередній перегляд друку',
+      reportTitle: 'Звіт про показники здоров’я',
+      showMetrics: 'Показати дані:',
+      all: 'Всі',
+      to: 'до'
     },
     logModal: {
       addTitle: 'Додати Дані', editTitle: 'Редагувати Дані',
@@ -6642,6 +6984,9 @@ const TRANSLATIONS = {
       duration: 'अवधि',
       durOngoing: 'जारी (अन्त्य मिति बिना)', durWeeks: 'हप्ता', durMonths: 'महिना',
       durEndDate: 'निश्चित मितिसम्म', durBottle: 'औषधि सकिएसम्म',
+      numOfWeeks: 'हप्ताको संख्या',
+      numOfMonths: 'महिनाको संख्या',
+      bottleDoses: 'बोतलमा डोज संख्या',
       endDate: 'अन्त्य मिति',
       notes: 'टिप्पणी (वैकल्पिक)', notesPlaceholder: 'खानासँगै लिनुस्, आदि',
       priority: 'प्राथमिकता', priorityCritical: 'अनिवार्य', priorityOptional: 'वैकल्पिक',
@@ -6671,6 +7016,7 @@ const TRANSLATIONS = {
       importData: 'डेटा आयात गर्नुस्', importDesc: 'ब्याकअप फाइलबाट डेटा पुनर्स्थापना गर्नुस्',
       clearData: 'सबै डेटा मेटाउनुस्', clearDesc: 'सबै औषधि, रेकर्ड र अपोइन्टमेन्ट मेटाउनुस्',
       language: 'भाषा',
+      appearance: 'देखावट',
       install: 'होम स्क्रिनमा एप स्थापना गर्नुस्', installDesc: 'यो एप होम स्क्रिनमा कसरी थप्ने सिक्नुस्'
     },
     medListModal: {
@@ -6680,7 +7026,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'आगामी', past: 'विगत', add: '+ अपोइन्टमेन्ट थप्नुस्',
       noAny: 'अहिलेसम्म कुनै अपोइन्टमेन्ट तालिकाबद्ध छैन।', noAnyHint: 'पहिलो अपोइन्टमेन्ट थप्न तलको बटन थिच्नुस्।',
-      noUpcoming: 'कुनै आगामी अपोइन्टमेन्ट छैन।', noPast: 'कुनै विगत अपोइन्टमेन्ट छैन।',
+      noUpcoming: 'कुनै आगामी अपोइन्टमेन्ट छैन।', noPast: 'कुनै विगत अपोइन्टमेन्ट छैन।', at: 'मा',
       edit: 'सम्पादन गर्नुस्', delete: 'मेटाउनुस्', markComplete: 'सम्पन्न चिन्ह लगाउनुस्', completed: '✓ सम्पन्न'
     },
     apptModal: {
@@ -6700,7 +7046,12 @@ const TRANSLATIONS = {
       prompt: 'ट्र्याकिङ सुरु गर्न «+ डेटा थप्नुस्» थिच्नुस्।',
       noMatch: 'हालको फिल्टरसँग मेल खाने कुनै डेटा छैन।', noMatchHint: 'फिल्टर सेटिङ वा मिति दायरा परिवर्तन गर्ने प्रयास गर्नुस्।',
       noDataRange: 'यो मिति दायराका लागि कुनै डेटा भेटिएन।',
-      edit: 'सम्पादन गर्नुस्', delete: 'मेटाउनुस्', notes: 'टिप्पणी'
+      edit: 'सम्पादन गर्नुस्', delete: 'मेटाउनुस्', notes: 'टिप्पणी',
+      printPreviewTitle: 'प्रिन्ट पूर्वावलोकन',
+      reportTitle: 'स्वास्थ्य मेट्रिक्स रिपोर्ट',
+      showMetrics: 'डेटा देखाउनुस:',
+      all: 'सबै',
+      to: 'सम्म'
     },
     logModal: {
       addTitle: 'डेटा थप्नुस्', editTitle: 'डेटा सम्पादन गर्नुस्',
@@ -6801,6 +7152,9 @@ const TRANSLATIONS = {
       duration: 'कालावधी',
       durOngoing: 'सुरू (शेवटची तारीख नाही)', durWeeks: 'आठवडे', durMonths: 'महिने',
       durEndDate: 'विशिष्ट तारखेपर्यंत', durBottle: 'औषध संपेपर्यंत',
+      numOfWeeks: 'आठवड्यांची संख्या',
+      numOfMonths: 'महिन्यांची संख्या',
+      bottleDoses: 'बाटलीतील डोसची संख्या',
       endDate: 'शेवटची तारीख',
       notes: 'नोंदी (पर्यायी)', notesPlaceholder: 'जेवणासोबत घ्या, इत्यादी',
       priority: 'प्राधान्य', priorityCritical: 'आवश्यक', priorityOptional: 'पर्यायी',
@@ -6830,6 +7184,7 @@ const TRANSLATIONS = {
       importData: 'डेटा आयात करा', importDesc: 'बॅकअप फाइलमधून डेटा पुनर्संचयित करा',
       clearData: 'सर्व डेटा साफ करा', clearDesc: 'सर्व औषधे, नोंदी आणि भेटी साफ करा',
       language: 'भाषा',
+      appearance: 'देखावा',
       install: 'होम स्क्रीनवर अॅप म्हणून स्थापित करा', installDesc: 'हे अॅप होम स्क्रीनवर कसे जोडायचे ते शिका'
     },
     medListModal: {
@@ -6839,7 +7194,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'आगामी', past: 'मागील', add: '+ भेट जोडा',
       noAny: 'अद्याप कोणतीही भेट नियोजित नाही.', noAnyHint: 'पहिली भेट जोडण्यासाठी खालील बटण टॅप करा.',
-      noUpcoming: 'कोणतीही आगामी भेट नाही.', noPast: 'कोणतीही मागील भेट नाही.',
+      noUpcoming: 'कोणतीही आगामी भेट नाही.', noPast: 'कोणतीही मागील भेट नाही.', at: 'ला',
       edit: 'संपादित करा', delete: 'हटवा', markComplete: 'पूर्ण म्हणून चिन्हांकित करा', completed: '✓ पूर्ण'
     },
     apptModal: {
@@ -6859,7 +7214,12 @@ const TRANSLATIONS = {
       prompt: 'ट्रॅकिंग सुरू करण्यासाठी «+ डेटा जोडा» टॅप करा.',
       noMatch: 'वर्तमान फिल्टरशी जुळणारा कोणताही डेटा नाही.', noMatchHint: 'फिल्टर सेटिंग्ज किंवा तारीख श्रेणी बदलण्याचा प्रयत्न करा.',
       noDataRange: 'या तारीख श्रेणीसाठी कोणताही डेटा आढळला नाही.',
-      edit: 'संपादित करा', delete: 'हटवा', notes: 'नोंदी'
+      edit: 'संपादित करा', delete: 'हटवा', notes: 'नोंदी',
+      printPreviewTitle: 'प्रिंट पूर्वावलोकन',
+      reportTitle: 'आरोग्य मेट्रिक्स अहवाल',
+      showMetrics: 'डेटा दाखवा:',
+      all: 'सर्व',
+      to: 'पर्यंत'
     },
     logModal: {
       addTitle: 'डेटा जोडा', editTitle: 'डेटा संपादित करा',
@@ -6961,6 +7321,9 @@ const TRANSLATIONS = {
       duration: 'காலம்',
       durOngoing: 'தொடர்ச்சியாக (முடிவு தேதி இல்லாமல்)', durWeeks: 'வாரங்கள்', durMonths: 'மாதங்கள்',
       durEndDate: 'குறிப்பிட்ட தேதி வரை', durBottle: 'மருந்து தீரும் வரை',
+      numOfWeeks: 'வாரங்களின் எண்ணிக்கை',
+      numOfMonths: 'மாதங்களின் எண்ணிக்கை',
+      bottleDoses: 'பாட்டிலில் உள்ள அளவுகளின் எண்ணிக்கை',
       endDate: 'முடிவு தேதி',
       notes: 'குறிப்புகள் (விருப்பத்தேர்வு)', notesPlaceholder: 'உணவுடன் எடுக்கவும், போன்றவை',
       priority: 'முன்னுரிமை', priorityCritical: 'இன்றியமையாதது', priorityOptional: 'விருப்பத்தேர்வு',
@@ -6990,6 +7353,7 @@ const TRANSLATIONS = {
       importData: 'தரவை இறக்குமதி செய்', importDesc: 'காப்புப்பிரதி கோப்பிலிருந்து தரவை மீட்டெடு',
       clearData: 'அனைத்து தரவையும் அழி', clearDesc: 'அனைத்து மருந்துகள், பதிவுகள் & சந்திப்புகளை அழி',
       language: 'மொழி',
+      appearance: 'தோற்றம்',
       install: 'முகப்பு திரையில் செயலியாக நிறுவு', installDesc: 'இந்த செயலியை முகப்பு திரையில் எவ்வாறு சேர்ப்பது என்பதை அறிக'
     },
     medListModal: {
@@ -6999,7 +7363,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'வரவிருக்கும்', past: 'கடந்த', add: '+ சந்திப்பு சேர்',
       noAny: 'இதுவரை சந்திப்புகள் திட்டமிடப்படவில்லை.', noAnyHint: 'முதல் சந்திப்பை சேர்க்க கீழே உள்ள பொத்தானை தட்டவும்.',
-      noUpcoming: 'வரவிருக்கும் சந்திப்புகள் இல்லை.', noPast: 'கடந்த சந்திப்புகள் இல்லை.',
+      noUpcoming: 'வரவிருக்கும் சந்திப்புகள் இல்லை.', noPast: 'கடந்த சந்திப்புகள் இல்லை.', at: 'மணிக்கு',
       edit: 'திருத்து', delete: 'நீக்கு', markComplete: 'முடிந்தது என்று குறி', completed: '✓ முடிந்தது'
     },
     apptModal: {
@@ -7019,7 +7383,12 @@ const TRANSLATIONS = {
       prompt: 'கண்காணிப்பை தொடங்க «+ தரவு சேர்» தட்டவும்.',
       noMatch: 'தற்போதைய வடிகட்டியுடன் பொருந்தும் தரவு இல்லை.', noMatchHint: 'வடிகட்டி அமைப்புகள் அல்லது தேதி வரம்பை மாற்றி பார்க்கவும்.',
       noDataRange: 'இந்த தேதி வரம்பிற்கு தரவு கிடைக்கவில்லை.',
-      edit: 'திருத்து', delete: 'நீக்கு', notes: 'குறிப்புகள்'
+      edit: 'திருத்து', delete: 'நீக்கு', notes: 'குறிப்புகள்',
+      printPreviewTitle: 'அச்சு முன்னோட்டம்',
+      reportTitle: 'சுகாதார அளவீட்டு அறிக்கை',
+      showMetrics: 'தரவு காட்டு:',
+      all: 'அனைத்தும்',
+      to: 'வரை'
     },
     logModal: {
       addTitle: 'தரவு சேர்', editTitle: 'தரவு திருத்து',
@@ -7120,6 +7489,9 @@ const TRANSLATIONS = {
       duration: 'వ్యవధి',
       durOngoing: 'కొనసాగుతూ (ముగింపు తేదీ లేకుండా)', durWeeks: 'వారాలు', durMonths: 'నెలలు',
       durEndDate: 'నిర్దిష్ట తేదీ వరకు', durBottle: 'మందు అయిపోయే వరకు',
+      numOfWeeks: 'వారాల సంఖ్య',
+      numOfMonths: 'నెలల సంఖ్య',
+      bottleDoses: 'సీసాలో మోతాదుల సంఖ్య',
       endDate: 'ముగింపు తేదీ',
       notes: 'గమనికలు (ఐచ్ఛికం)', notesPlaceholder: 'ఆహారంతో తీసుకోండి, మొదలైనవి',
       priority: 'ప్రాధాన్యత', priorityCritical: 'తప్పనిసరి', priorityOptional: 'ఐచ్ఛికం',
@@ -7149,6 +7521,7 @@ const TRANSLATIONS = {
       importData: 'డేటా దిగుమతి చేయి', importDesc: 'బ్యాకప్ ఫైల్ నుండి డేటా పునరుద్ధరించు',
       clearData: 'అన్ని డేటా తొలగించు', clearDesc: 'అన్ని మందులు, రికార్డులు & అపాయింట్మెంట్లు తొలగించు',
       language: 'భాష',
+      appearance: 'రూపం',
       install: 'హోమ్ స్క్రీన్‌లో యాప్‌గా ఇన్‌స్టాల్ చేయి', installDesc: 'ఈ యాప్‌ను హోమ్ స్క్రీన్‌కు ఎలా జోడించాలో తెలుసుకోండి'
     },
     medListModal: {
@@ -7158,7 +7531,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'రాబోయేవి', past: 'గత', add: '+ అపాయింట్మెంట్ జోడించు',
       noAny: 'ఇంకా అపాయింట్మెంట్లు షెడ్యూల్ చేయబడలేదు.', noAnyHint: 'మొదటి అపాయింట్మెంట్ జోడించడానికి కింద ఉన్న బటన్ నొక్కండి.',
-      noUpcoming: 'రాబోయే అపాయింట్మెంట్లు లేవు.', noPast: 'గత అపాయింట్మెంట్లు లేవు.',
+      noUpcoming: 'రాబోయే అపాయింట్మెంట్లు లేవు.', noPast: 'గత అపాయింట్మెంట్లు లేవు.', at: 'కి',
       edit: 'సవరించు', delete: 'తొలగించు', markComplete: 'పూర్తైంది అని గుర్తించు', completed: '✓ పూర్తైంది'
     },
     apptModal: {
@@ -7178,7 +7551,12 @@ const TRANSLATIONS = {
       prompt: 'ట్రాకింగ్ ప్రారంభించడానికి «+ డేటా జోడించు» నొక్కండి.',
       noMatch: 'ప్రస్తుత ఫిల్టర్‌తో సరిపోలే డేటా లేదు.', noMatchHint: 'ఫిల్టర్ సెట్టింగులు లేదా తేదీ పరిధి మార్చి చూడండి.',
       noDataRange: 'ఈ తేదీ పరిధికి డేటా కనుగొనబడలేదు.',
-      edit: 'సవరించు', delete: 'తొలగించు', notes: 'గమనికలు'
+      edit: 'సవరించు', delete: 'తొలగించు', notes: 'గమనికలు',
+      printPreviewTitle: 'ముద్రణ పూర్వావలోకనం',
+      reportTitle: 'ఆరోగ్య మెట్రిక్స్ నివేదిక',
+      showMetrics: 'డేటా చూపించు:',
+      all: 'అన్నీ',
+      to: 'వరకు'
     },
     logModal: {
       addTitle: 'డేటా జోడించు', editTitle: 'డేటా సవరించు',
@@ -7280,6 +7658,9 @@ const TRANSLATIONS = {
       duration: 'ಅವಧಿ',
       durOngoing: 'ಮುಂದುವರಿಯುತ್ತಿದೆ (ಮುಕ್ತಾಯ ದಿನಾಂಕ ಇಲ್ಲದೆ)', durWeeks: 'ವಾರಗಳು', durMonths: 'ತಿಂಗಳುಗಳು',
       durEndDate: 'ನಿರ್ದಿಷ್ಟ ದಿನಾಂಕದವರೆಗೆ', durBottle: 'ಔಷಧಿ ಮುಗಿಯುವವರೆಗೆ',
+      numOfWeeks: 'ವಾರಗಳ ಸಂಖ್ಯೆ',
+      numOfMonths: 'ತಿಂಗಳುಗಳ ಸಂಖ್ಯೆ',
+      bottleDoses: 'ಬಾಟಲಿಯಲ್ಲಿ ಡೋಸ್ ಸಂಖ್ಯೆ',
       endDate: 'ಮುಕ್ತಾಯ ದಿನಾಂಕ',
       notes: 'ಟಿಪ್ಪಣಿಗಳು (ಐಚ್ಛಿಕ)', notesPlaceholder: 'ಆಹಾರದೊಂದಿಗೆ ತೆಗೆದುಕೊಳ್ಳಿ, ಇತ್ಯಾದಿ',
       priority: 'ಆದ್ಯತೆ', priorityCritical: 'ಅಗತ್ಯ', priorityOptional: 'ಐಚ್ಛಿಕ',
@@ -7309,6 +7690,7 @@ const TRANSLATIONS = {
       importData: 'ಡೇಟಾ ಆಮದು ಮಾಡಿ', importDesc: 'ಬ್ಯಾಕಪ್ ಫೈಲ್‌ನಿಂದ ಡೇಟಾ ಮರುಸ್ಥಾಪಿಸಿ',
       clearData: 'ಎಲ್ಲ ಡೇಟಾ ತೆರವು ಮಾಡಿ', clearDesc: 'ಎಲ್ಲ ಔಷಧಿಗಳು, ದಾಖಲೆಗಳು ಮತ್ತು ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ತೆರವು ಮಾಡಿ',
       language: 'ಭಾಷೆ',
+      appearance: 'ನೋಟ',
       install: 'ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿ ಅಪ್ಲಿಕೇಶನ್ ಆಗಿ ಸ್ಥಾಪಿಸಿ', installDesc: 'ಈ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ಗೆ ಹೇಗೆ ಸೇರಿಸುವುದು ಎಂದು ತಿಳಿಯಿರಿ'
     },
     medListModal: {
@@ -7318,7 +7700,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'ಮುಂಬರುವ', past: 'ಹಿಂದಿನ', add: '+ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಸೇರಿಸಿ',
       noAny: 'ಇನ್ನೂ ಯಾವುದೇ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ನಿಗದಿಯಾಗಿಲ್ಲ.', noAnyHint: 'ಮೊದಲ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್ ಸೇರಿಸಲು ಕೆಳಗಿನ ಬಟನ್ ಟ್ಯಾಪ್ ಮಾಡಿ.',
-      noUpcoming: 'ಮುಂಬರುವ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ.', noPast: 'ಹಿಂದಿನ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ.',
+      noUpcoming: 'ಮುಂಬರುವ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ.', noPast: 'ಹಿಂದಿನ ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳಿಲ್ಲ.', at: 'ಕ್ಕೆ',
       edit: 'ಸಂಪಾದಿಸಿ', delete: 'ಅಳಿಸಿ', markComplete: 'ಪೂರ್ಣಗೊಂಡಿದೆ ಎಂದು ಗುರುತಿಸಿ', completed: '✓ ಪೂರ್ಣಗೊಂಡಿದೆ'
     },
     apptModal: {
@@ -7338,7 +7720,12 @@ const TRANSLATIONS = {
       prompt: 'ಟ್ರ್ಯಾಕಿಂಗ್ ಪ್ರಾರಂಭಿಸಲು «+ ಡೇಟಾ ಸೇರಿಸಿ» ಟ್ಯಾಪ್ ಮಾಡಿ.',
       noMatch: 'ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ಡೇಟಾ ಇಲ್ಲ.', noMatchHint: 'ಫಿಲ್ಟರ್ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಅಥವಾ ದಿನಾಂಕ ಶ್ರೇಣಿ ಬದಲಿಸಲು ಪ್ರಯತ್ನಿಸಿ.',
       noDataRange: 'ಈ ದಿನಾಂಕ ಶ್ರೇಣಿಗೆ ಯಾವುದೇ ಡೇಟಾ ಕಂಡುಬಂದಿಲ್ಲ.',
-      edit: 'ಸಂಪಾದಿಸಿ', delete: 'ಅಳಿಸಿ', notes: 'ಟಿಪ್ಪಣಿಗಳು'
+      edit: 'ಸಂಪಾದಿಸಿ', delete: 'ಅಳಿಸಿ', notes: 'ಟಿಪ್ಪಣಿಗಳು',
+      printPreviewTitle: 'ಮುದ್ರಣ ಪೂರ್ವವೀಕ್ಷಣೆ',
+      reportTitle: 'ಆರೋಗ್ಯ ಮೆಟ್ರಿಕ್ಸ್ ವರದಿ',
+      showMetrics: 'ಡೇಟಾ ತೋರಿಸಿ:',
+      all: 'ಎಲ್ಲಾ',
+      to: 'ವರೆಗೆ'
     },
     logModal: {
       addTitle: 'ಡೇಟಾ ಸೇರಿಸಿ', editTitle: 'ಡೇಟಾ ಸಂಪಾದಿಸಿ',
@@ -7439,6 +7826,9 @@ const TRANSLATIONS = {
       duration: 'ദൈർഘ്യം',
       durOngoing: 'തുടർച്ചയായി (അവസാന തീയതി ഇല്ലാതെ)', durWeeks: 'ആഴ്ചകൾ', durMonths: 'മാസങ്ങൾ',
       durEndDate: 'ഒരു നിർദ്ദിഷ്ട തീയതി വരെ', durBottle: 'മരുന്ന് തീരുന്നത് വരെ',
+      numOfWeeks: 'ആഴ്ചകളുടെ എണ്ണം',
+      numOfMonths: 'മാസങ്ങളുടെ എണ്ണം',
+      bottleDoses: 'കുപ്പിയിലെ ഡോസ് എണ്ണം',
       endDate: 'അവസാന തീയതി',
       notes: 'കുറിപ്പുകൾ (ഐച്ഛികം)', notesPlaceholder: 'ഭക്ഷണത്തോടൊപ്പം കഴിക്കുക, മുതലായവ',
       priority: 'മുൻഗണന', priorityCritical: 'അത്യാവശ്യം', priorityOptional: 'ഐച്ഛികം',
@@ -7468,6 +7858,7 @@ const TRANSLATIONS = {
       importData: 'ഡേറ്റ ഇംപോർട്ട് ചെയ്യുക', importDesc: 'ബാക്കപ്പ് ഫയലിൽ നിന്ന് ഡേറ്റ പുനഃസ്ഥാപിക്കുക',
       clearData: 'എല്ലാ ഡേറ്റയും മായ്ക്കുക', clearDesc: 'എല്ലാ മരുന്നുകൾ, രേഖകൾ, അപ്പോയ്‌ന്റ്‌മെന്റുകൾ മായ്ക്കുക',
       language: 'ഭാഷ',
+      appearance: 'രൂപം',
       install: 'ഹോം സ്ക്രീനിൽ ആപ്പ് ആയി ഇൻസ്റ്റാൾ ചെയ്യുക', installDesc: 'ഈ ആപ്പ് ഹോം സ്ക്രീനിൽ എങ്ങനെ ചേർക്കാം എന്ന് അറിയുക'
     },
     medListModal: {
@@ -7477,7 +7868,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'വരാനിരിക്കുന്നത്', past: 'കഴിഞ്ഞത്', add: '+ അപ്പോയ്‌ന്റ്‌മെന്റ് ചേർക്കുക',
       noAny: 'ഇതുവരെ അപ്പോയ്‌ന്റ്‌മെന്റുകൾ ഷെഡ്യൂൾ ചെയ്തിട്ടില്ല.', noAnyHint: 'ആദ്യ അപ്പോയ്‌ന്റ്‌മെന്റ് ചേർക്കാൻ താഴെ ഉള്ള ബട്ടൺ ടാപ്പ് ചെയ്യുക.',
-      noUpcoming: 'വരാനിരിക്കുന്ന അപ്പോയ്‌ന്റ്‌മെന്റുകൾ ഇല്ല.', noPast: 'കഴിഞ്ഞ അപ്പോയ്‌ന്റ്‌മെന്റുകൾ ഇല്ല.',
+      noUpcoming: 'വരാനിരിക്കുന്ന അപ്പോയ്‌ന്റ്‌മെന്റുകൾ ഇല്ല.', noPast: 'കഴിഞ്ഞ അപ്പോയ്‌ന്റ്‌മെന്റുകൾ ഇല്ല.', at: 'ന്',
       edit: 'എഡിറ്റ് ചെയ്യുക', delete: 'ഇല്ലാതാക്കുക', markComplete: 'പൂർത്തിയായതായി അടയാളപ്പെടുത്തുക', completed: '✓ പൂർത്തിയായി'
     },
     apptModal: {
@@ -7497,7 +7888,12 @@ const TRANSLATIONS = {
       prompt: 'ട്രാക്കിംഗ് ആരംഭിക്കാൻ «+ ഡേറ്റ ചേർക്കുക» ടാപ്പ് ചെയ്യുക.',
       noMatch: 'നിലവിലെ ഫിൽറ്ററുമായി പൊരുത്തപ്പെടുന്ന ഡേറ്റ ഇല്ല.', noMatchHint: 'ഫിൽറ്റർ ക്രമീകരണങ്ങൾ അല്ലെങ്കിൽ തീയതി ശ്രേണി മാറ്റി നോക്കുക.',
       noDataRange: 'ഈ തീയതി ശ്രേണിക്ക് ഡേറ്റ കണ്ടെത്തിയില്ല.',
-      edit: 'എഡിറ്റ് ചെയ്യുക', delete: 'ഇല്ലാതാക്കുക', notes: 'കുറിപ്പുകൾ'
+      edit: 'എഡിറ്റ് ചെയ്യുക', delete: 'ഇല്ലാതാക്കുക', notes: 'കുറിപ്പുകൾ',
+      printPreviewTitle: 'പ്രിന്റ് പ്രിവ്യൂ',
+      reportTitle: 'ആരോഗ്യ മെട്രിക്സ് റിപ്പോർട്ട്',
+      showMetrics: 'ഡേറ്റ കാണിക്കൂ:',
+      all: 'എല്ലാം',
+      to: 'വരെ'
     },
     logModal: {
       addTitle: 'ഡേറ്റ ചേർക്കുക', editTitle: 'ഡേറ്റ എഡിറ്റ് ചെയ്യുക',
@@ -7599,6 +7995,9 @@ const TRANSLATIONS = {
       duration: 'ကြာချိန်',
       durOngoing: 'ဆက်လက်ဆောင်ရွက် (ပြီးဆုံးမည့်ရက် မရှိ)', durWeeks: 'အပတ်', durMonths: 'လ',
       durEndDate: 'သတ်မှတ်ရက်အထိ', durBottle: 'ဆေးကုန်သည်အထိ',
+      numOfWeeks: 'အပတ်ရေ',
+      numOfMonths: 'လရေ',
+      bottleDoses: 'ဗူးထဲရှိ ဆေးပမာဏအရေအတွက်',
       endDate: 'ပြီးဆုံးသည့်ရက်',
       notes: 'မှတ်စု (ရွေးချယ်နိုင်)', notesPlaceholder: 'အစာနှင့်တကွ သောက်ရန်၊ စသည်',
       priority: 'ဦးစားပေး', priorityCritical: 'မဖြစ်မနေ', priorityOptional: 'ရွေးချယ်နိုင်သော',
@@ -7628,6 +8027,7 @@ const TRANSLATIONS = {
       importData: 'ဒေတာ တင်သွင်းရန်', importDesc: 'အရန်သိမ်းဖိုင်မှ ဒေတာ ပြန်လည်ရယူရန်',
       clearData: 'ဒေတာအားလုံး ဖျက်ရန်', clearDesc: 'ဆေးဝါးများ၊ မှတ်တမ်းများ နှင့် ချိန်းဆိုမှုများ အားလုံး ဖျက်ရန်',
       language: 'ဘာသာစကား',
+      appearance: 'အသွင်အပြင်',
       install: 'မူလဖန်သားပြင်တွင် အက်ပ်အဖြစ် တပ်ဆင်ရန်', installDesc: 'ဤအက်ပ်ကို မူလဖန်သားပြင်တွင် မည်သို့ ထည့်ရမည်ကို သိရှိရန်'
     },
     medListModal: {
@@ -7637,7 +8037,7 @@ const TRANSLATIONS = {
     appointments: {
       upcoming: 'လာမည့်', past: 'ပြီးခဲ့သော', add: '+ ချိန်းဆိုမှု ထည့်ရန်',
       noAny: 'ချိန်းဆိုမှုများ မစီစဉ်ရသေးပါ။', noAnyHint: 'ပထမဆုံးချိန်းဆိုမှု ထည့်ရန် အောက်ခြေခလုတ် နှိပ်ပါ။',
-      noUpcoming: 'လာမည့် ချိန်းဆိုမှုများ မရှိပါ။', noPast: 'ပြီးခဲ့သော ချိန်းဆိုမှုများ မရှိပါ။',
+      noUpcoming: 'လာမည့် ချိန်းဆိုမှုများ မရှိပါ။', noPast: 'ပြီးခဲ့သော ချိန်းဆိုမှုများ မရှိပါ။', at: 'မှာ',
       edit: 'ပြင်ဆင်ရန်', delete: 'ဖျက်ရန်', markComplete: 'ပြီးစီးသည်ဟု မှတ်သားရန်', completed: '✓ ပြီးစီးပြီ'
     },
     apptModal: {
@@ -7657,7 +8057,12 @@ const TRANSLATIONS = {
       prompt: 'ခြေရာခံမှု စတင်ရန် «+ ဒေတာ ထည့်ရန်» နှိပ်ပါ။',
       noMatch: 'လက်ရှိစစ်ထုတ်မှုနှင့် ကိုက်ညီသော ဒေတာ မရှိပါ။', noMatchHint: 'စစ်ထုတ်မှု ဆက်တင်များ သို့မဟုတ် ရက်အပိုင်းအခြား ပြောင်းကြည့်ပါ။',
       noDataRange: 'ဤရက်အပိုင်းအခြားအတွက် ဒေတာ မတွေ့ပါ။',
-      edit: 'ပြင်ဆင်ရန်', delete: 'ဖျက်ရန်', notes: 'မှတ်စု'
+      edit: 'ပြင်ဆင်ရန်', delete: 'ဖျက်ရန်', notes: 'မှတ်စု',
+      printPreviewTitle: 'ပုံနှိပ်မြင်ကွင်း',
+      reportTitle: 'ကျန်းမာရေး Metrics အစီရင်ခံစာ',
+      showMetrics: 'ဒေတာ ပြပါ:',
+      all: 'အားလုံး',
+      to: 'မှ'
     },
     logModal: {
       addTitle: 'ဒေတာ ထည့်ရန်', editTitle: 'ဒေတာ ပြင်ဆင်ရန်',

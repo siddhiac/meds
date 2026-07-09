@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Meds">
-    <meta name="app-version" content="1.3.0">
+    <meta name="app-version" content="1.5.0">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
@@ -17,10 +17,10 @@
     <link rel="stylesheet" href="styles_profile.css">
 
     <!-- PeerJS for P2P sync -->
-    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <script src="peerjs.min.js"></script>
 
     <!-- QR Code generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="qrcode.min.js"></script>
 
     <!-- Translations -->
     <script src="translations.js"></script>
@@ -59,15 +59,13 @@
         <!-- Appointments Section -->
         <div class="tab-content" id="appointmentsTab">
             <div class="appointments-filter">
-                <button class="filter-button active" data-filter="upcoming">Upcoming</button>
-                <button class="filter-button" data-filter="past">Past</button>
+                <button class="filter-button active" data-filter="upcoming" data-i18n="appointments.upcoming">Upcoming</button>
+                <button class="filter-button" data-filter="past" data-i18n="appointments.past">Past</button>
             </div>
 
             <div class="appointments-list" id="appointmentsList">
                 <!-- Appointments will be inserted here -->
             </div>
-
-            <button class="add-button" id="addApptButton">+ Add Appointment</button>
         </div>
 
         <!-- Log Section -->
@@ -76,7 +74,6 @@
                 <!-- Log entries will be inserted here -->
             </div>
 
-            <button class="add-button" id="addLogButton">+ Add Metrics</button>
         </div>
 
         <!-- Settings Section -->
@@ -351,7 +348,7 @@
             <div class="settings-section">
                 <h3 class="settings-section-title" data-i18n="settings.language">Language</h3>
                 <div class="settings-options">
-                    <select id="languageSelect" style="font-size: 1rem; padding: 10px; border-radius: 8px; border: 1px solid #ddd; width: 100%;" onchange="tracker.setLanguage(this.value)">
+                    <select id="languageSelect" style="font-size: 1rem; padding: 10px; border-radius: 8px; border: 1px solid var(--border); width: 100%;" onchange="tracker.setLanguage(this.value)">
                         <option value="om">🌍 Afaan Oromoo</option>
                         <option value="id">🇮🇩 Bahasa Indonesia</option>
                         <option value="ceb">🇵🇭 Cebuano</option>
@@ -398,6 +395,54 @@
                         <option value="zh-TW">🇹🇼 繁體中文</option>
                         <option value="ko">🇰🇷 한국어</option>
                     </select>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3 class="settings-section-title" data-i18n="settings.appearance">Appearance</h3>
+                <div class="theme-grid">
+                    <button class="theme-option" data-theme="clean" onclick="tracker.setTheme('clean')">
+                        <div class="theme-swatch-preview">
+                            <div class="theme-swatch-top" style="background:#6b7c93"></div>
+                            <div class="theme-swatch-bot" style="background:#f5f5f5"></div>
+                        </div>
+                        <span>Clean</span>
+                    </button>
+                    <button class="theme-option" data-theme="dark" onclick="tracker.setTheme('dark')">
+                        <div class="theme-swatch-preview">
+                            <div class="theme-swatch-top" style="background:#7b9ab5"></div>
+                            <div class="theme-swatch-bot" style="background:#1e1e2e"></div>
+                        </div>
+                        <span>Dark</span>
+                    </button>
+                    <button class="theme-option" data-theme="warm" onclick="tracker.setTheme('warm')">
+                        <div class="theme-swatch-preview">
+                            <div class="theme-swatch-top" style="background:#8b7355"></div>
+                            <div class="theme-swatch-bot" style="background:#faf7f0"></div>
+                        </div>
+                        <span>Warm</span>
+                    </button>
+                    <button class="theme-option" data-theme="contrast" onclick="tracker.setTheme('contrast')">
+                        <div class="theme-swatch-preview">
+                            <div class="theme-swatch-top" style="background:#0050cc"></div>
+                            <div class="theme-swatch-bot" style="background:#ffffff"></div>
+                        </div>
+                        <span>High Contrast</span>
+                    </button>
+                    <button class="theme-option" data-theme="material" onclick="tracker.setTheme('material')">
+                        <div class="theme-swatch-preview">
+                            <div class="theme-swatch-top" style="background:#1976d2"></div>
+                            <div class="theme-swatch-bot" style="background:#fafafa"></div>
+                        </div>
+                        <span>Material</span>
+                    </button>
+                    <button class="theme-option" data-theme="soft" onclick="tracker.setTheme('soft')">
+                        <div class="theme-swatch-preview">
+                            <div class="theme-swatch-top" style="background:#7c6fab"></div>
+                            <div class="theme-swatch-bot" style="background:#ede8f5"></div>
+                        </div>
+                        <span>Soft</span>
+                    </button>
                 </div>
             </div>
 
@@ -545,13 +590,13 @@
     <!-- Modal for medication list -->
     <div class="modal" id="medListModal">
         <div class="modal-content">
-            <h2>Medication Schedule</h2>
+            <h2 data-i18n="medListModal.title">Medication Schedule</h2>
             <div id="medListContainer" class="med-list-container">
                 <!-- Medication list will be inserted here -->
             </div>
             <div class="form-buttons">
-                <button type="button" class="cancel-button" id="medListCancelButton">Close</button>
-                <button type="button" class="save-button" id="addNewMedButton">+ Add Medication</button>
+                <button type="button" class="cancel-button" id="medListCancelButton" data-i18n="medListModal.close">Close</button>
+                <button type="button" class="save-button" id="addNewMedButton" data-i18n="medListModal.add">+ Add Medication</button>
             </div>
         </div>
     </div>
@@ -562,33 +607,33 @@
             <h2 id="medModalTitle">Add Medication</h2>
             <form id="medForm">
                 <div class="form-group">
-                    <label for="medName">Medication Name</label>
+                    <label for="medName" data-i18n="medModal.name">Medication Name</label>
                     <input type="text" id="medName" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="medDosage">Dosage (e.g., "1 pill", "2 tablets")</label>
+                    <label for="medDosage" data-i18n="medModal.dosage">Dosage (e.g., "1 pill", "2 tablets")</label>
                     <input type="text" id="medDosage" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Time of Day (select all that apply)</label>
+                    <label data-i18n="medModal.timeOfDay">Time of Day (select all that apply)</label>
                     <div class="times-selector">
                         <label class="time-checkbox">
                             <input type="checkbox" name="medTimes" value="Morning">
-                            <span>Morning</span>
+                            <span data-i18n="timeOfDay.morning">Morning</span>
                         </label>
                         <label class="time-checkbox">
                             <input type="checkbox" name="medTimes" value="Afternoon">
-                            <span>Afternoon</span>
+                            <span data-i18n="timeOfDay.afternoon">Afternoon</span>
                         </label>
                         <label class="time-checkbox">
                             <input type="checkbox" name="medTimes" value="Evening">
-                            <span>Evening</span>
+                            <span data-i18n="timeOfDay.evening">Evening</span>
                         </label>
                         <label class="time-checkbox">
                             <input type="checkbox" name="medTimes" value="Bedtime">
-                            <span>Bedtime</span>
+                            <span data-i18n="timeOfDay.bedtime">Bedtime</span>
                         </label>
                     </div>
 
@@ -596,7 +641,7 @@
                         <!-- Specific times will be added here dynamically -->
                     </div>
 
-                    <button type="button" class="add-specific-time-button" id="addSpecificTimeButton">
+                    <button type="button" class="add-specific-time-button" id="addSpecificTimeButton" data-i18n="medModal.addSpecificTime">
                         + Add Specific Time
                     </button>
                 </div>
@@ -604,98 +649,98 @@
 
 
                 <div class="form-group">
-                    <label for="medFrequency">How Often?</label>
+                    <label for="medFrequency" data-i18n="medModal.frequency">How Often?</label>
                     <select id="medFrequency" required>
-                        <option value="daily">Every Day</option>
-                        <option value="every-other-day">Every Other Day</option>
-                        <option value="mwf">Monday, Wednesday, Friday</option>
-                        <option value="custom-days">Custom Days of Week</option>
+                        <option value="daily" data-i18n="medModal.freqDaily">Every Day</option>
+                        <option value="every-other-day" data-i18n="medModal.freqEveryOther">Every Other Day</option>
+                        <option value="mwf" data-i18n="medModal.freqMWF">Monday, Wednesday, Friday</option>
+                        <option value="custom-days" data-i18n="medModal.freqCustom">Custom Days of Week</option>
                     </select>
                 </div>
 
                 <div class="form-group" id="customDaysGroup" style="display: none;">
-                    <label>Select Days</label>
+                    <label data-i18n="medModal.selectDays">Select Days</label>
                     <div class="days-selector">
                         <label class="day-checkbox">
-                            <input type="checkbox" name="medDays" value="0"> Sun
+                            <input type="checkbox" name="medDays" value="0"><span data-i18n="days.sun"> Sun</span>
                         </label>
                         <label class="day-checkbox">
-                            <input type="checkbox" name="medDays" value="1"> Mon
+                            <input type="checkbox" name="medDays" value="1"><span data-i18n="days.mon"> Mon</span>
                         </label>
                         <label class="day-checkbox">
-                            <input type="checkbox" name="medDays" value="2"> Tue
+                            <input type="checkbox" name="medDays" value="2"><span data-i18n="days.tue"> Tue</span>
                         </label>
                         <label class="day-checkbox">
-                            <input type="checkbox" name="medDays" value="3"> Wed
+                            <input type="checkbox" name="medDays" value="3"><span data-i18n="days.wed"> Wed</span>
                         </label>
                         <label class="day-checkbox">
-                            <input type="checkbox" name="medDays" value="4"> Thu
+                            <input type="checkbox" name="medDays" value="4"><span data-i18n="days.thu"> Thu</span>
                         </label>
                         <label class="day-checkbox">
-                            <input type="checkbox" name="medDays" value="5"> Fri
+                            <input type="checkbox" name="medDays" value="5"><span data-i18n="days.fri"> Fri</span>
                         </label>
                         <label class="day-checkbox">
-                            <input type="checkbox" name="medDays" value="6"> Sat
+                            <input type="checkbox" name="medDays" value="6"><span data-i18n="days.sat"> Sat</span>
                         </label>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="medStartDate">Start Date</label>
+                    <label for="medStartDate" data-i18n="medModal.startDate">Start Date</label>
                     <input type="date" id="medStartDate" required>
                 </div>
 
                 <div class="form-group" id="startTimeGroup" style="display: none;">
-                    <label for="medStartTime">Start Time</label>
+                    <label for="medStartTime" data-i18n="medModal.startTime">Start Time</label>
                     <select id="medStartTime">
                         <!-- Options will be populated dynamically based on selected times -->
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="medDuration">Duration</label>
+                    <label for="medDuration" data-i18n="medModal.duration">Duration</label>
                     <select id="medDuration" required>
-                        <option value="ongoing">Ongoing (no end date)</option>
-                        <option value="weeks">For a number of weeks</option>
-                        <option value="months">For a number of months</option>
-                        <option value="end-date">Until a specific date</option>
-                        <option value="bottle-doses">Until all taken</option>
+                        <option value="ongoing" data-i18n="medModal.durOngoing">Ongoing (no end date)</option>
+                        <option value="weeks" data-i18n="medModal.durWeeks">For a number of weeks</option>
+                        <option value="months" data-i18n="medModal.durMonths">For a number of months</option>
+                        <option value="end-date" data-i18n="medModal.durEndDate">Until a specific date</option>
+                        <option value="bottle-doses" data-i18n="medModal.durBottle">Until all taken</option>
                     </select>
                 </div>
 
                 <div class="form-group" id="durationNumberGroup" style="display: none;">
-                    <label for="medDurationNumber">Number of <span id="durationUnit">weeks</span></label>
+                    <label for="medDurationNumber" id="durationUnitLabel" data-i18n="medModal.numOfWeeks">Number of weeks</label>
                     <input type="number" id="medDurationNumber" min="1" placeholder="e.g., 4">
                 </div>
 
                 <div class="form-group" id="bottleDosesGroup" style="display: none;">
-                    <label for="medBottleDoses">Number of doses in bottle</label>
+                    <label for="medBottleDoses" data-i18n="medModal.bottleDoses">Number of doses in bottle</label>
                     <input type="number" id="medBottleDoses" min="1" placeholder="e.g., 10">
                 </div>
 
                 <div class="form-group" id="endDateGroup" style="display: none;">
-                    <label for="medEndDate">End Date</label>
+                    <label for="medEndDate" data-i18n="medModal.endDate">End Date</label>
                     <input type="date" id="medEndDate">
                 </div>
 
                 <div class="form-group">
-                    <label for="medNotes">Notes (optional)</label>
+                    <label for="medNotes" data-i18n="medModal.notes">Notes (optional)</label>
                     <input type="text" id="medNotes" placeholder="With food, etc.">
                 </div>
 
                 <div class="form-group">
-                    <label for="medPriority">Priority</label>
+                    <label for="medPriority" data-i18n="medModal.priority">Priority</label>
                     <select id="medPriority">
-                        <option value="critical">Critical</option>
-                        <option value="optional">Optional</option>
+                        <option value="critical" data-i18n="medModal.priorityCritical">Critical</option>
+                        <option value="optional" data-i18n="medModal.priorityOptional">Optional</option>
                     </select>
                 </div>
 
                 <div class="form-buttons" id="medFormButtons">
-                    <button type="button" class="cancel-button" id="medCancelButton">Cancel</button>
-                    <button type="submit" class="save-button">Save</button>
+                    <button type="button" class="cancel-button" id="medCancelButton" data-i18n="medModal.cancel">Cancel</button>
+                    <button type="submit" class="save-button" data-i18n="medModal.save">Save</button>
                 </div>
-                <button type="button" class="stop-med-button" id="stopMedButton" style="display: none;">Stop Medication</button>
+                <button type="button" class="stop-med-button" id="stopMedButton" style="display: none;" data-i18n="medModal.stop">Stop Medication</button>
             </form>
         </div>
     </div>
@@ -706,28 +751,28 @@
             <h2>Log As-Needed Medication</h2>
             <form id="asNeededForm">
                 <div class="form-group">
-                    <label for="asNeededName">Medication Name</label>
+                    <label for="asNeededName" data-i18n="asNeededModal.name">Medication Name</label>
                     <input type="text" id="asNeededName" placeholder="e.g., Norco, Tylenol" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="asNeededDosage">Dosage</label>
+                    <label for="asNeededDosage" data-i18n="asNeededModal.dosage">Dosage</label>
                     <input type="text" id="asNeededDosage" placeholder="e.g., 1 pill, 5mg" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="asNeededTime">Time Taken</label>
+                    <label for="asNeededTime" data-i18n="asNeededModal.timeTaken">Time Taken</label>
                     <input type="time" id="asNeededTime" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="asNeededNotes">Notes (optional)</label>
+                    <label for="asNeededNotes" data-i18n="asNeededModal.notes">Notes (optional)</label>
                     <input type="text" id="asNeededNotes" placeholder="Reason: headache, pain, etc.">
                 </div>
 
                 <div class="form-buttons">
-                    <button type="button" class="cancel-button" id="asNeededCancelButton">Cancel</button>
-                    <button type="submit" class="save-button">Log Medication</button>
+                    <button type="button" class="cancel-button" id="asNeededCancelButton" data-i18n="asNeededModal.cancel">Cancel</button>
+                    <button type="submit" class="save-button" data-i18n="asNeededModal.log">Log Medication</button>
                 </div>
             </form>
         </div>
@@ -739,52 +784,52 @@
             <h2 id="apptModalTitle">Add Appointment</h2>
             <form id="apptForm">
                 <div class="form-group">
-                    <label for="apptType">Type</label>
+                    <label for="apptType" data-i18n="apptModal.type">Type</label>
                     <select id="apptType" required>
-                        <option value="Doctor Visit">Doctor Visit</option>
-                        <option value="Infusion">Infusion</option>
-                        <option value="Lab Work">Lab Work</option>
-                        <option value="Procedure">Procedure</option>
-                        <option value="Other">Other</option>
+                        <option value="Doctor Visit" data-i18n="apptModal.typeDoctorVisit">Doctor Visit</option>
+                        <option value="Infusion" data-i18n="apptModal.typeInfusion">Infusion</option>
+                        <option value="Lab Work" data-i18n="apptModal.typeLabWork">Lab Work</option>
+                        <option value="Procedure" data-i18n="apptModal.typeProcedure">Procedure</option>
+                        <option value="Other" data-i18n="apptModal.typeOther">Other</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="apptTitle">Title/Description</label>
+                    <label for="apptTitle" data-i18n="apptModal.titleField">Title/Description</label>
                     <input type="text" id="apptTitle" placeholder="e.g., Dr. Smith Check-up" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="apptDate">Date</label>
+                    <label for="apptDate" data-i18n="apptModal.date">Date</label>
                     <input type="date" id="apptDate" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="apptTime">Time (optional)</label>
+                    <label for="apptTime" data-i18n="apptModal.timeOptional">Time (optional)</label>
                     <input type="time" id="apptTime">
                 </div>
 
                 <div class="form-group">
-                    <label for="apptLocation">Location</label>
+                    <label for="apptLocation" data-i18n="apptModal.location">Location</label>
                     <select id="apptLocation" required>
-                        <option value="Virtual">Virtual (Video Call)</option>
-                        <option value="In-Person">In-Person</option>
+                        <option value="Virtual" data-i18n="apptModal.locationVirtual">Virtual (Video Call)</option>
+                        <option value="In-Person" data-i18n="apptModal.locationInPerson">In-Person</option>
                     </select>
                 </div>
 
                 <div class="form-group" id="apptAddressGroup">
-                    <label for="apptAddress">Address/Details</label>
+                    <label for="apptAddress" data-i18n="apptModal.addressField">Address/Details</label>
                     <input type="text" id="apptAddress" placeholder="Hospital name, room number, or video link">
                 </div>
 
                 <div class="form-group">
-                    <label for="apptNotes">Notes (optional)</label>
+                    <label for="apptNotes" data-i18n="apptModal.notes">Notes (optional)</label>
                     <textarea id="apptNotes" rows="3" placeholder="Bring insurance card, fasting required, etc."></textarea>
                 </div>
 
                 <div class="form-buttons">
-                    <button type="button" class="cancel-button" id="apptCancelButton">Cancel</button>
-                    <button type="submit" class="save-button">Save</button>
+                    <button type="button" class="cancel-button" id="apptCancelButton" data-i18n="apptModal.cancel">Cancel</button>
+                    <button type="submit" class="save-button" data-i18n="apptModal.save">Save</button>
                 </div>
             </form>
         </div>
@@ -796,89 +841,89 @@
             <h2 id="logModalTitle">Add Metrics</h2>
             <form id="logForm">
                 <div class="form-group">
-                    <label for="logDate">Date & Time</label>
+                    <label for="logDate" data-i18n="logModal.datetime">Date & Time</label>
                     <input type="datetime-local" id="logDateTime" required>
                 </div>
 
                 <div class="log-metric-group">
                     <label class="log-metric-checkbox">
                         <input type="checkbox" id="enableTemperature">
-                        <span>Temperature<br>(°F)</span>
+                        <span data-i18n="logModal.temperature">Temperature (°F)</span>
                     </label>
-                    <input type="number" id="logTemperature" step="0.1" placeholder="e.g., 98.6" disabled>
+                    <input type="number" id="logTemperature" step="0.1" placeholder="e.g., 98.6">
                 </div>
 
                 <div class="log-metric-group">
                     <label class="log-metric-checkbox">
                         <input type="checkbox" id="enableBloodPressure">
-                        <span>Blood Pressure</span>
+                        <span data-i18n="logModal.bloodPressure">Blood Pressure</span>
                     </label>
                     <div style="display: flex; gap: 10px; align-items: center;">
-                        <input type="number" id="logBPSystolic" placeholder="Systolic" style="width: 100px; padding: 12px 15px; font-size: 1.2rem; border: 2px solid #ddd; border-radius: 10px; font-family: inherit;" disabled>
+                        <input type="number" id="logBPSystolic" placeholder="Systolic" style="width: 100px; padding: 12px 15px; font-size: 1.2rem; border: 2px solid #ddd; border-radius: 10px; font-family: inherit;">
                         <span style="font-size: 1.2rem; color: #666;">/</span>
-                        <input type="number" id="logBPDiastolic" placeholder="Diastolic" style="width: 100px; padding: 12px 15px; font-size: 1.2rem; border: 2px solid #ddd; border-radius: 10px; font-family: inherit;" disabled>
+                        <input type="number" id="logBPDiastolic" placeholder="Diastolic" style="width: 100px; padding: 12px 15px; font-size: 1.2rem; border: 2px solid #ddd; border-radius: 10px; font-family: inherit;">
                     </div>
                 </div>
 
                 <div class="log-metric-group">
                     <label class="log-metric-checkbox">
                         <input type="checkbox" id="enableHeartRate">
-                        <span>Heart Rate<br>(bpm)</span>
+                        <span data-i18n="logModal.heartRate">Heart Rate (bpm)</span>
                     </label>
-                    <input type="number" id="logHeartRate" placeholder="e.g., 72" disabled>
+                    <input type="number" id="logHeartRate" placeholder="e.g., 72">
                 </div>
 
                 <div class="log-metric-group">
                     <label class="log-metric-checkbox">
                         <input type="checkbox" id="enableGlucose">
-                        <span>Blood Glucose<br>(mg/dL)</span>
+                        <span data-i18n="logModal.bloodGlucose">Blood Glucose (mg/dL)</span>
                     </label>
-                    <input type="number" id="logGlucose" placeholder="e.g., 100" disabled>
+                    <input type="number" id="logGlucose" placeholder="e.g., 100">
                 </div>
 
                 <div class="log-metric-group">
                     <label class="log-metric-checkbox">
                         <input type="checkbox" id="enableWeight">
-                        <span>Weight<br>(lbs)</span>
+                        <span data-i18n="logModal.weight">Weight (lbs)</span>
                     </label>
-                    <input type="number" id="logWeight" step="0.1" placeholder="e.g., 150.5" disabled>
+                    <input type="number" id="logWeight" step="0.1" placeholder="e.g., 150.5">
                 </div>
 
                 <div class="log-metric-group">
                     <label class="log-metric-checkbox">
                         <input type="checkbox" id="enableSteps">
-                        <span>Steps</span>
+                        <span data-i18n="logModal.steps">Steps</span>
                     </label>
-                    <input type="number" id="logSteps" placeholder="e.g., 5000" disabled>
+                    <input type="number" id="logSteps" placeholder="e.g., 5000">
                 </div>
 
                 <div class="log-metric-group">
                     <label class="log-metric-checkbox">
                         <input type="checkbox" id="enableOxygenation">
-                        <span>Oxygenation<br>(%)</span>
+                        <span data-i18n="logModal.oxygenation">Oxygenation (%)</span>
                     </label>
-                    <input type="number" id="logOxygenation" step="0.1" min="0" max="100" placeholder="e.g., 98" disabled>
+                    <input type="number" id="logOxygenation" step="0.1" min="0" max="100" placeholder="e.g., 98">
                 </div>
 
                 <div class="log-metric-group">
                     <label class="log-metric-checkbox">
                         <input type="checkbox" id="enableSleep">
-                        <span>Sleep<br>(hrs)</span>
+                        <span data-i18n="logModal.sleep">Sleep (hrs)</span>
                     </label>
-                    <input type="number" id="logSleep" step="0.5" min="0" placeholder="e.g., 7.5" disabled>
+                    <input type="number" id="logSleep" step="0.5" min="0" placeholder="e.g., 7.5">
                 </div>
 
                 <div class="log-metric-group">
                     <label class="log-metric-checkbox">
                         <input type="checkbox" id="enableNotes">
-                        <span>Notes</span>
+                        <span data-i18n="logModal.notes">Notes</span>
                     </label>
-                    <textarea id="logNotes" rows="3" placeholder="Any observations or notes..." disabled></textarea>
+                    <textarea id="logNotes" rows="3" placeholder="Any observations or notes..."></textarea>
                 </div>
 
                 <div class="form-buttons">
-                    <button type="button" class="cancel-button" id="logCancelButton">Cancel</button>
-                    <button type="submit" class="save-button">Save</button>
+                    <button type="button" class="cancel-button" id="logCancelButton" data-i18n="logModal.cancel">Cancel</button>
+                    <button type="submit" class="save-button" data-i18n="logModal.save">Save</button>
                 </div>
             </form>
         </div>
@@ -889,10 +934,10 @@
         <div class="modal-content weekly-view-content">
             <div class="weekly-view-header">
                 <div class="weekly-nav">
-                    <button class="weekly-nav-button" id="prevWeekButton">← Previous Week</button>
-                    <button class="weekly-nav-button" id="nextWeekButton">Next Week →</button>
-                    <button class="weekly-nav-button" id="weeklyViewCloseButton">Close</button>
-                    <button class="weekly-nav-button" id="weeklyViewPrintButton">Print</button>
+                    <button class="weekly-nav-button" id="prevWeekButton" data-i18n="weeklyView.prevWeek">← Previous Week</button>
+                    <button class="weekly-nav-button" id="nextWeekButton" data-i18n="weeklyView.nextWeek">Next Week →</button>
+                    <button class="weekly-nav-button" id="weeklyViewCloseButton" data-i18n="weeklyView.close">Close</button>
+                    <button class="weekly-nav-button" id="weeklyViewPrintButton" data-i18n="weeklyView.print">Print</button>
                 </div>
             </div>
             <div id="weeklyViewContainer"></div>
@@ -902,29 +947,29 @@
     <!-- Modal for data management -->
     <div class="modal" id="dataModal">
         <div class="modal-content">
-            <h2>Data Management</h2>
+            <h2 data-i18n="settings.dataManagement">Data Management</h2>
             <div class="data-management-options">
                 <button class="data-button export-button" id="exportDataButton">
                     <span class="data-button-icon">⬇️</span>
                     <div class="data-button-content">
-                        <div class="data-button-title">Export Data</div>
-                        <div class="data-button-desc">Download all your data as a backup file</div>
+                        <div class="data-button-title" data-i18n="settings.exportData">Export Data</div>
+                        <div class="data-button-desc" data-i18n="settings.exportDesc">Download all your data as a backup file</div>
                     </div>
                 </button>
 
                 <button class="data-button import-button" id="importDataButton">
                     <span class="data-button-icon">⬆️</span>
                     <div class="data-button-content">
-                        <div class="data-button-title">Import Data</div>
-                        <div class="data-button-desc">Restore data from a backup file</div>
+                        <div class="data-button-title" data-i18n="settings.importData">Import Data</div>
+                        <div class="data-button-desc" data-i18n="settings.importDesc">Restore data from a backup file</div>
                     </div>
                 </button>
 
                 <button class="data-button clear-button" id="clearDataButton">
                     <span class="data-button-icon">🗑️</span>
                     <div class="data-button-content">
-                        <div class="data-button-title">Clear All Data</div>
-                        <div class="data-button-desc">Delete all medications, logs, and appointments</div>
+                        <div class="data-button-title" data-i18n="settings.clearData">Clear All Data</div>
+                        <div class="data-button-desc" data-i18n="settings.clearDesc">Delete all medications, logs, and appointments</div>
                     </div>
                 </button>
             </div>
@@ -932,7 +977,7 @@
             <input type="file" id="importFileInput" accept=".json" style="display: none;">
 
             <div class="form-buttons">
-                <button type="button" class="cancel-button" id="dataModalCloseButton">Close</button>
+                <button type="button" class="cancel-button" id="dataModalCloseButton" data-i18n="medListModal.close">Close</button>
             </div>
         </div>
     </div>
@@ -995,13 +1040,13 @@
     <!-- Metrics Print Preview Modal -->
     <div class="modal" id="metricsPrintModal">
         <div class="modal-content print-preview-content">
-            <h2>Metrics Print Preview</h2>
+            <h2 data-i18n="metrics.printPreviewTitle">Metrics Print Preview</h2>
             <div id="printPreviewContent" class="print-content">
                 <!-- Print content will be inserted here -->
             </div>
             <div class="form-buttons">
-                <button type="button" class="cancel-button" onclick="tracker.closePrintModal()">Close</button>
-                <button type="button" class="save-button" onclick="tracker.printMetrics()">Print</button>
+                <button type="button" class="cancel-button" onclick="tracker.closePrintModal()" data-i18n="weeklyView.close">Close</button>
+                <button type="button" class="save-button" onclick="tracker.printMetrics()" data-i18n="weeklyView.print">Print</button>
             </div>
         </div>
     </div>

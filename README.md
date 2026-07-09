@@ -1,6 +1,38 @@
-# Meds
+# Meds Tracker
 
-A simple medication tracker with flexible schedules, plus optionally track hospital procedures, doctor visits and health metrics (blood pressure, weight, temperature, etc.)
+A private, offline-first health tracker for medications, appointments, and health metrics. Runs entirely in the browser — no server, no account, no data leaves your device.
+
+## Features
+
+- **Medications** — schedule by time of day (Morning / Afternoon / Evening / Bedtime), frequency (daily, every other day, specific days), and duration (ongoing, weeks, months, end date, or bottle count). Check off doses as taken with one tap.
+- **Weekly view** — see the full week's medication schedule at a glance, printable.
+- **Appointments** — track doctor visits, infusions, lab work, procedures. Filter upcoming vs. past, mark complete.
+- **Health metrics** — log temperature, blood pressure, heart rate, blood glucose, weight, steps, oxygenation, sleep, and notes. Filter by metric and date range, printable report.
+- **Multiple profiles** — separate data sets for different people on the same device.
+- **P2P sync** — real-time sync between devices over WebRTC (no server required for data; uses PeerJS for signaling). Host generates a QR code; peers scan to join.
+- **Alarms** — configurable per time-of-day slot with custom sounds.
+- **45 languages** — full UI translation. Locale-aware date/time formatting throughout.
+- **6 themes** — Clean, Dark, Warm, High Contrast, Material, Soft.
+- **PWA** — installable to home screen, works offline after first load.
+
+## Data & Privacy
+
+All data is stored in your browser's `localStorage`. Nothing is transmitted anywhere except the optional P2P sync (which sends data directly to the other device, not to a server).
+
+**Export / Import** — use Settings → Data Management to download a full JSON backup or restore from one. Exports include all profiles and their data.
+
+**Clearing data** — Settings → Clear All Data removes everything for the current profile.
+
+## P2P Sync
+
+The sync feature uses WebRTC for direct device-to-device data transfer. PeerJS handles the WebRTC signaling (connection setup only — no health data passes through PeerJS servers).
+
+To use sync:
+1. Open the app on the host device, go to the profile sharing section
+2. The host generates a room code / QR code
+3. On the peer device, scan the QR code or enter the room code
+
+For self-hosting the PeerJS signaling server (recommended for medical data), see [PEERJS_SERVER_SETUP.md](PEERJS_SERVER_SETUP.md).
 
 ## Features
 
@@ -85,44 +117,24 @@ A simple medication tracker with flexible schedules, plus optionally track hospi
 8. Optionally add notes (e.g., "Bring insurance card", "Fasting required")
 9. Tap "Save"
 
-## Hosting Options
-
-Since this is a simple web app, you have several options:
-
-### Option 1: Quick Test (Easiest)
-1. Open [index.html](index.html) directly in Safari or Chrome
-2. Use AirDrop to send the entire folder to your iPad
-3. Open the index.html file from the Files app on iPad
-
-### Option 2: Host on GitHub Pages (Free, Recommended)
-1. Create a GitHub account if you don't have one
-2. Create a new repository and upload these files
-3. Enable GitHub Pages in repository settings
-4. Access via the provided GitHub Pages URL
-
-### Option 3: Host on Your Server
-Upload all three files (index.html, styles.css, app.js) to any web hosting service.
-
-## Technical Details
-
-- **No Backend Required** - Everything runs in the browser
-- **Data Storage** - Uses browser's localStorage (data stays on the iPad)
-- **Privacy** - No data leaves the device
-- **Works Offline** - Once loaded, works without internet
-
 ## Files
 
-- `index.html` - Main app structure
-- `styles.css` - Visual styling optimized for iPad
-- `app.js` - App functionality and data management
+| File | Purpose |
+|------|---------|
+| `index.html` | All HTML including every modal |
+| `app.js` | All application logic |
+| `styles.css` | All styles and theme variants |
+| `styles_profile.css` | Profile modal styles |
+| `translations.js` | i18n strings for 45 languages |
+| `manifest.json` | PWA manifest |
+| `peerjs.min.js` | PeerJS library (vendored) |
+| `qrcode.min.js` | QR code library (vendored) |
+| `sounds/` | Alarm sounds (alarm_01 – alarm_10.mp3) |
 
-## Tips
+## Hosting
 
-- The app automatically resets each day at midnight
-- All medications and check-offs are saved automatically
-- If you need to clear everything and start fresh, you can delete the app and re-add it to the home screen
-- For best experience, use in portrait mode on iPad
+Since the app is entirely static, it can be hosted anywhere:
 
-## Support
-
-This app was made with love for someone special. If you need any changes or have issues, just ask!
+- **GitHub Pages** — push the repo, enable Pages in repository settings
+- **Any web host** — upload all files, preserving directory structure
+- **Local network** — `python3 -m http.server 8080` on one device, access via local IP from others

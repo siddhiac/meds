@@ -811,6 +811,7 @@ class HealthTracker {
 
     initializeApp() {
         this.language = localStorage.getItem('language') || 'en';
+        this.theme = localStorage.getItem('theme') || 'clean';
         this.medications = this.loadMedications();
         this.medications.forEach(med => { if (med.critical === undefined) med.critical = true; });
         this.selectedDate = new Date();
@@ -871,6 +872,8 @@ class HealthTracker {
         this.applyTranslations();
         const langSelect = document.getElementById('languageSelect');
         if (langSelect) langSelect.value = this.language;
+        document.documentElement.dataset.theme = this.theme;
+        this.updateThemeSelector();
     }
 
     // Try to auto-reconnect to previous sync session
@@ -1040,7 +1043,7 @@ class HealthTracker {
 
         container.innerHTML = this.profiles.map(profile => {
             const isActive = this.currentProfile && this.currentProfile.id === profile.id;
-            const createdDate = new Date(profile.createdAt).toLocaleDateString('en-US', {
+            const createdDate = new Date(profile.createdAt).toLocaleDateString(this.language, {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric'
@@ -1639,7 +1642,7 @@ class HealthTracker {
         if (schedule.endDate) {
             const [year, month, day] = schedule.endDate.split('-').map(Number);
             const endDate = new Date(year, month - 1, day);
-            const formatted = endDate.toLocaleDateString(this.language === 'es' ? 'es-ES' : 'en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            const formatted = endDate.toLocaleDateString(this.language, { month: 'short', day: 'numeric', year: 'numeric' });
             desc += this.t('schedule.untilDate', { date: formatted });
         } else if (schedule.duration) {
             desc += ' ' + this.t('schedule.ongoing');
@@ -1853,11 +1856,6 @@ class HealthTracker {
             }
         });
 
-        // Appointment modal
-        document.getElementById('addApptButton').addEventListener('click', () => {
-            this.openApptModal();
-        });
-
         document.getElementById('apptCancelButton').addEventListener('click', () => {
             this.closeApptModal();
         });
@@ -1898,13 +1896,13 @@ class HealthTracker {
             const durationNumberGroup = document.getElementById('durationNumberGroup');
             const endDateGroup = document.getElementById('endDateGroup');
             const bottleDosesGroup = document.getElementById('bottleDosesGroup');
-            const durationUnit = document.getElementById('durationUnit');
+            const durationUnitLabel = document.getElementById('durationUnitLabel');
 
             if (e.target.value === 'weeks' || e.target.value === 'months') {
                 durationNumberGroup.style.display = 'block';
                 endDateGroup.style.display = 'none';
                 bottleDosesGroup.style.display = 'none';
-                durationUnit.textContent = e.target.value;
+                if (durationUnitLabel) durationUnitLabel.textContent = this.t(e.target.value === 'weeks' ? 'medModal.numOfWeeks' : 'medModal.numOfMonths');
             } else if (e.target.value === 'end-date') {
                 durationNumberGroup.style.display = 'none';
                 endDateGroup.style.display = 'block';
@@ -1932,10 +1930,7 @@ class HealthTracker {
             this.addSpecificTimeRow();
         });
 
-        // Log entry modal
-        document.getElementById('addLogButton').addEventListener('click', () => {
-            this.openLogModal();
-        });
+
 
         document.getElementById('logCancelButton').addEventListener('click', () => {
             this.closeLogModal();
@@ -1967,16 +1962,24 @@ class HealthTracker {
 
         logMetricCheckboxes.forEach(item => {
             const checkbox = document.getElementById(item.checkbox);
+
+            // Unchecking clears the associated input(s)
             checkbox.addEventListener('change', (e) => {
-                if (item.inputs) {
-                    // Multiple inputs (like blood pressure)
-                    item.inputs.forEach(inputId => {
-                        document.getElementById(inputId).disabled = !e.target.checked;
-                    });
-                } else {
-                    // Single input
-                    document.getElementById(item.input).disabled = !e.target.checked;
+                if (!e.target.checked) {
+                    const ids = item.inputs || [item.input];
+                    ids.forEach(id => { document.getElementById(id).value = ''; });
                 }
+            });
+
+            // Typing in an input auto-checks its checkbox; clearing auto-unchecks
+            const ids = item.inputs || [item.input];
+            ids.forEach(id => {
+                document.getElementById(id).addEventListener('input', () => {
+                    const hasValue = item.inputs
+                        ? item.inputs.some(i => document.getElementById(i).value.trim() !== '')
+                        : document.getElementById(item.input).value.trim() !== '';
+                    checkbox.checked = hasValue;
+                });
             });
         });
 
@@ -2170,7 +2173,7 @@ class HealthTracker {
                 datePickerContainer.innerHTML = `
                     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                         <input type="date" id="metricsDateFrom" class="date-picker" style="flex: 1; min-width: 150px;">
-                        <span style="color: #666;">to</span>
+                        <span style="color: #666;">${this.t('metrics.to')}</span>
                         <input type="date" id="metricsDateTo" class="date-picker" style="flex: 1; min-width: 150px;">
                         <div style="position: relative;">
                             <button id="metricsFilterButton" style="padding: 12px 20px; background: white; border: 2px solid #6b7c93; border-radius: 10px; font-size: 1.1rem; font-weight: 600; color: #6b7c93; cursor: pointer; white-space: nowrap;">
@@ -2293,8 +2296,8 @@ class HealthTracker {
                     <div class="header-app-info">
                         <img src="favicon.png" alt="App Icon" class="header-app-icon">
                         <div class="header-app-details">
-                            <div class="header-app-name">Meds Tracker</div>
-                            <div class="header-app-version">Version 1.3.0 — July 5, 2026</div>
+                            <div class="header-app-name">Meds</div>
+                            <div class="header-app-version">Version 1.5.0 — July 7, 2026</div>
                             <div class="header-app-author">by Sid Cooperrider</div>
                         </div>
                     </div>
@@ -2396,7 +2399,8 @@ class HealthTracker {
                 if (medication.schedule.durationType === 'weeks' || medication.schedule.durationType === 'months') {
                     document.getElementById('durationNumberGroup').style.display = 'block';
                     document.getElementById('medDurationNumber').value = medication.schedule.durationNumber;
-                    document.getElementById('durationUnit').textContent = medication.schedule.durationType;
+                    const durationUnitLabel = document.getElementById('durationUnitLabel');
+                    if (durationUnitLabel) durationUnitLabel.textContent = this.t(medication.schedule.durationType === 'weeks' ? 'medModal.numOfWeeks' : 'medModal.numOfMonths');
                 } else if (medication.schedule.durationType === 'end-date' && medication.schedule.endDate) {
                     document.getElementById('endDateGroup').style.display = 'block';
                     document.getElementById('medEndDate').value = medication.schedule.endDate;
@@ -2640,7 +2644,7 @@ class HealthTracker {
                 <div class="med-list-item-dosage">${med.dosage}</div>
                 <div class="med-list-item-schedule">${schedule}</div>
                 <div class="med-list-item-times">
-                    ${times.map(time => `<span class="med-list-time-badge">${time}</span>`).join('')}
+                    ${times.map(time => { const k = {Morning:'morning',Afternoon:'afternoon',Evening:'evening',Bedtime:'bedtime'}[time]; return `<span class="med-list-time-badge">${k ? this.t('timeOfDay.'+k) : time}</span>`; }).join('')}
                 </div>
             </div>
         `;
@@ -2648,47 +2652,47 @@ class HealthTracker {
 
     // Get schedule description text
     getScheduleDescription(schedule) {
-        if (!schedule) return 'Daily';
+        if (!schedule) return this.t('schedule.daily');
 
         let desc = '';
 
         // Frequency
         if (schedule.frequency === 'daily') {
-            desc = 'Daily';
+            desc = this.t('schedule.daily');
         } else if (schedule.frequency === 'every-other-day') {
-            desc = 'Every other day';
+            desc = this.t('schedule.everyOtherDay');
         } else if (schedule.frequency === 'mwf') {
-            desc = 'Monday, Wednesday, Friday';
+            desc = this.t('schedule.mwf');
         } else if (schedule.frequency === 'custom-days' && schedule.days) {
-            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            desc = schedule.days.map(d => dayNames[d]).join(', ');
+            const dayKeys = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+            desc = schedule.days.map(d => this.t('days.' + dayKeys[d])).join(', ');
         }
 
         // Start date
         if (schedule.startDate) {
             const [year, month, day] = schedule.startDate.split('-').map(Number);
             const startDate = new Date(year, month - 1, day);
-            desc += ` • Starts ${startDate.toLocaleDateString()}`;
+            desc += ' ' + this.t('schedule.starts').replace('{{date}}', startDate.toLocaleDateString());
         }
 
         // Duration
         if (schedule.durationType === 'weeks') {
-            desc += ` • ${schedule.durationNumber} weeks`;
+            desc += ' ' + this.t('schedule.nWeeks').replace('{{n}}', schedule.durationNumber);
         } else if (schedule.durationType === 'months') {
-            desc += ` • ${schedule.durationNumber} months`;
+            desc += ' ' + this.t('schedule.nMonths').replace('{{n}}', schedule.durationNumber);
         } else if (schedule.durationType === 'end-date' && schedule.endDate) {
             const [eYear, eMonth, eDay] = schedule.endDate.split('-').map(Number);
             const endDate = new Date(eYear, eMonth - 1, eDay);
-            desc += ` • Until ${endDate.toLocaleDateString()}`;
+            desc += ' ' + this.t('schedule.untilDate').replace('{{date}}', endDate.toLocaleDateString());
         } else if (schedule.durationType === 'bottle-doses' && schedule.bottleDoses) {
-            desc += ` • ${schedule.bottleDoses} doses`;
+            desc += ' ' + this.t('schedule.nDoses').replace('{{n}}', schedule.bottleDoses);
             if (schedule.endDate) {
                 const [eYear, eMonth, eDay] = schedule.endDate.split('-').map(Number);
                 const endDate = new Date(eYear, eMonth - 1, eDay);
-                desc += ` (until ${endDate.toLocaleDateString()})`;
+                desc += ' ' + this.t('schedule.untilDateParens').replace('{{date}}', endDate.toLocaleDateString());
             }
         } else if (schedule.durationType === 'ongoing') {
-            desc += ' • Ongoing';
+            desc += ' • ' + this.t('schedule.ongoing');
         }
 
         return desc;
@@ -3056,25 +3060,34 @@ class HealthTracker {
         const isCompleted = appt.completed;
 
         // Format date and time
-        const locale = this.language === 'es' ? 'es-ES' : 'en-US';
+        const locale = this.language;
         const dateOptions = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
         const formattedDate = apptDate.toLocaleDateString(locale, dateOptions);
         const formattedTime = apptDate.toLocaleTimeString(locale, { hour: 'numeric', minute: '2-digit' });
 
-        // Get type badge class
+        // Get type badge class and translated label
         const typeClass = appt.type.toLowerCase().replace(' ', '');
+        const typeKeyMap = {
+            'Doctor Visit': 'apptModal.typeDoctorVisit',
+            'Infusion':     'apptModal.typeInfusion',
+            'Lab Work':     'apptModal.typeLabWork',
+            'Procedure':    'apptModal.typeProcedure',
+            'Other':        'apptModal.typeOther'
+        };
+        const typeLabel = this.t(typeKeyMap[appt.type] || appt.type);
+        const locationLabel = this.t(appt.location === 'Virtual' ? 'apptModal.locationVirtual' : 'apptModal.locationInPerson');
 
         return `
             <div class="appt-card ${isPast ? 'past' : ''} ${isCompleted ? 'completed' : ''}" data-id="${appt.id}">
                 <div class="appt-header">
-                    <div class="appt-type-badge ${typeClass}">${appt.type}</div>
+                    <div class="appt-type-badge ${typeClass}">${typeLabel}</div>
                 </div>
                 <div class="appt-title">${appt.title}</div>
                 <div class="appt-datetime">
-                    📅 ${formattedDate} at ${formattedTime}
+                    📅 ${formattedDate} ${this.t('appointments.at')} ${formattedTime}
                 </div>
                 <div class="appt-location">
-                    ${appt.location === 'Virtual' ? '💻' : '🏥'} ${appt.location}
+                    ${appt.location === 'Virtual' ? '💻' : '🏥'} ${locationLabel}
                 </div>
                 ${appt.address ? `<div class="appt-address">${appt.address}</div>` : ''}
                 ${appt.notes ? `<div class="appt-notes">📝 ${appt.notes}</div>` : ''}
@@ -3270,7 +3283,7 @@ class HealthTracker {
     }
 
     renderLogCard(log) {
-        const locale = this.language === 'es' ? 'es-ES' : 'en-US';
+        const locale = this.language;
         const date = new Date(log.datetime);
         const dateStr = date.toLocaleDateString(locale, {
             month: 'short',
@@ -3384,14 +3397,10 @@ class HealthTracker {
             document.getElementById('logModalTitle').textContent = this.t('logModal.addTitle');
             form.reset();
 
-            // Uncheck all checkboxes and disable all inputs
+            // Uncheck all checkboxes
             ['enableTemperature', 'enableBloodPressure', 'enableHeartRate', 'enableGlucose', 'enableWeight', 'enableSteps', 'enableOxygenation', 'enableSleep', 'enableNotes'].forEach(id => {
                 const checkbox = document.getElementById(id);
                 if (checkbox) checkbox.checked = false;
-            });
-            ['logTemperature', 'logBPSystolic', 'logBPDiastolic', 'logHeartRate', 'logGlucose', 'logWeight', 'logSteps', 'logOxygenation', 'logSleep', 'logNotes'].forEach(id => {
-                const input = document.getElementById(id);
-                if (input) input.disabled = true;
             });
 
             // Set default datetime to now
@@ -3415,14 +3424,10 @@ class HealthTracker {
 
         if (Array.isArray(inputId)) {
             inputId.forEach((id, index) => {
-                const input = document.getElementById(id);
-                input.disabled = !hasValue;
-                input.value = hasValue && value[index] ? value[index] : '';
+                document.getElementById(id).value = hasValue && value[index] ? value[index] : '';
             });
         } else {
-            const input = document.getElementById(inputId);
-            input.disabled = !hasValue;
-            input.value = hasValue ? value : '';
+            document.getElementById(inputId).value = hasValue ? value : '';
         }
     }
 
@@ -4003,21 +4008,21 @@ class HealthTracker {
     // Generate metrics filter dropdown options based on enabled metrics
     generateMetricsFilterOptions() {
         const metricOptions = [
-            { key: 'temperature', filterId: 'filterTemperature', label: 'Temperature' },
-            { key: 'bloodpressure', filterId: 'filterBloodPressure', label: 'Blood Pressure' },
-            { key: 'heartrate', filterId: 'filterHeartRate', label: 'Heart Rate' },
-            { key: 'bloodsugar', filterId: 'filterGlucose', label: 'Blood Glucose' },
-            { key: 'weight', filterId: 'filterWeight', label: 'Weight' },
-            { key: 'steps', filterId: 'filterSteps', label: 'Steps' },
-            { key: 'oxygenation', filterId: 'filterOxygenation', label: 'Oxygenation' },
-            { key: 'sleep', filterId: 'filterSleep', label: 'Sleep' }
+            { key: 'temperature', filterId: 'filterTemperature', tKey: 'settings.temperature' },
+            { key: 'bloodpressure', filterId: 'filterBloodPressure', tKey: 'settings.bloodPressure' },
+            { key: 'heartrate', filterId: 'filterHeartRate', tKey: 'settings.heartRate' },
+            { key: 'bloodsugar', filterId: 'filterGlucose', tKey: 'settings.bloodSugar' },
+            { key: 'weight', filterId: 'filterWeight', tKey: 'settings.weight' },
+            { key: 'steps', filterId: 'filterSteps', tKey: 'settings.steps' },
+            { key: 'oxygenation', filterId: 'filterOxygenation', tKey: 'settings.oxygenation' },
+            { key: 'sleep', filterId: 'filterSleep', tKey: 'settings.sleep' }
         ];
 
-        let html = '<div style="margin-bottom: 10px; font-weight: bold; color: #333;">Show Metrics:</div>';
+        let html = `<div style="margin-bottom: 10px; font-weight: bold; color: #333;">${this.t('metrics.showMetrics')}</div>`;
         html += `
             <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px; font-weight: 600;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
                 <input type="checkbox" id="filterAll" checked style="width: 18px; height: 18px; cursor: pointer;">
-                <span style="font-size: 1.1rem;">All</span>
+                <span style="font-size: 1.1rem;">${this.t('metrics.all')}</span>
             </label>
             <div style="height: 1px; background: #ddd; margin: 8px 0;"></div>
         `;
@@ -4028,7 +4033,7 @@ class HealthTracker {
                 html += `
                     <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
                         <input type="checkbox" id="${metric.filterId}" checked style="width: 18px; height: 18px; cursor: pointer;">
-                        <span style="font-size: 1.1rem;">${metric.label}</span>
+                        <span style="font-size: 1.1rem;">${this.t(metric.tKey)}</span>
                     </label>
                 `;
             }
@@ -4038,7 +4043,7 @@ class HealthTracker {
         html += `
             <label style="display: flex; align-items: center; gap: 8px; padding: 8px; cursor: pointer; border-radius: 6px;" onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='white'">
                 <input type="checkbox" id="filterNotes" checked style="width: 18px; height: 18px; cursor: pointer;">
-                <span style="font-size: 1.1rem;">Notes</span>
+                <span style="font-size: 1.1rem;">${this.t('metrics.notes')}</span>
             </label>
         `;
 
@@ -4062,9 +4067,9 @@ class HealthTracker {
 
         // Generate print content
         let html = '<div class="print-header">';
-        html += '<h3>Health Metrics Report</h3>';
+        html += `<h3>${this.t('metrics.reportTitle')}</h3>`;
         html += `<div class="print-date-range">`;
-        html += `${this.metricsDateFrom.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} to ${this.metricsDateTo.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+        html += `${this.metricsDateFrom.toLocaleDateString(this.language, { month: 'short', day: 'numeric', year: 'numeric' })} to ${this.metricsDateTo.toLocaleDateString(this.language, { month: 'short', day: 'numeric', year: 'numeric' })}`;
         html += `</div>`;
         html += '</div>';
 
@@ -4073,8 +4078,8 @@ class HealthTracker {
         } else {
             filteredLogs.forEach(log => {
                 const logDate = new Date(log.datetime);
-                const dateStr = logDate.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
-                const timeStr = logDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                const dateStr = logDate.toLocaleDateString(this.language, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+                const timeStr = logDate.toLocaleTimeString(this.language, { hour: 'numeric', minute: '2-digit' });
 
                 // Build metrics line
                 const metrics = [];
@@ -4180,8 +4185,8 @@ class HealthTracker {
         // Header row with days
         html += '<div class="weekly-header-row">';
         weekDays.forEach(date => {
-            const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
-            const monthDay = date.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' });
+            const dayName = date.toLocaleDateString(this.language, { weekday: 'short' });
+            const monthDay = date.toLocaleDateString(this.language, { month: 'numeric', day: 'numeric' });
             html += `<div class="weekly-day-header">${dayName} ${monthDay}</div>`;
         });
         html += '</div>';
@@ -4204,7 +4209,7 @@ class HealthTracker {
             // Only render this time row if it has medications
             if (hasAnyMeds) {
                 html += `<div class="weekly-time-row">`;
-                html += `<div class="weekly-time-header-full">${time}</div>`;
+                html += `<div class="weekly-time-header-full">${this.t('timeOfDay.' + time.toLowerCase())}</div>`;
                 html += `<div class="weekly-time-columns">`;
 
                 dayMedsHtml.forEach(dayHtml => {
@@ -4679,6 +4684,19 @@ class HealthTracker {
         this.renderMedications();
         this.renderAppointments();
         this.renderLogs();
+    }
+
+    setTheme(theme) {
+        this.theme = theme;
+        localStorage.setItem('theme', theme);
+        document.documentElement.dataset.theme = theme;
+        this.updateThemeSelector();
+    }
+
+    updateThemeSelector() {
+        document.querySelectorAll('.theme-option').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.theme === this.theme);
+        });
     }
 
     // Version Check Methods

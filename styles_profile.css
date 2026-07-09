@@ -1,10 +1,10 @@
 /* Unified Profile Section Styles */
 
 .profile-card {
-    background: #f8f9fa;
+    background: var(--bg-surface-alt);
     border-radius: 12px;
     padding: 20px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border);
 }
 
 .profile-header {
@@ -21,7 +21,7 @@
 .profile-name {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #2c3e50;
+    color: var(--text-primary);
 }
 
 .profile-sync-badge {
@@ -29,7 +29,7 @@
     align-items: center;
     gap: 6px;
     padding: 4px 12px;
-    background: #e8f5e9;
+    background: var(--success-bg);
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 600;
@@ -43,7 +43,7 @@
 
 .profile-desc {
     font-size: 0.95rem;
-    color: #666;
+    color: var(--text-secondary);
     line-height: 1.4;
 }
 
@@ -58,9 +58,9 @@
     align-items: center;
     gap: 15px;
     padding: 16px 20px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border);
     border-radius: 10px;
-    background: white;
+    background: var(--bg-surface);
     cursor: pointer;
     transition: all 0.2s ease;
     font-size: 1rem;
@@ -69,7 +69,7 @@
 }
 
 .profile-action-button:hover {
-    border-color: #6b7c93;
+    border-color: var(--accent);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -100,12 +100,12 @@
 .profile-action-title {
     font-weight: 600;
     margin-bottom: 4px;
-    color: #2c3e50;
+    color: var(--text-primary);
 }
 
 .profile-action-desc {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 /* Sharing State */
@@ -115,7 +115,7 @@
 
 .sharing-instructions {
     text-align: center;
-    color: #666;
+    color: var(--text-secondary);
     margin-bottom: 15px;
     font-size: 0.95rem;
 }
@@ -123,25 +123,25 @@
 .connected-devices-section {
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 2px solid #e0e0e0;
+    border-top: 2px solid var(--border);
 }
 
 .connected-devices-title {
     font-size: 1rem;
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--text-primary);
     margin-bottom: 12px;
 }
 
 .connected-devices-list {
-    background: white;
+    background: var(--bg-surface);
     border-radius: 8px;
     padding: 12px;
     min-height: 50px;
 }
 
 .no-devices-yet {
-    color: #999;
+    color: var(--text-tertiary);
     font-size: 0.9rem;
     text-align: center;
     font-style: italic;
@@ -156,7 +156,7 @@
     display: flex;
     justify-content: space-between;
     padding: 10px 0;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid var(--border);
 }
 
 .connected-detail:last-of-type {
@@ -165,22 +165,22 @@
 
 .connected-label {
     font-weight: 600;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 .connected-value {
-    color: #2c3e50;
+    color: var(--text-primary);
 }
 
 .connected-value.sync-online {
-    color: #28a745;
+    color: var(--success);
     font-weight: 600;
 }
 
 .connected-note {
     margin-top: 15px;
     padding: 12px;
-    background: #e8f5e9;
+    background: var(--success-bg);
     border-radius: 8px;
     font-size: 0.9rem;
     color: #1b5e20;
@@ -200,9 +200,9 @@
     align-items: center;
     gap: 15px;
     padding: 18px 20px;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border);
     border-radius: 10px;
-    background: white;
+    background: var(--bg-surface);
     cursor: pointer;
     transition: all 0.2s ease;
     width: 100%;
@@ -210,7 +210,7 @@
 }
 
 .profile-choice-button:hover {
-    border-color: #6b7c93;
+    border-color: var(--accent);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -228,20 +228,20 @@
     font-weight: 600;
     font-size: 1.1rem;
     margin-bottom: 4px;
-    color: #2c3e50;
+    color: var(--text-primary);
 }
 
 .profile-choice-desc {
     font-size: 0.9rem;
-    color: #666;
+    color: var(--text-secondary);
 }
 
 /* Compact Time & Alarm Table */
 .time-alarm-table {
-    background: #f8f9fa;
+    background: var(--bg-surface-alt);
     border-radius: 8px;
     overflow: hidden;
-    border: 2px solid #e0e0e0;
+    border: 2px solid var(--border);
 }
 
 .time-alarm-header {
@@ -249,10 +249,10 @@
     grid-template-columns: 100px 1fr 2fr 60px;
     gap: 10px;
     padding: 10px 12px;
-    background: #e0e0e0;
+    background: var(--border);
     font-weight: 600;
     font-size: 0.85rem;
-    color: #2c3e50;
+    color: var(--text-primary);
 }
 
 .time-alarm-row {
@@ -261,8 +261,8 @@
     gap: 10px;
     padding: 10px 12px;
     align-items: center;
-    border-bottom: 1px solid #e0e0e0;
-    background: white;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-surface);
 }
 
 .time-alarm-row:last-child {
@@ -270,12 +270,12 @@
 }
 
 .time-alarm-row:hover {
-    background: #f8f9fa;
+    background: var(--bg-surface-alt);
 }
 
 .time-alarm-col-label {
     font-weight: 600;
-    color: #2c3e50;
+    color: var(--text-primary);
     font-size: 0.95rem;
 }
 
@@ -287,15 +287,15 @@
 .time-input-compact {
     width: 100%;
     padding: 6px 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     border-radius: 6px;
     font-size: 0.95rem;
-    background: white;
+    background: var(--bg-surface);
 }
 
 .time-input-compact:focus {
     outline: none;
-    border-color: #6b7c93;
+    border-color: var(--accent);
     box-shadow: 0 0 0 2px rgba(107, 124, 147, 0.1);
 }
 
@@ -307,16 +307,16 @@
 .alarm-select-compact {
     width: 100%;
     padding: 6px 8px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     border-radius: 6px;
     font-size: 0.9rem;
-    background: white;
+    background: var(--bg-surface);
     cursor: pointer;
 }
 
 .alarm-select-compact:focus {
     outline: none;
-    border-color: #6b7c93;
+    border-color: var(--accent);
     box-shadow: 0 0 0 2px rgba(107, 124, 147, 0.1);
 }
 
@@ -329,10 +329,10 @@
     width: 40px;
     height: 32px;
     padding: 0;
-    border: 1px solid #6b7c93;
+    border: 1px solid var(--accent);
     border-radius: 6px;
-    background: white;
-    color: #6b7c93;
+    background: var(--bg-surface);
+    color: var(--accent);
     cursor: pointer;
     font-size: 1rem;
     display: flex;
@@ -342,7 +342,7 @@
 }
 
 .test-alarm-compact:hover {
-    background: #6b7c93;
+    background: var(--accent);
     color: white;
 }
 
