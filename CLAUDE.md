@@ -54,7 +54,7 @@ Log object shape: `{ id, datetime, temperature?, bpSystolic?, bpDiastolic?, hear
 
 ### i18n System
 
-`translations.js` exports `const TRANSLATIONS` — a flat object keyed by language code (`en`, `es`, `zh`, `zh-TW`, `ko`, …45 total). Each language has nested keys: `tab`, `header`, `settings`, `medListModal`, `medModal`, `asNeededModal`, `apptModal`, `appointments`, `metrics`, `logModal`, `weeklyView`, `schedule`, `days`, `timeOfDay`, `morningCheck`.
+`translations.js` exports `const TRANSLATIONS` — a flat object keyed by language code (`en`, `es`, `zh`, `zh-TW`, `ko`, …59 total). Each language has nested keys: `tab`, `header`, `settings`, `medListModal`, `medModal`, `asNeededModal`, `apptModal`, `appointments`, `metrics`, `logModal`, `weeklyView`, `schedule`, `days`, `timeOfDay`, `morningCheck`.
 
 - `this.t('some.key')` — resolves dot-separated key, falls back to English, then returns the key string if not found
 - `applyTranslations()` — sets `textContent` on all `[data-i18n]` elements, `placeholder` on `[data-i18n-placeholder]`, `title` on `[data-i18n-title]`

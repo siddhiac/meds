@@ -13,7 +13,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'No medications scheduled for today.',
-      takenAt: 'Taken at',
+      takenAt: 'Taken at', editTime: 'Edit Time Taken',
       critical: 'Critical', optional: 'Optional',
       tapToPriority: 'Tap to change priority'
     },
@@ -68,7 +68,7 @@ const TRANSLATIONS = {
       importData: 'Import Data', importDesc: 'Restore data from a backup file',
       clearData: 'Clear All Data', clearDesc: 'Delete all medications, logs, and appointments',
       language: 'Language',
-      appearance: 'Appearance',
+      appearance: 'Appearance', themeAuto: 'Auto',
       install: 'Install as Home Screen App',
       installDesc: 'Learn how to add this app to your home screen'
     },
@@ -206,7 +206,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'No hay medicamentos programados para hoy.',
-      takenAt: 'Tomado a las',
+      takenAt: 'Tomado a las', editTime: 'Editar Hora de Toma',
       critical: 'Crítico', optional: 'Opcional',
       tapToPriority: 'Toca para cambiar prioridad'
     },
@@ -261,7 +261,7 @@ const TRANSLATIONS = {
       importData: 'Importar Datos', importDesc: 'Restaurar datos desde un archivo de respaldo',
       clearData: 'Borrar Todos los Datos', clearDesc: 'Eliminar todos los medicamentos, registros y citas',
       language: 'Idioma',
-      appearance: 'Apariencia',
+      appearance: 'Apariencia', themeAuto: 'Auto',
       install: 'Instalar como App en Pantalla de Inicio',
       installDesc: 'Aprende cómo agregar esta app a tu pantalla de inicio'
     },
@@ -399,7 +399,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: '今天没有安排药物。',
-      takenAt: '服药时间',
+      takenAt: '服药时间', editTime: '编辑服药时间',
       critical: '重要', optional: '可选',
       tapToPriority: '点击更改优先级'
     },
@@ -454,7 +454,7 @@ const TRANSLATIONS = {
       importData: '导入数据', importDesc: '从备份文件恢复数据',
       clearData: '清除所有数据', clearDesc: '删除所有药物、记录和预约',
       language: '语言',
-      appearance: '外观',
+      appearance: '外观', themeAuto: '自动',
       install: '安装到主屏幕',
       installDesc: '了解如何将此应用添加到主屏幕'
     },
@@ -592,7 +592,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Hôm nay không có thuốc nào được lên lịch.',
-      takenAt: 'Đã uống lúc',
+      takenAt: 'Đã uống lúc', editTime: 'Chỉnh Sửa Giờ Uống',
       critical: 'Quan Trọng', optional: 'Tùy Chọn',
       tapToPriority: 'Nhấn để thay đổi mức độ ưu tiên'
     },
@@ -647,7 +647,7 @@ const TRANSLATIONS = {
       importData: 'Nhập Dữ Liệu', importDesc: 'Khôi phục dữ liệu từ tệp sao lưu',
       clearData: 'Xóa Tất Cả Dữ Liệu', clearDesc: 'Xóa tất cả thuốc, nhật ký và lịch hẹn',
       language: 'Ngôn Ngữ',
-      appearance: 'Giao diện',
+      appearance: 'Giao diện', themeAuto: 'Tự động',
       install: 'Cài Đặt Như Ứng Dụng Màn Hình Chính',
       installDesc: 'Tìm hiểu cách thêm ứng dụng này vào màn hình chính'
     },
@@ -785,7 +785,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Walang gamot na naka-iskedyul para ngayon.',
-      takenAt: 'Nainom noong',
+      takenAt: 'Nainom noong', editTime: 'I-edit ang Oras na Ininom',
       critical: 'Mahalaga', optional: 'Opsyonal',
       tapToPriority: 'I-tap para baguhin ang priyoridad'
     },
@@ -840,7 +840,7 @@ const TRANSLATIONS = {
       importData: 'I-import ang Data', importDesc: 'Ibalik ang data mula sa backup file',
       clearData: 'Burahin ang Lahat ng Data', clearDesc: 'Tanggalin ang lahat ng gamot, log, at appointment',
       language: 'Wika',
-      appearance: 'Hitsura',
+      appearance: 'Hitsura', themeAuto: 'Auto',
       install: 'I-install bilang Home Screen App',
       installDesc: 'Alamin kung paano idagdag ang app na ito sa iyong home screen'
     },
@@ -978,7 +978,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: '오늘 예정된 약이 없습니다.',
-      takenAt: '복용 시간',
+      takenAt: '복용 시간', editTime: '복용 시간 편집',
       critical: '중요', optional: '선택',
       tapToPriority: '탭하여 우선순위 변경'
     },
@@ -1033,7 +1033,7 @@ const TRANSLATIONS = {
       importData: '데이터 가져오기', importDesc: '백업 파일에서 데이터 복원',
       clearData: '모든 데이터 삭제', clearDesc: '모든 약, 기록 및 예약 삭제',
       language: '언어',
-      appearance: '외관',
+      appearance: '외관', themeAuto: '자동',
       install: '홈 화면 앱으로 설치',
       installDesc: '이 앱을 홈 화면에 추가하는 방법 알아보기'
     },
@@ -1171,7 +1171,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Այսօրվա համար դեղ չի նախատեսված։',
-      takenAt: 'Ընդունված է ժամը',
+      takenAt: 'Ընդունված է ժամը', editTime: 'Խմբագրել ընդունման ժամը',
       critical: 'Կարևոր', optional: 'Կամընտրական',
       tapToPriority: 'Սեղմեք՝ առաջնահերթությունը փոխելու համար'
     },
@@ -1226,7 +1226,7 @@ const TRANSLATIONS = {
       importData: 'Ներմուծել Տվյալները', importDesc: 'Վերականգնել տվյալները կրկնօրինակ ֆայլից',
       clearData: 'Ջնջել Բոլոր Տվյալները', clearDesc: 'Ջնջել բոլոր դեղերը, գրառումները և ժամադրությունները',
       language: 'Լեզու',
-      appearance: 'Արտաքին տեսք',
+      appearance: 'Արտաքին տեսք', themeAuto: 'Ավտոմատ',
       install: 'Տեղադրել Որպես Հիմնական Էկրանի Հավելված',
       installDesc: 'Իմացեք, թե ինչպես ավելացնել այս հավելվածը հիմնական էկրանին'
     },
@@ -1364,7 +1364,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'На сегодня лекарства не запланированы.',
-      takenAt: 'Принято в',
+      takenAt: 'Принято в', editTime: 'Изменить время приёма',
       critical: 'Важное', optional: 'Необязательное',
       tapToPriority: 'Нажмите для изменения приоритета'
     },
@@ -1419,7 +1419,7 @@ const TRANSLATIONS = {
       importData: 'Импортировать Данные', importDesc: 'Восстановить данные из резервной копии',
       clearData: 'Удалить Все Данные', clearDesc: 'Удалить все лекарства, записи и приёмы',
       language: 'Язык',
-      appearance: 'Внешний вид',
+      appearance: 'Внешний вид', themeAuto: 'Авто',
       install: 'Установить на Главный Экран',
       installDesc: 'Узнайте, как добавить это приложение на главный экран'
     },
@@ -1557,7 +1557,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: '本日の服薬予定はありません。',
-      takenAt: '服用時刻',
+      takenAt: '服用時刻', editTime: '服用時刻を編集',
       critical: '重要', optional: '任意',
       tapToPriority: 'タップして優先度を変更'
     },
@@ -1612,7 +1612,7 @@ const TRANSLATIONS = {
       importData: 'データをインポート', importDesc: 'バックアップファイルからデータを復元',
       clearData: 'すべてのデータを削除', clearDesc: 'すべての薬、記録、予約を削除',
       language: '言語',
-      appearance: '外観',
+      appearance: '外観', themeAuto: '自動',
       install: 'ホーム画面にインストール',
       installDesc: 'このアプリをホーム画面に追加する方法を確認'
     },
@@ -1750,7 +1750,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'لا توجد أدوية مجدولة اليوم.',
-      takenAt: 'تم التناول في',
+      takenAt: 'تم التناول في', editTime: 'تعديل وقت التناول',
       critical: 'ضروري', optional: 'اختياري',
       tapToPriority: 'اضغط لتغيير الأولوية'
     },
@@ -1805,7 +1805,7 @@ const TRANSLATIONS = {
       importData: 'استيراد البيانات', importDesc: 'استعادة البيانات من ملف نسخ احتياطي',
       clearData: 'حذف جميع البيانات', clearDesc: 'حذف جميع الأدوية والسجلات والمواعيد',
       language: 'اللغة',
-      appearance: 'المظهر',
+      appearance: 'المظهر', themeAuto: 'تلقائي',
       install: 'تثبيت كتطبيق على الشاشة الرئيسية',
       installDesc: 'تعرف على كيفية إضافة هذا التطبيق إلى شاشتك الرئيسية'
     },
@@ -1943,7 +1943,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'امروز هیچ دارویی برنامه‌ریزی نشده است.',
-      takenAt: 'مصرف شده در',
+      takenAt: 'مصرف شده در', editTime: 'ویرایش زمان مصرف',
       critical: 'ضروری', optional: 'اختیاری',
       tapToPriority: 'برای تغییر اولویت ضربه بزنید'
     },
@@ -1998,7 +1998,7 @@ const TRANSLATIONS = {
       importData: 'ورودی داده', importDesc: 'بازیابی داده از فایل پشتیبان',
       clearData: 'حذف همه داده‌ها', clearDesc: 'حذف همه داروها، گزارش‌ها و قرار ملاقات‌ها',
       language: 'زبان',
-      appearance: 'ظاهر',
+      appearance: 'ظاهر', themeAuto: 'خودکار',
       install: 'نصب به عنوان برنامه صفحه اصلی',
       installDesc: 'یاد بگیرید چگونه این برنامه را به صفحه اصلی اضافه کنید'
     },
@@ -2136,7 +2136,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'आज कोई दवा शेड्यूल नहीं है।',
-      takenAt: 'ली गई',
+      takenAt: 'ली गई', editTime: 'लेने का समय संपादित करें',
       critical: 'ज़रूरी', optional: 'वैकल्पिक',
       tapToPriority: 'प्राथमिकता बदलने के लिए टैप करें'
     },
@@ -2191,7 +2191,7 @@ const TRANSLATIONS = {
       importData: 'डेटा आयात करें', importDesc: 'बैकअप फ़ाइल से डेटा पुनर्स्थापित करें',
       clearData: 'सभी डेटा हटाएं', clearDesc: 'सभी दवाएं, रिकॉर्ड और अपॉइंटमेंट हटाएं',
       language: 'भाषा',
-      appearance: 'दिखावट',
+      appearance: 'दिखावट', themeAuto: 'स्वचालित',
       install: 'होम स्क्रीन ऐप के रूप में इंस्टॉल करें',
       installDesc: 'इस ऐप को अपनी होम स्क्रीन पर जोड़ने का तरीका जानें'
     },
@@ -2329,7 +2329,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'ਅੱਜ ਕੋਈ ਦਵਾਈ ਤਹਿ ਨਹੀਂ ਹੈ।',
-      takenAt: 'ਲਈ ਗਈ',
+      takenAt: 'ਲਈ ਗਈ', editTime: 'ਲੈਣ ਦਾ ਸਮਾਂ ਸੰਪਾਦਿਤ ਕਰੋ',
       critical: 'ਜ਼ਰੂਰੀ', optional: 'ਵਿਕਲਪਿਕ',
       tapToPriority: 'ਤਰਜੀਹ ਬਦਲਣ ਲਈ ਟੈਪ ਕਰੋ'
     },
@@ -2384,7 +2384,7 @@ const TRANSLATIONS = {
       importData: 'ਡੇਟਾ ਆਯਾਤ ਕਰੋ', importDesc: 'ਬੈਕਅੱਪ ਫਾਈਲ ਤੋਂ ਡੇਟਾ ਬਹਾਲ ਕਰੋ',
       clearData: 'ਸਾਰਾ ਡੇਟਾ ਮਿਟਾਓ', clearDesc: 'ਸਾਰੀਆਂ ਦਵਾਈਆਂ, ਰਿਕਾਰਡ ਅਤੇ ਅਪੌਇੰਟਮੈਂਟ ਮਿਟਾਓ',
       language: 'ਭਾਸ਼ਾ',
-      appearance: 'ਦਿੱਖ',
+      appearance: 'ਦਿੱਖ', themeAuto: 'ਆਟੋ',
       install: 'ਹੋਮ ਸਕਰੀਨ ਐਪ ਵਜੋਂ ਇੰਸਟਾਲ ਕਰੋ',
       installDesc: 'ਇਸ ਐਪ ਨੂੰ ਆਪਣੀ ਹੋਮ ਸਕਰੀਨ ਤੇ ਕਿਵੇਂ ਜੋੜਨਾ ਹੈ ਇਹ ਜਾਣੋ'
     },
@@ -2522,7 +2522,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Aucun médicament prévu aujourd\'hui.',
-      takenAt: 'Pris à',
+      takenAt: 'Pris à', editTime: 'Modifier l’heure de prise',
       critical: 'Essentiel', optional: 'Optionnel',
       tapToPriority: 'Appuyer pour changer la priorité'
     },
@@ -2577,7 +2577,7 @@ const TRANSLATIONS = {
       importData: 'Importer les données', importDesc: 'Restaurer les données depuis un fichier de sauvegarde',
       clearData: 'Supprimer toutes les données', clearDesc: 'Supprimer tous les médicaments, historiques et rendez-vous',
       language: 'Langue',
-      appearance: 'Apparence',
+      appearance: 'Apparence', themeAuto: 'Auto',
       install: 'Installer sur l\'écran d\'accueil',
       installDesc: 'Découvrez comment ajouter cette appli à votre écran d\'accueil'
     },
@@ -2715,7 +2715,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Heute keine Medikamente geplant.',
-      takenAt: 'Genommen um',
+      takenAt: 'Genommen um', editTime: 'Einnahmezeit bearbeiten',
       critical: 'Wichtig', optional: 'Optional',
       tapToPriority: 'Tippen um Priorität zu ändern'
     },
@@ -2770,7 +2770,7 @@ const TRANSLATIONS = {
       importData: 'Daten importieren', importDesc: 'Daten aus einer Sicherungsdatei wiederherstellen',
       clearData: 'Alle Daten löschen', clearDesc: 'Alle Medikamente, Einnahmen und Termine löschen',
       language: 'Sprache',
-      appearance: 'Aussehen',
+      appearance: 'Aussehen', themeAuto: 'Auto',
       install: 'Als App auf dem Startbildschirm installieren',
       installDesc: 'Erfahren Sie, wie Sie diese App zu Ihrem Startbildschirm hinzufügen'
     },
@@ -2908,7 +2908,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Nenhum medicamento agendado para hoje.',
-      takenAt: 'Tomado às',
+      takenAt: 'Tomado às', editTime: 'Editar Hora de Toma',
       critical: 'Essencial', optional: 'Opcional',
       tapToPriority: 'Toque para mudar a prioridade'
     },
@@ -2963,7 +2963,7 @@ const TRANSLATIONS = {
       importData: 'Importar dados', importDesc: 'Restaurar dados a partir de um arquivo de backup',
       clearData: 'Excluir todos os dados', clearDesc: 'Excluir todos os medicamentos, registros e consultas',
       language: 'Idioma',
-      appearance: 'Aparência',
+      appearance: 'Aparência', themeAuto: 'Auto',
       install: 'Instalar como app na tela inicial',
       installDesc: 'Saiba como adicionar este app à sua tela inicial'
     },
@@ -3101,7 +3101,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Awan ti agas para ita nga aldaw.',
-      takenAt: 'Nainumen ti',
+      takenAt: 'Nainumen ti', editTime: 'I-edit ti Oras nga Nainum',
       critical: 'Importante', optional: 'Opsional',
       tapToPriority: 'I-tap tapno balbaliwen ti prioridad'
     },
@@ -3156,7 +3156,7 @@ const TRANSLATIONS = {
       importData: 'I-import ti Data', importDesc: 'Isubli ti datos manipud backup',
       clearData: 'Buraen ti Amin nga Data', clearDesc: 'Buraen ti amin nga agas, rekord, ken urnos',
       language: 'Lengguahe',
-      appearance: 'Rupa',
+      appearance: 'Rupa', themeAuto: 'Auto',
       install: 'Iinstalar kas App iti Home Screen',
       installDesc: 'Amuen no kasano ti pagnayon iti app iti home screen'
     },
@@ -3294,7 +3294,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Leai se vailaʻau mo aso nei.',
-      takenAt: 'Aʻoaʻo i le',
+      takenAt: 'Aʻoaʻo i le', editTime: 'Fa’atonutonu Taimi na Inu',
       critical: 'Tāua', optional: 'Filifilia',
       tapToPriority: 'Taaʻi e suia le tāua'
     },
@@ -3349,7 +3349,7 @@ const TRANSLATIONS = {
       importData: 'Aumai Faʻamaumauga', importDesc: 'Toe faafouina faʻamaumauga mai faila sefe',
       clearData: 'Tapeina Uma Faʻamaumauga', clearDesc: 'Tapeina vailaʻau uma, faamaumauga, ma tofiga',
       language: 'Gagana',
-      appearance: 'Foliga',
+      appearance: 'Foliga', themeAuto: 'Otometi',
       install: 'Faʻapipiʻi e Pei o App i le Home Screen',
       installDesc: 'Aʻoaʻoina pe faapefea ona faaopoopo lenei app i lau Home Screen'
     },
@@ -3487,7 +3487,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'ʻAʻohe lāʻau no kēia lā.',
-      takenAt: 'Ua inu i ka',
+      takenAt: 'Ua inu i ka', editTime: 'Ho’ololi i ka Manawa',
       critical: 'Koʻikoʻi', optional: 'Koho',
       tapToPriority: 'Paʻi e hoʻololi i ka nui koʻikoʻi'
     },
@@ -3542,7 +3542,7 @@ const TRANSLATIONS = {
       importData: 'Lawe Mai ʻIke', importDesc: 'Hoʻihoʻi i ka ʻike mai ka faila mālama',
       clearData: 'Holoi i ka ʻIke a Pau', clearDesc: 'Holoi i nā lāʻau, moʻolelo, a me nā hālāwai a pau',
       language: 'ʻŌlelo',
-      appearance: 'ʻAno',
+      appearance: 'ʻAno', themeAuto: 'Auto',
       install: 'Hoʻokomo ma ke ʻano App i ka Home Screen',
       installDesc: 'E aʻo i ke ala e hoʻohui ai i kēia app i kāu Home Screen'
     },
@@ -3680,7 +3680,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'ไม่มียาที่กำหนดไว้สำหรับวันนี้',
-      takenAt: 'รับประทานเมื่อ',
+      takenAt: 'รับประทานเมื่อ', editTime: 'แก้ไขเวลาที่รับประทาน',
       critical: 'สำคัญมาก', optional: 'ไม่บังคับ',
       tapToPriority: 'แตะเพื่อเปลี่ยนความสำคัญ'
     },
@@ -3735,7 +3735,7 @@ const TRANSLATIONS = {
       importData: 'นำเข้าข้อมูล', importDesc: 'กู้คืนข้อมูลจากไฟล์สำรอง',
       clearData: 'ลบข้อมูลทั้งหมด', clearDesc: 'ลบยา บันทึก และนัดหมายทั้งหมด',
       language: 'ภาษา',
-      appearance: 'ลักษณะ',
+      appearance: 'ลักษณะ', themeAuto: 'อัตโนมัติ',
       install: 'ติดตั้งเป็นแอปบนหน้าจอหลัก',
       installDesc: 'เรียนรู้วิธีเพิ่มแอปนี้ในหน้าจอหลักของคุณ'
     },
@@ -3873,7 +3873,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'ບໍ່ມີຢາທີ່ກຳນົດໄວ້ສຳລັບມື້ນີ້',
-      takenAt: 'ກິນເມື່ອ',
+      takenAt: 'ກິນເມື່ອ', editTime: 'ແກ້ໄຂເວລາທີ່ກິນ',
       critical: 'ສຳຄັນຫຼາຍ', optional: 'ບໍ່ບັງຄັບ',
       tapToPriority: 'ແຕະເພື່ອປ່ຽນຄວາມສຳຄັນ'
     },
@@ -3928,7 +3928,7 @@ const TRANSLATIONS = {
       importData: 'ນຳເຂົ້າຂໍ້ມູນ', importDesc: 'ກູ້ຄືນຂໍ້ມູນຈາກໄຟລ໌ສຳຮອງ',
       clearData: 'ລຶບຂໍ້ມູນທັງໝົດ', clearDesc: 'ລຶບຢາ ບັນທຶກ ແລະ ນັດໝາຍທັງໝົດ',
       language: 'ພາສາ',
-      appearance: 'ລັກສະນະ',
+      appearance: 'ລັກສະນະ', themeAuto: 'ອັດຕະໂນມັດ',
       install: 'ຕິດຕັ້ງເປັນແອັບໜ້າຈໍຫຼັກ',
       installDesc: 'ຮຽນຮູ້ວິທີເພີ່ມແອັບນີ້ໃນໜ້າຈໍຫຼັກຂອງທ່ານ'
     },
@@ -4066,7 +4066,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Tsis muaj tshuaj rau hnub no.',
-      takenAt: 'Haus thaum',
+      takenAt: 'Haus thaum', editTime: 'Kho Xyuas Lub Sij Hawm',
       critical: 'Tseem Ceeb', optional: 'Xaiv Tau',
       tapToPriority: 'Kov los hloov qib tseem ceeb'
     },
@@ -4121,7 +4121,7 @@ const TRANSLATIONS = {
       importData: 'Coj Los Cov Ntaub Ntawv', importDesc: 'Rov qab cov ntaub ntawv los ntawm cov ntaub ntawv thaub qab',
       clearData: 'Rho Tawm Tag Nrho Cov Ntaub Ntawv', clearDesc: 'Rho tawm txhua tshuaj, ntaub ntawv, thiab caij ntsib',
       language: 'Lus',
-      appearance: 'Tsos',
+      appearance: 'Tsos', themeAuto: 'Tsis Hloov',
       install: 'Nruab ua App ntawm Lub Vijtsam Tseem Ceeb',
       installDesc: 'Kawm txog yuav ntxiv app no rau koj lub vijtsam tseem ceeb li cas'
     },
@@ -4259,7 +4259,7 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'គ្មានថ្នាំដែលបានកំណត់សម្រាប់ថ្ងៃនេះ',
-      takenAt: 'បានលេបនៅ',
+      takenAt: 'បានលេបនៅ', editTime: 'កែសម្រួលម៉ោងដែលបានលេប',
       critical: 'សំខាន់ខ្លាំង', optional: 'ជម្រើស',
       tapToPriority: 'ចុចដើម្បីផ្លាស់ប្តូរអាទិភាព'
     },
@@ -4314,7 +4314,7 @@ const TRANSLATIONS = {
       importData: 'នាំចូលទិន្នន័យ', importDesc: 'ស្តារទិន្នន័យពីឯកសារបម្រុង',
       clearData: 'លុបទិន្នន័យទាំងអស់', clearDesc: 'លុបថ្នាំ កំណត់ហេតុ និងការណាត់ទាំងអស់',
       language: 'ភាសា',
-      appearance: 'រូបរាង',
+      appearance: 'រូបរាង', themeAuto: 'ស្វ័យប្រវត្តិ',
       install: 'ដំឡើងជាកម្មវិធីនៅអេក្រង់គេហទំព័រ',
       installDesc: 'រៀនពីរបៀបបន្ថែមកម្មវិធីនេះទៅអេក្រង់គេហទំព័ររបស់អ្នក'
     },
@@ -4448,7 +4448,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: '早上', afternoon: '下午', evening: '晚上', bedtime: '睡前', asNeeded: '按需' },
     meds: {
-      empty: '今天沒有安排藥物。', takenAt: '已服用於',
+      empty: '今天沒有安排藥物。', takenAt: '已服用於', editTime: '編輯服藥時間',
       critical: '必要', optional: '可選', tapToPriority: '點擊更改優先順序'
     },
     medModal: {
@@ -4496,7 +4496,7 @@ const TRANSLATIONS = {
       importData: '匯入資料', importDesc: '從備份檔案還原資料',
       clearData: '清除所有資料', clearDesc: '刪除所有藥物、記錄與預約',
       language: '語言',
-      appearance: '外觀',
+      appearance: '外觀', themeAuto: '自動',
       install: '安裝為主畫面應用程式', installDesc: '了解如何將此應用程式加入主畫面'
     },
     medListModal: {
@@ -4616,7 +4616,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Maten', afternoon: 'Aprèmidi', evening: 'Swa', bedtime: 'Anvan Dòmi', asNeeded: 'Si Nesesè' },
     meds: {
-      empty: 'Pa gen medikaman pwograme pou jodi a.', takenAt: 'Pran a',
+      empty: 'Pa gen medikaman pwograme pou jodi a.', takenAt: 'Pran a', editTime: 'Edite Lè Pran',
       critical: 'Enpòtan', optional: 'Opsyonèl', tapToPriority: 'Touche pou chanje priyorite'
     },
     medModal: {
@@ -4664,7 +4664,7 @@ const TRANSLATIONS = {
       importData: 'Enpòte Done', importDesc: 'Restore done depi fichye backup',
       clearData: 'Efase Tout Done', clearDesc: 'Efase tout medikaman, anrejistreman ak randevou',
       language: 'Lang',
-      appearance: 'Aparans',
+      appearance: 'Aparans', themeAuto: 'Otomatik',
       install: 'Enstale kòm App sou Ekran Akèy', installDesc: 'Aprann kijan pou ajoute app sa a sou ekran akèy ou'
     },
     medListModal: {
@@ -4784,7 +4784,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'સવાર', afternoon: 'બપોર', evening: 'સાંજ', bedtime: 'સૂતા પહેલાં', asNeeded: 'જ્યારે જરૂર હોય' },
     meds: {
-      empty: 'આજ માટે કોઈ દવા નિર્ધારિત નથી.', takenAt: 'લીધી',
+      empty: 'આજ માટે કોઈ દવા નિર્ધારિત નથી.', takenAt: 'લીધી', editTime: 'લેવાનો સમય સંપાદિત કરો',
       critical: 'જરૂરી', optional: 'ઐચ્છિક', tapToPriority: 'પ્રાધાન્ય બદલવા ટૅપ કરો'
     },
     medModal: {
@@ -4832,7 +4832,7 @@ const TRANSLATIONS = {
       importData: 'ડેટા આયાત', importDesc: 'backup file પરથી ડેટા restore કરો',
       clearData: 'બધો ડેટા કાઢો', clearDesc: 'બધી દવા, records અને appointments કાઢો',
       language: 'ભાષા',
-      appearance: 'દેખાવ',
+      appearance: 'દેખાવ', themeAuto: 'સ્વયં',
       install: 'home screen app તરીકે install કરો', installDesc: 'આ app home screen પર ઉમેરવાની રીત જાણો'
     },
     medListModal: {
@@ -4951,7 +4951,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'ጠዋት', afternoon: 'ከሰዓት', evening: 'ምሽት', bedtime: 'ከመተኛቴ በፊት', asNeeded: 'እንደ አስፈላጊነቱ' },
     meds: {
-      empty: 'ዛሬ ምንም መድሃኒት አልተያዘም።', takenAt: 'የተወሰደበት',
+      empty: 'ዛሬ ምንም መድሃኒት አልተያዘም።', takenAt: 'የተወሰደበት', editTime: 'የወሰዱበት ጊዜ ያስተካክሉ',
       critical: 'አስፈላጊ', optional: 'አማራጭ', tapToPriority: 'ቅድሚያ ለመቀየር ጠቅ አድርግ'
     },
     medModal: {
@@ -4999,7 +4999,7 @@ const TRANSLATIONS = {
       importData: 'ዳታ አምጣ', importDesc: 'ከምትኬ ፋይል ዳታ ወደ ነበረበት መልስ',
       clearData: 'ሁሉም ዳታ ሰርዝ', clearDesc: 'ሁሉም መድሃኒት፣ ሪኮርድ እና ቀጠሮ ሰርዝ',
       language: 'ቋንቋ',
-      appearance: 'መልክ',
+      appearance: 'መልክ', themeAuto: 'ራስ-ሰር',
       install: 'እንደ መነሻ ማያ ፕሮግራም ጫን', installDesc: 'ይህን ፕሮግራም ወደ መነሻ ማያ ማከልን ተማር'
     },
     medListModal: {
@@ -5119,7 +5119,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Subax', afternoon: 'Galabnimo', evening: 'Fiid', bedtime: 'Ka Hor Seexashada', asNeeded: 'Marka Loo Baahdo' },
     meds: {
-      empty: 'Maanta ma jirto dawo la qorsheeyey.', takenAt: 'La qaatay',
+      empty: 'Maanta ma jirto dawo la qorsheeyey.', takenAt: 'La qaatay', editTime: 'Waqtiga La Qaatay Wax Ka Beddel',
       critical: 'Lagama Maarmaan', optional: 'Ikhtiyaari', tapToPriority: 'Taab si aad u beddesho mudnaanta'
     },
     medModal: {
@@ -5167,7 +5167,7 @@ const TRANSLATIONS = {
       importData: 'Xog Keeno', importDesc: 'Xogta faylka kaydinta ka soo celso',
       clearData: 'Dhammaan Xogta Tirtir', clearDesc: 'Dhammaan dawooyinka, diiwaannada iyo ballantaha tirtir',
       language: 'Luqadda',
-      appearance: 'Muuqaalka',
+      appearance: 'Muuqaalka', themeAuto: 'Toos',
       install: 'U Rakib App ahaan Shaashadda Guriga', installDesc: 'Baro sida app-kan guriga shaashadda lougu daraa'
     },
     medListModal: {
@@ -5286,7 +5286,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'সকাল', afternoon: 'দুপুর', evening: 'সন্ধ্যা', bedtime: 'ঘুমানোর আগে', asNeeded: 'প্রয়োজনে' },
     meds: {
-      empty: 'আজকের জন্য কোনো ওষুধ নির্ধারিত নেই।', takenAt: 'নেওয়া হয়েছে',
+      empty: 'আজকের জন্য কোনো ওষুধ নির্ধারিত নেই।', takenAt: 'নেওয়া হয়েছে', editTime: 'গ্রহণের সময় সম্পাদনা করুন',
       critical: 'অপরিহার্য', optional: 'ঐচ্ছিক', tapToPriority: 'অগ্রাধিকার পরিবর্তনে ট্যাপ করুন'
     },
     medModal: {
@@ -5334,7 +5334,7 @@ const TRANSLATIONS = {
       importData: 'ডেটা আমদানি', importDesc: 'ব্যাকআপ ফাইল থেকে ডেটা পুনরুদ্ধার করুন',
       clearData: 'সব ডেটা মুছুন', clearDesc: 'সব ওষুধ, রেকর্ড এবং অ্যাপয়েন্টমেন্ট মুছুন',
       language: 'ভাষা',
-      appearance: 'চেহারা',
+      appearance: 'চেহারা', themeAuto: 'স্বয়ংক্রিয়',
       install: 'হোম স্ক্রিনে অ্যাপ হিসেবে ইনস্টল করুন', installDesc: 'এই অ্যাপ হোম স্ক্রিনে যোগ করার উপায় জানুন'
     },
     medListModal: {
@@ -5454,7 +5454,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'صبح', afternoon: 'دوپہر', evening: 'شام', bedtime: 'سونے سے پہلے', asNeeded: 'ضرورت پر' },
     meds: {
-      empty: 'آج کے لیے کوئی دوا مقرر نہیں ہے۔', takenAt: 'لی گئی',
+      empty: 'آج کے لیے کوئی دوا مقرر نہیں ہے۔', takenAt: 'لی گئی', editTime: 'لینے کا وقت ترمیم کریں',
       critical: 'ضروری', optional: 'اختیاری', tapToPriority: 'ترجیح تبدیل کرنے کے لیے ٹیپ کریں'
     },
     medModal: {
@@ -5502,7 +5502,7 @@ const TRANSLATIONS = {
       importData: 'ڈیٹا درآمد کریں', importDesc: 'بیک اپ فائل سے ڈیٹا بحال کریں',
       clearData: 'تمام ڈیٹا حذف کریں', clearDesc: 'تمام ادویات، ریکارڈز اور ملاقاتیں حذف کریں',
       language: 'زبان',
-      appearance: 'ظاہری شکل',
+      appearance: 'ظاہری شکل', themeAuto: 'خودکار',
       install: 'ہوم اسکرین پر ایپ کے طور پر انسٹال کریں', installDesc: 'اس ایپ کو ہوم اسکرین پر شامل کرنے کا طریقہ جانیں'
     },
     medListModal: {
@@ -5622,7 +5622,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Pagi', afternoon: 'Siang', evening: 'Sore', bedtime: 'Sebelum Tidur', asNeeded: 'Bila Perlu' },
     meds: {
-      empty: 'Tidak ada obat yang dijadwalkan hari ini.', takenAt: 'Diminum pukul',
+      empty: 'Tidak ada obat yang dijadwalkan hari ini.', takenAt: 'Diminum pukul', editTime: 'Edit Waktu Dikonsumsi',
       critical: 'Wajib', optional: 'Opsional', tapToPriority: 'Ketuk untuk mengubah prioritas'
     },
     medModal: {
@@ -5670,7 +5670,7 @@ const TRANSLATIONS = {
       importData: 'Impor Data', importDesc: 'Pulihkan data dari file cadangan',
       clearData: 'Hapus Semua Data', clearDesc: 'Hapus semua obat, catatan, dan jadwal',
       language: 'Bahasa',
-      appearance: 'Tampilan',
+      appearance: 'Tampilan', themeAuto: 'Otomatis',
       install: 'Pasang sebagai Aplikasi di Layar Utama', installDesc: 'Pelajari cara menambahkan aplikasi ini ke layar utama'
     },
     medListModal: {
@@ -5790,7 +5790,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Asubuhi', afternoon: 'Mchana', evening: 'Jioni', bedtime: 'Kabla ya Kulala', asNeeded: 'Inapohitajika' },
     meds: {
-      empty: 'Hakuna dawa iliyopangwa leo.', takenAt: 'Ilichukuliwa',
+      empty: 'Hakuna dawa iliyopangwa leo.', takenAt: 'Ilichukuliwa', editTime: 'Hariri Wakati Uliochukuliwa',
       critical: 'Muhimu Sana', optional: 'Hiari', tapToPriority: 'Gonga kubadilisha kipaumbele'
     },
     medModal: {
@@ -5838,7 +5838,7 @@ const TRANSLATIONS = {
       importData: 'Ingiza Data', importDesc: 'Rejesha data kutoka kwa faili la nakala rudufu',
       clearData: 'Futa Data Yote', clearDesc: 'Futa dawa zote, rekodi na miadi',
       language: 'Lugha',
-      appearance: 'Mwonekano',
+      appearance: 'Mwonekano', themeAuto: 'Kiotomatiki',
       install: 'Sakinisha kama Programu kwenye Skrini ya Nyumbani', installDesc: 'Jifunze jinsi ya kuongeza programu hii kwenye skrini ya nyumbani'
     },
     medListModal: {
@@ -5958,7 +5958,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Sabah', afternoon: 'Öğleden Sonra', evening: 'Akşam', bedtime: 'Yatmadan Önce', asNeeded: 'Gerektiğinde' },
     meds: {
-      empty: 'Bugün için planlanmış ilaç yok.', takenAt: 'Alındı',
+      empty: 'Bugün için planlanmış ilaç yok.', takenAt: 'Alındı', editTime: 'Alınan Zamanı Düzenle',
       critical: 'Zorunlu', optional: 'İsteğe Bağlı', tapToPriority: 'Önceliği değiştirmek için dokun'
     },
     medModal: {
@@ -6006,7 +6006,7 @@ const TRANSLATIONS = {
       importData: 'Veriyi İçe Aktar', importDesc: 'Yedek dosyasından veriyi geri yükle',
       clearData: 'Tüm Veriyi Sil', clearDesc: 'Tüm ilaçları, kayıtları ve randevuları sil',
       language: 'Dil',
-      appearance: 'Görünüm',
+      appearance: 'Görünüm', themeAuto: 'Otomatik',
       install: 'Ana Ekrana Uygulama Olarak Yükle', installDesc: 'Bu uygulamayı ana ekrana nasıl ekleyeceğinizi öğrenin'
     },
     medListModal: {
@@ -6127,7 +6127,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Ganama', afternoon: 'Guyyaa', evening: 'Galgala', bedtime: 'Ciisuu Dursa', asNeeded: 'Yeroo Barbaachisaa' },
     meds: {
-      empty: 'Har\'a qoricha karoorfame hin jiru.', takenAt: 'Fudhatame',
+      empty: 'Har\'a qoricha karoorfame hin jiru.', takenAt: 'Fudhatame', editTime: 'Yeroo Fudhatan Gulaali',
       critical: 'Murteessaa', optional: 'Dirqamaa Miti', tapToPriority: 'Dursa jijjiiruuf tuqi'
     },
     medModal: {
@@ -6175,7 +6175,7 @@ const TRANSLATIONS = {
       importData: 'Deetaa Galchi', importDesc: 'Deetaa faayilii kayyoo irraa deebisi',
       clearData: 'Deetaa Hunda Haqi', clearDesc: 'Qorichawwan, galmeewwan fi beellamoota hunda haqi',
       language: 'Afaan',
-      appearance: 'Mul’ata',
+      appearance: 'Mul’ata', themeAuto: 'Ofumaayyee',
       install: 'App Akka Home Screen tti Galchi', installDesc: 'App kana screen mana irratti dabaluu baradi'
     },
     medListModal: {
@@ -6295,7 +6295,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Buntag', afternoon: 'Udto', evening: 'Gabii', bedtime: 'Sa Dili Pa Matulog', asNeeded: 'Kung Gikinahanglan' },
     meds: {
-      empty: 'Walay tambal nga naplaano karong adlawa.', takenAt: 'Gikuha',
+      empty: 'Walay tambal nga naplaano karong adlawa.', takenAt: 'Gikuha', editTime: 'I-edit ang Oras nga Gikuha',
       critical: 'Kinahanglanon', optional: 'Opsyonal', tapToPriority: 'I-tap aron usbon ang priyoridad'
     },
     medModal: {
@@ -6343,7 +6343,7 @@ const TRANSLATIONS = {
       importData: 'I-import ang Data', importDesc: 'I-restore ang datos gikan sa backup file',
       clearData: 'Tangtangon ang Tanan nga Data', clearDesc: 'Tangtangon ang tanan nga tambal, rekord, ug tinudlo',
       language: 'Lengguwahe',
-      appearance: 'Hitsura',
+      appearance: 'Hitsura', themeAuto: 'Awtomatiko',
       install: 'I-install isip App sa Home Screen', installDesc: 'Hibal-i kung unsaon pagdugang niini nga app sa home screen'
     },
     medListModal: {
@@ -6463,7 +6463,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Rano', afternoon: 'Południe', evening: 'Wieczór', bedtime: 'Przed Snem', asNeeded: 'W Razie Potrzeby' },
     meds: {
-      empty: 'Brak zaplanowanych leków na dziś.', takenAt: 'Przyjęty o',
+      empty: 'Brak zaplanowanych leków na dziś.', takenAt: 'Przyjęty o', editTime: 'Edytuj godzinę przyjęcia',
       critical: 'Niezbędny', optional: 'Opcjonalny', tapToPriority: 'Dotknij, aby zmienić priorytet'
     },
     medModal: {
@@ -6511,7 +6511,7 @@ const TRANSLATIONS = {
       importData: 'Importuj Dane', importDesc: 'Przywróć dane z pliku kopii zapasowej',
       clearData: 'Usuń Wszystkie Dane', clearDesc: 'Usuń wszystkie leki, rekordy i wizyty',
       language: 'Język',
-      appearance: 'Wygląd',
+      appearance: 'Wygląd', themeAuto: 'Auto',
       install: 'Zainstaluj jako Aplikację na Ekranie Głównym', installDesc: 'Dowiedz się, jak dodać tę aplikację do ekranu głównego'
     },
     medListModal: {
@@ -6631,7 +6631,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Safe', afternoon: 'Rana', evening: 'Yamma', bedtime: 'Kafin Barci', asNeeded: 'Idan Ya Cancanta' },
     meds: {
-      empty: 'Babu magani da aka shirya a yau.', takenAt: 'An Ɗauka',
+      empty: 'Babu magani da aka shirya a yau.', takenAt: 'An Ɗauka', editTime: 'Gyara Lokacin Da Aka Ɗauka',
       critical: 'Wajibi', optional: 'Zaɓi', tapToPriority: 'Taɓa don canza fifiko'
     },
     medModal: {
@@ -6679,7 +6679,7 @@ const TRANSLATIONS = {
       importData: 'Shigar da Bayani', importDesc: 'Maido da bayani daga fayil ɗin ajiya',
       clearData: 'Share Dukan Bayani', clearDesc: 'Share dukan magunguna, rikodi da alƙawari',
       language: 'Harshe',
-      appearance: 'Bayyana',
+      appearance: 'Bayyana', themeAuto: 'Atomatik',
       install: 'Girka a Matsayin App a Babban Allon', installDesc: 'Koyi yadda ake ƙara wannan app zuwa babban allon'
     },
     medListModal: {
@@ -6800,7 +6800,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Ранок', afternoon: 'День', evening: 'Вечір', bedtime: 'Перед Сном', asNeeded: 'За Потребою' },
     meds: {
-      empty: 'На сьогодні ліків не заплановано.', takenAt: 'Прийнято о',
+      empty: 'На сьогодні ліків не заплановано.', takenAt: 'Прийнято о', editTime: 'Редагувати час прийому',
       critical: 'Обов’язковий', optional: 'Необов’язковий', tapToPriority: 'Торкніться, щоб змінити пріоритет'
     },
     medModal: {
@@ -6848,7 +6848,7 @@ const TRANSLATIONS = {
       importData: 'Імпортувати Дані', importDesc: 'Відновити дані з резервної копії',
       clearData: 'Видалити Всі Дані', clearDesc: 'Видалити всі ліки, записи та візити',
       language: 'Мова',
-      appearance: 'Вигляд',
+      appearance: 'Вигляд', themeAuto: 'Авто',
       install: 'Встановити як Застосунок на Головний Екран', installDesc: 'Дізнайтеся, як додати цей застосунок на головний екран'
     },
     medListModal: {
@@ -6968,7 +6968,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'बिहान', afternoon: 'दिउँसो', evening: 'साँझ', bedtime: 'सुत्नु अघि', asNeeded: 'आवश्यकता अनुसार' },
     meds: {
-      empty: 'आजका लागि कुनै औषधि तालिकाबद्ध छैन।', takenAt: 'लिइयो',
+      empty: 'आजका लागि कुनै औषधि तालिकाबद्ध छैन।', takenAt: 'लिइयो', editTime: 'लिएको समय सम्पादन गर्नुहोस्',
       critical: 'अनिवार्य', optional: 'वैकल्पिक', tapToPriority: 'प्राथमिकता परिवर्तन गर्न थिच्नुस्'
     },
     medModal: {
@@ -7016,7 +7016,7 @@ const TRANSLATIONS = {
       importData: 'डेटा आयात गर्नुस्', importDesc: 'ब्याकअप फाइलबाट डेटा पुनर्स्थापना गर्नुस्',
       clearData: 'सबै डेटा मेटाउनुस्', clearDesc: 'सबै औषधि, रेकर्ड र अपोइन्टमेन्ट मेटाउनुस्',
       language: 'भाषा',
-      appearance: 'देखावट',
+      appearance: 'देखावट', themeAuto: 'स्वचालित',
       install: 'होम स्क्रिनमा एप स्थापना गर्नुस्', installDesc: 'यो एप होम स्क्रिनमा कसरी थप्ने सिक्नुस्'
     },
     medListModal: {
@@ -7136,7 +7136,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'सकाळी', afternoon: 'दुपारी', evening: 'संध्याकाळी', bedtime: 'झोपण्यापूर्वी', asNeeded: 'गरजेनुसार' },
     meds: {
-      empty: 'आजसाठी कोणतेही औषध नियोजित नाही.', takenAt: 'घेतले',
+      empty: 'आजसाठी कोणतेही औषध नियोजित नाही.', takenAt: 'घेतले', editTime: 'घेतल्याची वेळ संपादित करा',
       critical: 'आवश्यक', optional: 'पर्यायी', tapToPriority: 'प्राधान्य बदलण्यासाठी टॅप करा'
     },
     medModal: {
@@ -7184,7 +7184,7 @@ const TRANSLATIONS = {
       importData: 'डेटा आयात करा', importDesc: 'बॅकअप फाइलमधून डेटा पुनर्संचयित करा',
       clearData: 'सर्व डेटा साफ करा', clearDesc: 'सर्व औषधे, नोंदी आणि भेटी साफ करा',
       language: 'भाषा',
-      appearance: 'देखावा',
+      appearance: 'देखावा', themeAuto: 'स्वयंचलित',
       install: 'होम स्क्रीनवर अॅप म्हणून स्थापित करा', installDesc: 'हे अॅप होम स्क्रीनवर कसे जोडायचे ते शिका'
     },
     medListModal: {
@@ -7305,7 +7305,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'காலை', afternoon: 'மதியம்', evening: 'மாலை', bedtime: 'தூக்கத்திற்கு முன்', asNeeded: 'தேவைப்படும்போது' },
     meds: {
-      empty: 'இன்று எந்த மருந்தும் திட்டமிடப்படவில்லை.', takenAt: 'எடுக்கப்பட்டது',
+      empty: 'இன்று எந்த மருந்தும் திட்டமிடப்படவில்லை.', takenAt: 'எடுக்கப்பட்டது', editTime: 'எடுத்த நேரத்தை திருத்து',
       critical: 'இன்றியமையாதது', optional: 'விருப்பத்தேர்வு', tapToPriority: 'முன்னுரிமை மாற்ற தட்டவும்'
     },
     medModal: {
@@ -7353,7 +7353,7 @@ const TRANSLATIONS = {
       importData: 'தரவை இறக்குமதி செய்', importDesc: 'காப்புப்பிரதி கோப்பிலிருந்து தரவை மீட்டெடு',
       clearData: 'அனைத்து தரவையும் அழி', clearDesc: 'அனைத்து மருந்துகள், பதிவுகள் & சந்திப்புகளை அழி',
       language: 'மொழி',
-      appearance: 'தோற்றம்',
+      appearance: 'தோற்றம்', themeAuto: 'தானியங்கி',
       install: 'முகப்பு திரையில் செயலியாக நிறுவு', installDesc: 'இந்த செயலியை முகப்பு திரையில் எவ்வாறு சேர்ப்பது என்பதை அறிக'
     },
     medListModal: {
@@ -7473,7 +7473,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'ఉదయం', afternoon: 'మధ్యాహ్నం', evening: 'సాయంత్రం', bedtime: 'పడుకునే ముందు', asNeeded: 'అవసరమైనప్పుడు' },
     meds: {
-      empty: 'నేడు మందులు ఏమీ షెడ్యూల్ చేయబడలేదు.', takenAt: 'తీసుకున్నారు',
+      empty: 'నేడు మందులు ఏమీ షెడ్యూల్ చేయబడలేదు.', takenAt: 'తీసుకున్నారు', editTime: 'తీసుకున్న సమయాన్ని సవరించు',
       critical: 'తప్పనిసరి', optional: 'ఐచ్ఛికం', tapToPriority: 'ప్రాధాన్యత మార్చడానికి నొక్కండి'
     },
     medModal: {
@@ -7521,7 +7521,7 @@ const TRANSLATIONS = {
       importData: 'డేటా దిగుమతి చేయి', importDesc: 'బ్యాకప్ ఫైల్ నుండి డేటా పునరుద్ధరించు',
       clearData: 'అన్ని డేటా తొలగించు', clearDesc: 'అన్ని మందులు, రికార్డులు & అపాయింట్మెంట్లు తొలగించు',
       language: 'భాష',
-      appearance: 'రూపం',
+      appearance: 'రూపం', themeAuto: 'స్వయంచాలక',
       install: 'హోమ్ స్క్రీన్‌లో యాప్‌గా ఇన్‌స్టాల్ చేయి', installDesc: 'ఈ యాప్‌ను హోమ్ స్క్రీన్‌కు ఎలా జోడించాలో తెలుసుకోండి'
     },
     medListModal: {
@@ -7642,7 +7642,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'ಬೆಳಿಗ್ಗೆ', afternoon: 'ಮಧ್ಯಾಹ್ನ', evening: 'ಸಂಜೆ', bedtime: 'ಮಲಗುವ ಮೊದಲು', asNeeded: 'ಅಗತ್ಯವಿದ್ದಾಗ' },
     meds: {
-      empty: 'ಇಂದು ಯಾವುದೇ ಔಷಧಿ ನಿಗದಿಯಾಗಿಲ್ಲ.', takenAt: 'ತೆಗೆದುಕೊಳ್ಳಲಾಗಿದೆ',
+      empty: 'ಇಂದು ಯಾವುದೇ ಔಷಧಿ ನಿಗದಿಯಾಗಿಲ್ಲ.', takenAt: 'ತೆಗೆದುಕೊಳ್ಳಲಾಗಿದೆ', editTime: 'ತೆಗೆದುಕೊಂಡ ಸಮಯ ಸಂಪಾದಿಸಿ',
       critical: 'ಅಗತ್ಯ', optional: 'ಐಚ್ಛಿಕ', tapToPriority: 'ಆದ್ಯತೆ ಬದಲಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ'
     },
     medModal: {
@@ -7690,7 +7690,7 @@ const TRANSLATIONS = {
       importData: 'ಡೇಟಾ ಆಮದು ಮಾಡಿ', importDesc: 'ಬ್ಯಾಕಪ್ ಫೈಲ್‌ನಿಂದ ಡೇಟಾ ಮರುಸ್ಥಾಪಿಸಿ',
       clearData: 'ಎಲ್ಲ ಡೇಟಾ ತೆರವು ಮಾಡಿ', clearDesc: 'ಎಲ್ಲ ಔಷಧಿಗಳು, ದಾಖಲೆಗಳು ಮತ್ತು ಅಪಾಯಿಂಟ್‌ಮೆಂಟ್‌ಗಳನ್ನು ತೆರವು ಮಾಡಿ',
       language: 'ಭಾಷೆ',
-      appearance: 'ನೋಟ',
+      appearance: 'ನೋಟ', themeAuto: 'ಸ್ವಯಂಚಾಲಿತ',
       install: 'ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ನಲ್ಲಿ ಅಪ್ಲಿಕೇಶನ್ ಆಗಿ ಸ್ಥಾಪಿಸಿ', installDesc: 'ಈ ಅಪ್ಲಿಕೇಶನ್ ಅನ್ನು ಹೋಮ್ ಸ್ಕ್ರೀನ್‌ಗೆ ಹೇಗೆ ಸೇರಿಸುವುದು ಎಂದು ತಿಳಿಯಿರಿ'
     },
     medListModal: {
@@ -7810,7 +7810,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'രാവിലെ', afternoon: 'ഉച്ചയ്ക്ക്', evening: 'വൈകുന്നേരം', bedtime: 'ഉറങ്ങുന്നതിനു മുൻപ്', asNeeded: 'ആവശ്യമുള്ളപ്പോൾ' },
     meds: {
-      empty: 'ഇന്ന് ഒരു മരുന്നും ഷെഡ്യൂൾ ചെയ്തിട്ടില്ല.', takenAt: 'കഴിച്ചു',
+      empty: 'ഇന്ന് ഒരു മരുന്നും ഷെഡ്യൂൾ ചെയ്തിട്ടില്ല.', takenAt: 'കഴിച്ചു', editTime: 'കഴിച്ച സമയം തിരുത്തുക',
       critical: 'അത്യാവശ്യം', optional: 'ഐച്ഛികം', tapToPriority: 'മുൻഗണന മാറ്റാൻ ടാപ്പ് ചെയ്യുക'
     },
     medModal: {
@@ -7858,7 +7858,7 @@ const TRANSLATIONS = {
       importData: 'ഡേറ്റ ഇംപോർട്ട് ചെയ്യുക', importDesc: 'ബാക്കപ്പ് ഫയലിൽ നിന്ന് ഡേറ്റ പുനഃസ്ഥാപിക്കുക',
       clearData: 'എല്ലാ ഡേറ്റയും മായ്ക്കുക', clearDesc: 'എല്ലാ മരുന്നുകൾ, രേഖകൾ, അപ്പോയ്‌ന്റ്‌മെന്റുകൾ മായ്ക്കുക',
       language: 'ഭാഷ',
-      appearance: 'രൂപം',
+      appearance: 'രൂപം', themeAuto: 'സ്വയംഭരണ',
       install: 'ഹോം സ്ക്രീനിൽ ആപ്പ് ആയി ഇൻസ്റ്റാൾ ചെയ്യുക', installDesc: 'ഈ ആപ്പ് ഹോം സ്ക്രീനിൽ എങ്ങനെ ചേർക്കാം എന്ന് അറിയുക'
     },
     medListModal: {
@@ -7979,7 +7979,7 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'နံနက်', afternoon: 'မွန်းတည့်', evening: 'ညနေ', bedtime: 'အိပ်မောက်မချင်းမီ', asNeeded: 'လိုအပ်သည့်အခါ' },
     meds: {
-      empty: 'ယနေ့အတွက် ဆေးဝါးများ စီစဉ်မထားပါ။', takenAt: 'သောက်ပြီး',
+      empty: 'ယနေ့အတွက် ဆေးဝါးများ စီစဉ်မထားပါ။', takenAt: 'သောက်ပြီး', editTime: 'သောက်ချိန် ပြင်ဆင်ပါ',
       critical: 'မဖြစ်မနေ', optional: 'ရွေးချယ်နိုင်သော', tapToPriority: 'ဦးစားပေးအဆင့် ပြောင်းရန် နှိပ်ပါ'
     },
     medModal: {
@@ -8027,7 +8027,7 @@ const TRANSLATIONS = {
       importData: 'ဒေတာ တင်သွင်းရန်', importDesc: 'အရန်သိမ်းဖိုင်မှ ဒေတာ ပြန်လည်ရယူရန်',
       clearData: 'ဒေတာအားလုံး ဖျက်ရန်', clearDesc: 'ဆေးဝါးများ၊ မှတ်တမ်းများ နှင့် ချိန်းဆိုမှုများ အားလုံး ဖျက်ရန်',
       language: 'ဘာသာစကား',
-      appearance: 'အသွင်အပြင်',
+      appearance: 'အသွင်အပြင်', themeAuto: 'အလိုအလျောက်',
       install: 'မူလဖန်သားပြင်တွင် အက်ပ်အဖြစ် တပ်ဆင်ရန်', installDesc: 'ဤအက်ပ်ကို မူလဖန်သားပြင်တွင် မည်သို့ ထည့်ရမည်ကို သိရှိရန်'
     },
     medListModal: {

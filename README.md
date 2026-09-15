@@ -4,15 +4,15 @@ A private, offline-first health tracker for medications, appointments, and healt
 
 ## Features
 
-- **Medications** — schedule by time of day (Morning / Afternoon / Evening / Bedtime), frequency (daily, every other day, specific days), and duration (ongoing, weeks, months, end date, or bottle count). Check off doses as taken with one tap.
+- **Medications** — schedule by time of day (Morning / Afternoon / Evening / Bedtime), frequency (daily, every other day, specific days), and duration (ongoing, weeks, months, end date, or bottle count). Check off doses as taken with one tap. Hover over a taken time to edit it.
 - **Weekly view** — see the full week's medication schedule at a glance, printable.
-- **Appointments** — track doctor visits, infusions, lab work, procedures. Filter upcoming vs. past, mark complete.
+- **Appointments** — track doctor visits, infusions, lab work, procedures. Filter upcoming vs. past, mark complete. *(Hidden by default — enable in Settings.)*
 - **Health metrics** — log temperature, blood pressure, heart rate, blood glucose, weight, steps, oxygenation, sleep, and notes. Filter by metric and date range, printable report.
 - **Multiple profiles** — separate data sets for different people on the same device.
 - **P2P sync** — real-time sync between devices over WebRTC (no server required for data; uses PeerJS for signaling). Host generates a QR code; peers scan to join.
 - **Alarms** — configurable per time-of-day slot with custom sounds.
 - **45 languages** — full UI translation. Locale-aware date/time formatting throughout.
-- **6 themes** — Clean, Dark, Warm, High Contrast, Material, Soft.
+- **7 themes** — Auto (light by day, dark by night), Clean, Dark, Warm, High Contrast, Material, Soft.
 - **PWA** — installable to home screen, works offline after first load.
 
 ## Data & Privacy
@@ -34,88 +34,40 @@ To use sync:
 
 For self-hosting the PeerJS signaling server (recommended for medical data), see [PEERJS_SERVER_SETUP.md](PEERJS_SERVER_SETUP.md).
 
-## Features
-
-### Medication Tracking
-- ✅ **Easy Check-Off System** - Large, touch-friendly checkboxes
-- 📅 **Smart Scheduling** - Set medications for:
-  - Every day
-  - Every other day
-  - Specific days (e.g., Monday, Wednesday, Friday)
-  - Custom days of the week
-- ⏰ **Flexible Duration** - Set medications to run:
-  - Ongoing (no end date)
-  - For a specific number of weeks or months
-  - Until a specific end date
-- 🗓️ **Automatic Daily Reset** - Only shows medications scheduled for today
-- ⏰ **Time-Based Organization** - Medications sorted by Morning, Afternoon, Evening, Bedtime
-- 📊 **Progress Summary** - See at a glance what's taken today and what's remaining
-
-### Appointment Management
-- 🏥 **Track All Appointments** - Doctor visits, infusions, procedures, and lab work
-- 📍 **Location Tracking** - Mark appointments as virtual or in-person
-- 🔔 **Upcoming & Past Views** - Filter to see what's coming up or review past appointments
-- ✓ **Completion Tracking** - Mark appointments as completed
-- 📝 **Detailed Notes** - Add important details like "bring insurance card" or "fasting required"
-
-### General
-- 💾 **Automatic Saving** - All data saved locally on your device
-- 🎨 **Clear, Large Interface** - Easy to read and use
-- 🔄 **Easy Switching** - Simple tabs to switch between medications, appointments, and metrics
-
 ## How to Use
 
-### Daily Use
+### Medications
 
-#### For Medications
-1. **Switch to Medications Tab** - Tap the "Meds" tab at the top
-2. **View Your Medications** - All medications are listed, organized by time of day
-3. **Check Off When Taken** - Tap the large checkbox next to each medication after taking it
-4. **Add/Edit/Delete** - Use the buttons to manage your medication list
+1. Tap the **Meds** tab
+2. Medications are grouped by time of day (Morning, Afternoon, Evening, Bedtime)
+3. Tap the checkbox next to a medication when you take it — it logs the time automatically
+4. To correct the taken time, hover over "Taken at [time]" and tap the pencil icon
+5. Use the **Week View** button (tablet/desktop) to see the full week at a glance
+6. Tap **+ Add Medication** to add a new one:
+   - Enter name and dosage
+   - Choose time(s) of day
+   - Set frequency: every day, every other day, Mon/Wed/Fri, or custom days
+   - Set duration: ongoing, number of weeks/months, end date, or bottle dose count
+   - Optionally add notes (e.g., "Take with food")
 
-#### For Appointments
-1. **Switch to Appointments Tab** - Tap the "Appointments" tab at the top
-2. **View Upcoming or Past** - Use the filter buttons to switch between upcoming and past appointments
-3. **See Details** - Each appointment shows the type, date, time, location, and any notes
-4. **Mark Complete** - Tap "Mark Complete" when you've attended an appointment
-5. **Add/Edit/Delete** - Use the buttons to manage your appointments
+> Medications not scheduled for today appear grayed out and don't count toward the daily total.
 
-#### For Metrics
-1. **Switch to Metrics Tab** - Tap the "Metrics" tab at the top
+### Appointments
 
-### Adding a Medication
+Appointments are hidden by default. To enable: go to **Settings → Also Track → Appointments**.
 
-1. Go to the "Medications" tab
-2. Tap "+ Add Medication"
-3. Enter the medication name (e.g., "Tylenol")
-4. Enter the dosage (e.g., "2 pills" or "1 tablet")
-5. Select the time of day (Morning, Afternoon, Evening, or Bedtime)
-6. Choose how often:
-   - **Every Day** - Takes medication daily
-   - **Every Other Day** - Alternating days
-   - **Monday, Wednesday, Friday** - Those specific days
-   - **Custom Days of Week** - Pick specific days (shows checkboxes for each day)
-7. Set the duration:
-   - **Ongoing** - No end date (for maintenance medications)
-   - **For a number of weeks** - Enter number of weeks
-   - **For a number of months** - Enter number of months
-   - **Until a specific date** - Pick an end date
-8. Optionally add notes (e.g., "Take with food")
-9. Tap "Save"
+Once enabled:
+1. Tap the **Appointments** tab
+2. Use the filter buttons to switch between Upcoming and Past
+3. Tap **+ Add Appointment**, choose a type (Doctor Visit, Infusion, Lab Work, Procedure, Other), fill in the date, time, location, and any notes
+4. Tap **Mark Complete** when you've attended
 
-**Note:** Medications not scheduled for today will appear grayed out and won't count toward your daily total.
+### Health Metrics
 
-### Adding an Appointment
-
-1. Go to the "Appointments" tab
-2. Tap "+ Add Appointment"
-3. Select the type (Doctor Visit, Infusion, Lab Work, Procedure, or Other)
-4. Enter a title/description (e.g., "Dr. Smith Check-up" or "Chemotherapy Session 3")
-5. Select the date and time
-6. Choose location type (Virtual or In-Person)
-7. Add address/details (hospital name, room number, or video call link)
-8. Optionally add notes (e.g., "Bring insurance card", "Fasting required")
-9. Tap "Save"
+1. Tap the **Metrics** tab
+2. Tap **+ Log Metrics** to record a reading — enter any combination of vitals for that moment
+3. Use the filter controls to narrow by metric type or date range
+4. Tap **Print** to generate a printable report
 
 ## Files
 
@@ -130,6 +82,29 @@ For self-hosting the PeerJS signaling server (recommended for medical data), see
 | `peerjs.min.js` | PeerJS library (vendored) |
 | `qrcode.min.js` | QR code library (vendored) |
 | `sounds/` | Alarm sounds (alarm_01 – alarm_10.mp3) |
+
+## Supported Languages
+
+45 languages with full UI translation and locale-aware date/time formatting:
+
+| Code | Language | Code | Language | Code | Language |
+|------|----------|------|----------|------|----------|
+| `en` | English | `fr` | French | `sw` | Kiswahili |
+| `es` | Spanish | `pl` | Polish | `am` | Amharic |
+| `zh` | Chinese (Simplified) | `id` | Indonesian | `om` | Oromo |
+| `zh-TW` | Chinese (Traditional) | `tr` | Turkish | `ht` | Haitian Creole |
+| `vi` | Vietnamese | `uk` | Ukrainian | `gu` | Gujarati |
+| `tl` | Filipino / Tagalog | `ru` | Russian | `so` | Somali |
+| `ko` | Korean | `hy` | Armenian | `bn` | Bengali |
+| `ja` | Japanese | `ur` | Urdu | `ceb` | Cebuano |
+| `ar` | Arabic | `ne` | Nepali | `ha` | Hausa |
+| `fa` | Persian / Farsi | `mr` | Marathi | `ta` | Tamil |
+| `hi` | Hindi | `pa` | Punjabi | `te` | Telugu |
+| `de` | German | `lo` | Lao | `kn` | Kannada |
+| `pt` | Portuguese | `th` | Thai | `ml` | Malayalam |
+| `ilo` | Ilocano | `hmn` | Hmong | `my` | Burmese |
+| `sm` | Samoan | `km` | Khmer | | |
+| `haw` | Hawaiian | | | | |
 
 ## Hosting
 

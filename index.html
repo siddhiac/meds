@@ -8,26 +8,19 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Meds">
-    <meta name="app-version" content="1.5.0">
+    <meta name="app-version" content="1.5.4">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
     <title>Meds</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="styles_profile.css">
-
-    <!-- PeerJS for P2P sync -->
     <script src="peerjs.min.js"></script>
-
-    <!-- QR Code generation -->
     <script src="qrcode.min.js"></script>
-
-    <!-- Translations -->
     <script src="translations.js"></script>
 </head>
 <body>
     <div class="container">
-        <!-- Navigation Tabs -->
         <div class="tabs">
             <button class="tab-button settings-button" data-tab="settings">⚙️</button>
             <button class="tab-button active" data-tab="medications" data-i18n="tab.meds">Meds</button>
@@ -442,6 +435,13 @@
                             <div class="theme-swatch-bot" style="background:#ede8f5"></div>
                         </div>
                         <span>Soft</span>
+                    </button>
+                    <button class="theme-option" data-theme="auto" onclick="tracker.setTheme('auto')">
+                        <div class="theme-swatch-preview" style="position:relative;overflow:hidden;">
+                            <div class="theme-swatch-top" style="background:linear-gradient(90deg,#6b7c93 50%,#7b9ab5 50%)"></div>
+                            <div class="theme-swatch-bot" style="background:linear-gradient(90deg,#f5f5f5 50%,#1e1e2e 50%)"></div>
+                        </div>
+                        <span data-i18n="settings.themeAuto">Auto</span>
                     </button>
                 </div>
             </div>
@@ -1078,6 +1078,24 @@
             <div class="morning-check-footer">
                 <button type="button" class="save-button" onclick="tracker.viewYesterdayMeds()" data-i18n="morningCheck.viewYesterday">View Yesterday's Meds</button>
                 <button type="button" class="cancel-button" onclick="tracker.dismissMorningCheck()" data-i18n="morningCheck.dismiss">Dismiss</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Taken Time Modal -->
+    <div class="modal" id="editTakenTimeModal">
+        <div class="modal-content" style="max-width: 340px;">
+            <h2 data-i18n="meds.editTime">Edit Time Taken</h2>
+            <div class="form-group">
+                <label data-i18n="logModal.datetime">Date &amp; Time</label>
+                <div style="display:flex; gap:8px;">
+                    <input type="date" id="editTakenDateInput" style="flex:1;">
+                    <input type="time" id="editTakenTimeInput" style="flex:1;">
+                </div>
+            </div>
+            <div class="form-buttons">
+                <button type="button" class="cancel-button" id="editTakenTimeCancelBtn" data-i18n="medModal.cancel">Cancel</button>
+                <button type="button" class="save-button" id="editTakenTimeSaveBtn" data-i18n="medModal.save">Save</button>
             </div>
         </div>
     </div>

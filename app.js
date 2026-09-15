@@ -811,7 +811,7 @@ class HealthTracker {
 
     initializeApp() {
         this.language = localStorage.getItem('language') || 'en';
-        this.theme = localStorage.getItem('theme') || 'clean';
+        this.theme = localStorage.getItem('theme') || 'auto';
         this.medications = this.loadMedications();
         this.medications.forEach(med => { if (med.critical === undefined) med.critical = true; });
         this.selectedDate = new Date();
@@ -872,7 +872,7 @@ class HealthTracker {
         this.applyTranslations();
         const langSelect = document.getElementById('languageSelect');
         if (langSelect) langSelect.value = this.language;
-        document.documentElement.dataset.theme = this.theme;
+        document.documentElement.dataset.theme = this.theme === 'auto' ? this.getAutoTheme() : this.theme;
         this.updateThemeSelector();
     }
 
@@ -1310,7 +1310,8 @@ class HealthTracker {
         } else {
             this.dailyLog.taken.push(displayId);
             if (!this.dailyLog.takenTimes) this.dailyLog.takenTimes = {};
-            this.dailyLog.takenTimes[displayId] = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const _now = new Date();
+            this.dailyLog.takenTimes[displayId] = `${String(_now.getHours()).padStart(2,'0')}:${String(_now.getMinutes()).padStart(2,'0')}`;
         }
         this.saveDailyLog();
         this.renderMedications();
@@ -1323,6 +1324,52 @@ class HealthTracker {
                 dateStr: this.getDateString(this.selectedDate)
             });
         }
+    }
+
+    editTakenTime(displayId) {
+        this._editingTakenDisplayId = displayId;
+        const raw = this.dailyLog.takenTimes?.[displayId] || '';
+        document.getElementById('editTakenTimeInput').value = /^\d{2}:\d{2}$/.test(raw) ? raw : '';
+        document.getElementById('editTakenDateInput').value = this.getDateString(this.selectedDate);
+        document.getElementById('editTakenTimeModal').classList.add('active');
+    }
+
+    saveTakenTime() {
+        const newTime = document.getElementById('editTakenTimeInput').value;
+        const newDate = document.getElementById('editTakenDateInput').value;
+        const displayId = this._editingTakenDisplayId;
+        if (newTime && newDate && displayId) {
+            const currentDateStr = this.getDateString(this.selectedDate);
+            if (newDate === currentDateStr) {
+                // Same day — just update the time
+                if (!this.dailyLog.takenTimes) this.dailyLog.takenTimes = {};
+                this.dailyLog.takenTimes[displayId] = newTime;
+                this.saveDailyLog();
+            } else {
+                // Different day — remove from current, add to target
+                this.dailyLog.taken = this.dailyLog.taken.filter(id => id !== displayId);
+                if (this.dailyLog.takenTimes) delete this.dailyLog.takenTimes[displayId];
+                this.saveDailyLog();
+
+                // Load target day, add entry, save it directly
+                const profileData = this.loadProfileData();
+                const target = profileData.dailyLogs[newDate] || { date: newDate, taken: [] };
+                if (!target.taken.includes(displayId)) target.taken.push(displayId);
+                if (!target.takenTimes) target.takenTimes = {};
+                target.takenTimes[displayId] = newTime;
+                profileData.dailyLogs[newDate] = target;
+                const key = this.getProfileDataKey();
+                if (key) localStorage.setItem(key, JSON.stringify(profileData));
+            }
+            this.renderMedications();
+        }
+        document.getElementById('editTakenTimeModal').classList.remove('active');
+        this._editingTakenDisplayId = null;
+    }
+
+    closeEditTakenTimeModal() {
+        document.getElementById('editTakenTimeModal').classList.remove('active');
+        this._editingTakenDisplayId = null;
     }
 
     toggleCritical(medId) {
@@ -1657,7 +1704,16 @@ class HealthTracker {
         const taken = this.isTaken(displayId);
         const isActiveToday = this.isMedicationActiveToday(med);
 
-        const takenTime = taken && this.dailyLog.takenTimes?.[displayId];
+        const takenTimeRaw = taken && this.dailyLog.takenTimes?.[displayId];
+        const takenTimeFormatted = (() => {
+            if (!takenTimeRaw) return null;
+            if (/^\d{2}:\d{2}$/.test(takenTimeRaw)) {
+                const [h, m] = takenTimeRaw.split(':').map(Number);
+                const d = new Date(); d.setHours(h, m, 0, 0);
+                return d.toLocaleTimeString(this.language, { hour: 'numeric', minute: '2-digit' });
+            }
+            return takenTimeRaw; // legacy locale string
+        })();
         return `
             <div class="med-card ${taken ? 'taken' : ''} ${!isActiveToday ? 'inactive' : ''}" data-id="${displayId}">
                 <div class="med-checkbox" onclick="tracker.toggleTaken('${displayId}')" ${!isActiveToday ? 'style="opacity: 0.3; pointer-events: none;"' : ''}>
@@ -1669,7 +1725,7 @@ class HealthTracker {
                         <button type="button" class="priority-badge ${med.critical !== false ? 'critical' : 'optional'}" onclick="event.stopPropagation(); tracker.toggleCritical('${med.id}')" title="${this.t('meds.tapToPriority')}">${med.critical !== false ? this.t('meds.critical') : this.t('meds.optional')}</button>
                     </div>
                     <div class="med-dosage">${med.dosage}</div>
-                    ${takenTime ? `<div class="time-taken">${this.t('meds.takenAt')} ${takenTime}</div>` : ''}
+                    ${takenTimeFormatted ? `<div class="time-taken" onclick="event.stopPropagation(); tracker.editTakenTime('${displayId}')">${this.t('meds.takenAt')} ${takenTimeFormatted}<span class="time-edit-icon">✏️</span></div>` : ''}
                     ${med.notes ? `<div class="med-notes">${med.notes}</div>` : ''}
                 </div>
             </div>
@@ -1934,6 +1990,12 @@ class HealthTracker {
 
         document.getElementById('logCancelButton').addEventListener('click', () => {
             this.closeLogModal();
+        });
+
+        document.getElementById('editTakenTimeCancelBtn').addEventListener('click', () => this.closeEditTakenTimeModal());
+        document.getElementById('editTakenTimeSaveBtn').addEventListener('click', () => this.saveTakenTime());
+        document.getElementById('editTakenTimeModal').addEventListener('click', (e) => {
+            if (e.target.id === 'editTakenTimeModal') this.closeEditTakenTimeModal();
         });
 
         document.getElementById('logForm').addEventListener('submit', (e) => {
@@ -2297,7 +2359,7 @@ class HealthTracker {
                         <img src="favicon.png" alt="App Icon" class="header-app-icon">
                         <div class="header-app-details">
                             <div class="header-app-name">Meds</div>
-                            <div class="header-app-version">Version 1.5.0 — July 7, 2026</div>
+                            <div class="header-app-version">Version 1.5.4 — September 15, 2026</div>
                             <div class="header-app-author">by Sid Cooperrider</div>
                         </div>
                     </div>
@@ -2308,7 +2370,7 @@ class HealthTracker {
                 this.loadTimeOfDaySettings();
 
                 // Sync checkbox states with localStorage
-                const prefs = JSON.parse(localStorage.getItem('trackingPreferences') || '{"appointments": true, "metrics": true}');
+                const prefs = JSON.parse(localStorage.getItem('trackingPreferences') || '{"appointments": false, "metrics": true}');
                 document.getElementById('trackAppointments').checked = prefs.appointments;
                 document.getElementById('trackMetrics').checked = prefs.metrics;
 
@@ -3842,7 +3904,7 @@ class HealthTracker {
     }
 
     updateTrackingPreferences(type, enabled) {
-        const prefs = JSON.parse(localStorage.getItem('trackingPreferences') || '{"appointments": true, "metrics": true}');
+        const prefs = JSON.parse(localStorage.getItem('trackingPreferences') || '{"appointments": false, "metrics": true}');
         prefs[type] = enabled;
         localStorage.setItem('trackingPreferences', JSON.stringify(prefs));
 
@@ -3852,7 +3914,7 @@ class HealthTracker {
 
     // Apply tracking preferences to UI
     applyTrackingPreferences() {
-        const prefs = JSON.parse(localStorage.getItem('trackingPreferences') || '{"appointments": true, "metrics": true}');
+        const prefs = JSON.parse(localStorage.getItem('trackingPreferences') || '{"appointments": false, "metrics": true}');
 
         const appointmentsTab = document.querySelector('[data-tab="appointments"]');
         const metricsTab = document.querySelector('[data-tab="log"]');
@@ -4557,9 +4619,12 @@ class HealthTracker {
             clearInterval(this.alarmCheckInterval);
         }
 
-        // Check for alarms every 30 seconds
+        // Check for alarms every 30 seconds; also re-apply auto theme if active
         this.alarmCheckInterval = setInterval(() => {
             this.checkForAlarms();
+            if (this.theme === 'auto') {
+                document.documentElement.dataset.theme = this.getAutoTheme();
+            }
         }, 30000);
 
         // Also check immediately
@@ -4686,10 +4751,15 @@ class HealthTracker {
         this.renderLogs();
     }
 
+    getAutoTheme() {
+        const h = new Date().getHours();
+        return (h >= 6 && h < 20) ? 'clean' : 'dark';
+    }
+
     setTheme(theme) {
         this.theme = theme;
         localStorage.setItem('theme', theme);
-        document.documentElement.dataset.theme = theme;
+        document.documentElement.dataset.theme = theme === 'auto' ? this.getAutoTheme() : theme;
         this.updateThemeSelector();
     }
 

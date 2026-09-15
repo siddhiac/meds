@@ -285,6 +285,26 @@ h1 {
     color: #5a9e6f;
     font-weight: 500;
     margin-bottom: 5px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: 6px;
+    padding: 1px 4px;
+    margin-left: -4px;
+    transition: background 0.15s, color 0.15s;
+}
+.time-taken .time-edit-icon {
+    opacity: 0;
+    font-size: 0.9em;
+    transition: opacity 0.15s;
+    line-height: 1;
+}
+.time-taken:hover {
+    background: rgba(90, 158, 111, 0.12);
+}
+.time-taken:hover .time-edit-icon {
+    opacity: 1;
 }
 
 .med-notes {
@@ -3280,4 +3300,8 @@ h1 {
 #weeklyViewModal input, #weeklyViewModal select, #weeklyViewModal textarea,
 #metricsPrintModal input, #metricsPrintModal select, #metricsPrintModal textarea {
   color-scheme: light;
+}
+
+@media (max-width: 767px) {
+  #weekPickerButton { display: none !important; }
 }
