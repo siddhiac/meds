@@ -1309,9 +1309,15 @@ class HealthTracker {
             if (this.dailyLog.takenTimes) delete this.dailyLog.takenTimes[displayId];
         } else {
             this.dailyLog.taken.push(displayId);
+            // Remove from skipped if it was there
+            if (this.dailyLog.skipped) {
+                this.dailyLog.skipped = this.dailyLog.skipped.filter(id => id !== displayId);
+            }
             if (!this.dailyLog.takenTimes) this.dailyLog.takenTimes = {};
             const _now = new Date();
-            this.dailyLog.takenTimes[displayId] = `${String(_now.getHours()).padStart(2,'0')}:${String(_now.getMinutes()).padStart(2,'0')}`;
+            const hh = String(_now.getHours()).padStart(2,'0');
+            const mm = String(_now.getMinutes()).padStart(2,'0');
+            this.dailyLog.takenTimes[displayId] = `${this.getDateString(this.selectedDate)}T${hh}:${mm}`;
         }
         this.saveDailyLog();
         this.renderMedications();
@@ -1329,8 +1335,15 @@ class HealthTracker {
     editTakenTime(displayId) {
         this._editingTakenDisplayId = displayId;
         const raw = this.dailyLog.takenTimes?.[displayId] || '';
-        document.getElementById('editTakenTimeInput').value = /^\d{2}:\d{2}$/.test(raw) ? raw : '';
-        document.getElementById('editTakenDateInput').value = this.getDateString(this.selectedDate);
+        let dateVal = this.getDateString(this.selectedDate);
+        let timeVal = '';
+        if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(raw)) {
+            [dateVal, timeVal] = raw.split('T');
+        } else if (/^\d{2}:\d{2}$/.test(raw)) {
+            timeVal = raw; // legacy format — date assumed to be the log date
+        }
+        document.getElementById('editTakenDateInput').value = dateVal;
+        document.getElementById('editTakenTimeInput').value = timeVal;
         document.getElementById('editTakenTimeModal').classList.add('active');
     }
 
@@ -1338,29 +1351,11 @@ class HealthTracker {
         const newTime = document.getElementById('editTakenTimeInput').value;
         const newDate = document.getElementById('editTakenDateInput').value;
         const displayId = this._editingTakenDisplayId;
-        if (newTime && newDate && displayId) {
-            const currentDateStr = this.getDateString(this.selectedDate);
-            if (newDate === currentDateStr) {
-                // Same day — just update the time
-                if (!this.dailyLog.takenTimes) this.dailyLog.takenTimes = {};
-                this.dailyLog.takenTimes[displayId] = newTime;
-                this.saveDailyLog();
-            } else {
-                // Different day — remove from current, add to target
-                this.dailyLog.taken = this.dailyLog.taken.filter(id => id !== displayId);
-                if (this.dailyLog.takenTimes) delete this.dailyLog.takenTimes[displayId];
-                this.saveDailyLog();
-
-                // Load target day, add entry, save it directly
-                const profileData = this.loadProfileData();
-                const target = profileData.dailyLogs[newDate] || { date: newDate, taken: [] };
-                if (!target.taken.includes(displayId)) target.taken.push(displayId);
-                if (!target.takenTimes) target.takenTimes = {};
-                target.takenTimes[displayId] = newTime;
-                profileData.dailyLogs[newDate] = target;
-                const key = this.getProfileDataKey();
-                if (key) localStorage.setItem(key, JSON.stringify(profileData));
-            }
+        if (displayId && newTime && newDate) {
+            // Always store in the current viewed day's log — date records actual intake time
+            if (!this.dailyLog.takenTimes) this.dailyLog.takenTimes = {};
+            this.dailyLog.takenTimes[displayId] = `${newDate}T${newTime}`;
+            this.saveDailyLog();
             this.renderMedications();
         }
         document.getElementById('editTakenTimeModal').classList.remove('active');
@@ -1370,6 +1365,60 @@ class HealthTracker {
     closeEditTakenTimeModal() {
         document.getElementById('editTakenTimeModal').classList.remove('active');
         this._editingTakenDisplayId = null;
+    }
+
+    openChangeDosageModal(medId) {
+        const med = this.medications.find(m => m.id === medId);
+        if (!med) return;
+        this._changingDosageMedId = medId;
+
+        document.getElementById('changeDosageCurrent').textContent = med.dosage;
+        document.getElementById('changeDosageInput').value = med.dosage;
+        document.getElementById('changeDosageDateInput').value = this.getDateString(new Date());
+        document.getElementById('changeDosageNoteInput').value = '';
+
+        // Show history if it exists
+        const history = med.dosageHistory || [];
+        const histSection = document.getElementById('dosageHistorySection');
+        const histList = document.getElementById('dosageHistoryList');
+        if (history.length > 0) {
+            histList.innerHTML = history.map(h => {
+                const d = new Date(h.date + 'T12:00:00').toLocaleDateString(this.language, { month: 'short', day: 'numeric', year: 'numeric' });
+                return `<div>${d} — ${h.dosage}${h.note ? ` <span style="color:var(--text-tertiary)">(${h.note})</span>` : ''}</div>`;
+            }).join('');
+            histSection.style.display = '';
+        } else {
+            histSection.style.display = 'none';
+        }
+
+        document.getElementById('changeDosageModal').classList.add('active');
+        setTimeout(() => document.getElementById('changeDosageInput').focus(), 50);
+    }
+
+    saveChangeDosage() {
+        const med = this.medications.find(m => m.id === this._changingDosageMedId);
+        const newDosage = document.getElementById('changeDosageInput').value.trim();
+        const date = document.getElementById('changeDosageDateInput').value;
+        const note = document.getElementById('changeDosageNoteInput').value.trim();
+        if (!med || !newDosage || !date) return;
+
+        if (!med.dosageHistory) med.dosageHistory = [];
+        // Record the old dosage first if history is empty
+        if (med.dosageHistory.length === 0 && med.dosage) {
+            med.dosageHistory.push({ dosage: med.dosage, date: date, note: this.t('meds.initialDosage') });
+        }
+        // Push the new dosage entry
+        med.dosageHistory.push({ dosage: newDosage, date, note });
+        med.dosage = newDosage;
+
+        this.saveMedications();
+        this.renderMedications();
+        this.closeChangeDosageModal();
+    }
+
+    closeChangeDosageModal() {
+        document.getElementById('changeDosageModal').classList.remove('active');
+        this._changingDosageMedId = null;
     }
 
     toggleCritical(medId) {
@@ -1641,6 +1690,10 @@ class HealthTracker {
             `;
         } else {
             container.innerHTML = medsHtml + asNeededHtml;
+            // Auto-size any pre-filled slot notes textareas
+            container.querySelectorAll('.slot-notes-input').forEach(el => {
+                if (el.value) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
+            });
         }
 
         //this.updateSummary();
@@ -1655,9 +1708,16 @@ class HealthTracker {
             const medsForTime = medications.filter(med => med.time === time);
             if (medsForTime.length > 0) {
                 const timeKey = time.toLowerCase();
+                const dateStr = this.getDateString(this.selectedDate);
+                const slotNoteEntry = this.logs.find(l => l.id === `slotNote_${dateStr}_${timeKey}`);
+                const savedNote = (slotNoteEntry?.notes || '').replace(/"/g, '&quot;');
                 html += `
                     <div class="time-container">
                         <div class="time-container-header">${this.t('timeOfDay.' + timeKey)}</div>
+                        <textarea class="slot-notes-input" rows="1"
+                            placeholder="${this.t('logModal.notes')}"
+                            oninput="tracker.saveSlotNote('${timeKey}', this.value); this.style.height='auto'; this.style.height=this.scrollHeight+'px';"
+                        >${savedNote}</textarea>
                         <div class="meds-grid">
                             ${medsForTime.map(med => this.renderMedCard(med)).join('')}
                         </div>
@@ -1667,6 +1727,33 @@ class HealthTracker {
         });
 
         return html;
+    }
+
+    saveSlotNote(timeKey, value) {
+        const slotHours = { morning: '08:00', afternoon: '12:00', evening: '18:00', bedtime: '21:00' };
+        const dateStr = this.getDateString(this.selectedDate);
+        const id = `slotNote_${dateStr}_${timeKey}`;
+        const idx = this.logs.findIndex(l => l.id === id);
+
+        if (value.trim()) {
+            const entry = {
+                id,
+                datetime: `${dateStr}T${slotHours[timeKey] || '12:00'}`,
+                temperature: null, bpSystolic: null, bpDiastolic: null,
+                heartRate: null, glucose: null, weight: null,
+                steps: null, oxygenation: null, sleep: null,
+                notes: value.trim(),
+                slotNote: timeKey
+            };
+            if (idx > -1) {
+                this.logs[idx] = entry;
+            } else {
+                this.logs.push(entry);
+            }
+        } else if (idx > -1) {
+            this.logs.splice(idx, 1);
+        }
+        this.saveLogs();
     }
 
     // Get schedule description
@@ -1700,36 +1787,81 @@ class HealthTracker {
 
     // Render individual medication card
     renderMedCard(med) {
-        const displayId = med.displayId || med.id; // Use displayId if available
+        const displayId = med.displayId || med.id;
         const taken = this.isTaken(displayId);
+        const skipped = this.dailyLog.skipped?.includes(displayId) || false;
         const isActiveToday = this.isMedicationActiveToday(med);
+        const selectedStr = this.getDateString(this.selectedDate);
+        const todayStr = this.getDateString(new Date());
+        const isPastDay = selectedStr < todayStr;
 
+        // Parse taken time (new: YYYY-MM-DDTHH:MM, legacy: HH:MM or locale string)
         const takenTimeRaw = taken && this.dailyLog.takenTimes?.[displayId];
-        const takenTimeFormatted = (() => {
-            if (!takenTimeRaw) return null;
-            if (/^\d{2}:\d{2}$/.test(takenTimeRaw)) {
+        let takenTimeFormatted = null;
+        let takenDateNote = '';
+        if (takenTimeRaw) {
+            if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(takenTimeRaw)) {
+                const [datePart, timePart] = takenTimeRaw.split('T');
+                const [h, m] = timePart.split(':').map(Number);
+                const d = new Date(); d.setHours(h, m, 0, 0);
+                takenTimeFormatted = d.toLocaleTimeString(this.language, { hour: 'numeric', minute: '2-digit' });
+                if (datePart !== selectedStr) {
+                    takenDateNote = ` (${new Date(datePart + 'T12:00:00').toLocaleDateString(this.language, { month: 'short', day: 'numeric' })})`;
+                }
+            } else if (/^\d{2}:\d{2}$/.test(takenTimeRaw)) {
                 const [h, m] = takenTimeRaw.split(':').map(Number);
                 const d = new Date(); d.setHours(h, m, 0, 0);
-                return d.toLocaleTimeString(this.language, { hour: 'numeric', minute: '2-digit' });
+                takenTimeFormatted = d.toLocaleTimeString(this.language, { hour: 'numeric', minute: '2-digit' });
+            } else {
+                takenTimeFormatted = takenTimeRaw; // legacy locale string
             }
-            return takenTimeRaw; // legacy locale string
-        })();
+        }
+
+        const showMissedBtn = isPastDay && !taken && !skipped && isActiveToday;
+
         return `
-            <div class="med-card ${taken ? 'taken' : ''} ${!isActiveToday ? 'inactive' : ''}" data-id="${displayId}">
+            <div class="med-card ${taken ? 'taken' : ''} ${skipped ? 'skipped' : ''} ${!isActiveToday ? 'inactive' : ''}" data-id="${displayId}">
                 <div class="med-checkbox" onclick="tracker.toggleTaken('${displayId}')" ${!isActiveToday ? 'style="opacity: 0.3; pointer-events: none;"' : ''}>
-                    ${taken ? '✓' : ''}
+                    ${taken ? '✓' : skipped ? '–' : ''}
                 </div>
                 <div class="med-info">
                     <div class="med-name-row">
                         <span class="med-name">${med.name}</span>
                         <button type="button" class="priority-badge ${med.critical !== false ? 'critical' : 'optional'}" onclick="event.stopPropagation(); tracker.toggleCritical('${med.id}')" title="${this.t('meds.tapToPriority')}">${med.critical !== false ? this.t('meds.critical') : this.t('meds.optional')}</button>
+                        ${skipped ? `<span class="missed-badge">${this.t('meds.missed')}</span>` : ''}
                     </div>
-                    <div class="med-dosage">${med.dosage}</div>
-                    ${takenTimeFormatted ? `<div class="time-taken" onclick="event.stopPropagation(); tracker.editTakenTime('${displayId}')">${this.t('meds.takenAt')} ${takenTimeFormatted}<span class="time-edit-icon">✏️</span></div>` : ''}
+                    <div class="med-dosage" onclick="event.stopPropagation(); tracker.openChangeDosageModal('${med.id}')" title="${this.t('meds.changeDosage')}">${med.dosage}<span class="dosage-edit-icon">✏️</span></div>
+                    ${takenTimeFormatted ? `<div class="time-taken" onclick="event.stopPropagation(); tracker.editTakenTime('${displayId}')">${this.t('meds.takenAt')} ${takenTimeFormatted}${takenDateNote}<span class="time-edit-icon">✏️</span></div>` : ''}
+                    ${skipped ? `<button type="button" class="undo-missed-btn" onclick="event.stopPropagation(); tracker.unskipMed('${displayId}')">${this.t('meds.undoMissed')}</button>` : ''}
+                    ${showMissedBtn ? `<button type="button" class="mark-missed-btn" onclick="event.stopPropagation(); tracker.skipMed('${displayId}')">${this.t('meds.missed')}</button>` : ''}
                     ${med.notes ? `<div class="med-notes">${med.notes}</div>` : ''}
                 </div>
             </div>
         `;
+    }
+
+    skipMed(displayId, dateStr) {
+        if (dateStr && dateStr !== this.getDateString(this.selectedDate)) {
+            const profileData = this.loadProfileData();
+            const log = profileData.dailyLogs[dateStr] || { date: dateStr, taken: [] };
+            if (!log.skipped) log.skipped = [];
+            if (!log.skipped.includes(displayId)) log.skipped.push(displayId);
+            profileData.dailyLogs[dateStr] = log;
+            const key = this.getProfileDataKey();
+            if (key) localStorage.setItem(key, JSON.stringify(profileData));
+        } else {
+            if (!this.dailyLog.skipped) this.dailyLog.skipped = [];
+            if (!this.dailyLog.skipped.includes(displayId)) this.dailyLog.skipped.push(displayId);
+            this.saveDailyLog();
+            this.renderMedications();
+        }
+    }
+
+    unskipMed(displayId) {
+        if (!this.dailyLog.skipped) return;
+        this.dailyLog.skipped = this.dailyLog.skipped.filter(id => id !== displayId);
+        this.saveDailyLog();
+        this.renderMedications();
     }
 
     // Render as-needed medication log
@@ -1906,6 +2038,16 @@ class HealthTracker {
             this.saveAsNeededLog();
         });
 
+        // Auto-fill dosage when a known medication name is selected
+        document.getElementById('asNeededName').addEventListener('input', () => {
+            const name = document.getElementById('asNeededName').value.trim().toLowerCase();
+            const dosageField = document.getElementById('asNeededDosage');
+            if (!dosageField.value) {
+                const match = this.getKnownMeds().find(m => m.name.toLowerCase() === name);
+                if (match?.dosage) dosageField.value = match.dosage;
+            }
+        });
+
         document.getElementById('asNeededModal').addEventListener('click', (e) => {
             if (e.target.id === 'asNeededModal') {
                 this.closeAsNeededModal();
@@ -1996,6 +2138,12 @@ class HealthTracker {
         document.getElementById('editTakenTimeSaveBtn').addEventListener('click', () => this.saveTakenTime());
         document.getElementById('editTakenTimeModal').addEventListener('click', (e) => {
             if (e.target.id === 'editTakenTimeModal') this.closeEditTakenTimeModal();
+        });
+
+        document.getElementById('changeDosageCancelBtn').addEventListener('click', () => this.closeChangeDosageModal());
+        document.getElementById('changeDosageSaveBtn').addEventListener('click', () => this.saveChangeDosage());
+        document.getElementById('changeDosageModal').addEventListener('click', (e) => {
+            if (e.target.id === 'changeDosageModal') this.closeChangeDosageModal();
         });
 
         document.getElementById('logForm').addEventListener('submit', (e) => {
@@ -2359,7 +2507,7 @@ class HealthTracker {
                         <img src="favicon.png" alt="App Icon" class="header-app-icon">
                         <div class="header-app-details">
                             <div class="header-app-name">Meds</div>
-                            <div class="header-app-version">Version 1.5.4 — September 15, 2026</div>
+                            <div class="header-app-version">Version 1.5.7 — Oct 30, 2026</div>
                             <div class="header-app-author">by Sid Cooperrider</div>
                         </div>
                     </div>
@@ -2939,10 +3087,38 @@ class HealthTracker {
     }
 
     // As-needed medication methods
+    getKnownMeds() {
+        // Collect {name, dosage} from scheduled meds and all past as-needed logs, deduped by name
+        const map = new Map(); // name.toLowerCase() -> {name, dosage}
+
+        // Scheduled medications first (lowest priority — as-needed history can override dosage)
+        this.medications.forEach(med => {
+            map.set(med.name.toLowerCase(), { name: med.name, dosage: med.dosage });
+        });
+
+        // All as-needed logs across all dates (most recent last so latest dosage wins)
+        const profileData = this.loadProfileData();
+        const allAsNeeded = profileData?.asNeededLogs || [];
+        allAsNeeded.forEach(log => {
+            if (log.name) map.set(log.name.toLowerCase(), { name: log.name, dosage: log.dosage });
+        });
+
+        return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
+    }
+
     openAsNeededModal(log = null) {
         const modal = document.getElementById('asNeededModal');
         const form = document.getElementById('asNeededForm');
         const modalTitle = document.querySelector('#asNeededModal h2');
+
+        // Populate datalist with known medications
+        const datalist = document.getElementById('asNeededNameList');
+        if (datalist) {
+            const known = this.getKnownMeds();
+            datalist.innerHTML = known.map(m =>
+                `<option value="${m.name.replace(/"/g, '&quot;')}">${m.dosage || ''}</option>`
+            ).join('');
+        }
 
         if (log) {
             // Editing existing log
@@ -3384,10 +3560,14 @@ class HealthTracker {
             metrics.push({ label: this.t('logModal.sleep'), value: log.sleep, unit: 'hrs' });
         }
 
+        const slotLabel = log.slotNote
+            ? `<span class="slot-note-badge">${this.t('timeOfDay.' + log.slotNote)}</span>`
+            : '';
+
         return `
-            <div class="log-card">
+            <div class="log-card${log.slotNote ? ' log-card-slot-note' : ''}">
                 <div class="log-card-header">
-                    <div class="log-datetime">${dateStr} at ${timeStr}</div>
+                    <div class="log-datetime">${dateStr} at ${timeStr}${slotLabel}</div>
                     <div class="log-actions">
                         <button class="log-edit-button" onclick="tracker.editLog('${log.id}')">${this.t('metrics.edit')}</button>
                         <button class="log-delete-button" onclick="tracker.deleteLog('${log.id}')">${this.t('metrics.delete')}</button>
@@ -3405,7 +3585,7 @@ class HealthTracker {
                         `).join('')}
                     </div>
                 ` : ''}
-                ${log.notes && this.metricsFilter.notes ? `
+                ${log.notes && (this.metricsFilter.notes || log.slotNote) ? `
                     <div class="log-notes-section">
                         <div class="log-notes-label">${this.t('metrics.notes')}</div>
                         <div class="log-notes-content">${log.notes}</div>
@@ -4918,12 +5098,13 @@ class HealthTracker {
         if (slotsWithCritical.length === 0) return;
         const lastSlot = slotsWithCritical[slotsWithCritical.length - 1];
 
-        // Check if any critical meds in that last slot were not taken
+        // Check if any critical meds in that last slot were not taken and not already skipped
         const yesterdayLog = this.loadDailyLog(yesterdayStr);
         const takenYesterday = yesterdayLog.taken || [];
+        const skippedYesterday = yesterdayLog.skipped || [];
         const missed = activeCritical.filter(med => {
             const displayId = med.displayId || med.id;
-            return med.time === lastSlot && !takenYesterday.includes(displayId);
+            return med.time === lastSlot && !takenYesterday.includes(displayId) && !skippedYesterday.includes(displayId);
         });
 
         if (missed.length === 0) return;
@@ -4933,16 +5114,31 @@ class HealthTracker {
         const translatedSlot = this.t('timeOfDay.' + lastSlot.toLowerCase());
         document.getElementById('morningCheckSubtext').innerHTML = this.t('morningCheck.message', {slot: `<strong>${translatedSlot}</strong>`});
         const list = document.getElementById('morningCheckList');
-        list.innerHTML = missed.map(med => `
-            <div class="morning-check-item">
-                <span class="morning-check-med-name">${med.name}</span>
-                <span class="morning-check-med-detail">${med.dosage}</span>
-            </div>
-        `).join('');
+        list.innerHTML = missed.map(med => {
+            const displayId = med.displayId || med.id;
+            return `
+            <div class="morning-check-item" id="mci-${displayId}">
+                <div class="morning-check-med-info">
+                    <span class="morning-check-med-name">${med.name}</span>
+                    <span class="morning-check-med-detail">${med.dosage}</span>
+                </div>
+                <button type="button" class="mark-missed-btn" onclick="tracker.skipMedFromMorningCheck('${displayId}', '${yesterdayStr}')">${this.t('meds.missed')}</button>
+            </div>`;
+        }).join('');
 
         const modal = document.getElementById('morningCheckModal');
         modal.style.display = '';
         modal.classList.add('active');
+    }
+
+    skipMedFromMorningCheck(displayId, dateStr) {
+        this.skipMed(displayId, dateStr);
+        const item = document.getElementById(`mci-${displayId}`);
+        if (item) item.style.display = 'none';
+        // Dismiss modal if all items are now hidden
+        const list = document.getElementById('morningCheckList');
+        const remaining = list ? list.querySelectorAll('.morning-check-item:not([style*="none"])') : [];
+        if (remaining.length === 0) this.dismissMorningCheck();
     }
 
     dismissMorningCheck() {

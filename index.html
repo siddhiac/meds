@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Meds">
-    <meta name="app-version" content="1.5.4">
+    <meta name="app-version" content="1.5.7">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="favicon.png">
@@ -752,7 +752,8 @@
             <form id="asNeededForm">
                 <div class="form-group">
                     <label for="asNeededName" data-i18n="asNeededModal.name">Medication Name</label>
-                    <input type="text" id="asNeededName" placeholder="e.g., Norco, Tylenol" required>
+                    <input type="text" id="asNeededName" list="asNeededNameList" placeholder="e.g., Norco, Tylenol" required autocomplete="off">
+                    <datalist id="asNeededNameList"></datalist>
                 </div>
 
                 <div class="form-group">
@@ -1100,6 +1101,42 @@
         </div>
     </div>
 
+    <!-- Change Dosage modal -->
+    <div class="modal" id="changeDosageModal">
+        <div class="modal-content" style="max-width: 380px;">
+            <h2 data-i18n="meds.changeDosage">Change Dosage</h2>
+            <div class="form-group">
+                <label data-i18n="meds.currentDosage">Current Dosage</label>
+                <div id="changeDosageCurrent" style="font-size:1.1rem; color:var(--text-secondary); padding:6px 0;"></div>
+            </div>
+            <div class="form-group">
+                <label data-i18n="meds.newDosage">New Dosage</label>
+                <input type="text" id="changeDosageInput" style="font-size:1rem;">
+            </div>
+            <div class="form-group">
+                <label data-i18n="meds.effectiveDate">Effective Date</label>
+                <input type="date" id="changeDosageDateInput">
+            </div>
+            <div class="form-group">
+                <label data-i18n="meds.dosageNote">Note (optional)</label>
+                <input type="text" id="changeDosageNoteInput" data-i18n-placeholder="meds.dosageNotePlaceholder">
+            </div>
+            <div id="dosageHistorySection" style="margin-bottom:12px;display:none;">
+                <label data-i18n="meds.dosageHistory" style="font-size:0.9rem; color:var(--text-tertiary); display:block; margin-bottom:6px;">History</label>
+                <div id="dosageHistoryList" style="font-size:0.9rem; color:var(--text-secondary); line-height:1.8;"></div>
+            </div>
+            <div class="form-buttons">
+                <button type="button" class="cancel-button" id="changeDosageCancelBtn" data-i18n="medModal.cancel">Cancel</button>
+                <button type="button" class="save-button" id="changeDosageSaveBtn" data-i18n="medModal.save">Save</button>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+        }
+    </script>
 </body>
 </html>

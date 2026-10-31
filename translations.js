@@ -13,7 +13,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'No medications scheduled for today.',
-      takenAt: 'Taken at', editTime: 'Edit Time Taken',
+      takenAt: 'Taken at', editTime: 'Edit Time Taken', missed: 'Missed', undoMissed: 'Undo',
+      changeDosage: 'Change Dosage',
+      currentDosage: 'Current Dosage',
+      newDosage: 'New Dosage',
+      effectiveDate: 'Effective Date',
+      dosageNote: 'Note',
+      dosageNotePlaceholder: 'Optional note about this change',
+      dosageHistory: 'Dosage History',
+      initialDosage: 'Initial dosage',
       critical: 'Critical', optional: 'Optional',
       tapToPriority: 'Tap to change priority'
     },
@@ -206,7 +214,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'No hay medicamentos programados para hoy.',
-      takenAt: 'Tomado a las', editTime: 'Editar Hora de Toma',
+      takenAt: 'Tomado a las', editTime: 'Editar Hora de Toma', missed: 'Perdida', undoMissed: 'Deshacer',
+      changeDosage: 'Cambiar dosis',
+      currentDosage: 'Dosis actual',
+      newDosage: 'Nueva dosis',
+      effectiveDate: 'Fecha efectiva',
+      dosageNote: 'Nota',
+      dosageNotePlaceholder: 'Nota opcional sobre este cambio',
+      dosageHistory: 'Historial de dosis',
+      initialDosage: 'Dosis inicial',
       critical: 'Crítico', optional: 'Opcional',
       tapToPriority: 'Toca para cambiar prioridad'
     },
@@ -399,7 +415,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: '今天没有安排药物。',
-      takenAt: '服药时间', editTime: '编辑服药时间',
+      takenAt: '服药时间', editTime: '编辑服药时间', missed: '已错过', undoMissed: '撤销',
+      changeDosage: '更改剂量',
+      currentDosage: '当前剂量',
+      newDosage: '新剂量',
+      effectiveDate: '生效日期',
+      dosageNote: '备注',
+      dosageNotePlaceholder: '关于此更改的可选备注',
+      dosageHistory: '剂量历史',
+      initialDosage: '初始剂量',
       critical: '重要', optional: '可选',
       tapToPriority: '点击更改优先级'
     },
@@ -592,7 +616,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Hôm nay không có thuốc nào được lên lịch.',
-      takenAt: 'Đã uống lúc', editTime: 'Chỉnh Sửa Giờ Uống',
+      takenAt: 'Đã uống lúc', editTime: 'Chỉnh Sửa Giờ Uống', missed: 'Đã bỏ lỡ', undoMissed: 'Hoàn tác',
+      changeDosage: 'Thay đổi liều lượng',
+      currentDosage: 'Liều lượng hiện tại',
+      newDosage: 'Liều lượng mới',
+      effectiveDate: 'Ngày hiệu lực',
+      dosageNote: 'Ghi chú',
+      dosageNotePlaceholder: 'Ghi chú tùy chọn về thay đổi này',
+      dosageHistory: 'Lịch sử liều lượng',
+      initialDosage: 'Liều ban đầu',
       critical: 'Quan Trọng', optional: 'Tùy Chọn',
       tapToPriority: 'Nhấn để thay đổi mức độ ưu tiên'
     },
@@ -785,7 +817,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Walang gamot na naka-iskedyul para ngayon.',
-      takenAt: 'Nainom noong', editTime: 'I-edit ang Oras na Ininom',
+      takenAt: 'Nainom noong', editTime: 'I-edit ang Oras na Ininom', missed: 'Napalya', undoMissed: 'I-undo',
+      changeDosage: 'Baguhin ang Dosis',
+      currentDosage: 'Kasalukuyang Dosis',
+      newDosage: 'Bagong Dosis',
+      effectiveDate: 'Petsa ng Pagbabago',
+      dosageNote: 'Tala',
+      dosageNotePlaceholder: 'Opsyonal na tala tungkol sa pagbabagong ito',
+      dosageHistory: 'Kasaysayan ng Dosis',
+      initialDosage: 'Paunang dosis',
       critical: 'Mahalaga', optional: 'Opsyonal',
       tapToPriority: 'I-tap para baguhin ang priyoridad'
     },
@@ -978,7 +1018,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: '오늘 예정된 약이 없습니다.',
-      takenAt: '복용 시간', editTime: '복용 시간 편집',
+      takenAt: '복용 시간', editTime: '복용 시간 편집', missed: '건너뜀', undoMissed: '실행 취소',
+      changeDosage: '용량 변경',
+      currentDosage: '현재 용량',
+      newDosage: '새 용량',
+      effectiveDate: '적용 날짜',
+      dosageNote: '메모',
+      dosageNotePlaceholder: '이 변경에 대한 선택적 메모',
+      dosageHistory: '용량 기록',
+      initialDosage: '초기 용량',
       critical: '중요', optional: '선택',
       tapToPriority: '탭하여 우선순위 변경'
     },
@@ -1171,7 +1219,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Այսօրվա համար դեղ չի նախատեսված։',
-      takenAt: 'Ընդունված է ժամը', editTime: 'Խմբագրել ընդունման ժամը',
+      takenAt: 'Ընդունված է ժամը', editTime: 'Խմբագրել ընդունման ժամը', missed: 'Բաց թողնված', undoMissed: 'Հետարկել',
+      changeDosage: 'Փոխել դեղաչափը',
+      currentDosage: 'Ընթացիկ դեղաչափ',
+      newDosage: 'Նոր դեղաչափ',
+      effectiveDate: 'Ուժի մեջ մտնելու ամսաթիվ',
+      dosageNote: 'Նշում',
+      dosageNotePlaceholder: 'Կամայական նշում այս փոփոխության մասին',
+      dosageHistory: 'Դեղաչափի պատմություն',
+      initialDosage: 'Սկզբնական դեղաչափ',
       critical: 'Կարևոր', optional: 'Կամընտրական',
       tapToPriority: 'Սեղմեք՝ առաջնահերթությունը փոխելու համար'
     },
@@ -1364,7 +1420,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'На сегодня лекарства не запланированы.',
-      takenAt: 'Принято в', editTime: 'Изменить время приёма',
+      takenAt: 'Принято в', editTime: 'Изменить время приёма', missed: 'Пропущено', undoMissed: 'Отменить',
+      changeDosage: 'Изменить дозу',
+      currentDosage: 'Текущая доза',
+      newDosage: 'Новая доза',
+      effectiveDate: 'Дата вступления в силу',
+      dosageNote: 'Примечание',
+      dosageNotePlaceholder: 'Необязательное примечание об этом изменении',
+      dosageHistory: 'История дозировки',
+      initialDosage: 'Начальная доза',
       critical: 'Важное', optional: 'Необязательное',
       tapToPriority: 'Нажмите для изменения приоритета'
     },
@@ -1557,7 +1621,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: '本日の服薬予定はありません。',
-      takenAt: '服用時刻', editTime: '服用時刻を編集',
+      takenAt: '服用時刻', editTime: '服用時刻を編集', missed: '飲み忘れ', undoMissed: '元に戻す',
+      changeDosage: '用量を変更',
+      currentDosage: '現在の用量',
+      newDosage: '新しい用量',
+      effectiveDate: '有効日',
+      dosageNote: 'メモ',
+      dosageNotePlaceholder: 'この変更に関するオプションのメモ',
+      dosageHistory: '用量の履歴',
+      initialDosage: '初期用量',
       critical: '重要', optional: '任意',
       tapToPriority: 'タップして優先度を変更'
     },
@@ -1750,7 +1822,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'لا توجد أدوية مجدولة اليوم.',
-      takenAt: 'تم التناول في', editTime: 'تعديل وقت التناول',
+      takenAt: 'تم التناول في', editTime: 'تعديل وقت التناول', missed: 'فائت', undoMissed: 'تراجع',
+      changeDosage: 'تغيير الجرعة',
+      currentDosage: 'الجرعة الحالية',
+      newDosage: 'الجرعة الجديدة',
+      effectiveDate: 'تاريخ السريان',
+      dosageNote: 'ملاحظة',
+      dosageNotePlaceholder: 'ملاحظة اختيارية حول هذا التغيير',
+      dosageHistory: 'سجل الجرعات',
+      initialDosage: 'الجرعة الأولية',
       critical: 'ضروري', optional: 'اختياري',
       tapToPriority: 'اضغط لتغيير الأولوية'
     },
@@ -1943,7 +2023,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'امروز هیچ دارویی برنامه‌ریزی نشده است.',
-      takenAt: 'مصرف شده در', editTime: 'ویرایش زمان مصرف',
+      takenAt: 'مصرف شده در', editTime: 'ویرایش زمان مصرف', missed: 'از دست رفته', undoMissed: 'لغو',
+      changeDosage: 'تغییر دوز',
+      currentDosage: 'دوز فعلی',
+      newDosage: 'دوز جدید',
+      effectiveDate: 'تاریخ اعمال',
+      dosageNote: 'یادداشت',
+      dosageNotePlaceholder: 'یادداشت اختیاری درباره این تغییر',
+      dosageHistory: 'تاریخچه دوز',
+      initialDosage: 'دوز اولیه',
       critical: 'ضروری', optional: 'اختیاری',
       tapToPriority: 'برای تغییر اولویت ضربه بزنید'
     },
@@ -2136,7 +2224,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'आज कोई दवा शेड्यूल नहीं है।',
-      takenAt: 'ली गई', editTime: 'लेने का समय संपादित करें',
+      takenAt: 'ली गई', editTime: 'लेने का समय संपादित करें', missed: 'छूट गई', undoMissed: 'पूर्ववत करें',
+      changeDosage: 'खुराक बदलें',
+      currentDosage: 'वर्तमान खुराक',
+      newDosage: 'नई खुराक',
+      effectiveDate: 'प्रभावी तिथि',
+      dosageNote: 'नोट',
+      dosageNotePlaceholder: 'इस बदलाव के बारे में वैकल्पिक नोट',
+      dosageHistory: 'खुराक इतिहास',
+      initialDosage: 'प्रारंभिक खुराक',
       critical: 'ज़रूरी', optional: 'वैकल्पिक',
       tapToPriority: 'प्राथमिकता बदलने के लिए टैप करें'
     },
@@ -2329,7 +2425,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'ਅੱਜ ਕੋਈ ਦਵਾਈ ਤਹਿ ਨਹੀਂ ਹੈ।',
-      takenAt: 'ਲਈ ਗਈ', editTime: 'ਲੈਣ ਦਾ ਸਮਾਂ ਸੰਪਾਦਿਤ ਕਰੋ',
+      takenAt: 'ਲਈ ਗਈ', editTime: 'ਲੈਣ ਦਾ ਸਮਾਂ ਸੰਪਾਦਿਤ ਕਰੋ', missed: 'ਖੁੰਝ ਗਈ', undoMissed: 'ਵਾਪਸ ਕਰੋ',
+      changeDosage: 'ਖੁਰਾਕ ਬਦਲੋ',
+      currentDosage: 'ਮੌਜੂਦਾ ਖੁਰਾਕ',
+      newDosage: 'ਨਵੀਂ ਖੁਰਾਕ',
+      effectiveDate: 'ਪ੍ਰਭਾਵੀ ਮਿਤੀ',
+      dosageNote: 'ਨੋਟ',
+      dosageNotePlaceholder: 'ਇਸ ਬਦਲਾਅ ਬਾਰੇ ਵਿਕਲਪਿਕ ਨੋਟ',
+      dosageHistory: 'ਖੁਰਾਕ ਇਤਿਹਾਸ',
+      initialDosage: 'ਮੁਢਲੀ ਖੁਰਾਕ',
       critical: 'ਜ਼ਰੂਰੀ', optional: 'ਵਿਕਲਪਿਕ',
       tapToPriority: 'ਤਰਜੀਹ ਬਦਲਣ ਲਈ ਟੈਪ ਕਰੋ'
     },
@@ -2522,7 +2626,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Aucun médicament prévu aujourd\'hui.',
-      takenAt: 'Pris à', editTime: 'Modifier l’heure de prise',
+      takenAt: 'Pris à', editTime: 'Modifier l’heure de prise', missed: 'Manquée', undoMissed: 'Annuler',
+      changeDosage: 'Changer la dose',
+      currentDosage: 'Dose actuelle',
+      newDosage: 'Nouvelle dose',
+      effectiveDate: 'Date d'effet',
+      dosageNote: 'Note',
+      dosageNotePlaceholder: 'Note facultative sur ce changement',
+      dosageHistory: 'Historique des doses',
+      initialDosage: 'Dose initiale',
       critical: 'Essentiel', optional: 'Optionnel',
       tapToPriority: 'Appuyer pour changer la priorité'
     },
@@ -2715,7 +2827,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Heute keine Medikamente geplant.',
-      takenAt: 'Genommen um', editTime: 'Einnahmezeit bearbeiten',
+      takenAt: 'Genommen um', editTime: 'Einnahmezeit bearbeiten', missed: 'Verpasst', undoMissed: 'Rückgängig',
+      changeDosage: 'Dosierung ändern',
+      currentDosage: 'Aktuelle Dosierung',
+      newDosage: 'Neue Dosierung',
+      effectiveDate: 'Gültig ab',
+      dosageNote: 'Notiz',
+      dosageNotePlaceholder: 'Optionale Notiz zu dieser Änderung',
+      dosageHistory: 'Dosierungsverlauf',
+      initialDosage: 'Anfangsdosierung',
       critical: 'Wichtig', optional: 'Optional',
       tapToPriority: 'Tippen um Priorität zu ändern'
     },
@@ -2908,7 +3028,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Nenhum medicamento agendado para hoje.',
-      takenAt: 'Tomado às', editTime: 'Editar Hora de Toma',
+      takenAt: 'Tomado às', editTime: 'Editar Hora de Toma', missed: 'Perdida', undoMissed: 'Desfazer',
+      changeDosage: 'Alterar dose',
+      currentDosage: 'Dose atual',
+      newDosage: 'Nova dose',
+      effectiveDate: 'Data de vigência',
+      dosageNote: 'Nota',
+      dosageNotePlaceholder: 'Nota opcional sobre esta alteração',
+      dosageHistory: 'Histórico de doses',
+      initialDosage: 'Dose inicial',
       critical: 'Essencial', optional: 'Opcional',
       tapToPriority: 'Toque para mudar a prioridade'
     },
@@ -3101,7 +3229,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Awan ti agas para ita nga aldaw.',
-      takenAt: 'Nainumen ti', editTime: 'I-edit ti Oras nga Nainum',
+      takenAt: 'Nainumen ti', editTime: 'I-edit ti Oras nga Nainum', missed: 'Napaay', undoMissed: 'Ikansen',
+      changeDosage: 'Baliwan ti Dosis',
+      currentDosage: 'Agdama a Dosis',
+      newDosage: 'Baro a Dosis',
+      effectiveDate: 'Petsa ti Epekto',
+      dosageNote: 'Nota',
+      dosageNotePlaceholder: 'Opsional a nota maipanggep iti daytoy a baliw',
+      dosageHistory: 'Pakasaritaan ti Dosis',
+      initialDosage: 'Umuna a dosis',
       critical: 'Importante', optional: 'Opsional',
       tapToPriority: 'I-tap tapno balbaliwen ti prioridad'
     },
@@ -3294,7 +3430,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Leai se vailaʻau mo aso nei.',
-      takenAt: 'Aʻoaʻo i le', editTime: 'Fa’atonutonu Taimi na Inu',
+      takenAt: 'Aʻoaʻo i le', editTime: 'Fa’atonutonu Taimi na Inu', missed: 'Solomia', undoMissed: 'Tāofi',
+      changeDosage: 'Suia le Fuataga',
+      currentDosage: 'Fuataga o Lenei Taimi',
+      newDosage: 'Fuataga Fou',
+      effectiveDate: 'Aso Amataga',
+      dosageNote: 'Manatua',
+      dosageNotePlaceholder: 'Manatua filifiliga e uiga i le suiga lenei',
+      dosageHistory: 'Talafaasolopito o Fuataga',
+      initialDosage: 'Fuataga muamua',
       critical: 'Tāua', optional: 'Filifilia',
       tapToPriority: 'Taaʻi e suia le tāua'
     },
@@ -3487,7 +3631,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'ʻAʻohe lāʻau no kēia lā.',
-      takenAt: 'Ua inu i ka', editTime: 'Ho’ololi i ka Manawa',
+      takenAt: 'Ua inu i ka', editTime: 'Ho’ololi i ka Manawa', missed: 'Nalowale', undoMissed: 'Hoʻihoʻi',
+      changeDosage: 'Hoʻololi i ka Nui',
+      currentDosage: 'Nui o Kēia Manawa',
+      newDosage: 'Nui Hou',
+      effectiveDate: 'Lā Hoʻoikaika',
+      dosageNote: 'Manaʻo',
+      dosageNotePlaceholder: 'Manaʻo koho no kēia hoʻololi',
+      dosageHistory: 'Moʻolelo o ka Nui',
+      initialDosage: 'Nui mua',
       critical: 'Koʻikoʻi', optional: 'Koho',
       tapToPriority: 'Paʻi e hoʻololi i ka nui koʻikoʻi'
     },
@@ -3680,7 +3832,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'ไม่มียาที่กำหนดไว้สำหรับวันนี้',
-      takenAt: 'รับประทานเมื่อ', editTime: 'แก้ไขเวลาที่รับประทาน',
+      takenAt: 'รับประทานเมื่อ', editTime: 'แก้ไขเวลาที่รับประทาน', missed: 'พลาด', undoMissed: 'เลิกทำ',
+      changeDosage: 'เปลี่ยนขนาดยา',
+      currentDosage: 'ขนาดยาปัจจุบัน',
+      newDosage: 'ขนาดยาใหม่',
+      effectiveDate: 'วันที่มีผล',
+      dosageNote: 'หมายเหตุ',
+      dosageNotePlaceholder: 'หมายเหตุเสริมเกี่ยวกับการเปลี่ยนแปลงนี้',
+      dosageHistory: 'ประวัติขนาดยา',
+      initialDosage: 'ขนาดยาเริ่มต้น',
       critical: 'สำคัญมาก', optional: 'ไม่บังคับ',
       tapToPriority: 'แตะเพื่อเปลี่ยนความสำคัญ'
     },
@@ -3873,7 +4033,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'ບໍ່ມີຢາທີ່ກຳນົດໄວ້ສຳລັບມື້ນີ້',
-      takenAt: 'ກິນເມື່ອ', editTime: 'ແກ້ໄຂເວລາທີ່ກິນ',
+      takenAt: 'ກິນເມື່ອ', editTime: 'ແກ້ໄຂເວລາທີ່ກິນ', missed: 'ພາດ', undoMissed: 'ຍົກເລີກ',
+      changeDosage: 'ປ່ຽນຂະໜາດຢາ',
+      currentDosage: 'ຂະໜາດຢາປັດຈຸບັນ',
+      newDosage: 'ຂະໜາດຢາໃໝ່',
+      effectiveDate: 'ວັນທີມີຜົນ',
+      dosageNote: 'ໝາຍເຫດ',
+      dosageNotePlaceholder: 'ໝາຍເຫດທາງເລືອກກ່ຽວກັບການປ່ຽນແປງນີ້',
+      dosageHistory: 'ປະຫວັດຂະໜາດຢາ',
+      initialDosage: 'ຂະໜາດຢາເລີ່ມຕົ້ນ',
       critical: 'ສຳຄັນຫຼາຍ', optional: 'ບໍ່ບັງຄັບ',
       tapToPriority: 'ແຕະເພື່ອປ່ຽນຄວາມສຳຄັນ'
     },
@@ -4066,7 +4234,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'Tsis muaj tshuaj rau hnub no.',
-      takenAt: 'Haus thaum', editTime: 'Kho Xyuas Lub Sij Hawm',
+      takenAt: 'Haus thaum', editTime: 'Kho Xyuas Lub Sij Hawm', missed: 'Tsis Haus', undoMissed: 'Tsis Ua',
+      changeDosage: 'Hloov Qhov Ntau',
+      currentDosage: 'Qhov Ntau Tam Sim No',
+      newDosage: 'Qhov Ntau Tshiab',
+      effectiveDate: 'Hnub Pib Siv',
+      dosageNote: 'Lus Nco',
+      dosageNotePlaceholder: 'Lus nco xaiv txog kev hloov no',
+      dosageHistory: 'Keeb Kwm Qhov Ntau',
+      initialDosage: 'Qhov ntau thawj zaug',
       critical: 'Tseem Ceeb', optional: 'Xaiv Tau',
       tapToPriority: 'Kov los hloov qib tseem ceeb'
     },
@@ -4259,7 +4435,15 @@ const TRANSLATIONS = {
     },
     meds: {
       empty: 'គ្មានថ្នាំដែលបានកំណត់សម្រាប់ថ្ងៃនេះ',
-      takenAt: 'បានលេបនៅ', editTime: 'កែសម្រួលម៉ោងដែលបានលេប',
+      takenAt: 'បានលេបនៅ', editTime: 'កែសម្រួលម៉ោងដែលបានលេប', missed: 'បានខក', undoMissed: 'មិនធ្វើ',
+      changeDosage: 'ផ្លាស់ប្ដូរកម្រិតថ្នាំ',
+      currentDosage: 'កម្រិតថ្នាំបច្ចុប្បន្ន',
+      newDosage: 'កម្រិតថ្នាំថ្មី',
+      effectiveDate: 'កាលបរិច្ឆេទចូលជាធរមាន',
+      dosageNote: 'កំណត់ចំណាំ',
+      dosageNotePlaceholder: 'កំណត់ចំណាំជ្រើសរើសសម្រាប់ការផ្លាស់ប្ដូរនេះ',
+      dosageHistory: 'ប្រវត្តិកម្រិតថ្នាំ',
+      initialDosage: 'កម្រិតថ្នាំដំបូង',
       critical: 'សំខាន់ខ្លាំង', optional: 'ជម្រើស',
       tapToPriority: 'ចុចដើម្បីផ្លាស់ប្តូរអាទិភាព'
     },
@@ -4448,7 +4632,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: '早上', afternoon: '下午', evening: '晚上', bedtime: '睡前', asNeeded: '按需' },
     meds: {
-      empty: '今天沒有安排藥物。', takenAt: '已服用於', editTime: '編輯服藥時間',
+      empty: '今天沒有安排藥物。', takenAt: '已服用於', editTime: '編輯服藥時間', missed: '已錯過', undoMissed: '撤銷',
+      changeDosage: '更改劑量',
+      currentDosage: '目前劑量',
+      newDosage: '新劑量',
+      effectiveDate: '生效日期',
+      dosageNote: '備註',
+      dosageNotePlaceholder: '關於此變更的可選備註',
+      dosageHistory: '劑量歷史',
+      initialDosage: '初始劑量',
       critical: '必要', optional: '可選', tapToPriority: '點擊更改優先順序'
     },
     medModal: {
@@ -4616,7 +4808,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Maten', afternoon: 'Aprèmidi', evening: 'Swa', bedtime: 'Anvan Dòmi', asNeeded: 'Si Nesesè' },
     meds: {
-      empty: 'Pa gen medikaman pwograme pou jodi a.', takenAt: 'Pran a', editTime: 'Edite Lè Pran',
+      empty: 'Pa gen medikaman pwograme pou jodi a.', takenAt: 'Pran a', editTime: 'Edite Lè Pran', missed: 'Rate', undoMissed: 'Defèt',
+      changeDosage: 'Chanje Dòz',
+      currentDosage: 'Dòz Aktyèl',
+      newDosage: 'Nouvo Dòz',
+      effectiveDate: 'Dat Efektif',
+      dosageNote: 'Nòt',
+      dosageNotePlaceholder: 'Nòt opsyonèl sou chanjman sa',
+      dosageHistory: 'Istwa Dòz',
+      initialDosage: 'Dòz inisyal',
       critical: 'Enpòtan', optional: 'Opsyonèl', tapToPriority: 'Touche pou chanje priyorite'
     },
     medModal: {
@@ -4784,7 +4984,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'સવાર', afternoon: 'બપોર', evening: 'સાંજ', bedtime: 'સૂતા પહેલાં', asNeeded: 'જ્યારે જરૂર હોય' },
     meds: {
-      empty: 'આજ માટે કોઈ દવા નિર્ધારિત નથી.', takenAt: 'લીધી', editTime: 'લેવાનો સમય સંપાદિત કરો',
+      empty: 'આજ માટે કોઈ દવા નિર્ધારિત નથી.', takenAt: 'લીધી', editTime: 'લેવાનો સમય સંપાદિત કરો', missed: 'ચૂકી ગઈ', undoMissed: 'પૂર્વવત્ કરો',
+      changeDosage: 'ડોઝ બદલો',
+      currentDosage: 'વર્તમાન ડોઝ',
+      newDosage: 'નવો ડોઝ',
+      effectiveDate: 'અસરકારક તારીખ',
+      dosageNote: 'નોંધ',
+      dosageNotePlaceholder: 'આ ફેરફાર વિશે વૈકલ્પિક નોંધ',
+      dosageHistory: 'ડોઝ ઇતિહાસ',
+      initialDosage: 'પ્રારંભિક ડોઝ',
       critical: 'જરૂરી', optional: 'ઐચ્છિક', tapToPriority: 'પ્રાધાન્ય બદલવા ટૅપ કરો'
     },
     medModal: {
@@ -4951,7 +5159,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'ጠዋት', afternoon: 'ከሰዓት', evening: 'ምሽት', bedtime: 'ከመተኛቴ በፊት', asNeeded: 'እንደ አስፈላጊነቱ' },
     meds: {
-      empty: 'ዛሬ ምንም መድሃኒት አልተያዘም።', takenAt: 'የተወሰደበት', editTime: 'የወሰዱበት ጊዜ ያስተካክሉ',
+      empty: 'ዛሬ ምንም መድሃኒት አልተያዘም።', takenAt: 'የተወሰደበት', editTime: 'የወሰዱበት ጊዜ ያስተካክሉ', missed: 'ያመለጠ', undoMissed: 'ቀለ',
+      changeDosage: 'መጠን ቀይር',
+      currentDosage: 'አሁን ያለ መጠን',
+      newDosage: 'አዲስ መጠን',
+      effectiveDate: 'የሚሰራበት ቀን',
+      dosageNote: 'ማስታወሻ',
+      dosageNotePlaceholder: 'ለዚህ ለውጥ የፈቃደኝነት ማስታወሻ',
+      dosageHistory: 'የመጠን ታሪክ',
+      initialDosage: 'መጀመሪያ መጠን',
       critical: 'አስፈላጊ', optional: 'አማራጭ', tapToPriority: 'ቅድሚያ ለመቀየር ጠቅ አድርግ'
     },
     medModal: {
@@ -5119,7 +5335,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Subax', afternoon: 'Galabnimo', evening: 'Fiid', bedtime: 'Ka Hor Seexashada', asNeeded: 'Marka Loo Baahdo' },
     meds: {
-      empty: 'Maanta ma jirto dawo la qorsheeyey.', takenAt: 'La qaatay', editTime: 'Waqtiga La Qaatay Wax Ka Beddel',
+      empty: 'Maanta ma jirto dawo la qorsheeyey.', takenAt: 'La qaatay', editTime: 'Waqtiga La Qaatay Wax Ka Beddel', missed: 'La maqnaa', undoMissed: 'Noqo',
+      changeDosage: 'Beddel Xaddiga',
+      currentDosage: 'Xaddiga Hadda',
+      newDosage: 'Xaddiga Cusub',
+      effectiveDate: 'Taariikhda Dhaqangelinta',
+      dosageNote: 'Xusuus',
+      dosageNotePlaceholder: 'Xusuus ikhtiyaari ah oo ku saabsan isbedelkan',
+      dosageHistory: 'Taariikhda Xaddiga',
+      initialDosage: 'Xaddiga bilowga',
       critical: 'Lagama Maarmaan', optional: 'Ikhtiyaari', tapToPriority: 'Taab si aad u beddesho mudnaanta'
     },
     medModal: {
@@ -5286,7 +5510,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'সকাল', afternoon: 'দুপুর', evening: 'সন্ধ্যা', bedtime: 'ঘুমানোর আগে', asNeeded: 'প্রয়োজনে' },
     meds: {
-      empty: 'আজকের জন্য কোনো ওষুধ নির্ধারিত নেই।', takenAt: 'নেওয়া হয়েছে', editTime: 'গ্রহণের সময় সম্পাদনা করুন',
+      empty: 'আজকের জন্য কোনো ওষুধ নির্ধারিত নেই।', takenAt: 'নেওয়া হয়েছে', editTime: 'গ্রহণের সময় সম্পাদনা করুন', missed: 'মিস হয়েছে', undoMissed: 'পূর্বাবস্থায় ফিরুন',
+      changeDosage: 'ডোজ পরিবর্তন করুন',
+      currentDosage: 'বর্তমান ডোজ',
+      newDosage: 'নতুন ডোজ',
+      effectiveDate: 'কার্যকর তারিখ',
+      dosageNote: 'নোট',
+      dosageNotePlaceholder: 'এই পরিবর্তন সম্পর্কে ঐচ্ছিক নোট',
+      dosageHistory: 'ডোজ ইতিহাস',
+      initialDosage: 'প্রাথমিক ডোজ',
       critical: 'অপরিহার্য', optional: 'ঐচ্ছিক', tapToPriority: 'অগ্রাধিকার পরিবর্তনে ট্যাপ করুন'
     },
     medModal: {
@@ -5454,7 +5686,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'صبح', afternoon: 'دوپہر', evening: 'شام', bedtime: 'سونے سے پہلے', asNeeded: 'ضرورت پر' },
     meds: {
-      empty: 'آج کے لیے کوئی دوا مقرر نہیں ہے۔', takenAt: 'لی گئی', editTime: 'لینے کا وقت ترمیم کریں',
+      empty: 'آج کے لیے کوئی دوا مقرر نہیں ہے۔', takenAt: 'لی گئی', editTime: 'لینے کا وقت ترمیم کریں', missed: 'چھوٹ گئی', undoMissed: 'واپس کریں',
+      changeDosage: 'خوراک بدلیں',
+      currentDosage: 'موجودہ خوراک',
+      newDosage: 'نئی خوراک',
+      effectiveDate: 'مؤثر تاریخ',
+      dosageNote: 'نوٹ',
+      dosageNotePlaceholder: 'اس تبدیلی کے بارے میں اختیاری نوٹ',
+      dosageHistory: 'خوراک کی تاریخ',
+      initialDosage: 'ابتدائی خوراک',
       critical: 'ضروری', optional: 'اختیاری', tapToPriority: 'ترجیح تبدیل کرنے کے لیے ٹیپ کریں'
     },
     medModal: {
@@ -5622,7 +5862,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Pagi', afternoon: 'Siang', evening: 'Sore', bedtime: 'Sebelum Tidur', asNeeded: 'Bila Perlu' },
     meds: {
-      empty: 'Tidak ada obat yang dijadwalkan hari ini.', takenAt: 'Diminum pukul', editTime: 'Edit Waktu Dikonsumsi',
+      empty: 'Tidak ada obat yang dijadwalkan hari ini.', takenAt: 'Diminum pukul', editTime: 'Edit Waktu Dikonsumsi', missed: 'Terlewat', undoMissed: 'Batalkan',
+      changeDosage: 'Ubah Dosis',
+      currentDosage: 'Dosis Saat Ini',
+      newDosage: 'Dosis Baru',
+      effectiveDate: 'Tanggal Berlaku',
+      dosageNote: 'Catatan',
+      dosageNotePlaceholder: 'Catatan opsional tentang perubahan ini',
+      dosageHistory: 'Riwayat Dosis',
+      initialDosage: 'Dosis awal',
       critical: 'Wajib', optional: 'Opsional', tapToPriority: 'Ketuk untuk mengubah prioritas'
     },
     medModal: {
@@ -5790,7 +6038,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Asubuhi', afternoon: 'Mchana', evening: 'Jioni', bedtime: 'Kabla ya Kulala', asNeeded: 'Inapohitajika' },
     meds: {
-      empty: 'Hakuna dawa iliyopangwa leo.', takenAt: 'Ilichukuliwa', editTime: 'Hariri Wakati Uliochukuliwa',
+      empty: 'Hakuna dawa iliyopangwa leo.', takenAt: 'Ilichukuliwa', editTime: 'Hariri Wakati Uliochukuliwa', missed: 'Ilipotea', undoMissed: 'Ondoa',
+      changeDosage: 'Badilisha Kipimo',
+      currentDosage: 'Kipimo cha Sasa',
+      newDosage: 'Kipimo Kipya',
+      effectiveDate: 'Tarehe ya Kuanza',
+      dosageNote: 'Kumbuka',
+      dosageNotePlaceholder: 'Kumbuka ya hiari kuhusu mabadiliko haya',
+      dosageHistory: 'Historia ya Kipimo',
+      initialDosage: 'Kipimo cha awali',
       critical: 'Muhimu Sana', optional: 'Hiari', tapToPriority: 'Gonga kubadilisha kipaumbele'
     },
     medModal: {
@@ -5958,7 +6214,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Sabah', afternoon: 'Öğleden Sonra', evening: 'Akşam', bedtime: 'Yatmadan Önce', asNeeded: 'Gerektiğinde' },
     meds: {
-      empty: 'Bugün için planlanmış ilaç yok.', takenAt: 'Alındı', editTime: 'Alınan Zamanı Düzenle',
+      empty: 'Bugün için planlanmış ilaç yok.', takenAt: 'Alındı', editTime: 'Alınan Zamanı Düzenle', missed: 'Kaçırıldı', undoMissed: 'Geri Al',
+      changeDosage: 'Dozu Değiştir',
+      currentDosage: 'Mevcut Doz',
+      newDosage: 'Yeni Doz',
+      effectiveDate: 'Geçerlilik Tarihi',
+      dosageNote: 'Not',
+      dosageNotePlaceholder: 'Bu değişiklik hakkında isteğe bağlı not',
+      dosageHistory: 'Doz Geçmişi',
+      initialDosage: 'Başlangıç dozu',
       critical: 'Zorunlu', optional: 'İsteğe Bağlı', tapToPriority: 'Önceliği değiştirmek için dokun'
     },
     medModal: {
@@ -6127,7 +6391,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Ganama', afternoon: 'Guyyaa', evening: 'Galgala', bedtime: 'Ciisuu Dursa', asNeeded: 'Yeroo Barbaachisaa' },
     meds: {
-      empty: 'Har\'a qoricha karoorfame hin jiru.', takenAt: 'Fudhatame', editTime: 'Yeroo Fudhatan Gulaali',
+      empty: 'Har\'a qoricha karoorfame hin jiru.', takenAt: 'Fudhatame', editTime: 'Yeroo Fudhatan Gulaali', missed: 'Dhiifame', undoMissed: 'Deebi’i',
+      changeDosage: 'Qabiyyee Jijjiiri',
+      currentDosage: 'Qabiyyee Ammaa',
+      newDosage: 'Qabiyyee Haaraa',
+      effectiveDate: 'Guyyaa Hojii Jalqabaa',
+      dosageNote: 'Yaadannoo',
+      dosageNotePlaceholder: 'Yaadannoo dirqama hin taane jijjiirama kanaaf',
+      dosageHistory: 'Seenaa Qabiyyee',
+      initialDosage: 'Qabiyyee jalqabaa',
       critical: 'Murteessaa', optional: 'Dirqamaa Miti', tapToPriority: 'Dursa jijjiiruuf tuqi'
     },
     medModal: {
@@ -6295,7 +6567,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Buntag', afternoon: 'Udto', evening: 'Gabii', bedtime: 'Sa Dili Pa Matulog', asNeeded: 'Kung Gikinahanglan' },
     meds: {
-      empty: 'Walay tambal nga naplaano karong adlawa.', takenAt: 'Gikuha', editTime: 'I-edit ang Oras nga Gikuha',
+      empty: 'Walay tambal nga naplaano karong adlawa.', takenAt: 'Gikuha', editTime: 'I-edit ang Oras nga Gikuha', missed: 'Nalaktawan', undoMissed: 'I-undo',
+      changeDosage: 'Usba ang Dosis',
+      currentDosage: 'Karon nga Dosis',
+      newDosage: 'Bag-ong Dosis',
+      effectiveDate: 'Petsa sa Pagbag-o',
+      dosageNote: 'Sulat',
+      dosageNotePlaceholder: 'Opsyonal nga sulat mahitungod niining pagbag-o',
+      dosageHistory: 'Kasaysayan sa Dosis',
+      initialDosage: 'Unang dosis',
       critical: 'Kinahanglanon', optional: 'Opsyonal', tapToPriority: 'I-tap aron usbon ang priyoridad'
     },
     medModal: {
@@ -6463,7 +6743,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Rano', afternoon: 'Południe', evening: 'Wieczór', bedtime: 'Przed Snem', asNeeded: 'W Razie Potrzeby' },
     meds: {
-      empty: 'Brak zaplanowanych leków na dziś.', takenAt: 'Przyjęty o', editTime: 'Edytuj godzinę przyjęcia',
+      empty: 'Brak zaplanowanych leków na dziś.', takenAt: 'Przyjęty o', editTime: 'Edytuj godzinę przyjęcia', missed: 'Pominięto', undoMissed: 'Cofnij',
+      changeDosage: 'Zmień dawkę',
+      currentDosage: 'Aktualna dawka',
+      newDosage: 'Nowa dawka',
+      effectiveDate: 'Data obowiązywania',
+      dosageNote: 'Notatka',
+      dosageNotePlaceholder: 'Opcjonalna notatka o tej zmianie',
+      dosageHistory: 'Historia dawkowania',
+      initialDosage: 'Dawka początkowa',
       critical: 'Niezbędny', optional: 'Opcjonalny', tapToPriority: 'Dotknij, aby zmienić priorytet'
     },
     medModal: {
@@ -6631,7 +6919,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Safe', afternoon: 'Rana', evening: 'Yamma', bedtime: 'Kafin Barci', asNeeded: 'Idan Ya Cancanta' },
     meds: {
-      empty: 'Babu magani da aka shirya a yau.', takenAt: 'An Ɗauka', editTime: 'Gyara Lokacin Da Aka Ɗauka',
+      empty: 'Babu magani da aka shirya a yau.', takenAt: 'An Ɗauka', editTime: 'Gyara Lokacin Da Aka Ɗauka', missed: 'An rasa', undoMissed: 'Soke',
+      changeDosage: 'Canza Allura',
+      currentDosage: 'Allura ta Yanzu',
+      newDosage: 'Sabuwar Allura',
+      effectiveDate: 'Ranar Aiki',
+      dosageNote: 'Lura',
+      dosageNotePlaceholder: 'Ƙarin bayani na zaɓi game da wannan canjin',
+      dosageHistory: 'Tarihin Allura',
+      initialDosage: 'Allura ta farko',
       critical: 'Wajibi', optional: 'Zaɓi', tapToPriority: 'Taɓa don canza fifiko'
     },
     medModal: {
@@ -6800,7 +7096,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'Ранок', afternoon: 'День', evening: 'Вечір', bedtime: 'Перед Сном', asNeeded: 'За Потребою' },
     meds: {
-      empty: 'На сьогодні ліків не заплановано.', takenAt: 'Прийнято о', editTime: 'Редагувати час прийому',
+      empty: 'На сьогодні ліків не заплановано.', takenAt: 'Прийнято о', editTime: 'Редагувати час прийому', missed: 'Пропущено', undoMissed: 'Скасувати',
+      changeDosage: 'Змінити дозу',
+      currentDosage: 'Поточна доза',
+      newDosage: 'Нова доза',
+      effectiveDate: 'Дата набрання чинності',
+      dosageNote: 'Нотатка',
+      dosageNotePlaceholder: 'Необов'язкова нотатка про цю зміну',
+      dosageHistory: 'Історія дозування',
+      initialDosage: 'Початкова доза',
       critical: 'Обов’язковий', optional: 'Необов’язковий', tapToPriority: 'Торкніться, щоб змінити пріоритет'
     },
     medModal: {
@@ -6968,7 +7272,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'बिहान', afternoon: 'दिउँसो', evening: 'साँझ', bedtime: 'सुत्नु अघि', asNeeded: 'आवश्यकता अनुसार' },
     meds: {
-      empty: 'आजका लागि कुनै औषधि तालिकाबद्ध छैन।', takenAt: 'लिइयो', editTime: 'लिएको समय सम्पादन गर्नुहोस्',
+      empty: 'आजका लागि कुनै औषधि तालिकाबद्ध छैन।', takenAt: 'लिइयो', editTime: 'लिएको समय सम्पादन गर्नुहोस्', missed: 'छुटेको', undoMissed: 'पूर्ववत गर्नुहोस्',
+      changeDosage: 'मात्रा परिवर्तन गर्नुहोस्',
+      currentDosage: 'हालको मात्रा',
+      newDosage: 'नयाँ मात्रा',
+      effectiveDate: 'प्रभावकारी मिति',
+      dosageNote: 'टिप्पणी',
+      dosageNotePlaceholder: 'यो परिवर्तनको बारेमा वैकल्पिक टिप्पणी',
+      dosageHistory: 'मात्रा इतिहास',
+      initialDosage: 'प्रारम्भिक मात्रा',
       critical: 'अनिवार्य', optional: 'वैकल्पिक', tapToPriority: 'प्राथमिकता परिवर्तन गर्न थिच्नुस्'
     },
     medModal: {
@@ -7136,7 +7448,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'सकाळी', afternoon: 'दुपारी', evening: 'संध्याकाळी', bedtime: 'झोपण्यापूर्वी', asNeeded: 'गरजेनुसार' },
     meds: {
-      empty: 'आजसाठी कोणतेही औषध नियोजित नाही.', takenAt: 'घेतले', editTime: 'घेतल्याची वेळ संपादित करा',
+      empty: 'आजसाठी कोणतेही औषध नियोजित नाही.', takenAt: 'घेतले', editTime: 'घेतल्याची वेळ संपादित करा', missed: 'चुकलेली', undoMissed: 'पूर्वत्‍रत करा',
+      changeDosage: 'मात्रा बदला',
+      currentDosage: 'सध्याची मात्रा',
+      newDosage: 'नवीन मात्रा',
+      effectiveDate: 'प्रभावी तारीख',
+      dosageNote: 'नोंद',
+      dosageNotePlaceholder: 'या बदलाबद्दल पर्यायी नोंद',
+      dosageHistory: 'मात्रेचा इतिहास',
+      initialDosage: 'प्रारंभिक मात्रा',
       critical: 'आवश्यक', optional: 'पर्यायी', tapToPriority: 'प्राधान्य बदलण्यासाठी टॅप करा'
     },
     medModal: {
@@ -7305,7 +7625,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'காலை', afternoon: 'மதியம்', evening: 'மாலை', bedtime: 'தூக்கத்திற்கு முன்', asNeeded: 'தேவைப்படும்போது' },
     meds: {
-      empty: 'இன்று எந்த மருந்தும் திட்டமிடப்படவில்லை.', takenAt: 'எடுக்கப்பட்டது', editTime: 'எடுத்த நேரத்தை திருத்து',
+      empty: 'இன்று எந்த மருந்தும் திட்டமிடப்படவில்லை.', takenAt: 'எடுக்கப்பட்டது', editTime: 'எடுத்த நேரத்தை திருத்து', missed: 'தவறிவிட்டது', undoMissed: 'செயல் தவிர்',
+      changeDosage: 'மருந்தளவை மாற்று',
+      currentDosage: 'தற்போதைய மருந்தளவு',
+      newDosage: 'புதிய மருந்தளவு',
+      effectiveDate: 'நடைமுறை தேதி',
+      dosageNote: 'குறிப்பு',
+      dosageNotePlaceholder: 'இந்த மாற்றத்திற்கான விருப்பக் குறிப்பு',
+      dosageHistory: 'மருந்தளவு வரலாறு',
+      initialDosage: 'ஆரம்ப மருந்தளவு',
       critical: 'இன்றியமையாதது', optional: 'விருப்பத்தேர்வு', tapToPriority: 'முன்னுரிமை மாற்ற தட்டவும்'
     },
     medModal: {
@@ -7473,7 +7801,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'ఉదయం', afternoon: 'మధ్యాహ్నం', evening: 'సాయంత్రం', bedtime: 'పడుకునే ముందు', asNeeded: 'అవసరమైనప్పుడు' },
     meds: {
-      empty: 'నేడు మందులు ఏమీ షెడ్యూల్ చేయబడలేదు.', takenAt: 'తీసుకున్నారు', editTime: 'తీసుకున్న సమయాన్ని సవరించు',
+      empty: 'నేడు మందులు ఏమీ షెడ్యూల్ చేయబడలేదు.', takenAt: 'తీసుకున్నారు', editTime: 'తీసుకున్న సమయాన్ని సవరించు', missed: 'మిస్ అయింది', undoMissed: 'రద్దు చేయి',
+      changeDosage: 'మోతాదు మార్చు',
+      currentDosage: 'ప్రస్తుత మోతాదు',
+      newDosage: 'కొత్త మోతాదు',
+      effectiveDate: 'అమలు తేదీ',
+      dosageNote: 'గమనిక',
+      dosageNotePlaceholder: 'ఈ మార్పు గురించి ఐచ్ఛిక గమనిక',
+      dosageHistory: 'మోతాదు చరిత్ర',
+      initialDosage: 'ప్రారంభ మోతాదు',
       critical: 'తప్పనిసరి', optional: 'ఐచ్ఛికం', tapToPriority: 'ప్రాధాన్యత మార్చడానికి నొక్కండి'
     },
     medModal: {
@@ -7642,7 +7978,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'ಬೆಳಿಗ್ಗೆ', afternoon: 'ಮಧ್ಯಾಹ್ನ', evening: 'ಸಂಜೆ', bedtime: 'ಮಲಗುವ ಮೊದಲು', asNeeded: 'ಅಗತ್ಯವಿದ್ದಾಗ' },
     meds: {
-      empty: 'ಇಂದು ಯಾವುದೇ ಔಷಧಿ ನಿಗದಿಯಾಗಿಲ್ಲ.', takenAt: 'ತೆಗೆದುಕೊಳ್ಳಲಾಗಿದೆ', editTime: 'ತೆಗೆದುಕೊಂಡ ಸಮಯ ಸಂಪಾದಿಸಿ',
+      empty: 'ಇಂದು ಯಾವುದೇ ಔಷಧಿ ನಿಗದಿಯಾಗಿಲ್ಲ.', takenAt: 'ತೆಗೆದುಕೊಳ್ಳಲಾಗಿದೆ', editTime: 'ತೆಗೆದುಕೊಂಡ ಸಮಯ ಸಂಪಾದಿಸಿ', missed: 'ತಪ್ಪಿಹೋಯಿತು', undoMissed: 'ರದ್ದು ಮಾಡಿ',
+      changeDosage: 'ಡೋಸ್ ಬದಲಾಯಿಸಿ',
+      currentDosage: 'ಪ್ರಸ್ತುತ ಡೋಸ್',
+      newDosage: 'ಹೊಸ ಡೋಸ್',
+      effectiveDate: 'ಪ್ರಭಾವಿ ದಿನಾಂಕ',
+      dosageNote: 'ಟಿಪ್ಪಣಿ',
+      dosageNotePlaceholder: 'ಈ ಬದಲಾವಣೆಯ ಬಗ್ಗೆ ಐಚ್ಛಿಕ ಟಿಪ್ಪಣಿ',
+      dosageHistory: 'ಡೋಸ್ ಇತಿಹಾಸ',
+      initialDosage: 'ಆರಂಭಿಕ ಡೋಸ್',
       critical: 'ಅಗತ್ಯ', optional: 'ಐಚ್ಛಿಕ', tapToPriority: 'ಆದ್ಯತೆ ಬದಲಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ'
     },
     medModal: {
@@ -7810,7 +8154,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'രാവിലെ', afternoon: 'ഉച്ചയ്ക്ക്', evening: 'വൈകുന്നേരം', bedtime: 'ഉറങ്ങുന്നതിനു മുൻപ്', asNeeded: 'ആവശ്യമുള്ളപ്പോൾ' },
     meds: {
-      empty: 'ഇന്ന് ഒരു മരുന്നും ഷെഡ്യൂൾ ചെയ്തിട്ടില്ല.', takenAt: 'കഴിച്ചു', editTime: 'കഴിച്ച സമയം തിരുത്തുക',
+      empty: 'ഇന്ന് ഒരു മരുന്നും ഷെഡ്യൂൾ ചെയ്തിട്ടില്ല.', takenAt: 'കഴിച്ചു', editTime: 'കഴിച്ച സമയം തിരുത്തുക', missed: 'നഷ്ടപ്പെട്ടു', undoMissed: 'പഴയ നില',
+      changeDosage: 'ഡോസ് മാറ്റുക',
+      currentDosage: 'നിലവിലെ ഡോസ്',
+      newDosage: 'പുതിയ ഡോസ്',
+      effectiveDate: 'ഫലപ്രദ തീയതി',
+      dosageNote: 'കുറിപ്പ്',
+      dosageNotePlaceholder: 'ഈ മാറ്റത്തെക്കുറിച്ചുള്ള ഓപ്ഷണൽ കുറിപ്പ്',
+      dosageHistory: 'ഡോസ് ചരിത്രം',
+      initialDosage: 'ആദ്യ ഡോസ്',
       critical: 'അത്യാവശ്യം', optional: 'ഐച്ഛികം', tapToPriority: 'മുൻഗണന മാറ്റാൻ ടാപ്പ് ചെയ്യുക'
     },
     medModal: {
@@ -7979,7 +8331,15 @@ const TRANSLATIONS = {
     },
     timeOfDay: { morning: 'နံနက်', afternoon: 'မွန်းတည့်', evening: 'ညနေ', bedtime: 'အိပ်မောက်မချင်းမီ', asNeeded: 'လိုအပ်သည့်အခါ' },
     meds: {
-      empty: 'ယနေ့အတွက် ဆေးဝါးများ စီစဉ်မထားပါ။', takenAt: 'သောက်ပြီး', editTime: 'သောက်ချိန် ပြင်ဆင်ပါ',
+      empty: 'ယနေ့အတွက် ဆေးဝါးများ စီစဉ်မထားပါ။', takenAt: 'သောက်ပြီး', editTime: 'သောက်ချိန် ပြင်ဆင်ပါ', missed: 'လွတ်သွားသည်', undoMissed: 'နောက်ပြန်ဖြည့်ပါ',
+      changeDosage: 'ဆေးပမာဏပြောင်းရန်',
+      currentDosage: 'လက်ရှိဆေးပမာဏ',
+      newDosage: 'ဆေးပမာဏသစ်',
+      effectiveDate: 'အကျိုးသက်ရောက်သည့်ရက်',
+      dosageNote: 'မှတ်ချက်',
+      dosageNotePlaceholder: 'ဤပြောင်းလဲမှုနှင့်ပတ်သက်သည့် မှတ်ချက်',
+      dosageHistory: 'ဆေးပမာဏမှတ်တမ်း',
+      initialDosage: 'မူလဆေးပမာဏ',
       critical: 'မဖြစ်မနေ', optional: 'ရွေးချယ်နိုင်သော', tapToPriority: 'ဦးစားပေးအဆင့် ပြောင်းရန် နှိပ်ပါ'
     },
     medModal: {

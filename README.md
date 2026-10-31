@@ -79,6 +79,7 @@ Once enabled:
 | `styles_profile.css` | Profile modal styles |
 | `translations.js` | i18n strings for 45 languages |
 | `manifest.json` | PWA manifest |
+| `sw.js` | Service worker — caches all assets for offline use |
 | `peerjs.min.js` | PeerJS library (vendored) |
 | `qrcode.min.js` | QR code library (vendored) |
 | `sounds/` | Alarm sounds (alarm_01 – alarm_10.mp3) |
