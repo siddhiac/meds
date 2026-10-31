@@ -2507,7 +2507,7 @@ class HealthTracker {
                         <img src="favicon.png" alt="App Icon" class="header-app-icon">
                         <div class="header-app-details">
                             <div class="header-app-name">Meds</div>
-                            <div class="header-app-version">Version 1.5.7 — Oct 30, 2026</div>
+                            <div class="header-app-version">Version 1.5.8 — Oct 30, 2026</div>
                             <div class="header-app-author">by Sid Cooperrider</div>
                         </div>
                     </div>

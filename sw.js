@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meds-v1.5.7';
+const CACHE_NAME = 'meds-v1.5.8';
 
 const ASSETS = [
     '/',

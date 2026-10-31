@@ -2630,7 +2630,7 @@ const TRANSLATIONS = {
       changeDosage: 'Changer la dose',
       currentDosage: 'Dose actuelle',
       newDosage: 'Nouvelle dose',
-      effectiveDate: 'Date d'effet',
+      effectiveDate: "Date d'effet",
       dosageNote: 'Note',
       dosageNotePlaceholder: 'Note facultative sur ce changement',
       dosageHistory: 'Historique des doses',
@@ -7102,7 +7102,7 @@ const TRANSLATIONS = {
       newDosage: 'Нова доза',
       effectiveDate: 'Дата набрання чинності',
       dosageNote: 'Нотатка',
-      dosageNotePlaceholder: 'Необов'язкова нотатка про цю зміну',
+      dosageNotePlaceholder: "Необов'язкова нотатка про цю зміну",
       dosageHistory: 'Історія дозування',
       initialDosage: 'Початкова доза',
       critical: 'Обов’язковий', optional: 'Необов’язковий', tapToPriority: 'Торкніться, щоб змінити пріоритет'
